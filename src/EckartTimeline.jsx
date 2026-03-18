@@ -726,55 +726,159 @@ export default function EckartTimeline() {
           alignItems: "start",
           marginBottom: "1.25rem",
         }}>
-          {/* Left: Description + Highlights */}
+          {/* Left: Rich content panel */}
           <div>
+            {/* Description */}
             <p style={{
               fontFamily: "Calibri, sans-serif",
               fontSize: "0.85rem", color: "rgba(255,255,255,0.75)",
-              lineHeight: 1.65, margin: "0 0 0.75rem 0",
+              lineHeight: 1.65, margin: "0 0 0.7rem 0",
             }}>
               {phase.description}
             </p>
+
+            {/* KPI metrics row */}
+            {phase.kpis && phase.kpis.length > 0 && (
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: `repeat(${Math.min(phase.kpis.length, 4)}, 1fr)`,
+                gap: "0.35rem",
+                marginBottom: "0.7rem",
+              }}>
+                {phase.kpis.slice(0, 4).map((kpi, i) => (
+                  <div key={i} style={{
+                    background: `linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015))`,
+                    borderRadius: "7px",
+                    padding: "0.45rem 0.5rem",
+                    borderLeft: `2px solid ${phase.color || C.gold}50`,
+                    animation: `fadeSlideIn 0.3s ease ${0.1 + i * 0.05}s both`,
+                  }}>
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.5rem",
+                      letterSpacing: "0.5px", textTransform: "uppercase",
+                      color: C.midGray, marginBottom: "0.15rem",
+                    }}>{kpi.label}</div>
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                      fontWeight: 700, color: C.goldLight, lineHeight: 1.1,
+                    }}>{kpi.value}</div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* Phase highlights */}
             {phase.highlights && phase.highlights.length > 0 && (
               <div style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                gap: "0.4rem",
+                gap: "0.35rem",
+                marginBottom: "0.7rem",
               }}>
                 {phase.highlights.map((h, i) => (
                   <div key={i} style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: `1px solid ${phase.color || C.gold}18`,
+                    background: "rgba(255,255,255,0.025)",
+                    border: `1px solid ${phase.color || C.gold}15`,
                     borderRadius: "8px",
-                    padding: "0.5rem 0.6rem",
+                    padding: "0.45rem 0.55rem",
                     animation: `fadeSlideIn 0.4s ease ${0.15 + i * 0.07}s both`,
                   }}>
                     <div style={{
-                      display: "flex", alignItems: "center", gap: "0.35rem",
-                      marginBottom: "0.2rem",
+                      display: "flex", alignItems: "center", gap: "0.3rem",
+                      marginBottom: "0.15rem",
                     }}>
-                      <span style={{ fontSize: "0.75rem" }}>{h.icon}</span>
+                      <span style={{ fontSize: "0.7rem" }}>{h.icon}</span>
                       <span style={{
                         fontFamily: "Calibri, sans-serif",
-                        fontSize: "0.7rem", fontWeight: 700,
+                        fontSize: "0.65rem", fontWeight: 700,
                         color: phase.color || C.goldLight,
                         letterSpacing: "0.3px",
                       }}>{h.title}</span>
                     </div>
                     <p style={{
                       fontFamily: "Calibri, sans-serif",
-                      fontSize: "0.65rem", color: "rgba(255,255,255,0.55)",
-                      lineHeight: 1.45, margin: 0,
+                      fontSize: "0.6rem", color: "rgba(255,255,255,0.5)",
+                      lineHeight: 1.4, margin: 0,
                     }}>{h.text}</p>
                   </div>
                 ))}
               </div>
             )}
+
+            {/* Key results */}
+            {phase.results && phase.results.length > 0 && (
+              <div style={{ marginBottom: "0.6rem" }}>
+                <div style={{
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.5rem",
+                  letterSpacing: "2px", textTransform: "uppercase",
+                  color: C.midGray, fontWeight: 700, marginBottom: "0.3rem",
+                }}>{phase.isFinal ? "ERGEBNISSE" : "LIEFERERGEBNISSE"}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
+                  {phase.results.slice(0, 5).map((r, i) => (
+                    <div key={i} style={{
+                      display: "flex", alignItems: "flex-start", gap: "0.4rem",
+                      animation: `fadeSlideIn 0.3s ease ${0.25 + i * 0.05}s both`,
+                    }}>
+                      <span style={{
+                        color: phase.color || C.gold, fontSize: "0.5rem",
+                        marginTop: "0.15rem", flexShrink: 0, opacity: 0.6,
+                      }}>●</span>
+                      <span style={{
+                        fontFamily: "Calibri, sans-serif",
+                        fontSize: "0.7rem", color: "rgba(255,255,255,0.6)",
+                        lineHeight: 1.4,
+                      }}>{r}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Investment & ROI summary */}
+            {phase.investTotal && (
+              <div style={{
+                display: "flex", gap: "0.5rem", flexWrap: "wrap",
+                animation: "fadeSlideIn 0.4s ease 0.5s both",
+              }}>
+                <div style={{
+                  background: `linear-gradient(135deg, ${phase.color || C.gold}12, ${phase.color || C.gold}05)`,
+                  border: `1px solid ${phase.color || C.gold}25`,
+                  borderRadius: "8px", padding: "0.45rem 0.65rem",
+                  flex: "1 1 auto",
+                }}>
+                  <div style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.45rem",
+                    letterSpacing: "1.5px", textTransform: "uppercase",
+                    color: C.midGray, fontWeight: 700,
+                  }}>INVESTMENT</div>
+                  <div style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.9rem",
+                    fontWeight: 700, color: C.goldLight, lineHeight: 1.2,
+                    marginTop: "0.1rem",
+                  }}>{phase.investTotal}</div>
+                </div>
+                <div style={{
+                  background: `linear-gradient(135deg, ${C.green}12, ${C.green}05)`,
+                  border: `1px solid ${C.green}25`,
+                  borderRadius: "8px", padding: "0.45rem 0.65rem",
+                  flex: "1 1 auto",
+                }}>
+                  <div style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.45rem",
+                    letterSpacing: "1.5px", textTransform: "uppercase",
+                    color: C.midGray, fontWeight: 700,
+                  }}>WIRTSCHAFTLICHKEIT</div>
+                  <div style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
+                    fontWeight: 700, color: C.greenLight, lineHeight: 1.2,
+                    marginTop: "0.1rem",
+                  }}>{phase.roiValue}</div>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Right: Illustration (smaller, with Autarkie ring inside SVG) */}
+          {/* Right: Illustration (with Autarkie ring inside SVG) */}
           <PhaseVisual phaseNum={phase.num} score={displayScore} />
         </div>
 
