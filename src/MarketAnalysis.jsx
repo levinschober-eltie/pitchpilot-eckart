@@ -733,7 +733,7 @@ function Slider({ label, value, min, max, step, unit, onChange }) {
         <span>{label}</span>
         <span style={{ color: C.goldLight, fontWeight: 600 }}>{typeof value === "number" ? value.toLocaleString("de-DE") : value} {unit}</span>
       </div>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={e => onChange(+e.target.value)} style={sliderStyle} />
+      <input type="range" min={min} max={max} step={step} value={value} onChange={e => onChange(+e.target.value)} className="ma-slider" style={sliderStyle} />
     </div>
   );
 }
@@ -885,6 +885,43 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
       position: "fixed", inset: 0, zIndex: 9000, background: "rgba(10,18,32,0.97)",
       overflowY: "auto", WebkitOverflowScrolling: "touch",
     }}>
+      <style>{`
+        .ma-slider {
+          -webkit-appearance: none;
+          appearance: none;
+          height: 5px;
+          border-radius: 3px;
+          background: rgba(255,255,255,0.08);
+          outline: none;
+          cursor: pointer;
+        }
+        .ma-slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 18px; height: 18px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #D4A843, #E8C97A);
+          cursor: pointer;
+          box-shadow: 0 0 8px rgba(212,168,67,0.3);
+          border: 2px solid #1B2A4A;
+        }
+        .ma-slider::-moz-range-thumb {
+          width: 14px; height: 14px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #D4A843, #E8C97A);
+          cursor: pointer;
+          border: 2px solid #1B2A4A;
+        }
+        .ma-btn-action {
+          transition: filter 0.15s, transform 0.1s;
+        }
+        .ma-btn-action:hover {
+          filter: brightness(1.25);
+          transform: translateY(-1px);
+        }
+        .ma-btn-action:active {
+          transform: translateY(0);
+        }
+      `}</style>
       {/* Header */}
       <div style={{
         position: "sticky", top: 0, zIndex: 10, background: "rgba(27,42,74,0.95)",
@@ -924,7 +961,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
             sub={`${(effectiveBess / 1000).toFixed(0)} MWh Kapazität`} />
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "300px 1fr", gap: "1.5rem", alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "min(300px, 85vw) 1fr", gap: "1.5rem", alignItems: "start" }}>
           {/* ─── LEFT: Configuration ─── */}
           <div style={{
             background: "rgba(27,42,74,0.4)", borderRadius: 12,
@@ -936,7 +973,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                   onChange={a => updateArray(i, a)}
                   onRemove={() => removeArray(i)} />
               ))}
-              <button onClick={addArray} style={{
+              <button onClick={addArray} className="ma-btn-action" style={{
                 width: "100%", background: "rgba(45,106,79,0.15)", border: "1px dashed rgba(45,106,79,0.4)",
                 color: C.greenLight, borderRadius: 6, padding: "0.4rem", fontSize: "0.78rem",
                 cursor: "pointer", marginTop: "0.3rem",
@@ -944,7 +981,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
               <div style={{ fontSize: "0.72rem", color: "#888", marginTop: "0.5rem", textAlign: "center" }}>
                 Gesamt: {totalKWp.toLocaleString("de-DE")} kWp · {specificYield.toFixed(0)} kWh/kWp/a · {(pvData.total / 1000).toFixed(1)} GWh/a
               </div>
-              <button onClick={handleFetchSolar} disabled={loadingSolar} style={{
+              <button onClick={handleFetchSolar} disabled={loadingSolar} className="ma-btn-action" style={{
                 width: "100%", background: loadingSolar ? "rgba(255,255,255,0.05)" : "rgba(45,106,79,0.15)",
                 border: "1px solid rgba(45,106,79,0.3)", color: C.greenLight,
                 borderRadius: 6, padding: "0.4rem", fontSize: "0.75rem", cursor: "pointer", marginTop: "0.5rem",
@@ -962,7 +999,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
               <Slider label="Jahresverbrauch" value={effectiveLoad} min={1000} max={50000} step={500} unit="MWh"
                 onChange={v => !configActive && setAnnualLoad(v)} />
               <div style={{ marginTop: "0.5rem" }}>
-                <button onClick={handleFetchPrices} disabled={loadingPrices} style={{
+                <button onClick={handleFetchPrices} disabled={loadingPrices} className="ma-btn-action" style={{
                   width: "100%", background: loadingPrices ? "rgba(255,255,255,0.05)" : "rgba(212,168,67,0.15)",
                   border: "1px solid rgba(212,168,67,0.3)", color: C.goldLight,
                   borderRadius: 6, padding: "0.4rem", fontSize: "0.75rem", cursor: "pointer",
@@ -1002,7 +1039,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
             {/* Season selector */}
             <div style={{ display: "flex", gap: "0.4rem", marginBottom: "1rem" }}>
               {[["year", "Ganzjahr"], ["summer", "Sommer"], ["winter", "Winter"]].map(([key, label]) => (
-                <button key={key} onClick={() => setSeason(key)} style={{
+                <button key={key} onClick={() => setSeason(key)} className="ma-btn-action" style={{
                   background: season === key ? "rgba(212,168,67,0.2)" : "rgba(255,255,255,0.04)",
                   border: `1px solid ${season === key ? "rgba(212,168,67,0.4)" : "rgba(255,255,255,0.08)"}`,
                   color: season === key ? C.goldLight : "#888",

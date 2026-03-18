@@ -652,7 +652,7 @@ export default function EckartTimeline() {
             style={{
               background: configSaved ? `${C.green}25` : configOpen ? `${C.gold}20` : "rgba(255,255,255,0.06)",
               border: `1px solid ${configSaved ? C.green + "60" : configOpen ? C.gold + "50" : "rgba(255,255,255,0.12)"}`,
-              borderRadius: "6px", padding: "0.3rem 0.7rem",
+              borderRadius: "2rem", padding: "0.3rem 0.7rem",
               fontFamily: "Calibri, sans-serif", fontSize: "0.68rem",
               letterSpacing: "1.5px", textTransform: "uppercase",
               fontWeight: 700, color: configSaved ? C.green : configOpen ? C.gold : C.midGray,
@@ -665,7 +665,7 @@ export default function EckartTimeline() {
               onClick={() => { setSavedConfig(null); setConfig(defaultConfig); setConfigOpen(false); }}
               style={{
                 background: "rgba(255,100,100,0.1)", border: "1px solid rgba(255,100,100,0.3)",
-                borderRadius: "6px", padding: "0.3rem 0.7rem",
+                borderRadius: "2rem", padding: "0.3rem 0.7rem",
                 fontFamily: "Calibri, sans-serif", fontSize: "0.68rem",
                 letterSpacing: "1.5px", textTransform: "uppercase",
                 fontWeight: 700, color: "#ff8888",
@@ -891,7 +891,7 @@ export default function EckartTimeline() {
                     background: `linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015))`,
                     borderRadius: "7px",
                     padding: "0.45rem 0.5rem",
-                    borderLeft: `2px solid ${phase.color || C.gold}50`,
+                    borderLeft: `2px solid ${phase.color || C.gold}70`,
                     animation: `fadeSlideIn 0.3s ease ${0.1 + i * 0.05}s both`,
                   }}>
                     <div style={{
@@ -919,7 +919,7 @@ export default function EckartTimeline() {
                 {phase.highlights.map((h, i) => (
                   <div key={i} style={{
                     background: "rgba(255,255,255,0.025)",
-                    border: `1px solid ${phase.color || C.gold}15`,
+                    border: `1px solid ${phase.color || C.gold}30`,
                     borderRadius: "8px",
                     padding: "0.45rem 0.55rem",
                     animation: `fadeSlideIn 0.4s ease ${0.15 + i * 0.07}s both`,
@@ -1039,7 +1039,7 @@ export default function EckartTimeline() {
                 {cards.map((card, ci) => (
                   <div key={ci} style={{
                     background: `linear-gradient(145deg, ${card.accent}18, ${card.accent}06)`,
-                    border: `2px solid ${card.accent}40`,
+                    border: `2px solid ${card.accent}60`,
                     borderRadius: "14px",
                     padding: "1.2rem 1.3rem",
                     position: "relative",

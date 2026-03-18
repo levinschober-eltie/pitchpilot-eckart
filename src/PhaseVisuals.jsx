@@ -559,7 +559,7 @@ function SubStation({ x, y }) {
       <line x1={x+4} y1={y} x2={x+4} y2={y-3} stroke="rgba(255,220,80,0.15)" strokeWidth="0.5" />
       <line x1={x+6} y1={y} x2={x+6} y2={y-3} stroke="rgba(255,220,80,0.15)" strokeWidth="0.5" />
       <text x={x+4} y={y+4.5} textAnchor="middle" fill="rgba(255,220,80,0.2)"
-        fontSize="2.2" fontFamily="Calibri, sans-serif">⚡</text>
+        fontSize="3" fontFamily="Calibri, sans-serif">⚡</text>
     </g>
   );
 }
@@ -1092,33 +1092,33 @@ function AnalyseVisual() {
       <g filter="url(#shadow)">
         <animateTransform attributeName="transform" type="translate"
           values="0,0; 18,-6; 35,-2; 20,6; 0,0" dur="14s" repeatCount="indefinite" />
-        <rect x="175" y="106" width="18" height="11" rx="3.5" fill={C.goldDim} />
-        <rect x="177" y="108" width="14" height="7" rx="2" fill={C.gold} opacity="0.7" />
-        <circle cx="184" cy="118" r="2.5" fill={C.navy} stroke={C.gold} strokeWidth="0.6" />
-        <circle cx="184" cy="118" r="1" fill={C.goldLight} opacity="0.45" />
-        <rect x="180" y="116" width="3" height="2" rx="0.5" fill={C.warmOrange} opacity="0.3">
+        <rect x="174" y="105" width="24" height="14" rx="4.5" fill={C.goldDim} />
+        <rect x="177" y="107" width="18" height="10" rx="2.5" fill={C.gold} opacity="0.7" />
+        <circle cx="186" cy="120" r="3.5" fill={C.navy} stroke={C.gold} strokeWidth="0.6" />
+        <circle cx="186" cy="120" r="1.4" fill={C.goldLight} opacity="0.45" />
+        <rect x="181" y="117" width="4" height="3" rx="0.7" fill={C.warmOrange} opacity="0.3">
           <animate attributeName="opacity" values="0.2;0.55;0.2" dur="1s" repeatCount="indefinite" />
         </rect>
         {/* Propellers with blur */}
-        {[[-12,0],[12,0],[-8,-5],[8,-5]].map(([dx,dy],i) => (
+        {[[-16,0],[16,0],[-11,-6],[11,-6]].map(([dx,dy],i) => (
           <g key={i}>
-            <line x1={184} y1={111+dy} x2={184+dx} y2={111+dy}
-              stroke={C.goldDim} strokeWidth="1.5" />
-            <ellipse cx={184+dx} cy={111+dy} rx="7" ry="1.8" fill={C.gold} opacity="0.12">
-              <animate attributeName="rx" values="7;4;7" dur="0.12s" repeatCount="indefinite" />
+            <line x1={186} y1={112+dy} x2={186+dx} y2={112+dy}
+              stroke={C.goldDim} strokeWidth="1.8" />
+            <ellipse cx={186+dx} cy={112+dy} rx="9" ry="2.4" fill={C.gold} opacity="0.12">
+              <animate attributeName="rx" values="9;5;9" dur="0.12s" repeatCount="indefinite" />
               <animate attributeName="opacity" values="0.12;0.2;0.12" dur="0.12s" repeatCount="indefinite" />
             </ellipse>
           </g>
         ))}
         {/* Laser measurement to multiple buildings */}
-        <line x1="184" y1="118" x2="170" y2="154" stroke={C.gold} strokeWidth="0.3"
+        <line x1="186" y1="120" x2="170" y2="154" stroke={C.gold} strokeWidth="0.3"
           opacity="0.15" strokeDasharray="2,3" />
-        <line x1="184" y1="118" x2="228" y2="150" stroke={C.gold} strokeWidth="0.3"
+        <line x1="186" y1="120" x2="228" y2="150" stroke={C.gold} strokeWidth="0.3"
           opacity="0.12" strokeDasharray="2,3" />
         <circle cx="170" cy="154" r="1.2" fill={C.gold} opacity="0.2" />
         <circle cx="228" cy="150" r="1.2" fill={C.gold} opacity="0.18" />
         {/* Downward cone */}
-        <path d="M184,118 L174,146 L194,146 Z" fill="none" stroke={C.gold} strokeWidth="0.3" opacity="0.1" />
+        <path d="M186,120 L174,148 L198,148 Z" fill="none" stroke={C.gold} strokeWidth="0.3" opacity="0.1" />
       </g>
 
       {/* Existing PV */}
@@ -1495,10 +1495,10 @@ function SpeicherVisual() {
               fill={C.greenLight} opacity="0.52" />
             {/* Fire suppression piping (red dashed outline) */}
             <rect x={126+i*30} y="232" width="26" height="14" rx="2" fill="none"
-              stroke="rgba(255,60,60,0.12)" strokeWidth="0.5" strokeDasharray="2,2" />
+              stroke="rgba(255,60,60,0.22)" strokeWidth="0.5" strokeDasharray="2,2" />
             {/* Fire suppression nozzle dots */}
-            <circle cx={128+i*30} cy="232.5" r="1.2" fill="rgba(255,80,80,0.18)"
-              stroke="rgba(255,80,80,0.25)" strokeWidth="0.3" />
+            <circle cx={128+i*30} cy="232.5" r="1.2" fill="rgba(255,80,80,0.3)"
+              stroke="rgba(255,80,80,0.4)" strokeWidth="0.3" />
             {/* Container numbering */}
             <text x={139+i*30} y="249" textAnchor="middle" fill={C.greenLight}
               fontSize="3.2" fontFamily="Calibri, sans-serif" opacity="0.42">B{String(i+1).padStart(2,'0')}</text>
@@ -1511,11 +1511,11 @@ function SpeicherVisual() {
               fill={C.navy} stroke={C.greenLight} strokeWidth="0.3" opacity="0.65" />
             {/* Cable bus bars */}
             <line x1={154+i*30} y1="237" x2={154+i*30} y2="232"
-              stroke={C.greenLight} strokeWidth="0.8" opacity="0.25" />
+              stroke={C.greenLight} strokeWidth="0.8" opacity="0.4" />
             <line x1={153.5+i*30} y1="233" x2={154.5+i*30} y2="233"
-              stroke={C.goldLight} strokeWidth="0.5" opacity="0.2" />
+              stroke={C.goldLight} strokeWidth="0.5" opacity="0.35" />
             <text x={154+i*30} y="241.5" textAnchor="middle" fill={C.greenLight}
-              fontSize="2" fontFamily="Calibri, sans-serif" opacity="0.32">⚡</text>
+              fontSize="3" fontFamily="Calibri, sans-serif" opacity="0.32">⚡</text>
           </g>
         ))}
         {/* Ground grounding rods */}
@@ -1979,7 +1979,7 @@ function LadeVisual() {
               <rect x={wx+1} y={wy+1} width="5" height="3.5" rx="0.5" fill="rgba(58,138,102,0.22)" />
               {/* Digital kW display */}
               <text x={wx+3.5} y={wy+3.8} textAnchor="middle" fill={C.greenLight}
-                fontSize="1.8" fontFamily="Calibri, sans-serif" opacity="0.5">22kW</text>
+                fontSize="3" fontFamily="Calibri, sans-serif" opacity="0.5">22kW</text>
               {/* RFID reader */}
               <rect x={wx+1.5} y={wy+5} width="4" height="2" rx="0.3" fill="rgba(255,255,255,0.04)" />
               <circle cx={wx+5.5} cy={wy+6} r="0.6" fill={C.gold} opacity="0.3">
@@ -2000,7 +2000,7 @@ function LadeVisual() {
               {/* % display */}
               {charging && (
                 <text x={wx+8.5} y={wy+5} fill={C.greenLight}
-                  fontSize="1.8" fontFamily="Calibri, sans-serif" opacity="0.4">
+                  fontSize="3" fontFamily="Calibri, sans-serif" opacity="0.4">
                   {40+i*8}%
                 </text>
               )}
@@ -2039,10 +2039,10 @@ function LadeVisual() {
             <rect x={267+i*12} y="213" width="6" height="4.5" rx="0.5" fill="rgba(212,168,67,0.22)" />
             {/* kW display */}
             <text x={271+i*12} y="216.5" textAnchor="middle" fill={C.goldLight}
-              fontSize="1.8" fontFamily="Calibri, sans-serif" opacity="0.5">150kW</text>
+              fontSize="3" fontFamily="Calibri, sans-serif" opacity="0.5">150kW</text>
             {/* % display */}
             <text x={275+i*12} y="216.5" fill={C.goldLight}
-              fontSize="1.6" fontFamily="Calibri, sans-serif" opacity="0.4">
+              fontSize="2.8" fontFamily="Calibri, sans-serif" opacity="0.4">
               {60+i*8}%
             </text>
             {/* Lightning bolt */}
@@ -2227,11 +2227,11 @@ function BESSVisual() {
         <text x="122" y="177" textAnchor="middle" fill={C.goldLight}
           fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">TRAFO</text>
       </g>
-      <g opacity="0.52">
+      <g opacity="0.72">
         <rect x="108" y="182" width="12" height="8" rx="1" fill={C.navy}
           stroke={C.gold} strokeWidth="0.3" />
         <text x="114" y="188" textAnchor="middle" fill={C.goldLight}
-          fontSize="2.5" fontFamily="Calibri, sans-serif">SF₆</text>
+          fontSize="3.5" fontFamily="Calibri, sans-serif" fontWeight="700">SF₆</text>
       </g>
 
       {/* Bidirectional grid meter */}
@@ -2381,7 +2381,7 @@ function BESSVisual() {
 
         {/* Fire suppression ring */}
         <path d="M148,260 Q150,265 210,268 Q270,265 275,260"
-          fill="none" stroke="rgba(255,80,80,0.06)" strokeWidth="1.5" strokeDasharray="4,4" />
+          fill="none" stroke="rgba(255,80,80,0.15)" strokeWidth="1.5" strokeDasharray="4,4" />
       </g>
 
       {/* MW/MWh status display prominently */}
