@@ -771,7 +771,7 @@ function PhaseBadge({ x, y, num, icon, label, color = C.gold }) {
       <rect x={x} y={y} width="52" height="16" rx="8" fill={C.navy} stroke={color} strokeWidth="0.8" opacity="0.95" />
       <text x={x + 10} y={y + 11} fill={color}
         fontSize="7" fontFamily="Georgia, serif" fontWeight="700">{num}</text>
-      <text x={x + 18} y={y + 7} fontSize="6">{icon}</text>
+      <text x={x + 18} y={y + 11.5} fontSize="6">{icon}</text>
       <text x={x + 26} y={y + 11} fill={color}
         fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700" letterSpacing="0.5">{label}</text>
     </g>
