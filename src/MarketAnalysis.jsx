@@ -433,7 +433,7 @@ function calcMarket(pvData, loadHourly, prices, bessCapKWh, bessRateKW, bessEff,
         idx++;
       }
     }
-    monthlyPrice[m] /= pCount;
+    monthlyPrice[m] = pCount > 0 ? monthlyPrice[m] / pCount : 0;
   }
 
   // Hourly averages for chart (24h profile, averaged across year)
@@ -473,8 +473,8 @@ function calcMarket(pvData, loadHourly, prices, bessCapKWh, bessRateKW, bessEff,
   return {
     // Totals
     totalPV: pvData.total, totalLoad, selfConsumed, gridFeedIn, gridImport,
-    selfConsumptionRate: selfConsumed / pvData.total,
-    autarkieRate: selfConsumed / totalLoad,
+    selfConsumptionRate: pvData.total > 0 ? selfConsumed / pvData.total : 0,
+    autarkieRate: totalLoad > 0 ? selfConsumed / totalLoad : 0,
     // Direktvermarktung
     dvNet, dvBessNet, eegRevenue,
     dvDelta: dvBessNet - dvNet,
