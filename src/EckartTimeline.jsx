@@ -38,6 +38,14 @@ const phases = [
       { label: "Cluster", value: "A–E kartiert" },
       { label: "110-kV", value: "Dokumentiert" },
     ],
+    investment: [
+      { label: "Standortanalyse & Gutachten", range: "50–80 T€" },
+    ],
+    investTotal: "50–80 T€",
+    roi: "Entscheidungsgrundlage für alle Folgeinvestitionen",
+    roiValue: null,
+    independenceScore: 5,
+    independenceLabel: "Datenbasis geschaffen",
     icon: "🔍",
   },
   {
@@ -61,6 +69,16 @@ const phases = [
       { label: "Carport-PV", value: "0,8–1,6 MWp" },
       { label: "Erzeugung", value: "3.100–5.900 MWh/a" },
     ],
+    investment: [
+      { label: "Dach-PV (450–850 €/kWp)", range: "1,1–3,7 Mio €" },
+      { label: "Fassaden-PV (450–850 €/kWp)", range: "200–765 T€" },
+      { label: "Carport-PV (1.200 €/kWp)", range: "960 T€–1,9 Mio €" },
+    ],
+    investTotal: "2,3–6,4 Mio €",
+    roi: "Strombezugskosten-Reduktion durch Eigenerzeugung",
+    roiValue: ">50 % Eigenverbrauch",
+    independenceScore: 40,
+    independenceLabel: "Eigenerzeugung aktiv",
     icon: "🏗️",
   },
   {
@@ -83,6 +101,15 @@ const phases = [
       { label: "Wintereinkauf", value: "30–40 % günstiger" },
       { label: "Steuerung", value: "Echtzeit" },
     ],
+    investment: [
+      { label: "BESS (150–200 €/kWh)", range: "300–800 T€" },
+      { label: "EMS & Integration", range: "80–150 T€" },
+    ],
+    investTotal: "380 T€–1,0 Mio €",
+    roi: "Peak Shaving + Spotmarkt-Optimierung",
+    roiValue: "10–15 % Leistungspreis-Senkung",
+    independenceScore: 65,
+    independenceLabel: "Steuerbarkeit erreicht",
     icon: "⚡",
   },
   {
@@ -105,6 +132,15 @@ const phases = [
       { label: "Quelle", value: "Prozessabwärme" },
       { label: "Antrieb", value: "Eigener PV-Strom" },
     ],
+    investment: [
+      { label: "Industrie-Wärmepumpe", range: "150–300 T€" },
+      { label: "Verrohrung & Integration", range: "50–100 T€" },
+    ],
+    investTotal: "200–400 T€",
+    roi: "Gaskosten-Reduktion durch Abwärme-Nutzung",
+    roiValue: "65–75 % weniger Gaskosten",
+    independenceScore: 80,
+    independenceLabel: "Thermisch unabhängig",
     icon: "🔥",
   },
   {
@@ -122,11 +158,20 @@ const phases = [
       "Separate Projektfinanzierung möglich",
     ],
     kpis: [
-      { label: "Erlösquellen", value: "3" },
-      { label: "Netzanschluss", value: "110 kV" },
+      { label: "Anschlussleistung", value: "100 MW" },
+      { label: "Speicherkapazität", value: "200 MWh" },
       { label: "Spread", value: "5–15 ct/kWh" },
-      { label: "Finanzierung", value: "Separater BC" },
+      { label: "Erlösquellen", value: "3" },
     ],
+    investment: [
+      { label: "BESS 200 MWh (150–200 €/kWh)", range: "30–40 Mio €" },
+      { label: "Netzanbindung & Leistungselektronik", range: "5–8 Mio €" },
+    ],
+    investTotal: "35–48 Mio €",
+    roi: "Eigenständiges Ertragsmodell mit drei Erlösströmen",
+    roiValue: "15–25 % p.a.",
+    independenceScore: 92,
+    independenceLabel: "Eigenständiges Ertragsmodell",
     icon: "🏭",
   },
   {
@@ -151,7 +196,7 @@ const phases = [
       { label: "Eigenverbrauch", value: ">75 %", sub: "Mit BESS-Optimierung" },
       { label: "Peak Shaving", value: "10–15 %", sub: "Leistungspreissenkung" },
       { label: "Wärme-COP", value: "4–5", sub: "Abwärme-WP + PV-Strom" },
-      { label: "Wintereinkauf", value: "30–40 %", sub: "Günstiger durch Spotmarkt" },
+      { label: "BESS Utility", value: "100 MW / 200 MWh", sub: "Eigenständiger Werttreiber" },
       { label: "Erlösströme", value: "3", sub: "Arbitrage · FCR · Redispatch" },
     ],
     pillars: [
@@ -160,8 +205,17 @@ const phases = [
       { label: "Wärmeautarkie", phase: "IV", icon: "🔥" },
       { label: "Ertragsmodell", phase: "V", icon: "🏭" },
     ],
+    investmentSummary: [
+      { phase: "I", label: "Analyse & Bewertung", range: "50–80 T€", roi: "Entscheidungsgrundlage" },
+      { phase: "II", label: "Gebäudehülle & PV", range: "2,3–6,4 Mio €", roi: ">50 % Eigenverbrauch" },
+      { phase: "III", label: "Speicher & Steuerung", range: "380 T€–1,0 Mio €", roi: "10–15 % Peak Shaving" },
+      { phase: "IV", label: "Wärmekonzept", range: "200–400 T€", roi: "65–75 % weniger Gas" },
+      { phase: "V", label: "Graustrom-BESS", range: "35–48 Mio €", roi: "15–25 % p.a." },
+    ],
     results: [],
     kpis: [],
+    independenceScore: 95,
+    independenceLabel: "Strategischer Standortvorteil",
     icon: "🏆",
   },
 ];
@@ -175,15 +229,88 @@ const cumulative = [
   "Strategischer Standortvorteil",
 ];
 
+/* ── Independence Score Ring ─────────────────────────── */
+function IndependenceRing({ score, size = 130, strokeWidth = 10 }) {
+  const r = (size - strokeWidth) / 2;
+  const circ = 2 * Math.PI * r;
+  const offset = circ - (score / 100) * circ;
+  const gradId = "indRing" + size;
+
+  return (
+    <div style={{ position: "relative", width: size, height: size, flexShrink: 0 }}>
+      <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
+        <defs>
+          <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={C.gold} />
+            <stop offset="100%" stopColor={C.green} />
+          </linearGradient>
+        </defs>
+        <circle
+          cx={size / 2} cy={size / 2} r={r}
+          fill="none" stroke="rgba(255,255,255,0.06)"
+          strokeWidth={strokeWidth}
+        />
+        <circle
+          cx={size / 2} cy={size / 2} r={r}
+          fill="none" stroke={`url(#${gradId})`}
+          strokeWidth={strokeWidth}
+          strokeDasharray={circ}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          style={{ transition: "stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)" }}
+        />
+      </svg>
+      <div style={{
+        position: "absolute", inset: 0,
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center",
+      }}>
+        <span style={{
+          fontFamily: "Calibri, sans-serif",
+          fontSize: size * 0.26, fontWeight: 700,
+          color: C.goldLight, lineHeight: 1,
+        }}>{score}%</span>
+        <span style={{
+          fontFamily: "Calibri, sans-serif",
+          fontSize: Math.max(size * 0.08, 8), letterSpacing: "1.5px",
+          textTransform: "uppercase", color: C.midGray, marginTop: 2,
+        }}>Autarkie</span>
+      </div>
+    </div>
+  );
+}
+
+/* ── Main Component ──────────────────────────────────── */
 export default function EckartTimeline() {
   const [active, setActive] = useState(0);
   const [animKey, setAnimKey] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [displayScore, setDisplayScore] = useState(0);
   const sliderRef = useRef(null);
 
   useEffect(() => {
     setAnimKey((k) => k + 1);
   }, [active]);
+
+  // Animate the independence score number
+  const targetScore = phases[active].independenceScore;
+  useEffect(() => {
+    const start = displayScore;
+    const diff = targetScore - start;
+    if (diff === 0) return;
+    const duration = 800;
+    const startTime = performance.now();
+    let frame;
+    const animate = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayScore(Math.round(start + diff * eased));
+      if (progress < 1) frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [targetScore]);
 
   const phase = phases[active];
 
@@ -383,37 +510,42 @@ export default function EckartTimeline() {
         position: "relative", zIndex: 2,
         animation: "fadeSlideIn 0.5s ease forwards",
       }}>
-        {/* Phase Title Block */}
+        {/* Phase Title Block + Independence Ring */}
         <div style={{
-          display: "flex", alignItems: "center", gap: "1rem",
-          marginBottom: "1rem",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          marginBottom: "1rem", gap: "1rem", flexWrap: "wrap",
         }}>
-          <div style={{
-            width: "56px", height: "56px", borderRadius: "50%",
-            background: phase.isFinal
-              ? `linear-gradient(135deg, ${C.gold}40, ${C.green}30)`
-              : `linear-gradient(135deg, ${phase.color}30, ${phase.color}10)`,
-            border: `2px solid ${phase.isFinal ? C.gold : phase.color + "60"}`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "1.5rem", flexShrink: 0,
-            boxShadow: phase.isFinal ? `0 0 24px ${C.gold}30` : "none",
-          }}>
-            {phase.icon}
-          </div>
-          <div>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem", flex: 1 }}>
             <div style={{
-              fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
-              letterSpacing: "3px", textTransform: "uppercase",
-              color: C.gold, fontWeight: 700, marginBottom: "0.15rem",
-            }}>{phase.isFinal ? "Gesamtergebnis" : `Phase ${phase.num}`} · {phase.subtitle}</div>
-            <h2 style={{
-              fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
-              fontWeight: 700, margin: 0, lineHeight: 1.15,
-              background: phase.isFinal ? `linear-gradient(135deg, ${C.white}, ${C.goldLight})` : "none",
-              WebkitBackgroundClip: phase.isFinal ? "text" : "unset",
-              WebkitTextFillColor: phase.isFinal ? "transparent" : "inherit",
-            }}>{phase.title}</h2>
+              width: "56px", height: "56px", borderRadius: "50%",
+              background: phase.isFinal
+                ? `linear-gradient(135deg, ${C.gold}40, ${C.green}30)`
+                : `linear-gradient(135deg, ${phase.color}30, ${phase.color}10)`,
+              border: `2px solid ${phase.isFinal ? C.gold : phase.color + "60"}`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: "1.5rem", flexShrink: 0,
+              boxShadow: phase.isFinal ? `0 0 24px ${C.gold}30` : "none",
+            }}>
+              {phase.icon}
+            </div>
+            <div>
+              <div style={{
+                fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                letterSpacing: "3px", textTransform: "uppercase",
+                color: C.gold, fontWeight: 700, marginBottom: "0.15rem",
+              }}>{phase.isFinal ? "Gesamtergebnis" : `Phase ${phase.num}`} · {phase.subtitle}</div>
+              <h2 style={{
+                fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
+                fontWeight: 700, margin: 0, lineHeight: 1.15,
+                background: phase.isFinal ? `linear-gradient(135deg, ${C.white}, ${C.goldLight})` : "none",
+                WebkitBackgroundClip: phase.isFinal ? "text" : "unset",
+                WebkitTextFillColor: phase.isFinal ? "transparent" : "inherit",
+              }}>{phase.title}</h2>
+            </div>
           </div>
+
+          {/* Independence Ring */}
+          <IndependenceRing score={displayScore} size={phase.isFinal ? 150 : 120} strokeWidth={phase.isFinal ? 12 : 9} />
         </div>
 
         {/* Headline Quote */}
@@ -482,6 +614,93 @@ export default function EckartTimeline() {
                     }}>{kpi.sub}</div>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* ── INVESTMENT ROADMAP (Final) ───────────── */}
+            <div style={{ marginBottom: "1.25rem" }}>
+              <div style={{
+                fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                letterSpacing: "3px", textTransform: "uppercase",
+                color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+              }}>INVESTITIONS-ROADMAP · RENDITE PRO BAUSTEIN</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                {phase.investmentSummary.map((item, i) => (
+                  <div key={i} style={{
+                    display: "flex", alignItems: "stretch", gap: 0,
+                    animation: `fadeSlideIn 0.4s ease ${0.1 + i * 0.08}s both`,
+                    borderRadius: "8px", overflow: "hidden",
+                  }}>
+                    {/* Phase indicator */}
+                    <div style={{
+                      width: "48px", flexShrink: 0,
+                      background: `linear-gradient(135deg, ${C.gold}30, ${C.green}15)`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontFamily: "Georgia, serif", fontSize: "0.9rem",
+                      fontWeight: 700, color: C.goldLight,
+                    }}>{item.phase}</div>
+                    {/* Content */}
+                    <div style={{
+                      flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between",
+                      background: "rgba(255,255,255,0.03)",
+                      border: "1px solid rgba(255,255,255,0.06)",
+                      borderLeft: "none",
+                      padding: "0.6rem 0.8rem",
+                      gap: "0.5rem", flexWrap: "wrap",
+                    }}>
+                      <div>
+                        <div style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.78rem",
+                          fontWeight: 700, color: C.white,
+                        }}>{item.label}</div>
+                        <div style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                          color: C.midGray, marginTop: "0.1rem",
+                        }}>{item.range}</div>
+                      </div>
+                      <div style={{
+                        background: `linear-gradient(135deg, ${C.green}25, ${C.green}10)`,
+                        border: `1px solid ${C.green}40`,
+                        borderRadius: "6px", padding: "0.3rem 0.6rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                        fontWeight: 700, color: C.greenLight,
+                        whiteSpace: "nowrap",
+                      }}>{item.roi}</div>
+                    </div>
+                  </div>
+                ))}
+                {/* Total row */}
+                <div style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  background: `linear-gradient(135deg, ${C.gold}12, ${C.green}08)`,
+                  border: `1px solid ${C.gold}30`,
+                  borderRadius: "8px", padding: "0.7rem 0.9rem",
+                  marginTop: "0.2rem",
+                  animation: `fadeSlideIn 0.4s ease 0.6s both`,
+                }}>
+                  <div>
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                      letterSpacing: "2px", textTransform: "uppercase",
+                      color: C.midGray, fontWeight: 700,
+                    }}>GESAMTINVESTITION</div>
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "1.15rem",
+                      fontWeight: 700, color: C.goldLight, marginTop: "0.15rem",
+                    }}>38–55 Mio €</div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                      letterSpacing: "2px", textTransform: "uppercase",
+                      color: C.midGray, fontWeight: 700,
+                    }}>AUTARKIE-ZIEL</div>
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "1.15rem",
+                      fontWeight: 700, color: C.greenLight, marginTop: "0.15rem",
+                    }}>95 %</div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -663,6 +882,113 @@ export default function EckartTimeline() {
                 </div>
               </div>
             </div>
+
+            {/* ── INVESTMENT & ROI SECTION (Normal Phases) ─── */}
+            {phase.investment && (
+              <div style={{ marginTop: "1rem" }}>
+                <div style={{
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                  letterSpacing: "3px", textTransform: "uppercase",
+                  color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                }}>INVESTITION & RENDITE</div>
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "0.5rem",
+                }}>
+                  {/* Investment items */}
+                  <div style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                    borderRadius: "8px", padding: "0.8rem",
+                  }}>
+                    {phase.investment.map((inv, i) => (
+                      <div key={i} style={{
+                        display: "flex", justifyContent: "space-between", alignItems: "center",
+                        padding: "0.4rem 0",
+                        borderBottom: i < phase.investment.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                        animation: `fadeSlideIn 0.4s ease ${0.2 + i * 0.06}s both`,
+                      }}>
+                        <span style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.78rem",
+                          color: "rgba(255,255,255,0.8)",
+                        }}>{inv.label}</span>
+                        <span style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                          fontWeight: 700, color: C.goldLight, whiteSpace: "nowrap",
+                          marginLeft: "0.5rem",
+                        }}>{inv.range}</span>
+                      </div>
+                    ))}
+                    {/* Total */}
+                    <div style={{
+                      display: "flex", justifyContent: "space-between", alignItems: "center",
+                      padding: "0.5rem 0 0.1rem",
+                      marginTop: "0.3rem",
+                      borderTop: `1px solid ${C.gold}30`,
+                      animation: `fadeSlideIn 0.4s ease 0.4s both`,
+                    }}>
+                      <span style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                        letterSpacing: "1.5px", textTransform: "uppercase",
+                        color: C.midGray, fontWeight: 700,
+                      }}>GESAMT PHASE {phase.num}</span>
+                      <span style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "1rem",
+                        fontWeight: 700, color: C.gold,
+                      }}>{phase.investTotal}</span>
+                    </div>
+                  </div>
+
+                  {/* ROI Card */}
+                  <div style={{
+                    background: `linear-gradient(135deg, ${C.green}10, ${C.green}05)`,
+                    border: `1px solid ${C.green}30`,
+                    borderRadius: "8px", padding: "0.8rem",
+                    display: "flex", flexDirection: "column", justifyContent: "center",
+                    animation: `fadeSlideIn 0.4s ease 0.3s both`,
+                  }}>
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                      letterSpacing: "2px", textTransform: "uppercase",
+                      color: C.midGray, fontWeight: 700, marginBottom: "0.4rem",
+                    }}>RENDITE-HEBEL</div>
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                      color: C.white, lineHeight: 1.5, marginBottom: "0.5rem",
+                    }}>{phase.roi}</div>
+                    {phase.roiValue && (
+                      <div style={{
+                        display: "inline-flex", alignSelf: "flex-start",
+                        background: `linear-gradient(135deg, ${C.green}30, ${C.green}15)`,
+                        border: `1px solid ${C.green}50`,
+                        borderRadius: "6px", padding: "0.35rem 0.7rem",
+                      }}>
+                        <span style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
+                          fontWeight: 700, color: C.greenLight,
+                        }}>{phase.roiValue}</span>
+                      </div>
+                    )}
+                    {/* Independence label */}
+                    <div style={{
+                      marginTop: "0.6rem", paddingTop: "0.5rem",
+                      borderTop: "1px solid rgba(255,255,255,0.06)",
+                      display: "flex", alignItems: "center", gap: "0.4rem",
+                    }}>
+                      <div style={{
+                        width: "8px", height: "8px", borderRadius: "50%",
+                        background: `linear-gradient(135deg, ${C.gold}, ${C.green})`,
+                      }} />
+                      <span style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                        color: C.midGray,
+                      }}>Autarkie-Status: <span style={{ color: C.goldLight, fontWeight: 700 }}>{phase.independenceLabel}</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </>
         )}
 
