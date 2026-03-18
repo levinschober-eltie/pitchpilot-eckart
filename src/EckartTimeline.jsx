@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import PhaseVisual from "./PhaseVisuals";
+import ConfigPanel, { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./ConfigPanel";
 
 const C = {
   navy: "#1B2A4A",
@@ -480,6 +481,9 @@ export default function EckartTimeline() {
   const [isDragging, setIsDragging] = useState(false);
   const [displayScore, setDisplayScore] = useState(0);
   const sliderRef = useRef(null);
+  const [configOpen, setConfigOpen] = useState(false);
+  const [config, setConfig] = useState(defaultConfig);
+  const calc = useMemo(() => calculateAll(config), [config]);
 
   useEffect(() => {
     setAnimKey((k) => k + 1);
@@ -633,6 +637,20 @@ export default function EckartTimeline() {
               />
             ))}
           </div>
+          {/* Kalkulator toggle */}
+          <button
+            onClick={() => setConfigOpen(o => !o)}
+            style={{
+              background: configOpen ? `${C.gold}20` : "rgba(255,255,255,0.06)",
+              border: `1px solid ${configOpen ? C.gold + "50" : "rgba(255,255,255,0.12)"}`,
+              borderRadius: "6px", padding: "0.3rem 0.7rem",
+              fontFamily: "Calibri, sans-serif", fontSize: "0.68rem",
+              letterSpacing: "1.5px", textTransform: "uppercase",
+              fontWeight: 700, color: configOpen ? C.gold : C.midGray,
+              cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
+              transition: "all 0.3s", marginTop: "0.6rem", whiteSpace: "nowrap",
+            }}
+          >⚙ Kalkulator</button>
         </div>
       </header>
 
@@ -966,14 +984,16 @@ export default function EckartTimeline() {
         {phase.isFinal ? (
           <>
             {/* ── HERO CARDS: CO2 + Gesamtertrag auf einen Blick ── */}
-            {phase.heroCards && (
+            {phase.heroCards && (() => {
+              const cards = configOpen ? getDynamicHeroCards(calc) : phase.heroCards;
+              return (
               <div style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
                 gap: "0.75rem",
                 marginBottom: "1.5rem",
               }}>
-                {phase.heroCards.map((card, ci) => (
+                {cards.map((card, ci) => (
                   <div key={ci} style={{
                     background: `linear-gradient(145deg, ${card.accent}18, ${card.accent}06)`,
                     border: `2px solid ${card.accent}40`,
@@ -1038,6 +1058,58 @@ export default function EckartTimeline() {
                     </div>
                   </div>
                 ))}
+              </div>
+              );
+            })()}
+
+            {/* Ihre Gesamtberechnung (when config open) */}
+            {configOpen && (
+              <div style={{
+                background: `linear-gradient(135deg, ${C.gold}10, ${C.green}06)`,
+                border: `2px solid ${C.gold}35`,
+                borderRadius: "12px", padding: "1rem 1.2rem",
+                marginBottom: "1.25rem",
+                animation: "fadeSlideIn 0.4s ease 0.3s both",
+              }}>
+                <div style={{
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                  letterSpacing: "2.5px", textTransform: "uppercase",
+                  color: C.gold, fontWeight: 700, marginBottom: "0.6rem",
+                  display: "flex", alignItems: "center", gap: "0.4rem",
+                }}>
+                  <span style={{ fontSize: "0.8rem" }}>⚙</span>
+                  IHRE GESAMTBERECHNUNG
+                </div>
+                <div style={{
+                  display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
+                  gap: "0.4rem",
+                }}>
+                  {[
+                    { label: "Investition Standort", value: fmtEuro(calc.investStandort) },
+                    { label: "Investition BESS", value: fmtEuro(calc.investPhase6) },
+                    { label: "Gesamtinvestition", value: fmtEuro(calc.investGesamt), accent: true },
+                    { label: "Einsparung Standort", value: `${fmtEuro(calc.einsparungStandort)}/a`, accent: true },
+                    { label: "BESS-Erlöse", value: `${fmtEuro(calc.bessErloes)}/a`, accent: true },
+                    { label: "Amortisation", value: `${calc.amortisationStandort} Jahre` },
+                    { label: "BESS-Rendite", value: `${calc.bessRendite} % p.a.` },
+                    { label: "Autarkie-Grad", value: `${calc.autarkie} %`, accent: true },
+                  ].map((item, i) => (
+                    <div key={i} style={{
+                      background: "rgba(255,255,255,0.03)", borderRadius: "6px",
+                      padding: "0.4rem 0.55rem",
+                      borderLeft: item.accent ? `2px solid ${C.gold}60` : "none",
+                    }}>
+                      <div style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                        color: C.midGray, letterSpacing: "0.5px", textTransform: "uppercase",
+                      }}>{item.label}</div>
+                      <div style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
+                        fontWeight: 700, color: item.accent ? C.goldLight : C.white,
+                      }}>{item.value}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -1770,6 +1842,53 @@ export default function EckartTimeline() {
                 </div>
               </div>
             )}
+
+            {/* ── IHRE BERECHNUNG (when config open, normal phases) ── */}
+            {configOpen && (() => {
+              const items = getPhaseCalcItems(active, calc, config);
+              if (!items) return null;
+              return (
+                <div style={{
+                  marginTop: "0.75rem",
+                  background: `linear-gradient(135deg, ${C.gold}08, ${C.green}05)`,
+                  border: `1px solid ${C.gold}30`,
+                  borderRadius: "10px", padding: "0.7rem 0.85rem",
+                  animation: "fadeSlideIn 0.4s ease 0.5s both",
+                }}>
+                  <div style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                    letterSpacing: "2.5px", textTransform: "uppercase",
+                    color: C.gold, fontWeight: 700, marginBottom: "0.45rem",
+                    display: "flex", alignItems: "center", gap: "0.35rem",
+                  }}>
+                    <span style={{ fontSize: "0.7rem" }}>⚙</span>
+                    IHRE BERECHNUNG
+                  </div>
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: `repeat(auto-fit, minmax(130px, 1fr))`,
+                    gap: "0.35rem",
+                  }}>
+                    {items.map((item, i) => (
+                      <div key={i} style={{
+                        background: "rgba(255,255,255,0.03)", borderRadius: "6px",
+                        padding: "0.35rem 0.5rem",
+                        borderLeft: item.accent ? `2px solid ${C.gold}60` : "none",
+                      }}>
+                        <div style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                          color: C.midGray, letterSpacing: "0.5px",
+                        }}>{item.label}</div>
+                        <div style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.9rem",
+                          fontWeight: 700, color: item.accent ? C.goldLight : C.white,
+                        }}>{item.value}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
           </>
         )}
 
@@ -1846,6 +1965,16 @@ export default function EckartTimeline() {
           header, footer, .content { padding-left: 1rem !important; padding-right: 1rem !important; }
         }
       `}</style>
+
+      {/* ── Interactive Config Panel ── */}
+      {configOpen && (
+        <ConfigPanel
+          config={config}
+          setConfig={setConfig}
+          calc={calc}
+          onClose={() => setConfigOpen(false)}
+        />
+      )}
     </div>
   );
 }
