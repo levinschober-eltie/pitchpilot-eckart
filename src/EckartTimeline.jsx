@@ -71,7 +71,7 @@ const phases = [
     months: "Monat 4–12",
     color: C.green,
     headline: "Belastbare Gebäude, produktive Flächen",
-    description: "Auf 50 Hektar Gelände mit Dutzenden Hallen liegt enormes Potenzial. Dachsanierung + PV als integriertes 30-Jahres-Investment. Vier Erzeugungsarten ergänzen sich jahreszeitlich. Die 800–1.200 Mitarbeiter-Stellplätze werden zu Carport-Kraftwerken mit Ladeinfrastruktur.",
+    description: "Auf 50 Hektar Gelände mit Dutzenden Hallen liegt enormes Potenzial. Dachsanierung + PV als integriertes 30-Jahres-Investment. Drei neue Erzeugungsarten ergänzen den bestehenden 2 MWp Freiflächen-Park. Die 800–1.200 Mitarbeiter-Stellplätze werden zu Carport-Kraftwerken mit Ladeinfrastruktur.",
     results: [
       "Dachsanierung priorisierter Cluster (A–E)",
       "Dach-PV in Betrieb (2,5–5,0 MWp)",
@@ -107,7 +107,7 @@ const phases = [
       { icon: "🏭", title: "Dach-PV auf allen Hallen", text: "Cluster A–E saniert und mit PV bestückt — 3,5–6 MWp allein auf den Dächern" },
       { icon: "🏢", title: "Fassaden-PV Süd/West", text: "Vertikale Module erzeugen auch bei flachem Sonnenstand — ideal im Winter" },
       { icon: "🅿️", title: "Carport-Kraftwerke", text: "800–1.200 Stellplätze mit Solar-Carports — Laden und Erzeugen kombiniert" },
-      { icon: "📈", title: "Vier Erzeugungsarten", text: "Dach + Fassade + Carport + Freifläche ergänzen sich jahreszeitlich optimal" },
+      { icon: "📈", title: "Drei neue Erzeugungsarten", text: "Dach + Fassade + Carport ergänzen den 2 MWp Freiflächen-Bestand jahreszeitlich optimal" },
     ],
   },
   {
@@ -579,7 +579,8 @@ export default function EckartTimeline() {
       background: `linear-gradient(170deg, ${C.navy} 0%, ${C.navyMid} 40%, ${C.navyLight} 100%)`,
       fontFamily: "'Georgia', 'Times New Roman', serif",
       color: C.white,
-      overflow: "hidden",
+      overflowX: "hidden",
+      overflowY: "auto",
       position: "relative",
     }}>
       {/* Subtle grid pattern overlay */}
@@ -865,10 +866,11 @@ export default function EckartTimeline() {
           gridTemplateColumns: "5fr 4fr",
           gap: "1.25rem",
           alignItems: "start",
+          minWidth: 0,
           marginBottom: "1.25rem",
         }}>
           {/* Left: Rich content panel */}
-          <div>
+          <div style={{ minWidth: 0 }}>
             {/* Description */}
             <p style={{
               fontFamily: "Calibri, sans-serif",

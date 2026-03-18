@@ -1384,12 +1384,11 @@ function PVVisual() {
       </g>
 
       {/* New PV breakdown */}
-      <InfoPanel x={12} y={110} w={78} h={62} title="NEUE PV-ANLAGEN" color={C.gold}>
+      <InfoPanel x={12} y={110} w={78} h={50} title="NEUE PV-ANLAGEN" color={C.gold}>
         {[
-          ["☀️","Dach-PV","3,5–6 MWp","Cluster A–E"],
-          ["🏢","Fassade","0,8–1,5 MWp","Süd + West"],
-          ["🅿️","Carports","1,0–2,0 MWp","2 Parkplätze"],
-          ["📐","Freifläche+","1,2–1,5 MWp","Erweiterung"],
+          ["☀️","Dach-PV","2,5–5,0 MWp","Cluster A–E"],
+          ["🏢","Fassade","0,5–1,0 MWp","Süd + West"],
+          ["🅿️","Carports","1,5–3,0 MWp","Parkplätze"],
         ].map(([icon,label,power,detail],i) => (
           <g key={i}>
             <text x="20" y={134+i*13} fontSize="5">{icon}</text>
