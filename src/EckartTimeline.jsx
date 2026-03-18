@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import PhaseVisual from "./PhaseVisuals";
 
 const C = {
   navy: "#1B2A4A",
@@ -684,10 +685,13 @@ export default function EckartTimeline() {
         <p style={{
           fontFamily: "Calibri, sans-serif",
           fontSize: "0.85rem", color: "rgba(255,255,255,0.75)",
-          lineHeight: 1.65, marginBottom: "1.25rem", maxWidth: "700px",
+          lineHeight: 1.65, marginBottom: "0.75rem", maxWidth: "700px",
         }}>
           {phase.description}
         </p>
+
+        {/* Phase Illustration */}
+        <PhaseVisual phaseNum={phase.num} />
 
         {/* === FINAL RESULT SPECIAL LAYOUT === */}
         {phase.isFinal ? (
