@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import PhaseVisual from "./PhaseVisuals";
 import ConfigPanel, { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./ConfigPanel";
 import ExportModal from "./PdfExport";
+import MarketAnalysis from "./MarketAnalysis";
 
 const C = {
   navy: "#1B2A4A",
@@ -484,6 +485,7 @@ export default function EckartTimeline() {
   const sliderRef = useRef(null);
   const [configOpen, setConfigOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
+  const [marketOpen, setMarketOpen] = useState(false);
   const [config, setConfig] = useState(defaultConfig);
   const calc = useMemo(() => calculateAll(config), [config]);
 
@@ -663,6 +665,16 @@ export default function EckartTimeline() {
               transition: "all 0.3s", whiteSpace: "nowrap",
             }}
           >📄 PDF Export</button>
+          <button
+            onClick={() => setMarketOpen(true)}
+            style={{
+              background: "rgba(212,168,67,0.15)", border: "1px solid rgba(212,168,67,0.4)",
+              color: C.goldLight, borderRadius: "2rem", padding: "0.35rem 1rem",
+              fontSize: "0.82rem", fontWeight: 600, letterSpacing: "0.03em",
+              cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
+              transition: "all 0.3s", whiteSpace: "nowrap",
+            }}
+          >📊 Marktanalyse</button>
         </div>
       </header>
 
@@ -1996,6 +2008,15 @@ export default function EckartTimeline() {
           calc={calc}
           configActive={configOpen}
           onClose={() => setExportOpen(false)}
+        />
+      )}
+
+      {/* ── Market Analysis Overlay ── */}
+      {marketOpen && (
+        <MarketAnalysis
+          config={config}
+          configActive={configOpen}
+          onClose={() => setMarketOpen(false)}
         />
       )}
     </div>
