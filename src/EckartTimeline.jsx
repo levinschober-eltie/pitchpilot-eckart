@@ -661,48 +661,40 @@ export default function EckartTimeline() {
           </div>
         </div>
 
-        {/* Two-Column Layout: Text left, Illustration + Ring right */}
+        {/* Headline Quote */}
+        <div style={{
+          borderLeft: `3px solid ${C.gold}`,
+          paddingLeft: "1rem",
+          marginBottom: "1rem",
+        }}>
+          <p style={{
+            fontSize: "clamp(0.95rem, 2vw, 1.15rem)",
+            fontStyle: "italic", color: C.goldLight,
+            margin: 0, lineHeight: 1.5,
+          }}>
+            „{phase.headline}"
+          </p>
+        </div>
+
+        {/* Two-Column: Description left, Illustration right */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "1.5rem",
+          gridTemplateColumns: "2fr 3fr",
+          gap: "1.25rem",
           alignItems: "start",
           marginBottom: "1.25rem",
         }}>
-          {/* Left: Quote + Description */}
-          <div>
-            {/* Headline Quote */}
-            <div style={{
-              borderLeft: `3px solid ${C.gold}`,
-              paddingLeft: "1rem",
-              marginBottom: "1rem",
-            }}>
-              <p style={{
-                fontSize: "clamp(0.95rem, 2vw, 1.15rem)",
-                fontStyle: "italic", color: C.goldLight,
-                margin: 0, lineHeight: 1.5,
-              }}>
-                „{phase.headline}"
-              </p>
-            </div>
-
-            {/* Description */}
-            <p style={{
-              fontFamily: "Calibri, sans-serif",
-              fontSize: "0.85rem", color: "rgba(255,255,255,0.75)",
-              lineHeight: 1.65, margin: 0,
-            }}>
-              {phase.description}
-            </p>
-          </div>
-
-          {/* Right: Illustration + Independence Ring */}
-          <div style={{
-            display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem",
+          {/* Left: Description */}
+          <p style={{
+            fontFamily: "Calibri, sans-serif",
+            fontSize: "0.85rem", color: "rgba(255,255,255,0.75)",
+            lineHeight: 1.65, margin: 0,
           }}>
-            <PhaseVisual phaseNum={phase.num} />
-            <IndependenceRing score={displayScore} size={phase.isFinal ? 130 : 100} strokeWidth={phase.isFinal ? 11 : 8} />
-          </div>
+            {phase.description}
+          </p>
+
+          {/* Right: Illustration (with Autarkie ring inside SVG) */}
+          <PhaseVisual phaseNum={phase.num} score={displayScore} />
         </div>
 
         {/* === FINAL RESULT SPECIAL LAYOUT === */}

@@ -1853,24 +1853,14 @@ function GesamtVisual() {
         })}
       </g>
 
-      {/* ═══ 95% AUTARKIE BADGE (prominent) ═══ */}
-      <g filter="url(#glowWide)">
-        <circle cx="340" cy="130" r="22" fill={C.navy} stroke={C.gold} strokeWidth="1.5" />
-        <circle cx="340" cy="130" r="18" fill="none" stroke={C.gold} strokeWidth="0.5" opacity="0.25" />
-        <text x="340" y="135" textAnchor="middle" fill={C.goldLight}
-          fontSize="14" fontFamily="Calibri, sans-serif" fontWeight="700">95%</text>
-        <text x="340" y="144" textAnchor="middle" fill={C.midGray}
-          fontSize="4.5" fontFamily="Calibri, sans-serif" letterSpacing="1">AUTARKIE</text>
-      </g>
-
       {/* ═══ SYSTEM LABELS (right side, compact) ═══ */}
       <g>
         {[
-          [325, 168, "☀️", "6,5–11 MWp", C.gold],
-          [325, 184, "🔋", "6,5–11 MWh", C.greenLight],
-          [325, 200, "🔥", "5–10 MW WP", C.warmOrange],
-          [325, 216, "🔌", "70+ Lader", C.greenLight],
-          [325, 232, "📈", "1,4–2,5 Mio €/a", C.goldLight],
+          [325, 138, "☀️", "6,5–11 MWp", C.gold],
+          [325, 154, "🔋", "6,5–11 MWh", C.greenLight],
+          [325, 170, "🔥", "5–10 MW WP", C.warmOrange],
+          [325, 186, "🔌", "70+ Lader", C.greenLight],
+          [325, 202, "📈", "1,4–2,5 Mio €/a", C.goldLight],
         ].map(([x, y, icon, text, col], i) => (
           <g key={i}>
             <rect x={x} y={y - 6} width={text.length * 4.8 + 16} height="13" rx="6.5"
@@ -1932,7 +1922,36 @@ const visuals = {
   "IV": WaermeVisual, "V": LadeVisual, "VI": BESSVisual, "✦": GesamtVisual,
 };
 
-export default function PhaseVisual({ phaseNum }) {
+/* ── SVG Autarkie Ring ────────────────────────────────────────── */
+function SvgAutarkieRing({ cx, cy, score, size = 36 }) {
+  const r = size / 2 - 3;
+  const circ = 2 * Math.PI * r;
+  const offset = circ - (score / 100) * circ;
+  return (
+    <g>
+      {/* Background glow */}
+      <circle cx={cx} cy={cy} r={size / 2 + 4} fill={C.navy} opacity="0.85" />
+      <circle cx={cx} cy={cy} r={size / 2 + 4} fill="none" stroke={C.gold} strokeWidth="0.4" opacity="0.15" />
+      {/* Track */}
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="3.5"
+        transform={`rotate(-90 ${cx} ${cy})`} />
+      {/* Progress arc */}
+      <circle cx={cx} cy={cy} r={r} fill="none" strokeWidth="3.5"
+        stroke={C.gold} strokeLinecap="round"
+        strokeDasharray={circ} strokeDashoffset={offset}
+        transform={`rotate(-90 ${cx} ${cy})`}>
+        <animate attributeName="stroke-dashoffset" from={circ} to={offset} dur="1.2s" fill="freeze" />
+      </circle>
+      {/* Score text */}
+      <text x={cx} y={cy + 1} textAnchor="middle" fill={C.goldLight}
+        fontSize="10" fontFamily="Calibri, sans-serif" fontWeight="700">{score}%</text>
+      <text x={cx} y={cy + 8} textAnchor="middle" fill={C.midGray}
+        fontSize="3.5" fontFamily="Calibri, sans-serif" letterSpacing="1">AUTARKIE</text>
+    </g>
+  );
+}
+
+export default function PhaseVisual({ phaseNum, score = 0 }) {
   const Visual = visuals[phaseNum];
   if (!Visual) return null;
   const warm = phaseNum === "II" || phaseNum === "✦";
@@ -1949,6 +1968,8 @@ export default function PhaseVisual({ phaseNum }) {
         xmlns="http://www.w3.org/2000/svg">
         <SharedDefs warm={warm} cool={cool} />
         <Visual />
+        {/* Autarkie Ring — top right */}
+        {score > 0 && <SvgAutarkieRing cx={365} cy={42} score={score} size={phaseNum === "✦" ? 42 : 36} />}
       </svg>
     </div>
   );
