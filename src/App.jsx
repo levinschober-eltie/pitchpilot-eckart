@@ -123,10 +123,10 @@ function IntroScreen({ onEnter }) {
           opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(15px)",
           transition: "all 0.8s ease 1.3s",
         }}>
-          Dieses interaktive Dokument zeigt die strategische Roadmap zur
-          energetischen Transformation Ihres Standorts in Hartenstein –
-          in fünf aufeinander aufbauenden Phasen, von der Analyse bis zum
-          eigenständigen Ertragsmodell.
+          Aufbauend auf den bereits realisierten 2 MWp Freiflächen-PV zeigt dieses
+          interaktive Dokument die strategische Roadmap zur vollständigen
+          Energietransformation Ihres Standorts in Hartenstein – in fünf
+          aufeinander aufbauenden Phasen bis zum eigenständigen Ertragsmodell.
         </p>
 
         {/* 5 Phase pills preview */}
