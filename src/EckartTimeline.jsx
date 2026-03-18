@@ -154,6 +154,42 @@ const phases = [
   },
   {
     num: "V",
+    title: "Ladeinfrastruktur",
+    subtitle: "Mobilität elektrifizieren",
+    months: "Monat 15–24",
+    color: C.greenLight,
+    headline: "800 Mitarbeiter, Fuhrpark, LKW-Logistik – alles elektrisch vom eigenen Dach",
+    description: "Der eigene PV-Strom wird zum günstigsten Kraftstoff am Standort. 60+ AC-Ladepunkte für Mitarbeiter und Dienstwagen, DC-Schnelllader für den Fuhrpark und ein HPC-Depot für die LKW-Logistik. Dynamisches Lastmanagement integriert alles ins EMS – ohne Netzausbau. Ab 2026 greift zudem die GEIG-Ladepflicht für Unternehmen.",
+    results: [
+      "60+ AC-Wallboxen (22 kW) auf Mitarbeiter- & Besucherparkplätzen",
+      "4–6 DC-Schnelllader (50–150 kW) für Firmenflotte",
+      "4–6 HPC-Ladepunkte (150–400 kW CCS) für E-LKW Depot",
+      "Dynamisches Lastmanagement über bestehendes EMS",
+      "THG-Quoten-Erlöse durch öffentlich zugängliche Ladepunkte",
+      "GEIG-Konformität ab 2026 sichergestellt",
+    ],
+    kpis: [
+      { label: "AC-Ladepunkte", value: "60+" },
+      { label: "DC Fleet", value: "4–6 × 150 kW" },
+      { label: "LKW HPC", value: "4–6 × 400 kW" },
+      { label: "Kraftstoffersparnis", value: "~65 %" },
+    ],
+    investment: [
+      { label: "AC-Wallboxen 60× (22 kW)", range: "120–180 T€" },
+      { label: "DC-Schnelllader Fuhrpark", range: "200–400 T€" },
+      { label: "HPC-Depot LKW (150–400 kW CCS)", range: "600 T€–1,2 Mio €" },
+      { label: "Tiefbau, Kabel & Trafo", range: "250–450 T€" },
+      { label: "Lastmanagement & Backend", range: "30–50 T€" },
+    ],
+    investTotal: "1,2–2,3 Mio €",
+    roi: "Kraftstoffersparnis + THG-Quote + Mitarbeiter-Ladeerlöse",
+    roiValue: "110–180 T€/a Einsparung",
+    independenceScore: 78,
+    independenceLabel: "Mobilität elektrifiziert",
+    icon: "🔌",
+  },
+  {
+    num: "VI",
     title: "Graustrom-BESS",
     subtitle: "Der eigenständige Werttreiber",
     months: "Monat 18–30+",
@@ -179,7 +215,7 @@ const phases = [
     investTotal: "35–48 Mio €",
     roi: "Eigenständiges Ertragsmodell mit drei Erlösströmen",
     roiValue: "15–25 % p.a.",
-    independenceScore: 92,
+    independenceScore: 90,
     independenceLabel: "Eigenständiges Ertragsmodell",
     icon: "🏭",
   },
@@ -190,37 +226,57 @@ const phases = [
     months: "Vollausbau",
     color: C.gold,
     headline: "Energieversorgung wird Wettbewerbsvorteil – oder bleibt Risikofaktor",
-    description: "Fünf Phasen. Ein System. Der Standort wird nicht nur effizienter – er wird strategisch stärker. Von der Energiekostenposition zur Energieplattform.",
+    description: "Sechs Phasen. Ein integriertes System. Strom, Wärme, Mobilität und Speicher – jede Dimension der Energieversorgung ist durchdacht und wirtschaftlich unterlegt. Der Standort Hartenstein wird nicht nur effizienter – er wird strategisch unangreifbar.",
     isFinal: true,
     levers: [
-      { icon: "⚡", title: "Reduktion externer Strombezug", desc: "Direkte Kostenentlastung durch Eigenerzeugung" },
-      { icon: "📉", title: "Lastspitzenreduktion", desc: "10–15 % Peak Shaving → Leistungspreis-Senkung" },
-      { icon: "♻️", title: "Bessere Nutzung eigener Energie", desc: "Strom und Wärme bleiben im Standort" },
-      { icon: "🏠", title: "Geringere Wärmeverluste", desc: "Weniger Betriebskosten durch Dämmung" },
-      { icon: "🎯", title: "Aktive Steuerbarkeit", desc: "Echtzeitoptimierung statt passiver Verbrauch" },
-      { icon: "🛡️", title: "Geringere Marktexponierung", desc: "Weniger Abhängigkeit von Börsenpreisen" },
+      { icon: "⚡", title: "Reduktion externer Strombezug", desc: "~800–1.400 T€/a Einsparung durch Eigenerzeugung" },
+      { icon: "📉", title: "Lastspitzenreduktion", desc: "10–15 % Peak Shaving → 100–200 T€/a Leistungspreis-Senkung" },
+      { icon: "🔥", title: "Gaskosten-Reduktion", desc: "65–80 % weniger → 300–600 T€/a Einsparung" },
+      { icon: "🔌", title: "Kraftstoff-Elektrifizierung", desc: "~65 % weniger Mobilitätskosten → 110–180 T€/a" },
+      { icon: "🎯", title: "Aktive Steuerbarkeit", desc: "Echtzeit-EMS optimiert Erzeugung, Speicher und Verbrauch" },
+      { icon: "🏭", title: "BESS-Ertragsmodell", desc: "15–25 % p.a. auf 35–48 Mio € → eigenständiger Cashflow" },
     ],
+    economicSummary: {
+      title: "Gesamtwirtschaftliche Betrachtung",
+      savings: [
+        { label: "PV-Eigenverbrauch (Stromkosten-Reduktion)", value: "800–1.400 T€/a" },
+        { label: "Peak Shaving & Spotmarkt-Optimierung", value: "150–300 T€/a" },
+        { label: "Gaskosten-Reduktion (65–80 %)", value: "300–600 T€/a" },
+        { label: "Kraftstoff-Einsparung Fuhrpark & LKW", value: "80–130 T€/a" },
+        { label: "THG-Quote & Ladeerlöse Mitarbeiter", value: "30–50 T€/a" },
+      ],
+      totals: {
+        annualSavings: "1,4–2,5 Mio €/a",
+        investStandort: "8,5–22 Mio €",
+        paybackStandort: "~6–9 Jahre",
+        bessRevenue: "5–12 Mio €/a",
+        investGesamt: "43–70 Mio €",
+      },
+      conclusion: "Die Standort-Investition (Phasen I–V) amortisiert sich in 6–9 Jahren bei 1,4–2,5 Mio € jährlicher Einsparung. Das Graustrom-BESS (Phase VI) ist ein eigenständiges Ertragsmodell mit 15–25 % p.a. Rendite. Zusammen entsteht ein Energiesystem, das in jeder Dimension – Strom, Wärme, Mobilität und Markterlöse – wirtschaftlich optimiert ist.",
+    },
     systemKpis: [
       { label: "Gesamt-PV", value: "6,5–11,0 MWp", sub: "Bestand 2 MWp + Dach + Fassade + Carport" },
       { label: "Erzeugung", value: "5.800–9.800 MWh/a", sub: "Vier Erzeugungsarten kombiniert" },
-      { label: "Eigenverbrauch", value: ">80 %", sub: "Mit 6,5–11 MWh BESS (1:1 PV, 0,5C)" },
+      { label: "Speicher", value: "6,5–11 MWh", sub: "1:1 PV, 0,5C Entladerate" },
       { label: "Thermisch", value: "5–10 MW", sub: "WP-Kaskade + Wärmenetz" },
+      { label: "Ladeinfrastruktur", value: "70+ Ladepunkte", sub: "AC + DC + HPC für PKW & LKW" },
       { label: "BESS Utility", value: "100 MW / 200 MWh", sub: "Eigenständiger Werttreiber" },
-      { label: "Erlösströme", value: "3", sub: "Arbitrage · FCR · Redispatch" },
     ],
     pillars: [
       { label: "Eigenerzeugung", phase: "II", icon: "☀️" },
       { label: "Steuerbarkeit", phase: "III", icon: "⚡" },
       { label: "Wärmeautarkie", phase: "IV", icon: "🔥" },
-      { label: "Ertragsmodell", phase: "V", icon: "🏭" },
+      { label: "E-Mobilität", phase: "V", icon: "🔌" },
+      { label: "Ertragsmodell", phase: "VI", icon: "🏭" },
     ],
     investmentSummary: [
-      { phase: "—", label: "Bestand Freiflächen-PV", range: "~2 MWp (bereits realisiert)", roi: "~2.000 MWh/a", maxMio: 0, score: 15 },
-      { phase: "I", label: "Analyse & Bewertung", range: "50–80 T€", roi: "Entscheidungsgrundlage", maxMio: 0.08, score: 15 },
-      { phase: "II", label: "Gebäudehülle & PV", range: "3,1–8,8 Mio €", roi: ">60 % Eigenverbrauch", maxMio: 8.8, score: 45 },
-      { phase: "III", label: "Speicher & Steuerung", range: "1,1–2,7 Mio €", roi: "10–15 % Peak Shaving", maxMio: 2.7, score: 65 },
-      { phase: "IV", label: "Wärmekonzept", range: "2,5–8,0 Mio €", roi: "65–80 % weniger Gas", maxMio: 8.0, score: 80 },
-      { phase: "V", label: "Graustrom-BESS", range: "35–48 Mio €", roi: "15–25 % p.a.", maxMio: 48, score: 92 },
+      { phase: "—", label: "Bestand Freiflächen-PV", range: "~2 MWp (bereits realisiert)", roi: "~2.000 MWh/a", maxMio: 0, score: 10 },
+      { phase: "I", label: "Analyse & Bewertung", range: "50–80 T€", roi: "Entscheidungsgrundlage", maxMio: 0.08, score: 10 },
+      { phase: "II", label: "Gebäudehülle & PV", range: "3,1–8,8 Mio €", roi: "800–1.400 T€/a Stromersparnis", maxMio: 8.8, score: 35 },
+      { phase: "III", label: "Speicher & Steuerung", range: "1,1–2,7 Mio €", roi: "150–300 T€/a Peak+Spot", maxMio: 2.7, score: 55 },
+      { phase: "IV", label: "Wärmekonzept", range: "2,5–8,0 Mio €", roi: "300–600 T€/a Gasersparnis", maxMio: 8.0, score: 70 },
+      { phase: "V", label: "Ladeinfrastruktur", range: "1,2–2,3 Mio €", roi: "110–180 T€/a Mobilitätsersparnis", maxMio: 2.3, score: 78 },
+      { phase: "VI", label: "Graustrom-BESS", range: "35–48 Mio €", roi: "15–25 % p.a.", maxMio: 48, score: 90 },
     ],
     results: [],
     kpis: [],
@@ -235,6 +291,7 @@ const cumulative = [
   "6,5–11,0 MWp Erzeugungsportfolio",
   "Steuerbarkeit erreicht",
   "Thermisch unabhängig",
+  "Mobilität elektrifiziert",
   "Eigenständiges Ertragsmodell",
   "Strategischer Standortvorteil",
 ];
@@ -760,7 +817,8 @@ export default function EckartTimeline() {
                   border: `1px solid ${C.gold}30`,
                   borderRadius: "8px", padding: "0.75rem 0.9rem",
                   marginTop: "0.2rem",
-                  animation: `fadeSlideIn 0.4s ease 0.6s both`,
+                  animation: `fadeSlideIn 0.4s ease 0.7s both`,
+                  flexWrap: "wrap", gap: "0.5rem",
                 }}>
                   <div>
                     <div style={{
@@ -771,7 +829,7 @@ export default function EckartTimeline() {
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "1.15rem",
                       fontWeight: 700, color: C.goldLight, marginTop: "0.15rem",
-                    }}>38–55 Mio €</div>
+                    }}>43–70 Mio €</div>
                   </div>
                   <div style={{ textAlign: "center" }}>
                     <div style={{
@@ -799,13 +857,120 @@ export default function EckartTimeline() {
               </div>
             </div>
 
+            {/* ── GESAMTWIRTSCHAFTLICHE BETRACHTUNG ───────── */}
+            {phase.economicSummary && (
+              <div style={{ marginBottom: "1.25rem" }}>
+                <div style={{
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                  letterSpacing: "3px", textTransform: "uppercase",
+                  color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                }}>GESAMTWIRTSCHAFTLICHE BETRACHTUNG</div>
+
+                {/* Savings table */}
+                <div style={{
+                  background: `linear-gradient(135deg, rgba(45,106,79,0.08), rgba(45,106,79,0.02))`,
+                  border: `1px solid ${C.green}25`,
+                  borderRadius: "10px", padding: "0.85rem 1rem",
+                  marginBottom: "0.5rem",
+                  animation: "fadeSlideIn 0.4s ease 0.2s both",
+                }}>
+                  <div style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                    letterSpacing: "2px", textTransform: "uppercase",
+                    color: C.greenLight, fontWeight: 700, marginBottom: "0.5rem",
+                  }}>JÄHRLICHE EINSPARUNGEN & ERLÖSE (PHASEN I–V)</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
+                    {phase.economicSummary.savings.map((s, i) => (
+                      <div key={i} style={{
+                        display: "flex", justifyContent: "space-between", alignItems: "center",
+                        padding: "0.3rem 0",
+                        borderBottom: i < phase.economicSummary.savings.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                      }}>
+                        <span style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
+                          color: "rgba(255,255,255,0.7)",
+                        }}>{s.label}</span>
+                        <span style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
+                          fontWeight: 700, color: C.greenLight,
+                          whiteSpace: "nowrap", marginLeft: "1rem",
+                        }}>{s.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Total savings line */}
+                  <div style={{
+                    borderTop: `2px solid ${C.green}40`,
+                    marginTop: "0.5rem", paddingTop: "0.5rem",
+                    display: "flex", justifyContent: "space-between", alignItems: "center",
+                  }}>
+                    <span style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
+                      fontWeight: 700, color: C.white,
+                    }}>Gesamt jährliche Einsparung</span>
+                    <span style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "1.05rem",
+                      fontWeight: 700, color: C.goldLight,
+                    }}>{phase.economicSummary.totals.annualSavings}</span>
+                  </div>
+                </div>
+
+                {/* Three key economic metrics */}
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+                  gap: "0.4rem", marginBottom: "0.5rem",
+                }}>
+                  {[
+                    { label: "Standort-Invest (I–V)", value: phase.economicSummary.totals.investStandort, sub: "Strom + Wärme + Mobilität" },
+                    { label: "Amortisation Standort", value: phase.economicSummary.totals.paybackStandort, sub: "bei 1,4–2,5 Mio €/a Einsparung" },
+                    { label: "BESS-Erlöse (Phase VI)", value: phase.economicSummary.totals.bessRevenue, sub: "Eigenständiger Cashflow" },
+                  ].map((m, i) => (
+                    <div key={i} style={{
+                      background: "rgba(255,255,255,0.03)",
+                      border: `1px solid ${C.gold}15`,
+                      borderRadius: "8px", padding: "0.65rem 0.75rem",
+                      animation: `fadeSlideIn 0.4s ease ${0.3 + i * 0.08}s both`,
+                    }}>
+                      <div style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.5rem",
+                        letterSpacing: "1px", textTransform: "uppercase",
+                        color: C.midGray, marginBottom: "0.2rem",
+                      }}>{m.label}</div>
+                      <div style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "1.1rem",
+                        fontWeight: 700, color: C.goldLight, lineHeight: 1.1,
+                      }}>{m.value}</div>
+                      <div style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                        color: "rgba(255,255,255,0.4)", marginTop: "0.15rem",
+                      }}>{m.sub}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Conclusion */}
+                <div style={{
+                  borderLeft: `3px solid ${C.green}`,
+                  paddingLeft: "0.8rem",
+                  animation: "fadeSlideIn 0.4s ease 0.5s both",
+                }}>
+                  <p style={{
+                    fontFamily: "Calibri, sans-serif",
+                    fontSize: "0.78rem", color: "rgba(255,255,255,0.7)",
+                    lineHeight: 1.6, margin: 0, fontStyle: "italic",
+                  }}>{phase.economicSummary.conclusion}</p>
+                </div>
+              </div>
+            )}
+
             {/* 6 Economic Levers */}
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{
                 fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
                 letterSpacing: "3px", textTransform: "uppercase",
                 color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
-              }}>SECHS HEBEL · EIN SYSTEM · EINE STEUERUNG</div>
+              }}>SECHS HEBEL · EIN INTEGRIERTES ENERGIESYSTEM</div>
               <div style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",

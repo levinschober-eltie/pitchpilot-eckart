@@ -112,7 +112,7 @@ function IntroScreen({ onEnter }) {
           color: C.goldLight, fontStyle: "italic",
           opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(15px)",
           transition: "all 0.8s ease 1.1s",
-        }}>Phasenkonzept zur Energietransformation</h2>
+        }}>Phasenkonzept zur ganzheitlichen Energietransformation</h2>
 
         {/* Intro text */}
         <p style={{
@@ -125,8 +125,9 @@ function IntroScreen({ onEnter }) {
         }}>
           Aufbauend auf den bereits realisierten 2 MWp Freiflächen-PV zeigt dieses
           interaktive Dokument die strategische Roadmap zur vollständigen
-          Energietransformation Ihres Standorts in Hartenstein – in fünf
-          aufeinander aufbauenden Phasen bis zum eigenständigen Ertragsmodell.
+          Energietransformation Ihres Standorts in Hartenstein – in sechs
+          aufeinander aufbauenden Phasen von Strom über Wärme und Mobilität
+          bis zum eigenständigen Ertragsmodell.
         </p>
 
         {/* 5 Phase pills preview */}
@@ -141,7 +142,8 @@ function IntroScreen({ onEnter }) {
             { num: "II", label: "PV & Hülle" },
             { num: "III", label: "Speicher" },
             { num: "IV", label: "Wärme" },
-            { num: "V", label: "BESS" },
+            { num: "V", label: "Laden" },
+            { num: "VI", label: "BESS" },
           ].map((p, i) => (
             <div key={i} style={{
               display: "flex", alignItems: "center", gap: "0.35rem",
