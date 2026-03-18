@@ -206,11 +206,11 @@ const phases = [
       { label: "Ertragsmodell", phase: "V", icon: "🏭" },
     ],
     investmentSummary: [
-      { phase: "I", label: "Analyse & Bewertung", range: "50–80 T€", roi: "Entscheidungsgrundlage" },
-      { phase: "II", label: "Gebäudehülle & PV", range: "2,3–6,4 Mio €", roi: ">50 % Eigenverbrauch" },
-      { phase: "III", label: "Speicher & Steuerung", range: "380 T€–1,0 Mio €", roi: "10–15 % Peak Shaving" },
-      { phase: "IV", label: "Wärmekonzept", range: "200–400 T€", roi: "65–75 % weniger Gas" },
-      { phase: "V", label: "Graustrom-BESS", range: "35–48 Mio €", roi: "15–25 % p.a." },
+      { phase: "I", label: "Analyse & Bewertung", range: "50–80 T€", roi: "Entscheidungsgrundlage", maxMio: 0.08, score: 5 },
+      { phase: "II", label: "Gebäudehülle & PV", range: "2,3–6,4 Mio €", roi: ">50 % Eigenverbrauch", maxMio: 6.4, score: 40 },
+      { phase: "III", label: "Speicher & Steuerung", range: "380 T€–1,0 Mio €", roi: "10–15 % Peak Shaving", maxMio: 1.0, score: 65 },
+      { phase: "IV", label: "Wärmekonzept", range: "200–400 T€", roi: "65–75 % weniger Gas", maxMio: 0.4, score: 80 },
+      { phase: "V", label: "Graustrom-BESS", range: "35–48 Mio €", roi: "15–25 % p.a.", maxMio: 48, score: 92 },
     ],
     results: [],
     kpis: [],
@@ -237,7 +237,10 @@ function IndependenceRing({ score, size = 130, strokeWidth = 10 }) {
   const gradId = "indRing" + size;
 
   return (
-    <div style={{ position: "relative", width: size, height: size, flexShrink: 0 }}>
+    <div style={{
+      position: "relative", width: size, height: size, flexShrink: 0,
+      animation: "ringPulse 3s ease-in-out infinite",
+    }}>
       <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
         <defs>
           <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="0%">
@@ -407,14 +410,40 @@ export default function EckartTimeline() {
             letterSpacing: "2px", textTransform: "uppercase", color: C.midGray,
           }}>Energietransformation</span>
         </div>
-        <h1 style={{
-          fontSize: "clamp(1.5rem, 4vw, 2.4rem)", fontWeight: 700,
-          margin: "0.6rem 0 0", lineHeight: 1.2,
-          background: `linear-gradient(135deg, ${C.white} 0%, ${C.goldLight} 100%)`,
-          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          gap: "1rem", flexWrap: "wrap",
         }}>
-          Phasenkonzept zur Energietransformation
-        </h1>
+          <h1 style={{
+            fontSize: "clamp(1.5rem, 4vw, 2.4rem)", fontWeight: 700,
+            margin: "0.6rem 0 0", lineHeight: 1.2,
+            background: `linear-gradient(135deg, ${C.white} 0%, ${C.goldLight} 100%)`,
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+          }}>
+            Phasenkonzept zur Energietransformation
+          </h1>
+          {/* Compact progress indicator */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: "0.3rem",
+            marginTop: "0.6rem",
+          }}>
+            {phases.map((p, i) => (
+              <div key={i}
+                onClick={() => setActive(i)}
+                style={{
+                  width: i === active ? "20px" : "8px",
+                  height: "8px",
+                  borderRadius: "4px",
+                  background: i <= active
+                    ? `linear-gradient(90deg, ${C.gold}, ${C.green})`
+                    : "rgba(255,255,255,0.12)",
+                  transition: "all 0.3s ease",
+                  cursor: "pointer",
+                }}
+              />
+            ))}
+          </div>
+        </div>
       </header>
 
       {/* Timeline Slider */}
@@ -646,56 +675,80 @@ export default function EckartTimeline() {
                 color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
               }}>INVESTITIONS-ROADMAP · RENDITE PRO BAUSTEIN</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-                {phase.investmentSummary.map((item, i) => (
-                  <div key={i} style={{
-                    display: "flex", alignItems: "stretch", gap: 0,
-                    animation: `fadeSlideIn 0.4s ease ${0.1 + i * 0.08}s both`,
-                    borderRadius: "8px", overflow: "hidden",
-                  }}>
-                    {/* Phase indicator */}
-                    <div style={{
-                      width: "48px", flexShrink: 0,
-                      background: `linear-gradient(135deg, ${C.gold}30, ${C.green}15)`,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontFamily: "Georgia, serif", fontSize: "0.9rem",
-                      fontWeight: 700, color: C.goldLight,
-                    }}>{item.phase}</div>
-                    {/* Content */}
-                    <div style={{
-                      flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between",
+                {phase.investmentSummary.map((item, i) => {
+                  const maxVal = Math.max(...phase.investmentSummary.map(s => s.maxMio));
+                  const barPct = Math.max((item.maxMio / maxVal) * 100, 3);
+                  return (
+                    <div key={i} style={{
+                      animation: `fadeSlideIn 0.4s ease ${0.1 + i * 0.08}s both`,
                       background: "rgba(255,255,255,0.03)",
                       border: "1px solid rgba(255,255,255,0.06)",
-                      borderLeft: "none",
-                      padding: "0.6rem 0.8rem",
-                      gap: "0.5rem", flexWrap: "wrap",
+                      borderRadius: "8px", padding: "0.65rem 0.8rem",
+                      position: "relative", overflow: "hidden",
                     }}>
-                      <div>
-                        <div style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.78rem",
-                          fontWeight: 700, color: C.white,
-                        }}>{item.label}</div>
-                        <div style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                          color: C.midGray, marginTop: "0.1rem",
-                        }}>{item.range}</div>
-                      </div>
+                      {/* Investment bar background */}
                       <div style={{
-                        background: `linear-gradient(135deg, ${C.green}25, ${C.green}10)`,
-                        border: `1px solid ${C.green}40`,
-                        borderRadius: "6px", padding: "0.3rem 0.6rem",
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                        fontWeight: 700, color: C.greenLight,
-                        whiteSpace: "nowrap",
-                      }}>{item.roi}</div>
+                        position: "absolute", left: 0, top: 0, bottom: 0,
+                        width: `${barPct}%`,
+                        background: `linear-gradient(90deg, ${C.gold}12, ${C.gold}04)`,
+                        borderRight: `2px solid ${C.gold}25`,
+                        transition: "width 1s ease",
+                      }} />
+                      {/* Content */}
+                      <div style={{
+                        position: "relative", zIndex: 1,
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                        gap: "0.5rem", flexWrap: "wrap",
+                      }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                          <span style={{
+                            fontFamily: "Georgia, serif", fontSize: "0.85rem",
+                            fontWeight: 700, color: C.goldLight,
+                            width: "24px", textAlign: "center",
+                          }}>{item.phase}</span>
+                          <div>
+                            <div style={{
+                              fontFamily: "Calibri, sans-serif", fontSize: "0.78rem",
+                              fontWeight: 700, color: C.white,
+                            }}>{item.label}</div>
+                            <div style={{
+                              fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                              color: C.midGray, marginTop: "0.1rem",
+                            }}>{item.range}</div>
+                          </div>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                          {/* Autarkie score dot */}
+                          <div style={{
+                            display: "flex", alignItems: "center", gap: "0.25rem",
+                            fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                            color: C.goldLight,
+                          }}>
+                            <div style={{
+                              width: "6px", height: "6px", borderRadius: "50%",
+                              background: `linear-gradient(135deg, ${C.gold}, ${C.green})`,
+                            }} />
+                            {item.score}%
+                          </div>
+                          <div style={{
+                            background: `linear-gradient(135deg, ${C.green}25, ${C.green}10)`,
+                            border: `1px solid ${C.green}40`,
+                            borderRadius: "6px", padding: "0.25rem 0.55rem",
+                            fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                            fontWeight: 700, color: C.greenLight,
+                            whiteSpace: "nowrap",
+                          }}>{item.roi}</div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
                 {/* Total row */}
                 <div style={{
                   display: "flex", alignItems: "center", justifyContent: "space-between",
                   background: `linear-gradient(135deg, ${C.gold}12, ${C.green}08)`,
                   border: `1px solid ${C.gold}30`,
-                  borderRadius: "8px", padding: "0.7rem 0.9rem",
+                  borderRadius: "8px", padding: "0.75rem 0.9rem",
                   marginTop: "0.2rem",
                   animation: `fadeSlideIn 0.4s ease 0.6s both`,
                 }}>
@@ -709,6 +762,17 @@ export default function EckartTimeline() {
                       fontFamily: "Calibri, sans-serif", fontSize: "1.15rem",
                       fontWeight: 700, color: C.goldLight, marginTop: "0.15rem",
                     }}>38–55 Mio €</div>
+                  </div>
+                  <div style={{ textAlign: "center" }}>
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                      letterSpacing: "2px", textTransform: "uppercase",
+                      color: C.midGray, fontWeight: 700,
+                    }}>DAVON GRAUSTROM-BESS</div>
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "1.15rem",
+                      fontWeight: 700, color: C.gold, marginTop: "0.15rem",
+                    }}>35–48 Mio € <span style={{ fontSize: "0.7rem", color: C.midGray, fontWeight: 400 }}>· sep. Finanzierung</span></div>
                   </div>
                   <div style={{ textAlign: "right" }}>
                     <div style={{
