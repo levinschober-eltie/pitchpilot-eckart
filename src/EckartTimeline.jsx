@@ -292,6 +292,27 @@ export default function EckartTimeline() {
     setAnimKey((k) => k + 1);
   }, [active]);
 
+  // Keyboard navigation
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        setActive((a) => Math.min(a + 1, phases.length - 1));
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        setActive((a) => Math.max(a - 1, 0));
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        setActive(0);
+      } else if (e.key === "End") {
+        e.preventDefault();
+        setActive(phases.length - 1);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   // Animate the independence score number
   const targetScore = phases[active].independenceScore;
   useEffect(() => {
@@ -788,25 +809,62 @@ export default function EckartTimeline() {
             <div style={{
               background: `linear-gradient(135deg, ${C.green}15, ${C.gold}10)`,
               border: `1px solid ${C.gold}30`,
-              borderRadius: "10px", padding: "1rem 1.25rem",
-              display: "flex", alignItems: "center", gap: "0.75rem",
+              borderRadius: "10px", padding: "1.2rem 1.5rem",
               animation: "fadeSlideIn 0.5s ease 0.8s both",
             }}>
               <div style={{
-                width: "40px", height: "40px", borderRadius: "50%",
-                background: `${C.green}30`, border: `1px solid ${C.green}50`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: "1.1rem", flexShrink: 0,
-              }}>→</div>
-              <div>
+                display: "flex", alignItems: "center", gap: "0.75rem",
+                marginBottom: "1rem",
+              }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
-                  fontWeight: 700, color: C.white,
-                }}>Nächster Schritt: Standortanalyse und Wirtschaftlichkeitsbewertung</div>
-                <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                  color: "rgba(255,255,255,0.5)", marginTop: "0.15rem",
-                }}>Die Entscheidung liegt nicht zwischen Investition und Abwarten. Sie liegt zwischen Handeln und Exponiertsein.</div>
+                  width: "40px", height: "40px", borderRadius: "50%",
+                  background: `${C.green}30`, border: `1px solid ${C.green}50`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: "1.1rem", flexShrink: 0,
+                }}>→</div>
+                <div>
+                  <div style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                    fontWeight: 700, color: C.white,
+                  }}>Nächster Schritt: Standortanalyse und Wirtschaftlichkeitsbewertung</div>
+                  <div style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                    color: "rgba(255,255,255,0.5)", marginTop: "0.15rem",
+                  }}>Die Entscheidung liegt nicht zwischen Investition und Abwarten. Sie liegt zwischen Handeln und Exponiertsein.</div>
+                </div>
+              </div>
+              {/* Contact CTA */}
+              <div style={{
+                borderTop: `1px solid ${C.gold}20`, paddingTop: "1rem",
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+                flexWrap: "wrap", gap: "0.75rem",
+              }}>
+                <div>
+                  <div style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                    letterSpacing: "2px", textTransform: "uppercase",
+                    color: C.midGray, fontWeight: 700, marginBottom: "0.2rem",
+                  }}>ANSPRECHPARTNER</div>
+                  <div style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                    color: C.white,
+                  }}>Levin Schober · Elite PV GmbH</div>
+                  <div style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
+                    color: C.midGray, marginTop: "0.1rem",
+                  }}>levinschober@elite-pv.de</div>
+                </div>
+                <a
+                  href="mailto:levinschober@elite-pv.de?subject=Eckart%20Werke%20–%20Energietransformation"
+                  style={{
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
+                    fontWeight: 700, color: C.navy, textDecoration: "none",
+                    background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`,
+                    borderRadius: "6px", padding: "0.6rem 1.4rem",
+                    display: "inline-flex", alignItems: "center", gap: "0.4rem",
+                    boxShadow: `0 2px 12px ${C.gold}30`,
+                  }}
+                >Gespräch vereinbaren</a>
               </div>
             </div>
           </>
@@ -1038,7 +1096,15 @@ export default function EckartTimeline() {
         position: "relative", zIndex: 2,
       }}>
         <span>ECKART GmbH · Güntersthal 4, 91235 Hartenstein</span>
-        <span style={{ fontStyle: "italic" }}>Energiewirtschaftliche Konzeptbegleitung: Elite PV</span>
+        <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <span style={{
+            display: "inline-flex", alignItems: "center", gap: "0.25rem",
+            padding: "0.15rem 0.4rem", borderRadius: "3px",
+            border: "1px solid rgba(255,255,255,0.1)",
+            fontSize: "0.5rem", color: "rgba(255,255,255,0.3)",
+          }}>← → Phasen wechseln</span>
+          <span style={{ fontStyle: "italic" }}>Energiewirtschaftliche Konzeptbegleitung: Elite PV</span>
+        </span>
       </footer>
 
       <style>{`
@@ -1046,8 +1112,13 @@ export default function EckartTimeline() {
           from { opacity: 0; transform: translateY(12px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes ringPulse {
+          0%, 100% { filter: drop-shadow(0 0 8px ${C.gold}20); }
+          50% { filter: drop-shadow(0 0 16px ${C.gold}40); }
+        }
         * { box-sizing: border-box; margin: 0; }
         button:focus-visible { outline: 2px solid ${C.gold}; outline-offset: 2px; }
+        a:hover { opacity: 0.9; }
         @media (max-width: 600px) {
           header, footer, .content { padding-left: 1rem !important; padding-right: 1rem !important; }
         }
