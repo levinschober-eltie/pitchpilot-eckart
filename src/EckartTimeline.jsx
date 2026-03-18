@@ -273,6 +273,30 @@ const phases = [
       { icon: "🎯", title: "Aktive Steuerbarkeit", desc: "Echtzeit-EMS optimiert Erzeugung, Speicher und Verbrauch" },
       { icon: "🏭", title: "BESS-Ertragsmodell", desc: "15–25 % p.a. auf 35–48 Mio € → eigenständiger Cashflow" },
     ],
+    /* ── Two hero numbers for Vollausbau at-a-glance ── */
+    heroCards: [
+      {
+        icon: "🌿", accent: "#2D6A4F",
+        label: "CO₂-EINSPARUNG PRO JAHR",
+        value: "~4.800 t",
+        sub: "CO₂/Jahr weniger",
+        details: [
+          { label: "Strom (PV statt Netz)", value: "–2.100 t" },
+          { label: "Wärme (WP statt Gas)", value: "–2.400 t" },
+          { label: "Mobilität (E statt Diesel)", value: "–300 t" },
+        ],
+      },
+      {
+        icon: "💰", accent: "#D4A843",
+        label: "JÄHRLICHER GESAMTERTRAG",
+        value: "6,4–14,5 Mio €",
+        sub: "Einsparung + Erlöse pro Jahr",
+        details: [
+          { label: "Standort-Einsparungen (I–V)", value: "1,4–2,5 Mio €" },
+          { label: "Graustrom-BESS Erlöse (VI)", value: "5,0–12,0 Mio €" },
+        ],
+      },
+    ],
     economicSummary: {
       title: "Gesamtwirtschaftliche Betrachtung",
       savings: [
@@ -898,6 +922,82 @@ export default function EckartTimeline() {
         {/* === FINAL RESULT SPECIAL LAYOUT === */}
         {phase.isFinal ? (
           <>
+            {/* ── HERO CARDS: CO2 + Gesamtertrag auf einen Blick ── */}
+            {phase.heroCards && (
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "0.75rem",
+                marginBottom: "1.5rem",
+              }}>
+                {phase.heroCards.map((card, ci) => (
+                  <div key={ci} style={{
+                    background: `linear-gradient(145deg, ${card.accent}18, ${card.accent}06)`,
+                    border: `2px solid ${card.accent}40`,
+                    borderRadius: "14px",
+                    padding: "1.2rem 1.3rem",
+                    position: "relative",
+                    overflow: "hidden",
+                    animation: `fadeSlideIn 0.5s ease ${ci * 0.15}s both`,
+                  }}>
+                    {/* Top glow line */}
+                    <div style={{
+                      position: "absolute", top: 0, left: 0, right: 0, height: "3px",
+                      background: `linear-gradient(90deg, transparent, ${card.accent}80, transparent)`,
+                    }} />
+                    {/* Icon + Label */}
+                    <div style={{
+                      display: "flex", alignItems: "center", gap: "0.5rem",
+                      marginBottom: "0.5rem",
+                    }}>
+                      <span style={{ fontSize: "1.3rem" }}>{card.icon}</span>
+                      <span style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                        letterSpacing: "2px", textTransform: "uppercase",
+                        color: C.midGray, fontWeight: 700,
+                      }}>{card.label}</span>
+                    </div>
+                    {/* Big value */}
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif",
+                      fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
+                      fontWeight: 700,
+                      color: card.accent === "#2D6A4F" ? C.greenLight : C.goldLight,
+                      lineHeight: 1.1,
+                      marginBottom: "0.2rem",
+                    }}>{card.value}</div>
+                    <div style={{
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                      color: "rgba(255,255,255,0.5)", marginBottom: "0.7rem",
+                    }}>{card.sub}</div>
+                    {/* Breakdown */}
+                    <div style={{
+                      borderTop: `1px solid ${card.accent}30`,
+                      paddingTop: "0.5rem",
+                      display: "flex", flexDirection: "column", gap: "0.3rem",
+                    }}>
+                      {card.details.map((d, di) => (
+                        <div key={di} style={{
+                          display: "flex", justifyContent: "space-between", alignItems: "center",
+                        }}>
+                          <span style={{
+                            fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
+                            color: "rgba(255,255,255,0.55)",
+                          }}>{d.label}</span>
+                          <span style={{
+                            fontFamily: "Calibri, sans-serif", fontSize: "0.9rem",
+                            fontWeight: 700,
+                            color: card.accent === "#2D6A4F" ? C.greenLight : C.goldLight,
+                            whiteSpace: "nowrap", marginLeft: "0.5rem",
+                          }}>{d.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
             {/* System KPIs - 6 big numbers */}
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{
