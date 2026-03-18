@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import PhaseVisual from "./PhaseVisuals";
 import ConfigPanel, { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./ConfigPanel";
+import ExportModal from "./PdfExport";
 
 const C = {
   navy: "#1B2A4A",
@@ -482,6 +483,7 @@ export default function EckartTimeline() {
   const [displayScore, setDisplayScore] = useState(0);
   const sliderRef = useRef(null);
   const [configOpen, setConfigOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
   const [config, setConfig] = useState(defaultConfig);
   const calc = useMemo(() => calculateAll(config), [config]);
 
@@ -651,6 +653,16 @@ export default function EckartTimeline() {
               transition: "all 0.3s", marginTop: "0.6rem", whiteSpace: "nowrap",
             }}
           >⚙ Kalkulator</button>
+          <button
+            onClick={() => setExportOpen(true)}
+            style={{
+              background: "rgba(212,168,67,0.15)", border: "1px solid rgba(212,168,67,0.4)",
+              color: C.goldLight, borderRadius: "2rem", padding: "0.35rem 1rem",
+              fontSize: "0.82rem", fontWeight: 600, letterSpacing: "0.03em",
+              cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
+              transition: "all 0.3s", whiteSpace: "nowrap",
+            }}
+          >📄 PDF Export</button>
         </div>
       </header>
 
@@ -1973,6 +1985,17 @@ export default function EckartTimeline() {
           setConfig={setConfig}
           calc={calc}
           onClose={() => setConfigOpen(false)}
+        />
+      )}
+
+      {/* ── PDF Export Modal ── */}
+      {exportOpen && (
+        <ExportModal
+          phases={phases}
+          config={config}
+          calc={calc}
+          configActive={configOpen}
+          onClose={() => setExportOpen(false)}
         />
       )}
     </div>
