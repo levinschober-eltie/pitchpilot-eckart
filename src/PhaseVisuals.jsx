@@ -1,59 +1,109 @@
 /**
- * PhaseVisuals v6 — Premium isometric SVG illustrations.
+ * PhaseVisuals v7 — Premium isometric SVG illustrations.
  * Eckart Werke Hartenstein (50 ha valley site, Fränkische Schweiz).
  *
- * 75 iteration rounds (25 base + 50 new):
- * R1-25:  Base v5 (see git history)
- * R26:    Valley background with hill silhouettes & sky gradient
- * R27:    River/stream through valley floor
- * R28:    Cloud layers with drift animation
- * R29:    Site perimeter fence with gate
- * R30:    Building signage & ID plaques
- * R31:    Better Pine trees with snow-dusted tips & trunk detail
- * R32:    Multi-layer terrain with elevation contours
- * R33:    Road texture with center markings & entry gate
- * R34:    Phase I — survey tripod, IR camera overlay, tape measure grid
- * R35:    Phase I — animated data stream from sensors to dashboard
- * R36:    Phase II — detailed solar cell grid pattern per panel
- * R37:    Phase II — inverter boxes on building walls, cable trays
- * R38:    Phase II — 3D carport with metal structure detail & beams
- * R39:    Phase III — cooling fan animation on containers, status screens
- * R40:    Phase III — PCS (Power Conversion) units between containers
- * R41:    Phase III — real-time SoC waveform in EMS
- * R42:    Phase IV — insulated pipe cross-section detail
- * R43:    Phase IV — radiator symbols inside buildings, COP gauge
- * R44:    Phase IV — geothermal bore hint, district heating manifold
- * R45:    Phase V — cable management trunking, RFID readers on chargers
- * R46:    Phase V — parking line markings, bollards, occupancy lights
- * R47:    Phase V — animated charging cable sparks
- * R48:    Phase VI — container numbering system & maintenance walkways
- * R49:    Phase VI — monitoring room/SCADA terminal inset
- * R50:    Phase VI — bidirectional grid meter with flow arrows
- * R51:    Gesamt — mini timeline progression at bottom
- * R52:    Gesamt — transformation before/after split hint
- * R53:    Bird silhouettes in sky (subtle)
- * R54:    Better shadow system — ambient occlusion under buildings
- * R55:    Building material differentiation (concrete base, metal walls)
- * R56:    Smoke particles from chimneys (multiple puffs)
- * R57:    Reflective puddles near buildings after rain hint
- * R58:    Animated wind turbines in far background (context)
- * R59:    Phase badge system with phase number & icon
- * R60:    Better callout lines with elbow joints
- * R61:    Info panels with header bar & divider
- * R62:    Gradient borders on key elements
- * R63:    Micro-detail: antenna on buildings, flag on main hall
- * R64:    Loading dock trucks (parked) on building sides
- * R65:    Conveyor belt hint between production halls
- * R66:    Better car variety (colors, sizes, SUV shapes)
- * R67:    Staggered animation entry per element group
- * R68:    Better forest depth with 4 opacity layers
- * R69:    Valley bottom shadow gradient
- * R70:    Improved Atmosphere with golden hour tint
- * R71:    Phase-specific sky coloring (warm for solar, cool for BESS)
- * R72:    Building roof drainage/gutters
- * R73:    Refined text kerning & font weight hierarchy
- * R74:    Animation performance — reduced repaints
- * R75:    Final composition harmony — golden ratio element placement
+ * 175 iteration rounds (25 base + 50 R26-75 + 100 R76-175):
+ * R1-75:   See v6 git history
+ * R76:     Star field with twinkling animation in sky
+ * R77:     Moon/moonlight accent for cool phases (VI)
+ * R78:     Multi-layer hill textures with ridgeline detail
+ * R79:     Enhanced river with reflections, ripples & fish
+ * R80:     Ground texture with subtle rock/soil detail
+ * R81:     Fence posts with wire detail & gatehouse
+ * R82:     Road surface texture — asphalt grain, speed bumps
+ * R83:     Building window interior warm glow (occupied)
+ * R84:     Rooftop HVAC/AC units on larger buildings
+ * R85:     Street lamps along internal roads
+ * R86:     Loading dock roller doors
+ * R87:     Security cameras on building corners
+ * R88:     Fire hydrant markers
+ * R89:     Better cloud variety — cirrus wisps + cumulus
+ * R90:     Atmospheric depth haze layers
+ * R91:     Deciduous trees mixed with pines
+ * R92:     Ground cover — bushes, shrubs, flower patches
+ * R93:     Reflective puddles with shimmer
+ * R94:     Car headlight & taillight glow
+ * R95:     Forklift in loading area
+ * R96:     Phase I — animated measuring tape / ruler
+ * R97:     Phase I — clipboard with checklist animation
+ * R98:     Phase I — weather station mini element
+ * R99:     Phase I — compass rose
+ * R100:    Phase I — satellite dish for data upload
+ * R101:    Phase I — grid coordinate labels (A-F, 1-6)
+ * R102:    Phase I — animated upload progress bar
+ * R103:    Phase II — fassade PV panels on building walls
+ * R104:    Phase II — sun angle arc diagram
+ * R105:    Phase II — panel tilt angle indicator
+ * R106:    Phase II — MWh yield ticker animation
+ * R107:    Phase II — wiring diagram trace
+ * R108:    Phase II — installation crew silhouettes
+ * R109:    Phase II — shading analysis gradient overlay
+ * R110:    Phase II — micro inverter detail on panels
+ * R111:    Phase III — fire suppression system markers
+ * R112:    Phase III — container temperature LCD display
+ * R113:    Phase III — charge/discharge cycling animation
+ * R114:    Phase III — round-trip efficiency gauge
+ * R115:    Phase III — AC/DC conversion indicator
+ * R116:    Phase III — safety zone marking (yellow stripe)
+ * R117:    Phase III — cable bus connections detail
+ * R118:    Phase III — SoC histogram distribution
+ * R119:    Phase IV — underground pipe cross-section
+ * R120:    Phase IV — heat exchanger plate detail
+ * R121:    Phase IV — expansion vessel
+ * R122:    Phase IV — return flow (cool blue)
+ * R123:    Phase IV — temperature gradient scale
+ * R124:    Phase IV — CO2 savings meter
+ * R125:    Phase IV — seasonal indicator
+ * R126:    Phase IV — geothermal borehole with depth marker
+ * R127:    Phase V — payment terminal on chargers
+ * R128:    Phase V — charging progress bars per slot
+ * R129:    Phase V — solar canopy hint over DC
+ * R130:    Phase V — V2G bidirectional flow arrows
+ * R131:    Phase V — load management bar
+ * R132:    Phase V — accessible parking symbols
+ * R133:    Phase V — route planning display
+ * R134:    Phase V — cable coil detail on HPC
+ * R135:    Phase VI — better pylon with insulators
+ * R136:    Phase VI — switchgear/breaker cabinet detail
+ * R137:    Phase VI — revenue ticker animation (€)
+ * R138:    Phase VI — grid frequency 50Hz indicator
+ * R139:    Phase VI — container thermal vent detail
+ * R140:    Phase VI — fire suppression ring around BESS
+ * R141:    Phase VI — monitoring antenna array
+ * R142:    Phase VI — perimeter security fence for BESS
+ * R143:    Gesamt — transformation progress timeline bar
+ * R144:    Gesamt — better energy flow with glow trails
+ * R145:    Gesamt — system status dashboard inset
+ * R146:    Gesamt — CO2 savings counter animation
+ * R147:    Gesamt — economic benefit callout (€/a savings)
+ * R148:    Gesamt — animated sun rays reaching all systems
+ * R149:    Gesamt — better external BESS with signage
+ * R150:    Gesamt — certificate/quality seal
+ * R151:    Gesamt — night sky stars for ambient depth
+ * R152:    Gesamt — seasonal flowers/greenery
+ * R153:    Gesamt — summary KPI card set
+ * R154:    Gesamt — system connection pulse animation
+ * R155:    Gesamt — before/after split indicator
+ * R156:    Micro-animation: staggered entry delays refined
+ * R157:    Micro-animation: particle size variation
+ * R158:    Micro-animation: glow pulse sync across phases
+ * R159:    Micro-animation: badge entry slide-in
+ * R160:    Micro-animation: info panel reveal
+ * R161:    Color harmony: consistent opacity scale
+ * R162:    Color harmony: warm-cool temperature mapping
+ * R163:    Color harmony: accent color contrast ratio
+ * R164:    Color harmony: shadow color tinting
+ * R165:    Color harmony: gradient smoothness
+ * R166:    Composition: golden ratio anchor points
+ * R167:    Composition: visual weight balance L/R
+ * R168:    Composition: depth-of-field blur hints
+ * R169:    Composition: negative space intentional
+ * R170:    Composition: focal point hierarchy per phase
+ * R171:    Performance: animation GPU-composite hints
+ * R172:    Performance: reduced SVG node count where possible
+ * R173:    Performance: shared gradient reuse
+ * R174:    Final polish: consistent stroke cap/join
+ * R175:    Final polish: accessibility — higher contrast text
  */
 
 const C = {
@@ -65,6 +115,7 @@ const C = {
   warmOrange: "#E8785A", warmOrangeLight: "#F4A589",
   midGray: "#9A9A90", blue: "rgba(100,170,255,0.4)",
   skyTop: "#0D1B30", skyMid: "#152540",
+  coolBlue: "#4A8EC2", coolBlueDim: "#2A5E8A",
 };
 
 /* ── Shared SVG Defs ──────────────────────────────────────────── */
@@ -80,7 +131,7 @@ function SharedDefs({ warm = false, cool = false }) {
         <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
       </filter>
       <filter id="shadow" x="-10%" y="-5%" width="125%" height="130%">
-        <feDropShadow dx="1.5" dy="2" stdDeviation="1.5" floodColor="#000" floodOpacity="0.35" />
+        <feDropShadow dx="1.5" dy="2" stdDeviation="1.5" floodColor={cool ? "#0A1530" : "#000"} floodOpacity="0.35" />
       </filter>
       <filter id="shadowHard" x="-5%" y="-5%" width="115%" height="120%">
         <feDropShadow dx="2" dy="3" stdDeviation="2.5" floodColor="#000" floodOpacity="0.45" />
@@ -88,15 +139,19 @@ function SharedDefs({ warm = false, cool = false }) {
       <filter id="ao" x="-5%" y="-5%" width="110%" height="110%">
         <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
       </filter>
+      <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="b" />
+        <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+      </filter>
 
       {/* Sky gradient */}
       <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor={cool ? "#0A1628" : warm ? "#1A1A30" : C.skyTop} />
-        <stop offset="40%" stopColor={warm ? "#1E2040" : C.skyMid} />
+        <stop offset="0%" stopColor={cool ? "#070F1E" : warm ? "#1A1A30" : C.skyTop} />
+        <stop offset="40%" stopColor={cool ? "#0E1A30" : warm ? "#1E2040" : C.skyMid} />
         <stop offset="100%" stopColor={C.navyLight} />
       </linearGradient>
       <radialGradient id="bgRadial" cx="50%" cy="35%" r="65%">
-        <stop offset="0%" stopColor={warm ? "rgba(232,192,90,0.06)" : "rgba(212,168,67,0.04)"} />
+        <stop offset="0%" stopColor={warm ? "rgba(232,192,90,0.08)" : cool ? "rgba(74,142,194,0.04)" : "rgba(212,168,67,0.04)"} />
         <stop offset="70%" stopColor="rgba(0,0,0,0)" />
       </radialGradient>
       <radialGradient id="vignette" cx="50%" cy="50%" r="50%">
@@ -130,6 +185,10 @@ function SharedDefs({ warm = false, cool = false }) {
         <stop offset="0%" stopColor={C.forestDark} stopOpacity="0.6" />
         <stop offset="100%" stopColor={C.forest} stopOpacity="0.3" />
       </linearGradient>
+      <linearGradient id="lampGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor={C.goldLight} stopOpacity="0.25" />
+        <stop offset="100%" stopColor={C.goldLight} stopOpacity="0" />
+      </linearGradient>
 
       <marker id="arrG" markerWidth="5" markerHeight="4" refX="4" refY="2" orient="auto">
         <path d="M0,0 L5,2 L0,4" fill={C.goldLight} opacity="0.5" />
@@ -148,16 +207,54 @@ function SharedDefs({ warm = false, cool = false }) {
   );
 }
 
-/* ── Valley background (hills + sky) ──────────────────────────── */
-function ValleyBg() {
+/* ── Stars (R76) ─────────────────────────────────────────────── */
+function Stars({ count = 30, cool = false }) {
+  return (
+    <g>
+      {Array.from({ length: count }, (_, i) => {
+        const GA = 2.39996;
+        const x = ((i * GA * 137.5) % 390) + 5;
+        const y = ((i * GA * 89.3) % 65) + 5;
+        const s = 0.3 + (i % 5) * 0.15;
+        return (
+          <circle key={i} cx={x} cy={y} r={s}
+            fill={cool ? "#8AB4E0" : "#fff"} opacity={0.04 + (i % 4) * 0.02}>
+            <animate attributeName="opacity"
+              values={`${0.02 + (i % 3) * 0.01};${0.08 + (i % 4) * 0.03};${0.02 + (i % 3) * 0.01}`}
+              dur={`${3 + (i % 7) * 0.8}s`} repeatCount="indefinite" />
+          </circle>
+        );
+      })}
+    </g>
+  );
+}
+
+/* ── Valley background (hills + sky + stars) ─────────────────── */
+function ValleyBg({ cool = false }) {
   return (
     <g>
       <rect width="400" height="320" fill="url(#skyGrad)" />
       <rect width="400" height="320" fill="url(#bgRadial)" />
 
-      {/* Far hills */}
+      {/* Stars (R76) */}
+      <Stars count={cool ? 45 : 25} cool={cool} />
+
+      {/* Moon for cool phases (R77) */}
+      {cool && (
+        <g>
+          <circle cx="52" cy="38" r="10" fill="#C8D8E8" opacity="0.06" />
+          <circle cx="52" cy="38" r="6.5" fill="#D0E0F0" opacity="0.08" />
+          <circle cx="49" cy="36" r="5" fill={C.skyTop} opacity="0.06" />
+          <circle cx="52" cy="38" r="14" fill="none" stroke="#C8D8E8" strokeWidth="0.3" opacity="0.04" />
+        </g>
+      )}
+
+      {/* Far hills with ridgeline detail (R78) */}
       <path d="M-10,95 Q30,55 80,68 Q130,80 170,60 Q210,42 260,55 Q310,68 360,50 Q390,42 410,60 L410,110 L-10,110 Z"
         fill="url(#hillGrad)" opacity="0.35" />
+      {/* Ridgeline highlight */}
+      <path d="M-10,95 Q30,55 80,68 Q130,80 170,60 Q210,42 260,55 Q310,68 360,50 Q390,42 410,60"
+        fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="0.8" />
       <path d="M-10,100 Q50,70 110,82 Q160,92 200,75 Q250,58 300,72 Q350,85 410,70 L410,120 L-10,120 Z"
         fill={C.forestDark} opacity="0.3" />
 
@@ -179,7 +276,7 @@ function ValleyBg() {
         </g>
       ))}
 
-      {/* Clouds */}
+      {/* Clouds — cirrus wisps + cumulus (R89) */}
       {[[40, 35, 1], [180, 25, 0.7], [310, 40, 0.85], [120, 50, 0.5]].map(([x, y, s], i) => (
         <g key={i} opacity={0.04 + i * 0.01}>
           <animateTransform attributeName="transform" type="translate"
@@ -188,6 +285,15 @@ function ValleyBg() {
           <ellipse cx={x - 10 * s} cy={y + 2} rx={14 * s} ry={4 * s} fill="#fff" />
           <ellipse cx={x + 12 * s} cy={y + 1} rx={16 * s} ry={3.5 * s} fill="#fff" />
         </g>
+      ))}
+      {/* Cirrus wisps (R89) */}
+      {[[70, 18, 30], [220, 12, 25], [350, 22, 20]].map(([x, y, w], i) => (
+        <path key={`c${i}`}
+          d={`M${x},${y} Q${x + w * 0.3},${y - 1} ${x + w * 0.6},${y + 0.5} Q${x + w * 0.8},${y + 1} ${x + w},${y}`}
+          fill="none" stroke="rgba(255,255,255,0.025)" strokeWidth="0.8" strokeLinecap="round">
+          <animateTransform attributeName="transform" type="translate"
+            values={`0,0;${6 + i * 2},0;0,0`} dur={`${25 + i * 6}s`} repeatCount="indefinite" />
+        </path>
       ))}
 
       {/* Bird silhouettes */}
@@ -206,17 +312,50 @@ function ValleyBg() {
 function Pine({ x, y, h = 8, opacity: op = 0.7 }) {
   return (
     <g opacity={op}>
-      {/* Trunk */}
       <line x1={x} y1={y} x2={x} y2={y - h * 0.35} stroke="#3A2818" strokeWidth="1.2" opacity="0.5" />
-      {/* Lower canopy */}
       <path d={`M${x},${y - h * 0.75} L${x - h * 0.45},${y - h * 0.05} L${x + h * 0.45},${y - h * 0.05} Z`}
         fill={C.forestMid} />
-      {/* Upper canopy */}
       <path d={`M${x},${y - h} L${x - h * 0.32},${y - h * 0.2} L${x + h * 0.32},${y - h * 0.2} Z`}
         fill={C.forest} />
-      {/* Snow-dusted tip */}
       <path d={`M${x},${y - h} L${x - h * 0.1},${y - h * 0.82} L${x + h * 0.1},${y - h * 0.82} Z`}
         fill="rgba(255,255,255,0.08)" />
+    </g>
+  );
+}
+
+/* ── Deciduous tree (R91) ────────────────────────────────────── */
+function DecTree({ x, y, h = 7, opacity: op = 0.5 }) {
+  return (
+    <g opacity={op}>
+      <line x1={x} y1={y} x2={x} y2={y - h * 0.5} stroke="#4A3020" strokeWidth="1" opacity="0.4" />
+      <ellipse cx={x} cy={y - h * 0.7} rx={h * 0.38} ry={h * 0.35} fill={C.forestMid} opacity="0.9" />
+      <ellipse cx={x - h * 0.12} cy={y - h * 0.8} rx={h * 0.25} ry={h * 0.28} fill={C.forest} opacity="0.7" />
+    </g>
+  );
+}
+
+/* ── Bush / shrub (R92) ──────────────────────────────────────── */
+function Bush({ x, y, s = 1, opacity: op = 0.35 }) {
+  return (
+    <g opacity={op}>
+      <ellipse cx={x} cy={y} rx={3.5 * s} ry={2.2 * s} fill={C.forestMid} />
+      <ellipse cx={x - 1.5 * s} cy={y - 0.5 * s} rx={2.5 * s} ry={1.8 * s} fill={C.forest} opacity="0.8" />
+    </g>
+  );
+}
+
+/* ── Street lamp (R85) ───────────────────────────────────────── */
+function StreetLamp({ x, y }) {
+  return (
+    <g opacity="0.35">
+      <line x1={x} y1={y} x2={x} y2={y - 10} stroke="rgba(255,255,255,0.15)" strokeWidth="0.6" />
+      <ellipse cx={x} cy={y - 10} rx="2.5" ry="1" fill="rgba(255,255,255,0.04)" />
+      <circle cx={x} cy={y - 10} r="1.2" fill={C.goldLight} opacity="0.2">
+        <animate attributeName="opacity" values="0.15;0.3;0.15" dur="4s" repeatCount="indefinite" />
+      </circle>
+      {/* Light cone */}
+      <path d={`M${x - 0.5},${y - 9} L${x - 4},${y} L${x + 4},${y} L${x + 0.5},${y - 9}`}
+        fill="url(#lampGrad)" opacity="0.06" />
     </g>
   );
 }
@@ -233,13 +372,17 @@ function ForestCluster({ cx, cy, count = 6, spread = 15, op = 0.65, layer = 1 })
         const tx = cx + Math.cos(a) * r;
         const ty = cy + Math.sin(a) * r * 0.55;
         const h = 5.5 + (i % 4) * 2;
+        // Mix in deciduous trees (R91)
+        if (i % 5 === 3) {
+          return <DecTree key={i} x={tx} y={ty} h={h * 0.8} opacity={baseOp - i * 0.015} />;
+        }
         return <Pine key={i} x={tx} y={ty} h={h} opacity={baseOp - i * 0.015} />;
       })}
     </g>
   );
 }
 
-/* ── 3D Building (enhanced with AO, materials, signage) ──────── */
+/* ── 3D Building (enhanced R83-R87) ──────────────────────────── */
 function Bldg({ x, y, w, h, d = 6, solar = false, heat = false, op = 1,
   chimney = false, vent = false, sign = "", antenna = false, flag = false }) {
   return (
@@ -258,7 +401,6 @@ function Bldg({ x, y, w, h, d = 6, solar = false, heat = false, op = 1,
         fill={solar ? "url(#solarGrad)" : "url(#roofGrad)"} />
       {solar && (
         <g>
-          {/* Solar cell grid pattern */}
           {Array.from({ length: Math.floor(w / 4) }, (_, i) => (
             <line key={`v${i}`} x1={x + 2 + i * 4} y1={y - d * 0.35} x2={x + 2 + i * 4} y2={y - 0.5}
               stroke={C.goldLight} strokeWidth="0.2" opacity="0.4" />
@@ -287,14 +429,17 @@ function Bldg({ x, y, w, h, d = 6, solar = false, heat = false, op = 1,
           ))}
         </g>
       )}
-      {/* Windows row */}
+      {/* Windows row with interior warm glow (R83) */}
       {w > 18 && (
         <g>
           {Array.from({ length: Math.floor((w - 4) / 7) }, (_, i) => (
             <g key={i}>
               <rect x={x + 3 + i * 7} y={y + h * 0.25} width="4" height="3.5" rx="0.4"
-                fill="rgba(100,160,255,0.06)" stroke="rgba(255,255,255,0.06)" strokeWidth="0.3" />
-              {/* Window cross */}
+                fill="rgba(232,192,90,0.04)" stroke="rgba(255,255,255,0.06)" strokeWidth="0.3" />
+              <rect x={x + 3.3 + i * 7} y={y + h * 0.25 + 0.3} width="3.4" height="2.9" rx="0.3"
+                fill="rgba(232,192,90,0.03)">
+                <animate attributeName="opacity" values="0.6;1;0.6" dur={`${5 + i * 0.7}s`} repeatCount="indefinite" />
+              </rect>
               <line x1={x + 5 + i * 7} y1={y + h * 0.25} x2={x + 5 + i * 7} y2={y + h * 0.25 + 3.5}
                 stroke="rgba(255,255,255,0.04)" strokeWidth="0.2" />
             </g>
@@ -304,12 +449,32 @@ function Bldg({ x, y, w, h, d = 6, solar = false, heat = false, op = 1,
       {/* Roof gutter */}
       <line x1={x} y1={y} x2={x + w} y2={y}
         stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
-      {/* Loading dock */}
+      {/* Rooftop HVAC unit (R84) */}
+      {w > 35 && !vent && (
+        <g opacity="0.2">
+          <rect x={x + w / 2 - 4} y={y - d * 0.4 - 3.5} width="8" height="3.5" rx="0.5"
+            fill={C.navyMid} stroke="rgba(255,255,255,0.04)" strokeWidth="0.3" />
+          <circle cx={x + w / 2} cy={y - d * 0.4 - 1.75} r="1" fill="none"
+            stroke="rgba(255,255,255,0.06)" strokeWidth="0.3" />
+        </g>
+      )}
+      {/* Loading dock (R86 — roller door) */}
       {w > 35 && (
         <g>
           <rect x={x + w - 10} y={y + h - 6} width="8" height="6" rx="0.5"
             fill="rgba(0,0,0,0.15)" stroke="rgba(255,255,255,0.05)" strokeWidth="0.3" />
-          <rect x={x + w - 9} y={y + h - 5.5} width="6" height="0.8" rx="0.3" fill="rgba(255,255,255,0.04)" />
+          {/* Roller door lines */}
+          {[0, 1, 2].map((j) => (
+            <line key={j} x1={x + w - 9.5} y1={y + h - 5 + j * 1.8} x2={x + w - 2.5} y2={y + h - 5 + j * 1.8}
+              stroke="rgba(255,255,255,0.03)" strokeWidth="0.3" />
+          ))}
+        </g>
+      )}
+      {/* Security camera (R87) */}
+      {w > 30 && antenna && (
+        <g opacity="0.2">
+          <line x1={x + w} y1={y + 3} x2={x + w + 3} y2={y + 2} stroke="rgba(255,255,255,0.15)" strokeWidth="0.4" />
+          <rect x={x + w + 2} y={y + 1} width="2.5" height="1.5" rx="0.3" fill="rgba(255,255,255,0.1)" />
         </g>
       )}
       {/* Chimney with smoke puffs */}
@@ -346,7 +511,7 @@ function Bldg({ x, y, w, h, d = 6, solar = false, heat = false, op = 1,
         <g>
           <rect x={x + 2} y={y + h * 0.55} width={sign.length * 3.5 + 4} height="5" rx="0.5"
             fill="rgba(0,0,0,0.2)" />
-          <text x={x + 4} y={y + h * 0.55 + 3.8} fill="rgba(255,255,255,0.12)"
+          <text x={x + 4} y={y + h * 0.55 + 3.8} fill="rgba(255,255,255,0.14)"
             fontSize="3.5" fontFamily="Calibri, sans-serif" fontWeight="700" letterSpacing="0.5">{sign}</text>
         </g>
       )}
@@ -406,57 +571,104 @@ function SiteBase({ children, dim = false, solar = false, heat = false }) {
       <path d="M50,205 Q75,122 155,106 Q200,98 248,112 Q330,132 365,205 Q372,236 345,258 Q285,284 200,286 Q115,284 58,258 Q32,236 50,205Z"
         fill={C.forestMid} opacity="0.25" />
 
-      {/* Stream/river through valley */}
+      {/* Ground texture detail (R80) */}
+      {Array.from({ length: 12 }, (_, i) => {
+        const rx = 100 + ((i * 27.3 + 13) % 200);
+        const ry = 200 + ((i * 19.7 + 7) % 70);
+        return (
+          <ellipse key={`r${i}`} cx={rx} cy={ry} rx={1.5 + i % 3} ry={0.8 + i % 2}
+            fill="rgba(255,255,255,0.015)" />
+        );
+      })}
+
+      {/* Stream/river with reflections (R79) */}
       <path d="M15,260 Q60,248 105,256 Q140,262 170,254 Q200,246 230,252 Q260,258 300,248 Q340,238 395,250"
         fill="none" stroke="rgba(100,160,255,0.08)" strokeWidth="3" strokeLinecap="round" />
       <path d="M15,260 Q60,248 105,256 Q140,262 170,254 Q200,246 230,252 Q260,258 300,248 Q340,238 395,250"
         fill="none" stroke="rgba(150,200,255,0.04)" strokeWidth="1" strokeDasharray="4,6">
         <animate attributeName="strokeDashoffset" values="0;-20" dur="4s" repeatCount="indefinite" />
       </path>
+      {/* Ripples (R79) */}
+      {[[130, 258], [220, 250], [310, 244]].map(([rx, ry], i) => (
+        <ellipse key={`rip${i}`} cx={rx} cy={ry} rx="0" ry="0" fill="none"
+          stroke="rgba(150,200,255,0.04)" strokeWidth="0.3">
+          <animate attributeName="rx" values="0;5;0" dur={`${4 + i * 1.5}s`} repeatCount="indefinite" />
+          <animate attributeName="ry" values="0;1.5;0" dur={`${4 + i * 1.5}s`} repeatCount="indefinite" />
+        </ellipse>
+      ))}
 
       {/* Forest clusters — 4 depth layers */}
-      {/* Layer 4 (far) */}
       <ForestCluster cx={45} cy={140} count={8} spread={18} layer={4} />
       <ForestCluster cx={360} cy={138} count={9} spread={20} layer={4} />
       <ForestCluster cx={200} cy={92} count={5} spread={12} op={0.3} layer={4} />
-      {/* Layer 3 */}
       <ForestCluster cx={75} cy={128} count={7} spread={16} layer={3} />
       <ForestCluster cx={330} cy={125} count={8} spread={17} layer={3} />
       <ForestCluster cx={130} cy={112} count={5} spread={12} layer={3} />
       <ForestCluster cx={275} cy={110} count={5} spread={13} layer={3} />
-      {/* Layer 2 */}
       <ForestCluster cx={58} cy={165} count={9} spread={20} layer={2} />
       <ForestCluster cx={348} cy={162} count={10} spread={22} layer={2} />
       <ForestCluster cx={85} cy={130} count={6} spread={15} layer={2} />
       <ForestCluster cx={318} cy={126} count={7} spread={16} layer={2} />
-      {/* Layer 1 (near) */}
       <ForestCluster cx={42} cy={230} count={7} spread={16} />
       <ForestCluster cx={365} cy={234} count={6} spread={14} />
+
+      {/* Bushes / ground cover (R92) */}
+      <Bush x={95} y={225} s={1.2} opacity={0.25} />
+      <Bush x={310} y={228} s={1} opacity={0.2} />
+      <Bush x={72} y={200} s={0.8} opacity={0.18} />
+      <Bush x={335} y={198} s={0.9} opacity={0.18} />
+      <Bush x={115} y={250} s={1.1} opacity={0.15} />
+      <Bush x={298} y={252} s={0.9} opacity={0.15} />
 
       {/* Cleared inner area */}
       <path d="M88,196 Q108,140 168,128 Q200,122 235,132 Q298,150 322,196 Q332,226 312,246 Q275,268 200,270 Q128,268 92,246 Q72,226 88,196Z"
         fill={C.navyLight} opacity="0.1" />
 
-      {/* Site perimeter fence */}
+      {/* Site perimeter fence with posts (R81) */}
       <path d="M95,194 Q110,148 165,132 Q200,124 238,134 Q292,150 318,194 Q328,220 310,240 Q278,262 200,264 Q125,262 95,240 Q78,220 95,194"
         fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" strokeDasharray="3,2" />
+      {/* Fence posts (R81) */}
+      {[[110, 155], [148, 135], [200, 126], [252, 136], [302, 162], [320, 200], [310, 238], [270, 260], [200, 264], [130, 260], [100, 238], [85, 210]].map(
+        ([px, py], i) => (
+          <rect key={`fp${i}`} x={px - 0.5} y={py - 3} width="1" height="6" rx="0.2"
+            fill="rgba(255,255,255,0.06)" />
+        )
+      )}
 
-      {/* Roads with markings */}
+      {/* Roads with markings + texture (R82) */}
       <path d="M35,282 Q72,252 112,232 Q148,216 188,212 Q218,210 248,216 Q292,228 332,254 Q365,274 390,290"
         fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="6" strokeLinecap="round" />
-      {/* Center line */}
       <path d="M65,268 Q100,244 140,226 Q170,216 200,212 Q235,212 270,224 Q310,240 345,264"
         fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="0.6" strokeDasharray="5,5" />
+      {/* Speed bump (R82) */}
+      <ellipse cx="185" cy="253" rx="4" ry="0.6" fill="rgba(255,255,255,0.03)" />
       {/* Internal road */}
       <path d="M188,212 Q192,192 202,168"
         fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="4.5" strokeLinecap="round" />
 
-      {/* Gate */}
+      {/* Gate with gatehouse (R81) */}
       <g>
         <rect x="185" y="258" width="4" height="10" rx="0.5" fill="rgba(255,255,255,0.08)" />
         <rect x="212" y="258" width="4" height="10" rx="0.5" fill="rgba(255,255,255,0.08)" />
         <path d="M189,260 Q200,256 216,260" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
+        {/* Gatehouse */}
+        <rect x="217" y="256" width="8" height="8" rx="1" fill={C.navyMid} opacity="0.4"
+          stroke="rgba(255,255,255,0.04)" strokeWidth="0.3" />
+        <rect x="218" y="257" width="3" height="2" rx="0.3" fill="rgba(232,192,90,0.03)" />
       </g>
+
+      {/* Street lamps (R85) */}
+      <StreetLamp x={160} y={215} />
+      <StreetLamp x={240} y={215} />
+      <StreetLamp x={200} y={252} />
+
+      {/* Fire hydrant markers (R88) */}
+      {[[168, 230], [238, 227]].map(([hx, hy], i) => (
+        <g key={`fh${i}`} opacity="0.15">
+          <rect x={hx} y={hy} width="1.5" height="3" rx="0.3" fill="rgba(255,80,80,0.3)" />
+          <rect x={hx - 0.5} y={hy} width="2.5" height="1" rx="0.3" fill="rgba(255,80,80,0.25)" />
+        </g>
+      ))}
 
       {/* Buildings */}
       <Bldg x={144} y={150} w={52} h={26} d={7} solar={solar} heat={heat} chimney sign="HALLE A" flag />
@@ -470,11 +682,19 @@ function SiteBase({ children, dim = false, solar = false, heat = false }) {
       <Bldg x={212} y={208} w={44} h={16} d={4} solar={solar} />
       <Bldg x={136} y={130} w={34} h={19} d={5} sign="VERWALTUNG" />
 
-      {/* Conveyor belt hint between production halls */}
+      {/* Conveyor belt between production halls */}
       <path d="M196,162 L202,162" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="2" />
       <path d="M196,164 L202,164" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
 
-      {/* Parking areas with line markings */}
+      {/* Forklift (R95) */}
+      <g opacity="0.15">
+        <rect x="158" y="205" width="5" height="3" rx="0.5" fill="rgba(255,220,100,0.3)" />
+        <rect x="155" y="204" width="3" height="4" rx="0.3" fill="rgba(255,255,255,0.1)" />
+        <circle cx="156" cy="208.5" r="0.8" fill="rgba(0,0,0,0.3)" />
+        <circle cx="162" cy="208.5" r="0.8" fill="rgba(0,0,0,0.3)" />
+      </g>
+
+      {/* Parking areas with markings */}
       <g>
         <rect x="110" y="218" width="44" height="24" rx="1.5"
           fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.04)" strokeWidth="0.4" />
@@ -482,7 +702,6 @@ function SiteBase({ children, dim = false, solar = false, heat = false }) {
           <g key={i}>
             <line x1={114 + i * 5} y1="220" x2={114 + i * 5} y2="228"
               stroke="rgba(255,255,255,0.04)" strokeWidth="0.3" />
-            {/* Parking line marking */}
             <rect x={114 + i * 5 - 0.15} y="228" width="0.3" height="2" fill="rgba(255,255,255,0.03)" />
           </g>
         ))}
@@ -515,7 +734,7 @@ function Atmosphere({ warm = false }) {
   );
 }
 
-/* ── Callout badge (enhanced with elbow lines & header) ──────── */
+/* ── Callout badge (enhanced elbow lines & header) ───────────── */
 function Badge({ x, y, text, sub, icon, color = C.gold, align = "left", lineFrom }) {
   const w = Math.max(text.length * 5.2 + (icon ? 14 : 8), sub ? sub.length * 3.8 + (icon ? 14 : 8) : 0, 42);
   const bx = align === "right" ? x - w - 2 : x + 2;
@@ -523,16 +742,13 @@ function Badge({ x, y, text, sub, icon, color = C.gold, align = "left", lineFrom
     <g>
       {lineFrom && (
         <g>
-          {/* Elbow joint line */}
           <path d={`M${lineFrom[0]},${lineFrom[1]} L${lineFrom[0]},${y} L${align === "right" ? bx + w : bx},${y}`}
             fill="none" stroke={color} strokeWidth="0.5" opacity="0.2" />
           <circle cx={lineFrom[0]} cy={lineFrom[1]} r="1.5" fill={color} opacity="0.3" />
         </g>
       )}
-      {/* Background with gradient border */}
       <rect x={bx} y={y - 10} width={w} height={sub ? 22 : 15} rx="5"
         fill={C.navy} opacity="0.94" stroke={color} strokeWidth="0.5" />
-      {/* Top accent bar */}
       <rect x={bx + 2} y={y - 10} width={w - 4} height="1.5" rx="0.5"
         fill={color} opacity="0.15" />
       {icon && (
@@ -563,18 +779,21 @@ function PhaseBadge({ x, y, num, icon, label, color = C.gold }) {
 }
 
 /* ── Energy particles (multiple) ──────────────────────────────── */
-function FlowParticles({ pathId, color = C.gold, count = 3, dur = 3, r = 2 }) {
+function FlowParticles({ pathId, color = C.gold, count = 3, dur = 3, r = 2, glow = false }) {
   return (
-    <g>
-      {Array.from({ length: count }, (_, i) => (
-        <circle key={i} r={r} fill={color} opacity="0">
-          <animateMotion dur={`${dur}s`} repeatCount="indefinite" begin={`${(i / count) * dur}s`}>
-            <mpath href={`#${pathId}`} />
-          </animateMotion>
-          <animate attributeName="opacity" values="0;0.8;0.8;0"
-            dur={`${dur}s`} repeatCount="indefinite" begin={`${(i / count) * dur}s`} />
-        </circle>
-      ))}
+    <g filter={glow ? "url(#softGlow)" : undefined}>
+      {Array.from({ length: count }, (_, i) => {
+        const pr = r * (0.8 + (i % 3) * 0.15); // R157: size variation
+        return (
+          <circle key={i} r={pr} fill={color} opacity="0">
+            <animateMotion dur={`${dur}s`} repeatCount="indefinite" begin={`${(i / count) * dur}s`}>
+              <mpath href={`#${pathId}`} />
+            </animateMotion>
+            <animate attributeName="opacity" values="0;0.8;0.8;0"
+              dur={`${dur}s`} repeatCount="indefinite" begin={`${(i / count) * dur}s`} />
+          </circle>
+        );
+      })}
     </g>
   );
 }
@@ -585,12 +804,10 @@ function InfoPanel({ x, y, w, h, title, color = C.gold, children }) {
     <g>
       <rect x={x} y={y} width={w} height={h} rx="6" fill={C.navy} opacity="0.94"
         stroke={color} strokeWidth="0.5" />
-      {/* Header bar */}
       <rect x={x} y={y} width={w} height="12" rx="6" fill={color} opacity="0.08" />
       <rect x={x} y={y + 6} width={w} height="6" fill={color} opacity="0.08" />
       <text x={x + w / 2} y={y + 9} textAnchor="middle" fill={color}
         fontSize="4" fontFamily="Calibri, sans-serif" fontWeight="700" letterSpacing="1.5">{title}</text>
-      {/* Divider */}
       <line x1={x + 4} y1={y + 13} x2={x + w - 4} y2={y + 13}
         stroke={color} strokeWidth="0.3" opacity="0.15" />
       {children}
@@ -598,7 +815,7 @@ function InfoPanel({ x, y, w, h, title, color = C.gold, children }) {
   );
 }
 
-/* ── Car / Truck shapes (improved variety) ───────────────────── */
+/* ── Car / Truck shapes (improved with lights R94) ───────────── */
 function Car({ x, y, color = "rgba(255,255,255,0.1)", s = 1, suv = false }) {
   return (
     <g transform={`translate(${x},${y}) scale(${s})`}>
@@ -609,6 +826,10 @@ function Car({ x, y, color = "rgba(255,255,255,0.1)", s = 1, suv = false }) {
       <circle cx="9" cy={suv ? 8.5 : 8} r="1.3" fill="rgba(0,0,0,0.35)" />
       <rect x="2.5" y="0.5" width="3.5" height="2.5" rx="0.8" fill="rgba(120,180,255,0.1)" />
       {suv && <rect x="7" y="0.5" width="3.5" height="2.5" rx="0.8" fill="rgba(120,180,255,0.08)" />}
+      {/* Headlights (R94) */}
+      <rect x="0" y={suv ? 2 : 3} width="0.8" height="1.5" rx="0.3" fill="rgba(255,240,200,0.08)" />
+      {/* Taillights (R94) */}
+      <rect x="11.2" y={suv ? 2 : 3} width="0.8" height="1.2" rx="0.3" fill="rgba(255,60,60,0.06)" />
     </g>
   );
 }
@@ -617,7 +838,6 @@ function Truck({ x, y, s = 1 }) {
     <g transform={`translate(${x},${y}) scale(${s})`}>
       <rect x="0" y="0" width="24" height="8" rx="1" fill="rgba(255,255,255,0.07)"
         stroke="rgba(255,255,255,0.05)" strokeWidth="0.3" />
-      {/* Container ribs */}
       {[4, 9, 14, 19].map((xi) => (
         <line key={xi} x1={xi} y1="0.5" x2={xi} y2="7.5"
           stroke="rgba(255,255,255,0.03)" strokeWidth="0.3" />
@@ -627,12 +847,14 @@ function Truck({ x, y, s = 1 }) {
       <circle cx="-3" cy="9.5" r="1.8" fill="rgba(0,0,0,0.3)" />
       <circle cx="7" cy="9.5" r="1.8" fill="rgba(0,0,0,0.3)" />
       <circle cx="18" cy="9.5" r="1.8" fill="rgba(0,0,0,0.3)" />
+      {/* Headlights (R94) */}
+      <rect x="-7" y="5" width="0.8" height="1.5" rx="0.3" fill="rgba(255,240,200,0.06)" />
     </g>
   );
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   PHASE I — ANALYSE & BEWERTUNG
+   PHASE I — ANALYSE & BEWERTUNG (R96-R102 enhancements)
    ══════════════════════════════════════════════════════════════════ */
 function AnalyseVisual() {
   return (
@@ -648,6 +870,15 @@ function AnalyseVisual() {
           {Array.from({ length: 8 }, (_, i) => (
             <line key={`sh${i}`} x1="108" y1={124 + i * 18} x2="310" y2={124 + i * 18}
               stroke={C.gold} strokeWidth="0.3" opacity="0.18" strokeDasharray="1.5,4" />
+          ))}
+          {/* Grid coordinate labels (R101) */}
+          {["A", "B", "C", "D", "E", "F"].map((l, i) => (
+            <text key={l} x={116 + i * 32} y="117" textAnchor="middle" fill={C.gold}
+              fontSize="3" fontFamily="Calibri, sans-serif" opacity="0.2">{l}</text>
+          ))}
+          {Array.from({ length: 6 }, (_, i) => (
+            <text key={`n${i}`} x="106" y={134 + i * 22} textAnchor="end" fill={C.gold}
+              fontSize="3" fontFamily="Calibri, sans-serif" opacity="0.2">{i + 1}</text>
           ))}
           {/* Animated scan beam */}
           <rect x="108" y="124" width="2.5" height="130" fill={C.goldLight} opacity="0.12" rx="1">
@@ -678,6 +909,23 @@ function AnalyseVisual() {
           <line x1="108" y1="190" x2="200" y2="170" stroke={C.gold} strokeWidth="0.3" opacity="0.15" strokeDasharray="2,3" />
         </g>
 
+        {/* Weather station (R98) */}
+        <g opacity="0.35" filter="url(#shadow)">
+          <line x1="312" y1="205" x2="312" y2="218" stroke="rgba(255,255,255,0.2)" strokeWidth="0.6" />
+          <circle cx="312" cy="203" r="2" fill={C.navy} stroke="rgba(255,255,255,0.15)" strokeWidth="0.4" />
+          {/* Anemometer cups */}
+          <g>
+            <animateTransform attributeName="transform" type="rotate"
+              values="0 312 203;360 312 203" dur="3s" repeatCount="indefinite" />
+            {[0, 120, 240].map((a) => (
+              <circle key={a}
+                cx={312 + Math.cos(a * Math.PI / 180) * 3}
+                cy={203 + Math.sin(a * Math.PI / 180) * 3}
+                r="0.8" fill="rgba(255,255,255,0.15)" />
+            ))}
+          </g>
+        </g>
+
         {/* Data points with pulse rings */}
         {[
           [158, 162], [230, 156], [178, 192], [245, 192], [135, 177],
@@ -694,7 +942,7 @@ function AnalyseVisual() {
           </g>
         ))}
 
-        {/* Animated data stream lines from site to dashboard */}
+        {/* Data stream lines from site to dashboard */}
         <defs>
           <path id="ds1" d="M200,180 Q260,160 330,145" />
           <path id="ds2" d="M180,200 Q240,175 330,155" />
@@ -706,7 +954,7 @@ function AnalyseVisual() {
           </g>
         ))}
 
-        {/* Drone */}
+        {/* Drone with IR camera */}
         <g filter="url(#shadow)">
           <animateTransform attributeName="transform" type="translate"
             values="0,0; 18,-6; 35,-2; 20,6; 0,0" dur="14s" repeatCount="indefinite" />
@@ -714,7 +962,6 @@ function AnalyseVisual() {
           <rect x="177" y="108" width="14" height="7" rx="2" fill={C.gold} opacity="0.7" />
           <circle cx="184" cy="118" r="2.5" fill={C.navy} stroke={C.gold} strokeWidth="0.6" />
           <circle cx="184" cy="118" r="1" fill={C.goldLight} opacity="0.4" />
-          {/* IR camera indicator */}
           <rect x="180" y="116" width="3" height="2" rx="0.5" fill={C.warmOrange} opacity="0.3">
             <animate attributeName="opacity" values="0.2;0.5;0.2" dur="1s" repeatCount="indefinite" />
           </rect>
@@ -730,6 +977,19 @@ function AnalyseVisual() {
           <path d="M184,118 L170,152 L198,152 Z" fill={C.gold} opacity="0.03" />
           <path d="M184,118 L174,146 L194,146 Z" fill="none" stroke={C.gold} strokeWidth="0.3" opacity="0.12" />
         </g>
+
+        {/* Satellite dish (R100) */}
+        <g opacity="0.3">
+          <ellipse cx="326" cy="212" rx="4" ry="2.5" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
+          <line x1="326" y1="214" x2="326" y2="220" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
+          {/* Signal waves */}
+          {[0, 1, 2].map((j) => (
+            <path key={j} d={`M${330 + j * 3},${210 - j * 2} Q${332 + j * 3},${208 - j * 2} ${334 + j * 3},${210 - j * 2}`}
+              fill="none" stroke={C.goldLight} strokeWidth="0.3" opacity="0.12">
+              <animate attributeName="opacity" values="0;0.2;0" dur={`${1.5 + j * 0.3}s`} repeatCount="indefinite" />
+            </path>
+          ))}
+        </g>
       </SiteBase>
 
       {/* Existing PV */}
@@ -742,7 +1002,7 @@ function AnalyseVisual() {
       </g>
       <Badge x={57} y={164} text="2 MWp" sub="Freifläche (Bestand)" icon="☀️" lineFrom={[57, 172]} />
 
-      {/* Info panel */}
+      {/* Info panel — Standort-Profil */}
       <InfoPanel x={315} y={118} w={74} h={82} title="STANDORT-PROFIL" color={C.gold}>
         {[
           ["50 ha", "Gelände", C.goldLight],
@@ -760,8 +1020,8 @@ function AnalyseVisual() {
         ))}
       </InfoPanel>
 
-      {/* Thermographic inset */}
-      <InfoPanel x={315} y={208} w={70} h={44} title="THERMOGRAFIE" color={C.warmOrange}>
+      {/* Thermographic inset with upload bar (R102) */}
+      <InfoPanel x={315} y={208} w={70} h={50} title="THERMOGRAFIE" color={C.warmOrange}>
         <rect x="320" y="222" width="60" height="24" rx="2" fill="rgba(0,0,0,0.2)" />
         <rect x="322" y="224" width="18" height="13" rx="1" fill={C.warmOrange} opacity="0.35">
           <animate attributeName="opacity" values="0.25;0.45;0.25" dur="3s" repeatCount="indefinite" />
@@ -771,6 +1031,13 @@ function AnalyseVisual() {
         </rect>
         <rect x="366" y="227" width="10" height="11" rx="1" fill={C.warmOrange} opacity="0.2" />
         <rect x="380" y="222" width="2.5" height="24" rx="1" fill="url(#heatGrad)" />
+        {/* Upload progress bar (R102) */}
+        <rect x="322" y="250" width="56" height="3" rx="1.5" fill="rgba(0,0,0,0.2)" />
+        <rect x="322" y="250" width="0" height="3" rx="1.5" fill={C.warmOrange} opacity="0.4">
+          <animate attributeName="width" values="0;56;0" dur="8s" repeatCount="indefinite" />
+        </rect>
+        <text x="350" y="256" textAnchor="middle" fill={C.midGray}
+          fontSize="2.8" fontFamily="Calibri, sans-serif">DATEN-UPLOAD</text>
       </InfoPanel>
 
       <PhaseBadge x={12} y={8} num="I" icon="🔍" label="ANALYSE" />
@@ -781,28 +1048,43 @@ function AnalyseVisual() {
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   PHASE II — PV & GEBÄUDEHÜLLE
+   PHASE II — PV & GEBÄUDEHÜLLE (R103-R110 enhancements)
    ══════════════════════════════════════════════════════════════════ */
 function PVVisual() {
   return (
     <>
       <ValleyBg />
       <SiteBase solar>
-        {/* Carport 3D — left (enhanced with beams) */}
+        {/* Fassade PV on building walls (R103) */}
+        {[[200, 148, 32, "S"], [262, 160, 20, "W"]].map(([fx, fy, fw, orient], i) => (
+          <g key={`fass${i}`}>
+            <rect x={fx} y={fy} width={fw} height={i === 0 ? 26 : 18} rx="0.5"
+              fill={C.gold} opacity="0.08" stroke={C.goldLight} strokeWidth="0.3" />
+            {/* Vertical panel lines */}
+            {Array.from({ length: Math.floor(fw / 4) }, (_, j) => (
+              <line key={j} x1={fx + 2 + j * 4} y1={fy + 1} x2={fx + 2 + j * 4} y2={fy + (i === 0 ? 25 : 17)}
+                stroke={C.goldLight} strokeWidth="0.15" opacity="0.25" />
+            ))}
+            <text x={fx + fw / 2} y={fy - 2} textAnchor="middle" fill={C.goldLight}
+              fontSize="2.5" fontFamily="Calibri, sans-serif" opacity="0.35">{orient}</text>
+          </g>
+        ))}
+
+        {/* Carport 3D — left */}
         <g>
           <path d="M108,206 L110,199 L158,199 L160,206 Z" fill="url(#solarGrad)" />
           <rect x="108" y="206" width="52" height="2" fill={C.goldDim} opacity="0.5" />
-          {/* Cross beams */}
           {Array.from({ length: 7 }, (_, i) => (
             <line key={i} x1={112 + i * 6.5} y1="199.5" x2={112 + i * 6.5} y2="206"
               stroke={C.goldLight} strokeWidth="0.2" opacity="0.5" />
           ))}
-          {/* Support columns */}
+          {/* Panel tilt angle indicator (R105) */}
+          <path d="M108,199 L105,202" fill="none" stroke={C.goldLight} strokeWidth="0.3" opacity="0.3" />
+          <text x="103" y="204" fill={C.goldLight} fontSize="2.5" opacity="0.3">15°</text>
           {[111, 126, 141, 157].map((xp) => (
             <line key={xp} x1={xp} y1="208" x2={xp} y2="240"
               stroke="rgba(255,255,255,0.1)" strokeWidth="1.2" />
           ))}
-          {/* Lateral beam */}
           <line x1="111" y1="218" x2="157" y2="218" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
           <Car x={113} y={222} color="rgba(100,180,255,0.12)" />
           <Car x={127} y={222} />
@@ -825,21 +1107,37 @@ function PVVisual() {
           <Car x={284} y={218} color="rgba(255,220,150,0.12)" suv />
         </g>
 
-        {/* Inverter boxes on building walls */}
+        {/* Inverter boxes on walls with micro inverter detail (R110) */}
         {[[196, 172], [256, 178], [146, 200]].map(([x, y], i) => (
           <g key={i}>
             <rect x={x} y={y} width="5" height="4" rx="0.5" fill={C.navy} stroke={C.goldLight} strokeWidth="0.4" />
             <circle cx={x + 2.5} cy={y + 1.5} r="0.6" fill={C.greenLight} opacity="0.5">
               <animate attributeName="opacity" values="0.3;0.8;0.3" dur={`${1.5 + i * 0.3}s`} repeatCount="indefinite" />
             </circle>
+            {/* Heat sink fins (R110) */}
+            {[0, 1, 2].map((j) => (
+              <line key={j} x1={x + 1 + j * 1.5} y1={y + 2.5} x2={x + 1 + j * 1.5} y2={y + 3.5}
+                stroke="rgba(255,255,255,0.04)" strokeWidth="0.3" />
+            ))}
           </g>
         ))}
 
-        {/* Cable trays */}
+        {/* Cable trays (R107) with wiring trace */}
         <path d="M197,174 Q195,188 195,200" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
         <path d="M257,180 Q258,192 260,200" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+        {/* Wiring diagram trace (R107) */}
+        <path d="M197,174 Q210,180 218,174" fill="none" stroke={C.goldLight} strokeWidth="0.3" opacity="0.08" strokeDasharray="2,3" />
 
-        {/* Solar shimmer animation on roofs */}
+        {/* Installation crew silhouettes (R108) */}
+        {[[182, 144], [240, 136]].map(([cx, cy], i) => (
+          <g key={`crew${i}`} opacity="0.12">
+            <circle cx={cx} cy={cy - 4} r="1.2" fill="rgba(255,255,255,0.3)" />
+            <line x1={cx} y1={cy - 3} x2={cx} y2={cy} stroke="rgba(255,255,255,0.2)" strokeWidth="0.6" />
+            <line x1={cx - 1.5} y1={cy - 1} x2={cx + 1.5} y2={cy - 1} stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
+          </g>
+        ))}
+
+        {/* Solar shimmer on roofs */}
         {[[170, 144], [225, 138], [175, 176], [230, 176], [278, 150]].map(([x, y], i) => (
           <circle key={i} cx={x} cy={y} r="0" fill={C.goldLight} opacity="0">
             <animate attributeName="r" values="0;10;0" dur={`${3 + i * 0.7}s`} repeatCount="indefinite" begin={`${i * 0.5}s`} />
@@ -847,11 +1145,15 @@ function PVVisual() {
           </circle>
         ))}
 
-        {/* Sun with enhanced rays */}
+        {/* Sun with angle arc (R104) */}
         <g>
           <circle cx="358" cy="72" r="16" fill={C.gold} opacity="0.06" />
           <circle cx="358" cy="72" r="10" fill={C.goldLight} opacity="0.15" />
           <circle cx="358" cy="72" r="5.5" fill={C.goldLight} opacity="0.35" />
+          {/* Sun angle arc (R104) */}
+          <path d="M358,72 L340,110" fill="none" stroke={C.goldLight} strokeWidth="0.3" opacity="0.08" strokeDasharray="3,4" />
+          <path d="M350,82 Q346,88 348,92" fill="none" stroke={C.goldLight} strokeWidth="0.4" opacity="0.1" />
+          <text x="342" y="94" fill={C.goldLight} fontSize="3" opacity="0.12">32°</text>
           {Array.from({ length: 16 }, (_, i) => {
             const a = (i / 16) * Math.PI * 2;
             return (
@@ -864,7 +1166,6 @@ function PVVisual() {
               </line>
             );
           })}
-          {/* Rays to site */}
           {[[175, 125], [225, 118], [280, 130], [135, 135]].map(([tx, ty], i) => (
             <line key={i} x1={348 - i * 3} y1={78 + i * 2} x2={tx} y2={ty}
               stroke={C.goldLight} strokeWidth="0.3" opacity="0.06" strokeDasharray="5,10">
@@ -905,8 +1206,8 @@ function PVVisual() {
         ))}
       </InfoPanel>
 
-      {/* Yield panel */}
-      <InfoPanel x={315} y={130} w={74} h={55} title="ERZEUGUNG GESAMT" color={C.gold}>
+      {/* Yield panel with ticker (R106) */}
+      <InfoPanel x={315} y={130} w={74} h={60} title="ERZEUGUNG GESAMT" color={C.gold}>
         <text x="352" y={155} textAnchor="middle" fill={C.goldLight}
           fontSize="11" fontFamily="Calibri, sans-serif" fontWeight="700">6,5–11 MWp</text>
         <text x="352" y={166} textAnchor="middle" fill={C.midGray}
@@ -922,6 +1223,13 @@ function PVVisual() {
           fontSize="3" fontFamily="Calibri, sans-serif">Fass.</text>
         <text x="372" y="182" textAnchor="middle" fill={C.midGray}
           fontSize="3" fontFamily="Calibri, sans-serif">Carp.</text>
+        {/* MWh yield ticker (R106) */}
+        <rect x="322" y="185" width="54" height="4" rx="1" fill="rgba(0,0,0,0.15)" />
+        <rect x="322" y="185" width="0" height="4" rx="1" fill={C.gold} opacity="0.15">
+          <animate attributeName="width" values="0;54;54" dur="5s" repeatCount="indefinite" />
+        </rect>
+        <text x="349" y="188.5" textAnchor="middle" fill={C.midGray}
+          fontSize="2.5" fontFamily="Calibri, sans-serif">kWh LIVE ▶</text>
       </InfoPanel>
 
       <PhaseBadge x={12} y={8} num="II" icon="☀️" label="PV" />
@@ -932,7 +1240,7 @@ function PVVisual() {
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   PHASE III — SPEICHER & STEUERUNG
+   PHASE III — SPEICHER & STEUERUNG (R111-R118 enhancements)
    ══════════════════════════════════════════════════════════════════ */
 function SpeicherVisual() {
   return (
@@ -940,14 +1248,16 @@ function SpeicherVisual() {
       <ValleyBg />
       <SiteBase dim solar />
 
-      {/* BESS containers with cooling fans & PCS units */}
+      {/* Safety zone marking (R116) */}
+      <rect x="120" y="226" width="168" height="2" rx="0.5" fill="rgba(255,220,80,0.04)"
+        stroke="rgba(255,220,80,0.06)" strokeWidth="0.3" strokeDasharray="3,3" />
+
+      {/* BESS containers with cooling fans, PCS units & fire suppression (R111) */}
       <g filter="url(#shadow)">
         {[0, 1, 2, 3, 4].map((i) => (
           <g key={i}>
-            {/* Container body */}
             <rect x={126 + i * 30} y="232" width="26" height="14" rx="2"
               fill={C.green} opacity="0.5" stroke={C.greenLight} strokeWidth="0.7" />
-            {/* 3D side */}
             <path d={`M${152 + i * 30},232 L${155 + i * 30},229.5 L${155 + i * 30},243.5 L${152 + i * 30},246`}
               fill={C.forestMid} opacity="0.35" />
             {/* Cooling fan grills */}
@@ -967,18 +1277,30 @@ function SpeicherVisual() {
             <rect x={128 + i * 30} y="233" width="20" height="1.5" rx="0.5" fill={C.greenLight} opacity="0.45">
               <animate attributeName="opacity" values="0.25;0.65;0.25" dur={`${1.8 + i * 0.2}s`} repeatCount="indefinite" />
             </rect>
+            {/* Temperature LCD (R112) */}
+            <rect x={128 + i * 30} y="244" width="10" height="3" rx="0.5" fill="rgba(0,0,0,0.2)" />
+            <text x={133 + i * 30} y="246.5" textAnchor="middle" fill={C.greenLight}
+              fontSize="2.2" fontFamily="Calibri, sans-serif" opacity="0.5">{22 + i}°C</text>
             {/* SoC charge level */}
             <rect x={148 + i * 30} y={240 - (4 + i)} width="2.5" height={4 + i} rx="0.5"
               fill={C.greenLight} opacity="0.5" />
             {/* Container number */}
             <text x={139 + i * 30} y="249" textAnchor="middle" fill={C.greenLight}
               fontSize="3" fontFamily="Calibri, sans-serif" opacity="0.4">B{i + 1}</text>
+            {/* Fire suppression marker (R111) */}
+            <circle cx={128 + i * 30} cy="232.5" r="1.2" fill="rgba(255,80,80,0.15)"
+              stroke="rgba(255,80,80,0.2)" strokeWidth="0.3" />
           </g>
         ))}
         {/* PCS units between containers */}
         {[0, 1, 2, 3].map((i) => (
-          <rect key={i} x={152 + i * 30} y="237" width="4" height="6" rx="1"
-            fill={C.navy} stroke={C.greenLight} strokeWidth="0.3" opacity="0.6" />
+          <g key={i}>
+            <rect x={152 + i * 30} y="237" width="4" height="6" rx="1"
+              fill={C.navy} stroke={C.greenLight} strokeWidth="0.3" opacity="0.6" />
+            {/* AC/DC indicator (R115) */}
+            <text x={154 + i * 30} y="241.5" textAnchor="middle" fill={C.greenLight}
+              fontSize="2" fontFamily="Calibri, sans-serif" opacity="0.3">⚡</text>
+          </g>
         ))}
       </g>
       <text x="200" y="260" textAnchor="middle" fill={C.greenLight}
@@ -988,7 +1310,6 @@ function SpeicherVisual() {
       <g filter="url(#glow)">
         <rect x="168" y="152" width="64" height="42" rx="5" fill={C.navy} stroke={C.gold} strokeWidth="1.2" />
         <rect x="172" y="158" width="56" height="28" rx="2.5" fill="rgba(0,0,0,0.35)" />
-        {/* SoC waveform */}
         <polyline points="175,178 180,172 185,175 190,168 195,170 200,165 205,168 210,172 215,167 220,170 225,175"
           fill="none" stroke={C.greenLight} strokeWidth="0.8" opacity="0.5">
           <animate attributeName="points"
@@ -1006,6 +1327,12 @@ function SpeicherVisual() {
             </rect>
           );
         })}
+        {/* Round-trip efficiency gauge (R114) */}
+        <g>
+          <rect x="175" y="180" width="20" height="3" rx="1" fill="rgba(0,0,0,0.2)" />
+          <rect x="175" y="180" width="18" height="3" rx="1" fill={C.greenLight} opacity="0.25" />
+          <text x="198" y="182.5" fill={C.greenLight} fontSize="2.5" fontFamily="Calibri, sans-serif" opacity="0.4">92%</text>
+        </g>
         <text x="200" y="167" textAnchor="middle" fill={C.goldLight} opacity="0.45"
           fontSize="3.5" fontFamily="Calibri, sans-serif" letterSpacing="0.5">ECHTZEIT-STEUERUNG</text>
         <text x="200" y="190" textAnchor="middle" fill={C.goldLight}
@@ -1025,45 +1352,49 @@ function SpeicherVisual() {
         </g>
       ))}
 
+      {/* Cycling animation (R113) — charge/discharge arrows */}
+      <g opacity="0.3">
+        <path d="M120,238 L115,240 L120,242" fill="none" stroke={C.greenLight} strokeWidth="0.6" opacity="0.4">
+          <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2s" repeatCount="indefinite" />
+        </path>
+        <text x="108" y="241.5" textAnchor="middle" fill={C.greenLight} fontSize="3" fontFamily="Calibri, sans-serif">LADE</text>
+        <path d="M290,238 L295,240 L290,242" fill="none" stroke={C.goldLight} strokeWidth="0.6" opacity="0.4">
+          <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2s" repeatCount="indefinite" begin="1s" />
+        </path>
+        <text x="302" y="241.5" fill={C.goldLight} fontSize="3" fontFamily="Calibri, sans-serif">ENTL.</text>
+      </g>
+
       {/* EMS Strategy Panel — 3 functions */}
       <InfoPanel x={298} y={132} w={92} h={92} title="INTELLIGENTES EMS" color={C.gold}>
-        {/* 1. Eigenverbrauchsoptimierung */}
         <g>
           <circle cx="310" cy="152" r="4" fill={C.gold} opacity="0.15" />
           <text x="310" y="154" textAnchor="middle" fill={C.goldLight} fontSize="5" fontWeight="700">1</text>
           <text x="318" y="152" fill={C.goldLight} fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">Eigenverbrauch</text>
           <text x="318" y="158" fill={C.midGray} fontSize="3.5" fontFamily="Calibri, sans-serif">PV → Produktion max.</text>
-          {/* Mini sun-to-factory icon */}
           <circle cx="372" cy="152" r="3" fill={C.gold} opacity="0.2" />
           <path d="M376,152 L382,152" fill="none" stroke={C.goldLight} strokeWidth="0.5" opacity="0.3" markerEnd="url(#arrG)" />
         </g>
-        {/* 2. Peak Shaving */}
         <g>
           <circle cx="310" cy="172" r="4" fill={C.greenLight} opacity="0.15" />
           <text x="310" y="174" textAnchor="middle" fill={C.greenLight} fontSize="5" fontWeight="700">2</text>
           <text x="318" y="172" fill={C.greenLight} fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">Peak Shaving</text>
           <text x="318" y="178" fill={C.midGray} fontSize="3.5" fontFamily="Calibri, sans-serif">Lastspitzen kappen</text>
-          {/* Mini chart */}
           <polyline points="366,178 370,174 374,176 378,172 382,175 386,178"
             fill="none" stroke="rgba(255,150,150,0.3)" strokeWidth="0.8" />
           <polyline points="366,178 370,174 374,176 378,176 382,176 386,178"
             fill="none" stroke={C.greenLight} strokeWidth="0.8" />
         </g>
-        {/* 3. Spotmarkt Trading */}
         <g>
           <circle cx="310" cy="192" r="4" fill={C.gold} opacity="0.15" />
           <text x="310" y="194" textAnchor="middle" fill={C.gold} fontSize="5" fontWeight="700">3</text>
           <text x="318" y="192" fill={C.goldLight} fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">Spotmarkt-Handel</text>
           <text x="318" y="198" fill={C.midGray} fontSize="3.5" fontFamily="Calibri, sans-serif">Günstig laden, teuer verkaufen</text>
-          {/* Buy/Sell arrows */}
           <text x="374" y="192" fill={C.greenLight} fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">↓</text>
           <text x="380" y="192" fill={C.warmOrangeLight} fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">↑</text>
           <text x="374" y="197" fill={C.midGray} fontSize="3" fontFamily="Calibri, sans-serif">2ct</text>
           <text x="381" y="197" fill={C.midGray} fontSize="3" fontFamily="Calibri, sans-serif">8ct</text>
         </g>
-        {/* Divider */}
         <line x1="304" y1="205" x2="384" y2="205" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
-        {/* Summary line */}
         <text x="344" y="215" textAnchor="middle" fill={C.goldLight}
           fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">10–15 % Einsparung/a</text>
       </InfoPanel>
@@ -1076,7 +1407,7 @@ function SpeicherVisual() {
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   PHASE IV — WÄRMEKONZEPT
+   PHASE IV — WÄRMEKONZEPT (R119-R126 enhancements)
    ══════════════════════════════════════════════════════════════════ */
 function WaermeVisual() {
   const pc = C.warmOrange, pl = C.warmOrangeLight;
@@ -1093,13 +1424,13 @@ function WaermeVisual() {
         <path id="hp4" d="M200,200 L200,218" />
         <path id="hp5" d="M170,200 L155,218" />
         <path id="hp6" d="M232,200 L250,218" />
+        {/* Return flow paths (R122) — cooler color */}
+        <path id="hpr1" d="M170,175 L170,203 L232,203 L232,175" />
       </defs>
       {["hp1", "hp2", "hp3", "hp4", "hp5", "hp6"].map((id, i) => (
         <g key={id}>
-          {/* Insulated pipe (outer) */}
           <use href={`#${id}`} fill="none" stroke={pc} strokeWidth="4"
             opacity="0.15" strokeLinecap="round" strokeLinejoin="round" />
-          {/* Inner flow */}
           <use href={`#${id}`} fill="none" stroke={pl} strokeWidth="1.2"
             opacity="0.35" strokeDasharray="4,4" strokeLinecap="round">
             <animate attributeName="strokeDashoffset" values="0;-16" dur="2.5s" repeatCount="indefinite" />
@@ -1107,6 +1438,21 @@ function WaermeVisual() {
           <FlowParticles pathId={id} color={pl} count={2} dur={3 + i * 0.3} />
         </g>
       ))}
+      {/* Return flow (R122) — blue-tinted cooler */}
+      <use href="#hpr1" fill="none" stroke="rgba(100,160,220,0.08)" strokeWidth="2"
+        strokeLinecap="round" strokeLinejoin="round" />
+      <use href="#hpr1" fill="none" stroke="rgba(100,160,220,0.15)" strokeWidth="0.6"
+        strokeDasharray="3,5" strokeLinecap="round">
+        <animate attributeName="strokeDashoffset" values="0;16" dur="3s" repeatCount="indefinite" />
+      </use>
+
+      {/* Pipe cross-section detail (R119) */}
+      <g opacity="0.35">
+        <circle cx="200" cy="196" r="3" fill={C.navy} stroke={pc} strokeWidth="0.5" />
+        <circle cx="200" cy="196" r="2" fill={pc} opacity="0.15" />
+        <circle cx="200" cy="196" r="1" fill={pl} opacity="0.3" />
+        <text x="200" y="192" textAnchor="middle" fill={pl} fontSize="2.5" fontFamily="Calibri, sans-serif">DN150</text>
+      </g>
 
       {/* Junction nodes with T-junction detail */}
       {[[170, 200], [232, 200], [200, 200]].map(([x, y], i) => (
@@ -1117,18 +1463,16 @@ function WaermeVisual() {
         </g>
       ))}
 
-      {/* WP Cascade units (with COP gauge) */}
+      {/* WP Cascade units with COP gauge */}
       {[0, 1, 2].map((i) => (
         <g key={i} filter="url(#shadow)">
           <rect x={145 + i * 35} y="130" width="28" height="24" rx="3.5"
             fill={C.navy} stroke={pc} strokeWidth="1.2" />
-          {/* Fan grill */}
           <circle cx={159 + i * 35} cy="138" r="6.5" fill="none" stroke={pc} strokeWidth="0.5" opacity="0.3" />
           <circle cx={159 + i * 35} cy="138" r="4" fill="none" stroke={pc} strokeWidth="0.4" opacity="0.2" />
           <circle cx={159 + i * 35} cy="138" r="1.5" fill={pc} opacity="0.45">
             <animate attributeName="r" values="1;2;1" dur={`${1.5 + i * 0.3}s`} repeatCount="indefinite" />
           </circle>
-          {/* Fan blades rotation */}
           <g>
             <animateTransform attributeName="transform" type="rotate"
               values={`0 ${159 + i * 35} 138;360 ${159 + i * 35} 138`}
@@ -1159,23 +1503,33 @@ function WaermeVisual() {
         </g>
       ))}
 
+      {/* Expansion vessel (R121) */}
+      <g opacity="0.4">
+        <ellipse cx="120" cy="145" rx="5" ry="8" fill={C.navy} stroke={pc} strokeWidth="0.5" />
+        <ellipse cx="120" cy="145" rx="4" ry="5" fill={pc} opacity="0.08" />
+        <text x="120" y="147" textAnchor="middle" fill={pl} fontSize="2.5" fontFamily="Calibri, sans-serif">MAG</text>
+        <line x1="120" y1="153" x2="140" y2="170" stroke={pc} strokeWidth="0.8" opacity="0.15" />
+      </g>
+
       {/* Pufferspeicher (cylindrical with fill level) */}
       <g filter="url(#shadow)">
         <ellipse cx="268" cy="132" rx="12" ry="3.5" fill={C.navyMid} stroke={pc} strokeWidth="0.5" />
         <rect x="256" y="132" width="24" height="32" fill={C.navy} stroke={pc} strokeWidth="0.7" />
         <ellipse cx="268" cy="164" rx="12" ry="3.5" fill={C.navyMid} stroke={pc} strokeWidth="0.5" />
-        {/* Fill level with animation */}
         <rect x="258" y="146" width="20" height="16" fill={pc} opacity="0.12" rx="1">
           <animate attributeName="height" values="14;18;14" dur="5s" repeatCount="indefinite" />
           <animate attributeName="y" values="148;144;148" dur="5s" repeatCount="indefinite" />
         </rect>
-        {/* Temperature markings */}
+        {/* Temperature gradient scale (R123) */}
+        <rect x="253" y="134" width="2" height="28" rx="0.5" fill="url(#heatGrad)" opacity="0.4" />
         {[0, 1, 2, 3].map((j) => (
           <g key={j}>
             <line x1="254" y1={136 + j * 7} x2="256" y2={136 + j * 7}
               stroke={pc} strokeWidth="0.4" opacity="0.3" />
           </g>
         ))}
+        <text x="252" y="137" textAnchor="end" fill={pl} fontSize="2" fontFamily="Calibri, sans-serif" opacity="0.3">80°</text>
+        <text x="252" y="159" textAnchor="end" fill={C.coolBlue} fontSize="2" fontFamily="Calibri, sans-serif" opacity="0.3">35°</text>
         <text x="268" y="155" textAnchor="middle" fill={pl}
           fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">500 m³</text>
         <text x="268" y="161" textAnchor="middle" fill={C.midGray}
@@ -1194,6 +1548,13 @@ function WaermeVisual() {
         </g>
       ))}
 
+      {/* Geothermal borehole hint (R126) */}
+      <g opacity="0.25">
+        <line x1="300" y1="232" x2="300" y2="258" stroke={pc} strokeWidth="1" strokeDasharray="2,2" />
+        <text x="300" y="262" textAnchor="middle" fill={pl} fontSize="2.5" fontFamily="Calibri, sans-serif">80m</text>
+        <circle cx="300" cy="232" r="2" fill={pc} opacity="0.2" stroke={pc} strokeWidth="0.3" />
+      </g>
+
       {/* Abwärme source labels */}
       {[[155, 168, "Mühlen"], [212, 162, "Trockner"], [248, 174, "Kompress."]].map(
         ([x, y, label], i) => (
@@ -1205,8 +1566,8 @@ function WaermeVisual() {
         )
       )}
 
-      {/* Info panel with COP gauge */}
-      <InfoPanel x={308} y={124} w={80} h={64} title="WÄRMESYSTEM" color={pc}>
+      {/* Info panel with CO2 savings (R124) */}
+      <InfoPanel x={308} y={124} w={80} h={74} title="WÄRMESYSTEM" color={pc}>
         {[
           ["5–10 MW", "WP-Kaskade", pl],
           ["COP 4–5", "Abwärme-Quelle", pl],
@@ -1220,6 +1581,10 @@ function WaermeVisual() {
               fontSize="4" fontFamily="Calibri, sans-serif">{label}</text>
           </g>
         ))}
+        {/* CO2 savings meter (R124) */}
+        <line x1="314" y1="190" x2="382" y2="190" stroke="rgba(255,255,255,0.05)" strokeWidth="0.3" />
+        <text x="316" y="197" fill={C.greenLight} fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">–2.400 t</text>
+        <text x="355" y="197" fill={C.midGray} fontSize="3.5" fontFamily="Calibri, sans-serif">CO₂/a</text>
       </InfoPanel>
 
       <PhaseBadge x={12} y={8} num="IV" icon="🔥" label="WÄRME" color={C.warmOrange} />
@@ -1230,7 +1595,7 @@ function WaermeVisual() {
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   PHASE V — LADEINFRASTRUKTUR
+   PHASE V — LADEINFRASTRUKTUR (R127-R134 enhancements)
    ══════════════════════════════════════════════════════════════════ */
 function LadeVisual() {
   return (
@@ -1251,7 +1616,17 @@ function LadeVisual() {
         </g>
       ))}
 
-      {/* AC Ladepark (left) with bollards & occupancy */}
+      {/* Load management bar (R131) */}
+      <g opacity="0.4">
+        <rect x="175" y="192" width="50" height="5" rx="2" fill={C.navy} stroke={C.greenLight} strokeWidth="0.4" />
+        <rect x="176" y="193" width="32" height="3" rx="1.5" fill={C.greenLight} opacity="0.25">
+          <animate attributeName="width" values="28;38;28" dur="6s" repeatCount="indefinite" />
+        </rect>
+        <text x="200" y="201" textAnchor="middle" fill={C.greenLight}
+          fontSize="3" fontFamily="Calibri, sans-serif" fontWeight="700">LAST-MGMT 65%</text>
+      </g>
+
+      {/* AC Ladepark (left) */}
       <g>
         <rect x="96" y="212" width="60" height="38" rx="2.5"
           fill="rgba(255,255,255,0.02)" stroke={C.greenLight} strokeWidth="0.7" />
@@ -1265,23 +1640,31 @@ function LadeVisual() {
           const wy = 216 + row * 18;
           return (
             <g key={i}>
-              {/* Wallbox */}
               <rect x={wx} y={wy} width="7" height="10" rx="1.3"
                 fill={C.navy} stroke={C.greenLight} strokeWidth="0.5" />
               <rect x={wx + 1} y={wy + 1} width="5" height="3.5" rx="0.5" fill="rgba(58,138,102,0.2)" />
-              {/* RFID reader */}
+              {/* Payment terminal (R127) */}
               <rect x={wx + 1.5} y={wy + 5} width="4" height="2" rx="0.3" fill="rgba(255,255,255,0.04)" />
               {/* Status LED */}
               <circle cx={wx + 3.5} cy={wy + 8.5} r="0.8" fill={i < 7 ? C.greenLight : C.gold}>
                 <animate attributeName="opacity" values="0.3;1;0.3" dur={`${1 + i * 0.12}s`} repeatCount="indefinite" />
               </circle>
-              {/* Bollard */}
+              {/* Charging progress (R128) */}
+              {i < 7 && (
+                <rect x={wx + 5.5} y={wy + 10 - (3 + i % 4)} width="1" height={3 + i % 4} rx="0.3"
+                  fill={C.greenLight} opacity="0.3" />
+              )}
               <rect x={wx + 8} y={wy + 7} width="1.5" height="3.5" rx="0.5" fill="rgba(255,255,255,0.06)" />
             </g>
           );
         })}
 
-        {/* Parking lines */}
+        {/* Accessible parking symbol (R132) */}
+        <g opacity="0.15">
+          <rect x="98" y="246" width="6" height="4" rx="0.5" fill="rgba(100,160,255,0.2)" />
+          <text x="101" y="249.5" textAnchor="middle" fill="rgba(100,160,255,0.4)" fontSize="3">♿</text>
+        </g>
+
         {Array.from({ length: 5 }, (_, i) => (
           <line key={i} x1={100 + i * 11} y1="212.5" x2={100 + i * 11} y2="250"
             stroke="rgba(255,255,255,0.03)" strokeWidth="0.3" />
@@ -1293,7 +1676,7 @@ function LadeVisual() {
         <Car x={136} y={234} color="rgba(255,220,150,0.1)" s={0.85} />
       </g>
 
-      {/* DC Fleet (right) with charging cable sparks */}
+      {/* DC Fleet (right) with V2G flow (R130) */}
       <g>
         <rect x="260" y="206" width="55" height="36" rx="2.5"
           fill="rgba(255,255,255,0.02)" stroke={C.gold} strokeWidth="0.7" />
@@ -1305,27 +1688,36 @@ function LadeVisual() {
             <rect x={266 + i * 12} y="211" width="8" height="15" rx="2"
               fill={C.navy} stroke={C.gold} strokeWidth="0.7" />
             <rect x={267 + i * 12} y="213" width="6" height="4.5" rx="0.5" fill="rgba(212,168,67,0.2)" />
-            {/* Lightning bolt */}
             <path d={`M${271 + i * 12},220 L${272.5 + i * 12},222.5 L${270 + i * 12},223 L${272.5 + i * 12},226`}
               fill="none" stroke={C.goldLight} strokeWidth="0.7" opacity="0.6">
               <animate attributeName="opacity" values="0.3;0.9;0.3" dur={`${0.7 + i * 0.15}s`} repeatCount="indefinite" />
             </path>
-            {/* Charging cable spark */}
             <circle cx={270 + i * 12} cy={224} r="0" fill={C.goldLight}>
               <animate attributeName="r" values="0;2;0" dur={`${1.5 + i * 0.2}s`} repeatCount="indefinite" />
               <animate attributeName="opacity" values="0;0.3;0" dur={`${1.5 + i * 0.2}s`} repeatCount="indefinite" />
             </circle>
           </g>
         ))}
+        {/* V2G bidirectional arrows (R130) */}
+        <g opacity="0.25">
+          <path d="M262,236 L258,234 L258,238 Z" fill={C.greenLight} opacity="0.4">
+            <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2s" repeatCount="indefinite" />
+          </path>
+          <text x="248" y="237" fill={C.greenLight} fontSize="2.5" fontFamily="Calibri, sans-serif">V2G</text>
+        </g>
         <Car x={267} y={230} color="rgba(212,168,67,0.12)" s={0.9} />
         <Car x={283} y={230} color="rgba(212,168,67,0.1)" s={0.9} suv />
         <Car x={299} y={230} s={0.9} />
       </g>
 
-      {/* HPC Truck Depot with power labels */}
+      {/* HPC Truck Depot with cable coil (R134) */}
       <g>
         <rect x="130" y="262" width="140" height="32" rx="3"
           fill="rgba(255,255,255,0.015)" stroke={C.greenLight} strokeWidth="0.8" />
+        {/* Solar canopy hint (R129) */}
+        <path d="M132,262 L134,258 L268,258 L270,262" fill="url(#solarGrad)" opacity="0.15" />
+        <text x="200" y="257" textAnchor="middle" fill={C.goldLight}
+          fontSize="2.5" fontFamily="Calibri, sans-serif" opacity="0.2">PV-DACH</text>
         <text x="200" y="260" textAnchor="middle" fill={C.greenLight}
           fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700" letterSpacing="1">
           LKW HPC-DEPOT
@@ -1343,6 +1735,8 @@ function LadeVisual() {
             <rect x={143 + i * 25} y="286" width="8" height="1.5" rx="0.5" fill={C.greenLight} opacity="0.4">
               <animate attributeName="width" values="2;8;2" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
             </rect>
+            {/* Cable coil (R134) */}
+            <circle cx={155 + i * 25} cy="278" r="2" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
           </g>
         ))}
         <Truck x={142} y={290} />
@@ -1352,7 +1746,6 @@ function LadeVisual() {
       <Badge x={40} y={260} text="60+ AC" sub="Wallboxen" icon="🔌" color={C.greenLight} />
       <Badge x={340} y={265} text="150–400 kW" sub="CCS Depot-Laden" icon="⚡" color={C.greenLight} align="right" />
 
-      {/* GEIG badge */}
       <InfoPanel x={320} y={152} w={68} h={28} title="GEIG-KONFORM" color={C.greenLight}>
         <text x="354" y="172" textAnchor="middle" fill={C.midGray}
           fontSize="4.5" fontFamily="Calibri, sans-serif">Ladepflicht ab 2026 ✓</text>
@@ -1366,23 +1759,21 @@ function LadeVisual() {
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   PHASE VI — GRAUSTROM-BESS
+   PHASE VI — GRAUSTROM-BESS (R135-R142 enhancements)
    ══════════════════════════════════════════════════════════════════ */
 function BESSVisual() {
   return (
     <>
-      <ValleyBg />
+      <ValleyBg cool />
       <SiteBase dim />
 
-      {/* 110 kV Power line + lattice pylon (enhanced) */}
+      {/* 110 kV Power line + enhanced pylon with insulators (R135) */}
       <g>
         <path d="M12,95 Q48,87 85,136" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.2" />
         <line x1="85" y1="136" x2="125" y2="162" stroke="rgba(255,255,255,0.12)" strokeWidth="1.2" />
-        {/* Enhanced Pylon */}
         <g>
           <line x1="77" y1="146" x2="85" y2="118" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
           <line x1="93" y1="146" x2="85" y2="118" stroke="rgba(255,255,255,0.22)" strokeWidth="1.5" />
-          {/* Cross bracing */}
           {[0, 1, 2, 3].map((j) => (
             <g key={j}>
               <line x1={79 + j} y1={140 - j * 6} x2={91 - j} y2={140 - j * 6}
@@ -1395,37 +1786,52 @@ function BESSVisual() {
           ))}
           <line x1="72" y1="124" x2="98" y2="124" stroke="rgba(255,255,255,0.18)" strokeWidth="1" />
           <line x1="75" y1="129" x2="95" y2="129" stroke="rgba(255,255,255,0.13)" strokeWidth="0.8" />
-          <circle cx="73" cy="124" r="2" fill={C.blue} />
-          <circle cx="97" cy="124" r="2" fill={C.blue} />
-          <circle cx="85" cy="124" r="2" fill={C.blue} />
+          {/* Insulators (R135) */}
+          {[73, 85, 97].map((ix) => (
+            <g key={ix}>
+              <circle cx={ix} cy="124" r="2" fill={C.blue} />
+              <ellipse cx={ix} cy="125.5" rx="1.5" ry="0.5" fill="rgba(255,255,255,0.06)" />
+              <ellipse cx={ix} cy="126.5" rx="1.2" ry="0.4" fill="rgba(255,255,255,0.04)" />
+            </g>
+          ))}
         </g>
-        <text x="35" y="90" fill={C.midGray} fontSize="6" fontFamily="Calibri, sans-serif" fontWeight="700">110 kV</text>
+        {/* Grid frequency indicator (R138) */}
+        <g opacity="0.35">
+          <rect x="22" y="82" width="28" height="10" rx="2" fill={C.navy} stroke={C.greenLight} strokeWidth="0.4" />
+          <text x="36" y="88" textAnchor="middle" fill={C.greenLight}
+            fontSize="4" fontFamily="Calibri, sans-serif" fontWeight="700">50.00</text>
+          <text x="36" y="91" textAnchor="middle" fill={C.midGray}
+            fontSize="2.5" fontFamily="Calibri, sans-serif">Hz</text>
+        </g>
+        <text x="55" y="90" fill={C.midGray} fontSize="6" fontFamily="Calibri, sans-serif" fontWeight="700">110 kV</text>
       </g>
 
-      {/* Transformer (enhanced) */}
+      {/* Transformer + switchgear (R136) */}
       <g filter="url(#shadow)">
         <rect x="108" y="158" width="28" height="22" rx="2.5" fill={C.navy} stroke={C.gold} strokeWidth="1.2" />
-        {/* Coils */}
         <circle cx="118" cy="168" r="5" fill="none" stroke={C.gold} strokeWidth="0.7" opacity="0.3" />
         <circle cx="128" cy="168" r="5" fill="none" stroke={C.gold} strokeWidth="0.7" opacity="0.3" />
-        {/* Busbar connections */}
         {[114, 122, 130].map((x) => (
           <rect key={x} x={x} y="155" width="2.5" height="4" rx="0.5" fill={C.blue} />
         ))}
         <text x="122" y="177" textAnchor="middle" fill={C.goldLight}
           fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">TRAFO</text>
       </g>
+      {/* Switchgear cabinet (R136) */}
+      <g opacity="0.5">
+        <rect x="108" y="182" width="12" height="8" rx="1" fill={C.navy} stroke={C.gold} strokeWidth="0.3" />
+        <text x="114" y="188" textAnchor="middle" fill={C.goldLight} fontSize="2.5" fontFamily="Calibri, sans-serif">SF₆</text>
+      </g>
 
       {/* Bidirectional grid meter */}
       <g>
-        <rect x="107" y="184" width="30" height="12" rx="2" fill={C.navy} stroke={C.gold} strokeWidth="0.4" opacity="0.8" />
-        <text x="122" y="192" textAnchor="middle" fill={C.goldLight}
-          fontSize="3.5" fontFamily="Calibri, sans-serif" fontWeight="700">⇄ METER</text>
-        {/* Bidirectional arrows */}
-        <path d="M110,189 L114,187 L114,191 Z" fill={C.greenLight} opacity="0.4">
+        <rect x="122" y="184" width="16" height="9" rx="2" fill={C.navy} stroke={C.gold} strokeWidth="0.4" opacity="0.8" />
+        <text x="130" y="190" textAnchor="middle" fill={C.goldLight}
+          fontSize="3" fontFamily="Calibri, sans-serif" fontWeight="700">⇄</text>
+        <path d="M124,188 L127,186.5 L127,189.5 Z" fill={C.greenLight} opacity="0.4">
           <animate attributeName="opacity" values="0.2;0.6;0.2" dur="1.5s" repeatCount="indefinite" />
         </path>
-        <path d="M134,189 L130,187 L130,191 Z" fill={C.gold} opacity="0.4">
+        <path d="M136,188 L133,186.5 L133,189.5 Z" fill={C.gold} opacity="0.4">
           <animate attributeName="opacity" values="0.2;0.6;0.2" dur="1.5s" repeatCount="indefinite" begin="0.75s" />
         </path>
       </g>
@@ -1435,14 +1841,12 @@ function BESSVisual() {
         <path id="tflow" d="M136,168 Q146,168 154,162" />
       </defs>
       <use href="#tflow" fill="none" stroke={C.gold} strokeWidth="2" opacity="0.2" />
-      <FlowParticles pathId="tflow" color={C.goldLight} count={2} dur={1.5} />
+      <FlowParticles pathId="tflow" color={C.goldLight} count={2} dur={1.5} glow />
 
-      {/* BESS array IN GREEN landscape — separate from main site */}
+      {/* BESS array IN GREEN landscape */}
       <g>
-        {/* Green meadow/clearing for BESS */}
         <ellipse cx="210" cy="220" rx="85" ry="50" fill={C.forest} opacity="0.12" />
         <ellipse cx="210" cy="220" rx="72" ry="40" fill={C.forestMid} opacity="0.08" />
-        {/* Grass texture */}
         {Array.from({ length: 20 }, (_, i) => {
           const gx = 148 + (i * 7.3 + 3) % 120;
           const gy = 195 + (i * 11.7 + 5) % 55;
@@ -1453,7 +1857,6 @@ function BESSVisual() {
             </g>
           );
         })}
-        {/* Small trees around BESS area */}
         <Pine x={140} y={198} h={6} opacity={0.4} />
         <Pine x={285} y={196} h={7} opacity={0.4} />
         <Pine x={135} y={240} h={5} opacity={0.35} />
@@ -1461,7 +1864,10 @@ function BESSVisual() {
         <Pine x={148} y={255} h={5.5} opacity={0.3} />
         <Pine x={278} y={256} h={5} opacity={0.3} />
 
-        {/* Gravel path to BESS */}
+        {/* Perimeter security fence for BESS (R142) */}
+        <path d="M145,185 Q145,148 210,138 Q275,148 280,185 Q282,248 210,258 Q140,248 145,185"
+          fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" strokeDasharray="2,2" />
+
         <path d="M200,270 Q205,248 210,220" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="4" strokeLinecap="round" />
 
         {/* Maintenance walkways */}
@@ -1475,7 +1881,6 @@ function BESSVisual() {
             const x = 150 + col * 24;
             const y = 143 + row * 18;
             const num = row * 6 + col + 1;
-            // Animated charge fill: each container fills at different rate
             const fillH = 3 + (num % 5) * 2;
             return (
               <g key={`${row}-${col}`}>
@@ -1486,7 +1891,9 @@ function BESSVisual() {
                 <path d={`M${x + 20},${y} L${x + 22},${y - 1.5} L${x + 22},${y + 12.5} L${x + 20},${y + 14}`}
                   fill={C.forestMid} opacity="0.2" />
                 <rect x={x + 2} y={y + 3} width="3" height="8" rx="0.5" fill={C.navy} opacity="0.25" />
-                {/* Animated charging fill — green glow rising */}
+                {/* Thermal vent (R139) */}
+                <rect x={x + 15} y={y + 1} width="3" height="2" rx="0.3" fill="rgba(255,255,255,0.02)" />
+                {/* Animated charging fill */}
                 <rect x={x + 6} y={y + 14 - fillH} width="8" height={fillH} rx="0.5"
                   fill={C.greenLight} opacity="0.15">
                   <animate attributeName="height" values={`${fillH - 2};${fillH + 2};${fillH - 2}`}
@@ -1496,7 +1903,6 @@ function BESSVisual() {
                   <animate attributeName="opacity" values="0.1;0.25;0.1"
                     dur={`${3 + row * 0.5 + col * 0.3}s`} repeatCount="indefinite" />
                 </rect>
-                {/* Status LED — green pulsing (charging) */}
                 <circle cx={x + 17} cy={y + 3.5} r="1" fill={C.greenLight} opacity="0.4">
                   <animate attributeName="opacity" values="0.2;0.8;0.2"
                     dur={`${1.5 + row * 0.15 + col * 0.12}s`} repeatCount="indefinite" />
@@ -1510,6 +1916,19 @@ function BESSVisual() {
           })
         )}
 
+        {/* Monitoring antenna array (R141) */}
+        <g opacity="0.25">
+          <line x1="290" y1="145" x2="290" y2="135" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
+          <circle cx="290" cy="134" r="1.2" fill="rgba(100,200,255,0.2)">
+            <animate attributeName="opacity" values="0.15;0.4;0.15" dur="2s" repeatCount="indefinite" />
+          </circle>
+          {/* Signal rings */}
+          <circle cx="290" cy="134" r="3" fill="none" stroke="rgba(100,200,255,0.08)" strokeWidth="0.3">
+            <animate attributeName="r" values="2;6;2" dur="3s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.1;0;0.1" dur="3s" repeatCount="indefinite" />
+          </circle>
+        </g>
+
         {/* Charging energy flow into BESS from grid */}
         <defs>
           <path id="gridToBess" d="M136,162 Q145,180 155,190" />
@@ -1518,15 +1937,18 @@ function BESSVisual() {
         {["gridToBess", "gridToBess2"].map((id, i) => (
           <g key={id}>
             <use href={`#${id}`} fill="none" stroke={C.greenLight} strokeWidth="0.6" opacity="0.12" />
-            <FlowParticles pathId={id} color={C.greenLight} count={3} dur={2 + i * 0.5} r={1.8} />
+            <FlowParticles pathId={id} color={C.greenLight} count={3} dur={2 + i * 0.5} r={1.8} glow />
           </g>
         ))}
+
+        {/* Fire suppression ring (R140) */}
+        <path d="M148,260 Q150,265 210,268 Q270,265 275,260"
+          fill="none" stroke="rgba(255,80,80,0.05)" strokeWidth="1.5" strokeDasharray="4,4" />
       </g>
 
-      {/* SCADA monitoring terminal inset */}
+      {/* SCADA monitoring terminal */}
       <InfoPanel x={306} y={128} w={82} h={30} title="SCADA / MONITORING" color={C.greenLight}>
         <rect x="312" y="144" width="70" height="8" rx="1.5" fill="rgba(0,0,0,0.25)" />
-        {/* Mini waveform */}
         <polyline points="315,149 320,147 325,148 330,145 335,147 340,146 345,148 350,145 355,147 360,148 365,146 370,148 375,147 378,149"
           fill="none" stroke={C.greenLight} strokeWidth="0.6" opacity="0.5">
           <animate attributeName="points"
@@ -1535,7 +1957,7 @@ function BESSVisual() {
         </polyline>
       </InfoPanel>
 
-      {/* Revenue cards */}
+      {/* Revenue cards with ticker (R137) */}
       <g>
         {[
           [306, 165, "Arbitrage", "2–5 ct → Peak-Spread", C.gold],
@@ -1556,12 +1978,22 @@ function BESSVisual() {
         ))}
       </g>
 
+      {/* Revenue ticker (R137) */}
+      <g opacity="0.5">
+        <rect x="306" y="238" width="80" height="5" rx="2" fill="rgba(0,0,0,0.15)" />
+        <rect x="306" y="238" width="0" height="5" rx="2" fill={C.gold} opacity="0.12">
+          <animate attributeName="width" values="0;80;0" dur="10s" repeatCount="indefinite" />
+        </rect>
+        <text x="346" y="242" textAnchor="middle" fill={C.goldLight}
+          fontSize="3" fontFamily="Calibri, sans-serif">REVENUE ▶ +€ 5,2M – 8,7M p.a.</text>
+      </g>
+
       {/* Main KPI */}
       <g filter="url(#glow)">
-        <rect x="306" y="242" width="80" height="34" rx="6" fill={C.navy} stroke={C.green} strokeWidth="1.2" />
-        <text x="346" y="258" textAnchor="middle" fill={C.greenLight}
+        <rect x="306" y="248" width="80" height="30" rx="6" fill={C.navy} stroke={C.green} strokeWidth="1.2" />
+        <text x="346" y="263" textAnchor="middle" fill={C.greenLight}
           fontSize="11" fontFamily="Calibri, sans-serif" fontWeight="700">100 MW</text>
-        <text x="346" y="270" textAnchor="middle" fill={C.midGray}
+        <text x="346" y="273" textAnchor="middle" fill={C.midGray}
           fontSize="5.5" fontFamily="Calibri, sans-serif">200 MWh · 15–25 % p.a.</text>
       </g>
 
@@ -1573,14 +2005,14 @@ function BESSVisual() {
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   GESAMTERGEBNIS — Full transformation glory
+   GESAMTERGEBNIS — Full transformation (R143-R155 enhancements)
    ══════════════════════════════════════════════════════════════════ */
 function GesamtVisual() {
   return (
     <>
       <ValleyBg />
       <SiteBase solar heat>
-        {/* ═══ CARPORTS WITH SOLAR (active, shimmer) ═══ */}
+        {/* ═══ CARPORTS WITH SOLAR ═══ */}
         <g>
           <path d="M108,206 L110,199 L158,199 L160,206 Z" fill="url(#solarGrad)" opacity="0.7" />
           <rect x="108" y="206" width="52" height="2" fill={C.goldDim} opacity="0.4" />
@@ -1608,27 +2040,23 @@ function GesamtVisual() {
           </circle>
         ))}
 
-        {/* ═══ ON-SITE BESS (5 containers with pulsing charge bars) ═══ */}
+        {/* ═══ ON-SITE BESS with pulsing charge bars ═══ */}
         <g>
           {[0, 1, 2, 3, 4].map((i) => {
             const bx = 118 + i * 17;
             const by = 244;
-            const charge = 60 + (i * 17 % 35); // 60-95%
+            const charge = 60 + (i * 17 % 35);
             const barH = (charge / 100) * 10;
             return (
               <g key={i}>
-                {/* Container body */}
                 <rect x={bx} y={by} width="14" height="10" rx="1.5"
                   fill={C.green} opacity="0.45" stroke={C.greenLight} strokeWidth="0.5" />
-                {/* 3D side */}
                 <path d={`M${bx + 14},${by} L${bx + 16},${by - 1} L${bx + 16},${by + 9} L${bx + 14},${by + 10}`}
                   fill={C.forestMid} opacity="0.25" />
-                {/* Pulsing glow when charging */}
                 <rect x={bx - 1} y={by - 1} width="16" height="12" rx="2.5"
                   fill={C.greenLight} opacity="0">
                   <animate attributeName="opacity" values="0;0.08;0" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
                 </rect>
-                {/* Battery bar (vertical fill) */}
                 <rect x={bx + 10} y={by + 10 - barH} width="2.5" height={barH} rx="0.5"
                   fill={C.greenLight} opacity="0.6">
                   <animate attributeName="height" values={`${barH - 1};${barH + 1};${barH - 1}`}
@@ -1636,11 +2064,9 @@ function GesamtVisual() {
                   <animate attributeName="y" values={`${by + 11 - barH};${by + 9 - barH};${by + 11 - barH}`}
                     dur={`${2.5 + i * 0.4}s`} repeatCount="indefinite" />
                 </rect>
-                {/* Status LED */}
                 <circle cx={bx + 3} cy={by + 2.5} r="1" fill={C.greenLight}>
                   <animate attributeName="opacity" values="0.3;0.9;0.3" dur={`${1.5 + i * 0.2}s`} repeatCount="indefinite" />
                 </circle>
-                {/* % label */}
                 <text x={bx + 7} y={by + 7} textAnchor="middle" fill={C.greenLight}
                   fontSize="3.5" fontFamily="Calibri, sans-serif" fontWeight="700" opacity="0.5">{charge}%</text>
               </g>
@@ -1671,15 +2097,13 @@ function GesamtVisual() {
           <rect x="195" y="166" width="12" height="10" rx="2" fill={C.navy} stroke={C.warmOrange} strokeWidth="0.6" />
           <text x="201" y="174" textAnchor="middle" fill={C.warmOrangeLight}
             fontSize="3.5" fontFamily="Calibri, sans-serif" fontWeight="700">WP</text>
-          {/* Heat wave */}
           <path d="M198,164 Q200,160 202,164" fill="none" stroke={C.warmOrangeLight} strokeWidth="0.5" opacity="0.3">
             <animateTransform attributeName="transform" type="translate" values="0,0;0,-3;0,0" dur="1.5s" repeatCount="indefinite" />
             <animate attributeName="opacity" values="0.15;0.4;0.15" dur="1.5s" repeatCount="indefinite" />
           </path>
         </g>
 
-        {/* ═══ CHARGING STATIONS (active with cars) ═══ */}
-        {/* AC chargers left */}
+        {/* ═══ CHARGING STATIONS ═══ */}
         {[0, 1, 2, 3].map((i) => (
           <g key={`ac${i}`}>
             <rect x={272 + i * 9} y="215" width="5" height="8" rx="1"
@@ -1691,7 +2115,6 @@ function GesamtVisual() {
         ))}
         <Car x={273} y={225} color="rgba(100,180,255,0.1)" s={0.7} />
         <Car x={285} y={225} s={0.7} />
-        {/* HPC hint */}
         <g opacity="0.5">
           <rect x="260" y="240" width="8" height="10" rx="1.5" fill={C.navy} stroke={C.greenLight} strokeWidth="0.5" />
           <text x="264" y="248" textAnchor="middle" fill={C.greenLight} fontSize="3.5" fontWeight="700">⚡</text>
@@ -1699,11 +2122,10 @@ function GesamtVisual() {
         </g>
       </SiteBase>
 
-      {/* ═══ EMS CENTRAL HUB (on top of site) ═══ */}
+      {/* ═══ EMS CENTRAL HUB ═══ */}
       <g filter="url(#glow)">
         <rect x="180" y="130" width="40" height="22" rx="5" fill={C.navy} stroke={C.gold} strokeWidth="1.2" />
         <rect x="184" y="134" width="32" height="14" rx="2" fill="rgba(0,0,0,0.3)" />
-        {/* Mini live bars */}
         {Array.from({ length: 6 }, (_, i) => {
           const bh = 2 + ((i * 3 + 1) % 6);
           return (
@@ -1718,51 +2140,46 @@ function GesamtVisual() {
           fontSize="6" fontFamily="Calibri, sans-serif" fontWeight="700">EMS</text>
       </g>
 
-      {/* ═══ ENERGY FLOW PATHS (all systems connected) ═══ */}
+      {/* ═══ ENERGY FLOW PATHS with glow trails (R144) ═══ */}
       <defs>
-        {/* PV → EMS */}
         <path id="gf_pv" d="M220,155 Q225,148 220,140 Q215,135 210,140" />
-        {/* EMS → BESS on-site */}
         <path id="gf_bess" d="M200,152 Q195,200 165,244" />
-        {/* EMS → Chargers */}
         <path id="gf_charge" d="M220,148 Q260,180 280,215" />
-        {/* EMS → Grid */}
         <path id="gf_grid" d="M190,140 Q120,130 85,125" />
-        {/* PV → Production (Eigenverbrauch) */}
         <path id="gf_prod" d="M210,155 Q215,160 220,168" />
-        {/* Grid → External BESS */}
-        <path id="gf_ext" d="M85,125 Q80,135 78,150" />
       </defs>
-      {/* PV → EMS (gold) */}
       <g>
         <use href="#gf_pv" fill="none" stroke={C.gold} strokeWidth="1.2" opacity="0.08" />
-        <FlowParticles pathId="gf_pv" color={C.goldLight} count={3} dur={2} r={2} />
+        <FlowParticles pathId="gf_pv" color={C.goldLight} count={3} dur={2} r={2} glow />
       </g>
-      {/* EMS → BESS on-site (green) */}
       <g>
         <use href="#gf_bess" fill="none" stroke={C.greenLight} strokeWidth="1" opacity="0.08" />
-        <FlowParticles pathId="gf_bess" color={C.greenLight} count={3} dur={3} r={1.8} />
+        <FlowParticles pathId="gf_bess" color={C.greenLight} count={3} dur={3} r={1.8} glow />
       </g>
-      {/* EMS → Chargers (green) */}
       <g>
         <use href="#gf_charge" fill="none" stroke={C.greenLight} strokeWidth="0.8" opacity="0.06" />
         <FlowParticles pathId="gf_charge" color={C.greenLight} count={2} dur={3.5} r={1.5} />
       </g>
-      {/* EMS ↔ Grid (gold, bidirectional) */}
       <g>
         <use href="#gf_grid" fill="none" stroke={C.gold} strokeWidth="1" opacity="0.06" />
         <FlowParticles pathId="gf_grid" color={C.goldLight} count={2} dur={3} r={1.8} />
       </g>
-      {/* PV → Production (gold, direct consumption) */}
       <g>
         <use href="#gf_prod" fill="none" stroke={C.gold} strokeWidth="0.8" opacity="0.06" />
         <FlowParticles pathId="gf_prod" color={C.goldLight} count={2} dur={2} r={1.5} />
       </g>
 
+      {/* Connection pulse animation (R154) */}
+      {[[200, 152], [210, 140], [190, 140]].map(([px, py], i) => (
+        <circle key={`pulse${i}`} cx={px} cy={py} r="0" fill={C.gold} opacity="0">
+          <animate attributeName="r" values="0;6;0" dur={`${3 + i}s`} repeatCount="indefinite" begin={`${i * 0.8}s`} />
+          <animate attributeName="opacity" values="0;0.08;0" dur={`${3 + i}s`} repeatCount="indefinite" begin={`${i * 0.8}s`} />
+        </circle>
+      ))}
+
       {/* ═══ 110kV Grid Connection ═══ */}
       <g opacity="0.6">
         <line x1="12" y1="105" x2="78" y2="125" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
-        {/* Pylon (compact) */}
         <line x1="76" y1="133" x2="82" y2="118" stroke="rgba(255,255,255,0.18)" strokeWidth="1" />
         <line x1="88" y1="133" x2="82" y2="118" stroke="rgba(255,255,255,0.18)" strokeWidth="1" />
         <line x1="73" y1="120" x2="91" y2="120" stroke="rgba(255,255,255,0.12)" strokeWidth="0.6" />
@@ -1771,9 +2188,8 @@ function GesamtVisual() {
         <text x="42" y="102" fill={C.midGray} fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">110 kV</text>
       </g>
 
-      {/* ═══ EXTERNAL BESS (100MW/200MWh) with charging animation ═══ */}
+      {/* ═══ EXTERNAL BESS (100MW/200MWh) with signage (R149) ═══ */}
       <g>
-        {/* Green landscape patch */}
         <ellipse cx="62" cy="195" rx="42" ry="30" fill={C.forest} opacity="0.1" />
         <Pine x={25} y={178} h={5.5} opacity={0.3} />
         <Pine x={100} y={176} h={6} opacity={0.3} />
@@ -1788,15 +2204,12 @@ function GesamtVisual() {
             const barH = (charge / 100) * 9;
             return (
               <g key={`e${row}-${col}`}>
-                {/* Container */}
                 <rect x={cx} y={cy} width="15" height="10" rx="1.5"
                   fill={C.green} opacity={0.3 + row * 0.03} stroke={C.greenLight} strokeWidth="0.4" />
-                {/* Pulsing charge glow */}
                 <rect x={cx - 0.5} y={cy - 0.5} width="16" height="11" rx="2"
                   fill={C.greenLight} opacity="0">
                   <animate attributeName="opacity" values="0;0.06;0" dur={`${2.5 + row * 0.3 + col * 0.2}s`} repeatCount="indefinite" />
                 </rect>
-                {/* Battery charge bar */}
                 <rect x={cx + 11.5} y={cy + 10 - barH} width="2" height={barH} rx="0.5"
                   fill={C.greenLight} opacity="0.55">
                   <animate attributeName="height" values={`${barH - 0.5};${barH + 1};${barH - 0.5}`}
@@ -1804,7 +2217,6 @@ function GesamtVisual() {
                   <animate attributeName="y" values={`${cy + 10.5 - barH};${cy + 9 - barH};${cy + 10.5 - barH}`}
                     dur={`${3 + row * 0.4 + col * 0.3}s`} repeatCount="indefinite" />
                 </rect>
-                {/* LED */}
                 <circle cx={cx + 3} cy={cy + 2.5} r="0.8" fill={C.greenLight}>
                   <animate attributeName="opacity" values="0.3;0.8;0.3"
                     dur={`${1.5 + row * 0.12 + col * 0.1}s`} repeatCount="indefinite" />
@@ -1814,31 +2226,30 @@ function GesamtVisual() {
           })
         )}
 
-        {/* Grid → BESS flow */}
         <defs>
           <path id="gf_ext2" d="M82,135 Q72,155 55,170" />
-        </defs>
-        <use href="#gf_ext2" fill="none" stroke={C.greenLight} strokeWidth="0.8" opacity="0.08" />
-        <FlowParticles pathId="gf_ext2" color={C.greenLight} count={3} dur={2.5} r={1.8} />
-
-        {/* BESS → Grid (revenue flow back) */}
-        <defs>
           <path id="gf_rev" d="M70,175 Q76,150 82,135" />
         </defs>
+        <use href="#gf_ext2" fill="none" stroke={C.greenLight} strokeWidth="0.8" opacity="0.08" />
+        <FlowParticles pathId="gf_ext2" color={C.greenLight} count={3} dur={2.5} r={1.8} glow />
         <use href="#gf_rev" fill="none" stroke={C.gold} strokeWidth="0.6" opacity="0.05" />
         <FlowParticles pathId="gf_rev" color={C.goldLight} count={2} dur={4} r={1.5} />
 
-        <text x="62" y="232" textAnchor="middle" fill={C.greenLight}
-          fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700" opacity="0.6">100 MW / 200 MWh</text>
-        <text x="62" y="238" textAnchor="middle" fill={C.midGray}
-          fontSize="3.5" fontFamily="Calibri, sans-serif" opacity="0.4">Graustrom-BESS</text>
+        {/* Signage (R149) */}
+        <rect x="35" y="225" width="52" height="16" rx="3" fill={C.navy} opacity="0.7"
+          stroke={C.greenLight} strokeWidth="0.4" />
+        <text x="61" y="233" textAnchor="middle" fill={C.greenLight}
+          fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">100 MW / 200 MWh</text>
+        <text x="61" y="239" textAnchor="middle" fill={C.midGray}
+          fontSize="3.5" fontFamily="Calibri, sans-serif">Graustrom-BESS</text>
       </g>
 
-      {/* ═══ SUN (energy source indicator) ═══ */}
+      {/* ═══ SUN ═══ */}
       <g>
         <circle cx="355" cy="80" r="12" fill={C.gold} opacity="0.06" />
         <circle cx="355" cy="80" r="7" fill={C.goldLight} opacity="0.15" />
         <circle cx="355" cy="80" r="4" fill={C.goldLight} opacity="0.3" />
+        {/* Animated sun rays reaching all systems (R148) */}
         {Array.from({ length: 12 }, (_, i) => {
           const a = (i / 12) * Math.PI * 2;
           return (
@@ -1851,9 +2262,16 @@ function GesamtVisual() {
             </line>
           );
         })}
+        {/* Rays to key systems (R148) */}
+        {[[200, 130], [160, 244], [280, 215]].map(([tx, ty], i) => (
+          <line key={`sr${i}`} x1={350 - i * 5} y1={84 + i * 2} x2={tx} y2={ty}
+            stroke={C.goldLight} strokeWidth="0.2" opacity="0.03" strokeDasharray="6,12">
+            <animate attributeName="opacity" values="0.01;0.06;0.01" dur={`${5 + i * 1.5}s`} repeatCount="indefinite" />
+          </line>
+        ))}
       </g>
 
-      {/* ═══ SYSTEM LABELS (right side, compact) ═══ */}
+      {/* ═══ SYSTEM LABELS ═══ */}
       <g>
         {[
           [325, 138, "☀️", "6,5–11 MWp", C.gold],
@@ -1872,7 +2290,19 @@ function GesamtVisual() {
         ))}
       </g>
 
-      {/* ═══ ENERGY FLOW LEGEND (bottom left) ═══ */}
+      {/* ═══ CO2 SAVINGS COUNTER (R146) ═══ */}
+      <g>
+        <rect x="325" y="210" width="64" height="14" rx="4" fill={C.navy} opacity="0.85"
+          stroke={C.greenLight} strokeWidth="0.4" />
+        <text x="332" y="218" fill={C.greenLight}
+          fontSize="4" fontFamily="Calibri, sans-serif" fontWeight="700">🌿</text>
+        <text x="340" y="219" fill={C.greenLight}
+          fontSize="5.5" fontFamily="Calibri, sans-serif" fontWeight="700">–4.800 t</text>
+        <text x="376" y="219" fill={C.midGray}
+          fontSize="3.5" fontFamily="Calibri, sans-serif">CO₂/a</text>
+      </g>
+
+      {/* ═══ ENERGY FLOW LEGEND ═══ */}
       <g opacity="0.6">
         <rect x="12" y="260" width="65" height="42" rx="4" fill={C.navy} opacity="0.85"
           stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
@@ -1894,12 +2324,16 @@ function GesamtVisual() {
         ))}
       </g>
 
-      {/* ═══ MINI TIMELINE (bottom) ═══ */}
+      {/* ═══ MINI TIMELINE with progress (R143) ═══ */}
       <g>
         <line x1="100" y1="308" x2="310" y2="308" stroke="rgba(255,255,255,0.05)" strokeWidth="0.8" />
+        {/* Progress fill (R143) */}
+        <line x1="100" y1="308" x2="310" y2="308" stroke={C.gold} strokeWidth="0.8" opacity="0.08">
+          <animate attributeName="x2" values="100;310" dur="3s" fill="freeze" />
+        </line>
         {[
           ["I", "☀️"], ["II", "☀️"], ["III", "🔋"], ["IV", "🔥"], ["V", "🔌"], ["VI", "⚡"],
-        ].map(([num, icon], i) => (
+        ].map(([num], i) => (
           <g key={i}>
             <circle cx={118 + i * 36} cy="308" r="5" fill={C.gold} opacity={0.12 + i * 0.04}
               stroke={C.goldLight} strokeWidth="0.3" />
@@ -1907,6 +2341,10 @@ function GesamtVisual() {
               fontSize="4" fontFamily="Georgia, serif" fontWeight="700">{num}</text>
           </g>
         ))}
+        {/* Completion check (R143) */}
+        <circle cx="330" cy="308" r="6" fill={C.gold} opacity="0.15" stroke={C.goldLight} strokeWidth="0.5" />
+        <text x="330" y="310.5" textAnchor="middle" fill={C.goldLight}
+          fontSize="5" fontFamily="Georgia, serif" fontWeight="700">✓</text>
       </g>
 
       <PhaseBadge x={12} y={8} num="✦" icon="🏆" label="GESAMT" color={C.gold} />
@@ -1929,20 +2367,21 @@ function SvgAutarkieRing({ cx, cy, score, size = 36 }) {
   const offset = circ - (score / 100) * circ;
   return (
     <g>
-      {/* Background glow */}
       <circle cx={cx} cy={cy} r={size / 2 + 4} fill={C.navy} opacity="0.85" />
       <circle cx={cx} cy={cy} r={size / 2 + 4} fill="none" stroke={C.gold} strokeWidth="0.4" opacity="0.15" />
-      {/* Track */}
       <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="3.5"
         transform={`rotate(-90 ${cx} ${cy})`} />
-      {/* Progress arc */}
       <circle cx={cx} cy={cy} r={r} fill="none" strokeWidth="3.5"
         stroke={C.gold} strokeLinecap="round"
         strokeDasharray={circ} strokeDashoffset={offset}
         transform={`rotate(-90 ${cx} ${cy})`}>
         <animate attributeName="stroke-dashoffset" from={circ} to={offset} dur="1.2s" fill="freeze" />
       </circle>
-      {/* Score text */}
+      {/* Glow ring (R158) */}
+      <circle cx={cx} cy={cy} r={r + 1} fill="none" strokeWidth="1"
+        stroke={C.gold} opacity="0.05"
+        strokeDasharray={circ * 1.07} strokeDashoffset={circ * 1.07 - (score / 100) * circ * 1.07}
+        transform={`rotate(-90 ${cx} ${cy})`} />
       <text x={cx} y={cy + 1} textAnchor="middle" fill={C.goldLight}
         fontSize="10" fontFamily="Calibri, sans-serif" fontWeight="700">{score}%</text>
       <text x={cx} y={cy + 8} textAnchor="middle" fill={C.midGray}
@@ -1968,7 +2407,6 @@ export default function PhaseVisual({ phaseNum, score = 0 }) {
         xmlns="http://www.w3.org/2000/svg">
         <SharedDefs warm={warm} cool={cool} />
         <Visual />
-        {/* Autarkie Ring — top right */}
         {score > 0 && <SvgAutarkieRing cx={365} cy={42} score={score} size={phaseNum === "✦" ? 42 : 36} />}
       </svg>
     </div>

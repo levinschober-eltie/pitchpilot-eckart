@@ -50,6 +50,12 @@ const phases = [
     independenceScore: 15,
     independenceLabel: "Bestand + Datenbasis",
     icon: "🔍",
+    highlights: [
+      { icon: "📡", title: "Drohnen- & Laservermessung", text: "50 ha Gelände vollständig digital erfasst — Gebäude, Freiflächen, Verschattung" },
+      { icon: "📊", title: "15-Min-Lastprofil", text: "12 Monate reale Verbrauchsdaten als Grundlage für jede Dimensionierung" },
+      { icon: "🔬", title: "Thermografie & Abwärme", text: "IR-Aufnahmen aller Hallen — Wärmeverluste und Abwärmequellen identifiziert" },
+      { icon: "⚡", title: "110-kV Netzanalyse", text: "Einspeise- und Bezugskapazität dokumentiert — Grundlage für Phase VI" },
+    ],
   },
   {
     num: "II",
@@ -85,6 +91,12 @@ const phases = [
     independenceScore: 45,
     independenceLabel: "Erweitertes Erzeugungsportfolio",
     icon: "🏗️",
+    highlights: [
+      { icon: "🏭", title: "Dach-PV auf allen Hallen", text: "Cluster A–E saniert und mit PV bestückt — 3,5–6 MWp allein auf den Dächern" },
+      { icon: "🏢", title: "Fassaden-PV Süd/West", text: "Vertikale Module erzeugen auch bei flachem Sonnenstand — ideal im Winter" },
+      { icon: "🅿️", title: "Carport-Kraftwerke", text: "800–1.200 Stellplätze mit Solar-Carports — Laden und Erzeugen kombiniert" },
+      { icon: "📈", title: "Vier Erzeugungsarten", text: "Dach + Fassade + Carport + Freifläche ergänzen sich jahreszeitlich optimal" },
+    ],
   },
   {
     num: "III",
@@ -117,6 +129,12 @@ const phases = [
     independenceScore: 65,
     independenceLabel: "Steuerbarkeit erreicht",
     icon: "⚡",
+    highlights: [
+      { icon: "🔋", title: "1:1 PV-Speicher", text: "6,5–11 MWh Kapazität — exakt auf die PV-Leistung dimensioniert (0,5C)" },
+      { icon: "🧠", title: "Intelligentes EMS", text: "Prognosebasierte Steuerung: PV-Ertrag, Lastprofile und Wetter in Echtzeit" },
+      { icon: "📉", title: "Peak Shaving aktiv", text: "Lastspitzen um 10–15 % gekappt — direkte Reduktion der Leistungspreise" },
+      { icon: "💰", title: "Spotmarkt-Trading", text: "Günstig laden bei 2 ct/kWh, teuer zurückspeisen — automatisiert durch EMS" },
+    ],
   },
   {
     num: "IV",
@@ -152,6 +170,12 @@ const phases = [
     independenceScore: 80,
     independenceLabel: "Thermisch unabhängig",
     icon: "🔥",
+    highlights: [
+      { icon: "♨️", title: "WP-Kaskade 5–10 MW", text: "Hochtemperatur-Wärmepumpen bis 90 °C — direkt aus industrieller Abwärme" },
+      { icon: "🔄", title: "Abwärme-Kaskade", text: "Mühlen → Kompressoren → Trockner → Rücklauf — keine Energie geht verloren" },
+      { icon: "🏗️", title: "Standortweites Netz", text: "Alle Produktionshallen über ein zentrales Wärmenetz verbunden" },
+      { icon: "🌿", title: "65–80 % weniger Gas", text: "Fossile Kessel nur noch als Spitzenlast-Reserve — CO₂-Bilanz drastisch verbessert" },
+    ],
   },
   {
     num: "V",
@@ -188,6 +212,12 @@ const phases = [
     independenceScore: 78,
     independenceLabel: "Mobilität elektrifiziert",
     icon: "🔌",
+    highlights: [
+      { icon: "🔌", title: "60+ AC-Wallboxen", text: "Mitarbeiter laden während der Arbeit — direkt vom eigenen PV-Strom" },
+      { icon: "⚡", title: "DC-Fleet 150 kW", text: "Firmenflotte in 30 Min. geladen — Schnellladung aus dem Betriebsspeicher" },
+      { icon: "🚛", title: "HPC-LKW-Depot", text: "150–400 kW CCS-Ladung für E-LKW — Logistik wird elektrisch" },
+      { icon: "📋", title: "GEIG-konform ab 2026", text: "Gesetzliche Ladepflicht für Unternehmen erfüllt — keine Nachrüstung nötig" },
+    ],
   },
   {
     num: "VI",
@@ -219,6 +249,12 @@ const phases = [
     independenceScore: 90,
     independenceLabel: "Eigenständiges Ertragsmodell",
     icon: "🏭",
+    highlights: [
+      { icon: "🏦", title: "Separates Investment", text: "Eigenständige Projektfinanzierung möglich — unabhängig von Standort-Invest" },
+      { icon: "📊", title: "Drei Erlösströme", text: "Arbitrage + Regelenergie (FCR/aFRR) + Redispatch — maximale Diversifikation" },
+      { icon: "⚡", title: "100 MW / 200 MWh", text: "Großspeicher am 110-kV-Netz — eine der größten Anlagen in der Region" },
+      { icon: "💹", title: "15–25 % p.a. Rendite", text: "Cashflow vom ersten Betriebstag — Amortisation in 4–6 Jahren realistisch" },
+    ],
   },
   {
     num: "✦",
@@ -284,6 +320,12 @@ const phases = [
     independenceScore: 95,
     independenceLabel: "Strategischer Standortvorteil",
     icon: "🏆",
+    highlights: [
+      { icon: "🎯", title: "95 % Autarkie", text: "Strom, Wärme und Mobilität nahezu vollständig aus eigener Erzeugung" },
+      { icon: "💰", title: "1,4–2,5 Mio €/a", text: "Jährliche Einsparung über alle Energiedimensionen — ab Jahr 1" },
+      { icon: "⏱️", title: "Amortisation 6–9 J.", text: "Standort-Invest (Phasen I–V) amortisiert sich innerhalb eines Jahrzehnts" },
+      { icon: "🏭", title: "Eigenständiger Cashflow", text: "Graustrom-BESS als separates Ertragsmodell mit 15–25 % p.a." },
+    ],
   },
 ];
 
@@ -676,24 +718,63 @@ export default function EckartTimeline() {
           </p>
         </div>
 
-        {/* Two-Column: Description left, Illustration right */}
+        {/* Two-Column: Content left, Illustration right */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "2fr 3fr",
+          gridTemplateColumns: "5fr 4fr",
           gap: "1.25rem",
           alignItems: "start",
           marginBottom: "1.25rem",
         }}>
-          {/* Left: Description */}
-          <p style={{
-            fontFamily: "Calibri, sans-serif",
-            fontSize: "0.85rem", color: "rgba(255,255,255,0.75)",
-            lineHeight: 1.65, margin: 0,
-          }}>
-            {phase.description}
-          </p>
+          {/* Left: Description + Highlights */}
+          <div>
+            <p style={{
+              fontFamily: "Calibri, sans-serif",
+              fontSize: "0.85rem", color: "rgba(255,255,255,0.75)",
+              lineHeight: 1.65, margin: "0 0 0.75rem 0",
+            }}>
+              {phase.description}
+            </p>
 
-          {/* Right: Illustration (with Autarkie ring inside SVG) */}
+            {/* Phase highlights */}
+            {phase.highlights && phase.highlights.length > 0 && (
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "0.4rem",
+              }}>
+                {phase.highlights.map((h, i) => (
+                  <div key={i} style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: `1px solid ${phase.color || C.gold}18`,
+                    borderRadius: "8px",
+                    padding: "0.5rem 0.6rem",
+                    animation: `fadeSlideIn 0.4s ease ${0.15 + i * 0.07}s both`,
+                  }}>
+                    <div style={{
+                      display: "flex", alignItems: "center", gap: "0.35rem",
+                      marginBottom: "0.2rem",
+                    }}>
+                      <span style={{ fontSize: "0.75rem" }}>{h.icon}</span>
+                      <span style={{
+                        fontFamily: "Calibri, sans-serif",
+                        fontSize: "0.7rem", fontWeight: 700,
+                        color: phase.color || C.goldLight,
+                        letterSpacing: "0.3px",
+                      }}>{h.title}</span>
+                    </div>
+                    <p style={{
+                      fontFamily: "Calibri, sans-serif",
+                      fontSize: "0.65rem", color: "rgba(255,255,255,0.55)",
+                      lineHeight: 1.45, margin: 0,
+                    }}>{h.text}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Right: Illustration (smaller, with Autarkie ring inside SVG) */}
           <PhaseVisual phaseNum={phase.num} score={displayScore} />
         </div>
 
