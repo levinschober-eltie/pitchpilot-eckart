@@ -1997,13 +1997,21 @@ export default function EckartTimeline() {
       </footer>
 
       <style>{`
+        @-webkit-keyframes fadeSlideIn {
+          from { opacity: 0; -webkit-transform: translateY(12px); transform: translateY(12px); }
+          to { opacity: 1; -webkit-transform: translateY(0); transform: translateY(0); }
+        }
         @keyframes fadeSlideIn {
-          from { opacity: 0; transform: translateY(12px); }
-          to { opacity: 1; transform: translateY(0); }
+          from { opacity: 0; -webkit-transform: translateY(12px); transform: translateY(12px); }
+          to { opacity: 1; -webkit-transform: translateY(0); transform: translateY(0); }
+        }
+        @-webkit-keyframes ringPulse {
+          0%, 100% { -webkit-filter: drop-shadow(0 0 8px ${C.gold}20); filter: drop-shadow(0 0 8px ${C.gold}20); }
+          50% { -webkit-filter: drop-shadow(0 0 16px ${C.gold}40); filter: drop-shadow(0 0 16px ${C.gold}40); }
         }
         @keyframes ringPulse {
-          0%, 100% { filter: drop-shadow(0 0 8px ${C.gold}20); }
-          50% { filter: drop-shadow(0 0 16px ${C.gold}40); }
+          0%, 100% { -webkit-filter: drop-shadow(0 0 8px ${C.gold}20); filter: drop-shadow(0 0 8px ${C.gold}20); }
+          50% { -webkit-filter: drop-shadow(0 0 16px ${C.gold}40); filter: drop-shadow(0 0 16px ${C.gold}40); }
         }
         * { box-sizing: border-box; margin: 0; }
         button:focus-visible { outline: 2px solid ${C.gold}; outline-offset: 2px; }

@@ -234,9 +234,13 @@ export default function App() {
     }}>
       <EckartTimeline />
       <style>{`
+        @-webkit-keyframes introFadeIn {
+          from { opacity: 0; -webkit-transform: translateY(10px); transform: translateY(10px); }
+          to { opacity: 1; -webkit-transform: translateY(0); transform: translateY(0); }
+        }
         @keyframes introFadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
+          from { opacity: 0; -webkit-transform: translateY(10px); transform: translateY(10px); }
+          to { opacity: 1; -webkit-transform: translateY(0); transform: translateY(0); }
         }
       `}</style>
     </div>

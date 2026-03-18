@@ -849,7 +849,7 @@ function FlowParticles({ pathId, color = C.gold, count = 3, dur = 3, r = 2, glow
           <g key={i}>
             <circle r={pr} fill={color} opacity="0">
               <animateMotion dur={`${dur}s`} repeatCount="indefinite" begin={`${(i / count) * dur}s`}>
-                <mpath href={`#${pathId}`} />
+                <mpath href={`#${pathId}`} xlinkHref={`#${pathId}`} />
               </animateMotion>
               <animate attributeName="opacity" values="0;0.85;0.85;0"
                 dur={`${dur}s`} repeatCount="indefinite" begin={`${(i / count) * dur}s`} />
@@ -858,7 +858,7 @@ function FlowParticles({ pathId, color = C.gold, count = 3, dur = 3, r = 2, glow
             <circle r={pr * 1.8} fill={color} opacity="0">
               <animateMotion dur={`${dur}s`} repeatCount="indefinite"
                 begin={`${(i / count) * dur + 0.04}s`}>
-                <mpath href={`#${pathId}`} />
+                <mpath href={`#${pathId}`} xlinkHref={`#${pathId}`} />
               </animateMotion>
               <animate attributeName="opacity" values="0;0.2;0.2;0"
                 dur={`${dur}s`} repeatCount="indefinite" begin={`${(i / count) * dur + 0.04}s`} />

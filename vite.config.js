@@ -5,4 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: '/pitchpilot-eckart/',
+  build: {
+    target: ['es2015', 'chrome64', 'firefox60', 'safari11.1', 'edge79'],
+  },
 })

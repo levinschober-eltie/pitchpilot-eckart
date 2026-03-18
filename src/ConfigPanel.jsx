@@ -599,9 +599,17 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
           .cp-slider::-webkit-slider-runnable-track {
             height: 5px; border-radius: 3px;
           }
+          @-webkit-keyframes cpSlideIn {
+            from { -webkit-transform: translateX(100%); transform: translateX(100%); }
+            to { -webkit-transform: translateX(0); transform: translateX(0); }
+          }
           @keyframes cpSlideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
+            from { -webkit-transform: translateX(100%); transform: translateX(100%); }
+            to { -webkit-transform: translateX(0); transform: translateX(0); }
+          }
+          @-webkit-keyframes cpFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
           }
           @keyframes cpFadeIn {
             from { opacity: 0; }
