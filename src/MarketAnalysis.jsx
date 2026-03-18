@@ -162,6 +162,68 @@ async function fetchLivePrices() {
   }
 }
 
+// Fetch real solar irradiance from Open-Meteo (CORS-friendly, free)
+async function fetchSolarIrradiance(lat, lon, arrays) {
+  try {
+    const year = new Date().getFullYear() - 1; // last full year
+    const url = new URL("https://archive-api.open-meteo.com/v1/archive");
+    url.searchParams.set("latitude", lat.toFixed(2));
+    url.searchParams.set("longitude", lon.toFixed(2));
+    url.searchParams.set("start_date", `${year}-01-01`);
+    url.searchParams.set("end_date", `${year}-12-31`);
+    url.searchParams.set("hourly", "direct_radiation,diffuse_radiation,direct_normal_irradiance,temperature_2m");
+    url.searchParams.set("timezone", "Europe/Berlin");
+
+    const resp = await fetch(url, { signal: AbortSignal.timeout(15000) });
+    if (!resp.ok) throw new Error("API error");
+    const data = await resp.json();
+    const { direct_radiation, diffuse_radiation, direct_normal_irradiance, temperature_2m } = data.hourly;
+    const hours = data.hourly.time;
+    if (!direct_radiation || direct_radiation.length < 8000) throw new Error("Insufficient data");
+
+    // Compute PV output for each array using real irradiance
+    const hourly = new Float64Array(8760);
+    const monthly = new Float64Array(12);
+    const len = Math.min(hours.length, 8760);
+
+    for (let i = 0; i < len; i++) {
+      const dt = new Date(hours[i]);
+      const month = dt.getMonth();
+      const dayOfYear = Math.floor((dt - new Date(dt.getFullYear(), 0, 0)) / 86400000);
+      const hour = dt.getHours();
+
+      const sun = sunPosition(dayOfYear, hour + 0.5, lat, lon, 1);
+      if (sun.alt <= 1) continue;
+
+      const dni = direct_normal_irradiance[i] || 0;
+      const dhi = diffuse_radiation[i] || 0;
+      const temp = temperature_2m[i] || 25;
+      const tempLoss = 1 - 0.004 * Math.max(0, temp - 25); // Temp coefficient
+
+      for (const arr of arrays) {
+        const tiltR = arr.tilt * RAD;
+        const cosInc = Math.sin(sun.alt * RAD) * Math.cos(tiltR) +
+          Math.cos(sun.alt * RAD) * Math.sin(tiltR) * Math.cos((sun.az - arr.azimuth) * RAD);
+        if (cosInc <= 0) continue;
+
+        const beam = dni * Math.max(0, cosInc);
+        const diffuse = dhi * (1 + Math.cos(tiltR)) / 2;
+        const reflected = (direct_radiation[i] || 0) * 0.04 * (1 - Math.cos(tiltR)) / 2;
+        const irradiance = beam + diffuse + reflected;
+
+        const output = irradiance / 1000 * arr.kwp * 0.85 * tempLoss; // kW
+        hourly[i] += output;
+        monthly[month] += output;
+      }
+    }
+
+    const total = monthly.reduce((s, v) => s + v, 0);
+    return { hourly, monthly, total, source: "Open-Meteo " + year };
+  } catch {
+    return null;
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════════════
    SECTION 4 — LOAD PROFILE
    ═══════════════════════════════════════════════════════════════════════ */
@@ -757,6 +819,8 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
   const [bessEff, setBessEff] = useState(0.90);
   const [livePrice, setLivePrice] = useState(null);
   const [loadingPrices, setLoadingPrices] = useState(false);
+  const [liveSolar, setLiveSolar] = useState(null);
+  const [loadingSolar, setLoadingSolar] = useState(false);
   const [selectedDay, setSelectedDay] = useState(172); // Summer solstice
   const [season, setSeason] = useState("year"); // year, summer, winter
 
@@ -764,11 +828,12 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
   const effectiveLoad = configActive && config ? config.jahresverbrauch : annualLoad;
   const effectiveBess = configActive && config ? config.standortBESS * 1000 : bessCapacity;
 
-  // Generate solar data
-  const pvData = useMemo(() =>
+  // Generate solar data (use live irradiance if available, else parametric model)
+  const pvDataModel = useMemo(() =>
     generateAnnualPV(arrays, HARTENSTEIN.lat, HARTENSTEIN.lon, HARTENSTEIN.tz),
     [arrays]
   );
+  const pvData = liveSolar || pvDataModel;
 
   // Generate or use live prices
   const prices = useMemo(() => livePrice || generateAnnualPrices(42), [livePrice]);
@@ -793,9 +858,17 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
     setLoadingPrices(false);
   }, []);
 
-  const addArray = () => setArrays(a => [...a, { azimuth: 0, tilt: 20, kwp: 500 }]);
-  const removeArray = (idx) => setArrays(a => a.filter((_, i) => i !== idx));
-  const updateArray = (idx, arr) => setArrays(a => a.map((v, i) => i === idx ? arr : v));
+  // Fetch live solar irradiance from Open-Meteo
+  const handleFetchSolar = useCallback(async () => {
+    setLoadingSolar(true);
+    const data = await fetchSolarIrradiance(HARTENSTEIN.lat, HARTENSTEIN.lon, arrays);
+    if (data) setLiveSolar(data);
+    setLoadingSolar(false);
+  }, [arrays]);
+
+  const addArray = () => { setArrays(a => [...a, { azimuth: 0, tilt: 20, kwp: 500 }]); setLiveSolar(null); };
+  const removeArray = (idx) => { setArrays(a => a.filter((_, i) => i !== idx)); setLiveSolar(null); };
+  const updateArray = (idx, arr) => { setArrays(a => a.map((v, i) => i === idx ? arr : v)); setLiveSolar(null); };
 
   // Seasonal chart data
   const chartPV = season === "summer" ? results.summerHourlyPV :
@@ -868,6 +941,16 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
               }}>+ Anlage hinzufügen</button>
               <div style={{ fontSize: "0.72rem", color: "#888", marginTop: "0.5rem", textAlign: "center" }}>
                 Gesamt: {totalKWp.toLocaleString("de-DE")} kWp · {specificYield.toFixed(0)} kWh/kWp/a · {(pvData.total / 1000).toFixed(1)} GWh/a
+              </div>
+              <button onClick={handleFetchSolar} disabled={loadingSolar} style={{
+                width: "100%", background: loadingSolar ? "rgba(255,255,255,0.05)" : "rgba(45,106,79,0.15)",
+                border: "1px solid rgba(45,106,79,0.3)", color: C.greenLight,
+                borderRadius: 6, padding: "0.4rem", fontSize: "0.75rem", cursor: "pointer", marginTop: "0.5rem",
+              }}>
+                {loadingSolar ? "Lade Einstrahlungsdaten…" : liveSolar ? `✓ ${liveSolar.source} geladen` : "🌤 Echte Einstrahlungsdaten laden"}
+              </button>
+              <div style={{ fontSize: "0.65rem", color: "#777", marginTop: "0.2rem", textAlign: "center" }}>
+                Open-Meteo API (Reanalyse-Daten, kostenlos)
               </div>
             </Section>
 
@@ -1104,7 +1187,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                 </table>
               </div>
               <div style={{ fontSize: "0.7rem", color: "#666", marginTop: "0.5rem", textAlign: "center" }}>
-                Alle Werte p.a. · Standort Hartenstein · Börsenpreise {livePrice ? "live" : "modelliert"} · Industrielastprofil
+                Alle Werte p.a. · Standort Hartenstein · PV {liveSolar ? liveSolar.source : "Parametrisches Modell"} · Börsenpreise {livePrice ? "live (energy-charts)" : "modelliert"} · Industrielastprofil
               </div>
             </Section>
           </div>
