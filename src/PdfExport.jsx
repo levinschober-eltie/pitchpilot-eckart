@@ -6,7 +6,7 @@ const G = "#D4A843";
 const GR = "#2D6A4F";
 
 /* ── Formatting ── */
-const fmt = (n) => Math.round(n).toLocaleString("de-DE");
+const fmt = (n) => isFinite(n) ? Math.round(n).toLocaleString("de-DE") : "—";
 const fmtE = (n) => fmt(n) + " €";
 const fmtM = (n) => {
   if (Math.abs(n) >= 1e6) return (n / 1e6).toFixed(1).replace(".", ",") + " Mio €";
@@ -87,7 +87,9 @@ function cashflowSvg(proj) {
 }
 function niceStep(range, ticks) {
   const raw = range / ticks;
+  if (!isFinite(raw) || raw <= 0) return 1; // prevent infinite loop
   const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  if (!isFinite(mag) || mag <= 0) return 1;
   const norm = raw / mag;
   if (norm <= 1.5) return mag;
   if (norm <= 3) return 2 * mag;

@@ -303,7 +303,7 @@ function parseLastgangCSV(text) {
 }
 
 /* ── ConfigPanel Component ── */
-export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, configSaved }) {
+export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }) {
   const [openGroups, setOpenGroups] = useState(
     Object.fromEntries(GROUPS.map(g => [g.key, true]))
   );

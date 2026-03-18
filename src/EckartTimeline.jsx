@@ -662,7 +662,7 @@ export default function EckartTimeline() {
           >{configSaved ? "✓" : "⚙"} Kalkulator</button>
           {configSaved && (
             <button
-              onClick={() => { setSavedConfig(null); setConfig(defaultConfig); }}
+              onClick={() => { setSavedConfig(null); setConfig(defaultConfig); setConfigOpen(false); }}
               style={{
                 background: "rgba(255,100,100,0.1)", border: "1px solid rgba(255,100,100,0.3)",
                 borderRadius: "6px", padding: "0.3rem 0.7rem",
@@ -2019,7 +2019,6 @@ export default function EckartTimeline() {
           calc={calc}
           onClose={() => setConfigOpen(false)}
           onSave={() => { setSavedConfig({ ...config }); setConfigOpen(false); }}
-          configSaved={configSaved}
         />
       )}
 

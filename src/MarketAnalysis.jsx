@@ -292,10 +292,10 @@ function optimizeBESS(prices, pvSurplus, capacity, chargeRateKW, efficiency) {
         action = charge;
         currentSoc += charge * efficiency;
       }
-      // Priority 3: Discharge when expensive
+      // Priority 3: Discharge when expensive (apply efficiency on discharge side too)
       else if (p > dischThresh && currentSoc > capacity * 0.08) {
         const discharge = Math.min(maxDischarge, currentSoc);
-        action = -discharge;
+        action = -discharge * efficiency; // net output after losses
         currentSoc -= discharge;
       }
 
@@ -304,21 +304,23 @@ function optimizeBESS(prices, pvSurplus, capacity, chargeRateKW, efficiency) {
     }
   }
 
-  // Calculate revenue
-  let chargeFromGrid = 0, chargeFromPV = 0, dischargeRevenue = 0, dischargeSelfUse = 0;
+  // Calculate revenue & costs
+  let chargeFromGrid = 0, chargeFromPV = 0, dischargeRevenue = 0;
+  let chargeCostGrid = 0;
   let cycles = 0;
   for (let i = 0; i < 8760; i++) {
     if (schedule[i] > 0) {
       if (pvSurplus[i] > 0) chargeFromPV += schedule[i];
-      else chargeFromGrid += schedule[i];
+      else {
+        chargeFromGrid += schedule[i];
+        chargeCostGrid += schedule[i] * prices[i] / 1000; // € cost of grid charging
+      }
     } else if (schedule[i] < 0) {
       const dischKWh = -schedule[i];
       dischargeRevenue += dischKWh * prices[i] / 1000; // €
-      cycles += dischKWh / capacity;
+      cycles += dischKWh / Math.max(capacity, 1);
     }
   }
-  const chargeCostGrid = chargeFromGrid * prices.reduce((s, p, i) =>
-    schedule[i] > 0 && pvSurplus[i] <= 0 ? s + p : s, 0) / Math.max(1, chargeFromGrid) / 1000;
 
   return { schedule, soc, chargeFromGrid, chargeFromPV, dischargeRevenue, chargeCostGrid, cycles };
 }
@@ -365,16 +367,16 @@ function calcMarket(pvData, loadHourly, prices, bessCapKWh, bessRateKW, bessEff,
   // Direktvermarktung WITH BESS — shifted surplus to higher-price hours
   let dvBessRevenue = 0;
   for (let i = 0; i < 8760; i++) {
-    if (bess.schedule[i] < 0) { // discharge
+    if (bess.schedule[i] < 0) { // discharge → sell at (higher) current price
       dvBessRevenue += (-bess.schedule[i]) * prices[i] / 1000;
-    } else if (surplus[i] > 0 && bess.schedule[i] <= 0) {
-      // Remaining surplus not stored → sell at current price
+    } else if (surplus[i] > 0) {
+      // Surplus minus what's being stored → sell remainder at current price
       const stored = bess.schedule[i] > 0 ? bess.schedule[i] : 0;
       const directSell = Math.max(0, surplus[i] - stored);
       dvBessRevenue += directSell * prices[i] / 1000;
     }
   }
-  const dvBessFee = (gridFeedIn + bess.chargeFromGrid) * 0.003;
+  const dvBessFee = gridFeedIn * 0.003; // fee only on actual feed-in
   const dvBessNet = dvBessRevenue - dvBessFee;
 
   // Procurement comparison
@@ -397,7 +399,7 @@ function calcMarket(pvData, loadHourly, prices, bessCapKWh, bessRateKW, bessEff,
     const effectiveDeficit = Math.max(0, deficit[i] - bessDischarge);
     spotCostBess += effectiveDeficit * prices[i] / 1000;
   }
-  const gridImportBess = gridImport - (bess.chargeFromPV * bessEff); // rough
+  const gridImportBess = Math.max(0, gridImport - bess.chargeFromPV * bessEff * bessEff); // double eff: charge+discharge
   const newProcCostBess = spotCostBess + Math.max(0, gridImportBess) * 0.065 + Math.max(0, gridImportBess) * 0.025;
 
   // Self-consumption savings
