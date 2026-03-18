@@ -44,6 +44,10 @@ const phases = [
     investment: [
       { label: "Standortanalyse & Gutachten", range: "50–80 T€" },
     ],
+    funding: [
+      { label: "BAFA Energieberatung", value: "bis 80 % Zuschuss" },
+      { label: "KfW 295 (Energieeffizienz)", value: "Tilgungszuschuss" },
+    ],
     investTotal: "50–80 T€",
     roi: "Entscheidungsgrundlage für alle Folgeinvestitionen",
     roiValue: "~2.000 MWh/a bereits erzeugt",
@@ -85,6 +89,11 @@ const phases = [
       { label: "Fassaden-PV (450–850 €/kWp)", range: "225–850 T€" },
       { label: "Carport-PV (1.200 €/kWp)", range: "1,8–3,6 Mio €" },
     ],
+    funding: [
+      { label: "KfW 270 (Erneuerbare)", value: "Zinsverbilligung" },
+      { label: "Sonder-AfA PV-Anlagen", value: "Steuerliche Abschreibung" },
+      { label: "EEG-Einspeisevergütung", value: "Überschusseinspeisung" },
+    ],
     investTotal: "3,1–8,8 Mio €",
     roi: "Strombezugskosten-Reduktion + Ladeinfrastruktur",
     roiValue: ">60 % Eigenverbrauch",
@@ -122,6 +131,10 @@ const phases = [
     investment: [
       { label: "BESS 6,5–11 MWh (150–225 €/kWh)", range: "1,0–2,5 Mio €" },
       { label: "EMS & standortweite Integration", range: "120–250 T€" },
+    ],
+    funding: [
+      { label: "KfW 270 (Speicher)", value: "Zinsvergünstigung" },
+      { label: "Landesförderung Bayern", value: "Speicher-Zuschuss" },
     ],
     investTotal: "1,1–2,7 Mio €",
     roi: "Peak Shaving + Spotmarkt-Optimierung",
@@ -163,6 +176,11 @@ const phases = [
       { label: "Standortweites Wärmenetz", range: "500 T€–1,5 Mio €" },
       { label: "Pufferspeicher & Hydraulik", range: "100–300 T€" },
       { label: "Gebäudedämmung (Cluster A–C)", range: "400 T€–1,2 Mio €" },
+    ],
+    funding: [
+      { label: "BEG (Wärmepumpen)", value: "bis 40 % Zuschuss" },
+      { label: "KfW 261/262", value: "Tilgungszuschuss" },
+      { label: "BAFA Prozesswärme", value: "bis 55 % Förderung" },
     ],
     investTotal: "2,5–8,0 Mio €",
     roi: "Gaskosten-Reduktion durch industrielle Abwärme-Nutzung",
@@ -206,6 +224,11 @@ const phases = [
       { label: "Tiefbau, Kabel & Trafo", range: "250–450 T€" },
       { label: "Lastmanagement & Backend", range: "30–50 T€" },
     ],
+    funding: [
+      { label: "KfW 441 (Ladestationen)", value: "bis 900 €/Ladepunkt" },
+      { label: "THG-Quotenerlöse", value: "pro kWh öffentlich" },
+      { label: "GEIG-Pflicht ab 2026", value: "Gesetzl. Verpflichtung" },
+    ],
     investTotal: "1,2–2,3 Mio €",
     roi: "Kraftstoffersparnis + THG-Quote + Mitarbeiter-Ladeerlöse",
     roiValue: "110–180 T€/a Einsparung",
@@ -243,6 +266,11 @@ const phases = [
       { label: "BESS 200 MWh (150–200 €/kWh)", range: "30–40 Mio €" },
       { label: "Netzanbindung & Leistungselektronik", range: "5–8 Mio €" },
     ],
+    funding: [
+      { label: "EEG § 61l (Speicher)", value: "Netzentgelt-Befreiung" },
+      { label: "Regelenergie-Präqualifikation", value: "FCR/aFRR-Erlöse" },
+      { label: "Separate Projektfinanzierung", value: "Non-Recourse möglich" },
+    ],
     investTotal: "35–48 Mio €",
     roi: "Eigenständiges Ertragsmodell mit drei Erlösströmen",
     roiValue: "15–25 % p.a.",
@@ -279,11 +307,12 @@ const phases = [
         icon: "🌿", accent: "#2D6A4F",
         label: "CO₂-EINSPARUNG PRO JAHR",
         value: "~4.800 t",
-        sub: "CO₂/Jahr weniger",
+        sub: "CO₂/Jahr weniger · 264–312 T€/a vermiedene CO₂-Kosten",
         details: [
           { label: "Strom (PV statt Netz)", value: "–2.100 t" },
           { label: "Wärme (WP statt Gas)", value: "–2.400 t" },
           { label: "Mobilität (E statt Diesel)", value: "–300 t" },
+          { label: "CO₂-Preis (55–65 €/t)", value: "264–312 T€/a" },
         ],
       },
       {
@@ -296,6 +325,20 @@ const phases = [
           { label: "Graustrom-BESS Erlöse (VI)", value: "5,0–12,0 Mio €" },
         ],
       },
+    ],
+    regulatorik: [
+      { icon: "📋", title: "CSRD-Berichtspflicht", desc: "Ab 2025 verpflichtend für große Unternehmen — Scope 1–3 Emissionen müssen offengelegt und reduziert werden", status: "Erfüllt durch Phasen I–VI" },
+      { icon: "🏛️", title: "EU-Taxonomie", desc: "Investitionen gelten als nachhaltig — verbessert ESG-Rating und Zugang zu Green Finance", status: "Taxonomie-konform" },
+      { icon: "💨", title: "CO₂-Bepreisung", desc: "Nationaler CO₂-Preis steigt von 55 €/t (2025) auf 65 €/t (2026) — jedes Jahr Nicht-Handeln wird teurer", status: "264–312 T€/a vermieden" },
+      { icon: "⚡", title: "EnEfG (Energieeffizienzgesetz)", desc: "Unternehmen > 7,5 GWh/a müssen Energiemanagementsystem und Effizienzmaßnahmen nachweisen", status: "Vollständig abgedeckt" },
+      { icon: "🌍", title: "CBAM (CO₂-Grenzausgleich)", desc: "Ab 2026 CO₂-Zölle auf Importe — ECKART als Exporteur profitiert von niedrigem CO₂-Fußabdruck", status: "Wettbewerbsvorteil" },
+      { icon: "🔌", title: "GEIG (Ladepflicht)", desc: "Ab 2026 Ladepflicht für Nichtwohngebäude > 20 Stellplätze — durch Phase V vollständig erfüllt", status: "Seit Phase V erfüllt" },
+    ],
+    riskManagement: [
+      { icon: "📊", title: "Energiepreisvolatilität", desc: "95 % Autarkie eliminiert Abhängigkeit von Strom- und Gaspreisschwankungen", impact: "Kalkulierbare Kosten" },
+      { icon: "🛡️", title: "Versorgungssicherheit", desc: "Eigenerzeugung + Speicher = Inselfähigkeit bei Netzstörungen — Produktion läuft weiter", impact: "Kein Produktionsausfall" },
+      { icon: "🌐", title: "Geopolitische Unabhängigkeit", desc: "Keine Abhängigkeit von fossilen Importen — Standort ist energiepolitisch resilient", impact: "Strategische Absicherung" },
+      { icon: "📈", title: "Regulatorisches Risiko", desc: "Steigende CO₂-Preise, verschärfte Berichtspflichten — proaktives Handeln statt Nachrüsten", impact: "Zukunftssicherheit" },
     ],
     economicSummary: {
       title: "Gesamtwirtschaftliche Betrachtung",
@@ -1311,6 +1354,108 @@ export default function EckartTimeline() {
               </div>
             </div>
 
+            {/* ── REGULATORIK & COMPLIANCE ─── */}
+            {phase.regulatorik && (
+              <div style={{ marginBottom: "1.25rem" }}>
+                <div style={{
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                  letterSpacing: "3px", textTransform: "uppercase",
+                  color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                }}>REGULATORIK & COMPLIANCE · KONZERN-ANFORDERUNGEN</div>
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gap: "0.4rem",
+                }}>
+                  {phase.regulatorik.map((r, i) => (
+                    <div key={i} style={{
+                      background: `linear-gradient(135deg, rgba(212,168,67,0.06), rgba(212,168,67,0.02))`,
+                      border: `1px solid ${C.gold}20`,
+                      borderRadius: "8px", padding: "0.65rem 0.8rem",
+                      animation: `fadeSlideIn 0.4s ease ${0.1 + i * 0.06}s both`,
+                      position: "relative", overflow: "hidden",
+                    }}>
+                      <div style={{
+                        position: "absolute", top: 0, left: 0, width: "3px", height: "100%",
+                        background: `linear-gradient(180deg, ${C.gold}60, ${C.gold}20)`,
+                      }} />
+                      <div style={{
+                        display: "flex", alignItems: "center", gap: "0.4rem",
+                        marginBottom: "0.25rem",
+                      }}>
+                        <span style={{ fontSize: "0.9rem" }}>{r.icon}</span>
+                        <span style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                          fontWeight: 700, color: C.white,
+                        }}>{r.title}</span>
+                      </div>
+                      <p style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.78rem",
+                        color: "rgba(255,255,255,0.5)", lineHeight: 1.45,
+                        margin: "0 0 0.35rem 0",
+                      }}>{r.desc}</p>
+                      <div style={{
+                        display: "inline-flex",
+                        background: `linear-gradient(135deg, ${C.green}25, ${C.green}10)`,
+                        border: `1px solid ${C.green}40`,
+                        borderRadius: "4px", padding: "0.2rem 0.5rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.72rem",
+                        fontWeight: 700, color: C.greenLight,
+                      }}>✓ {r.status}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── RISIKOMANAGEMENT ─── */}
+            {phase.riskManagement && (
+              <div style={{ marginBottom: "1.25rem" }}>
+                <div style={{
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                  letterSpacing: "3px", textTransform: "uppercase",
+                  color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                }}>RISIKOMANAGEMENT · STRATEGISCHE ABSICHERUNG</div>
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                  gap: "0.4rem",
+                }}>
+                  {phase.riskManagement.map((r, i) => (
+                    <div key={i} style={{
+                      background: `linear-gradient(135deg, rgba(45,106,79,0.06), rgba(45,106,79,0.02))`,
+                      border: `1px solid ${C.green}20`,
+                      borderRadius: "8px", padding: "0.65rem 0.8rem",
+                      animation: `fadeSlideIn 0.4s ease ${0.2 + i * 0.08}s both`,
+                      display: "flex", alignItems: "flex-start", gap: "0.6rem",
+                    }}>
+                      <span style={{
+                        fontSize: "1.1rem", flexShrink: 0, marginTop: "0.05rem",
+                        width: "32px", height: "32px", borderRadius: "8px",
+                        background: `rgba(45,106,79,0.15)`,
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                      }}>{r.icon}</span>
+                      <div>
+                        <div style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                          fontWeight: 700, color: C.white, marginBottom: "0.15rem",
+                        }}>{r.title}</div>
+                        <p style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.78rem",
+                          color: "rgba(255,255,255,0.5)", lineHeight: 1.45,
+                          margin: "0 0 0.3rem 0",
+                        }}>{r.desc}</p>
+                        <span style={{
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
+                          fontWeight: 700, color: C.goldLight,
+                        }}>→ {r.impact}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Transformation Pillars */}
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{
@@ -1589,6 +1734,39 @@ export default function EckartTimeline() {
                       }}>Autarkie-Status: <span style={{ color: C.goldLight, fontWeight: 700 }}>{phase.independenceLabel}</span></span>
                     </div>
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* ── FÖRDERMITTEL (Normal Phases) ─── */}
+            {phase.funding && phase.funding.length > 0 && (
+              <div style={{ marginTop: "0.75rem" }}>
+                <div style={{
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                  letterSpacing: "2.5px", textTransform: "uppercase",
+                  color: C.midGray, fontWeight: 700, marginBottom: "0.4rem",
+                }}>FÖRDERMITTEL & FINANZIERUNGSHEBEL</div>
+                <div style={{
+                  display: "flex", flexWrap: "wrap", gap: "0.35rem",
+                }}>
+                  {phase.funding.map((f, i) => (
+                    <div key={i} style={{
+                      background: `linear-gradient(135deg, ${C.gold}10, ${C.gold}04)`,
+                      border: `1px solid ${C.gold}25`,
+                      borderRadius: "8px", padding: "0.45rem 0.7rem",
+                      animation: `fadeSlideIn 0.4s ease ${0.4 + i * 0.08}s both`,
+                      display: "flex", alignItems: "center", gap: "0.5rem",
+                    }}>
+                      <span style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                        fontWeight: 700, color: C.goldLight,
+                      }}>{f.label}</span>
+                      <span style={{
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
+                        color: "rgba(255,255,255,0.5)",
+                      }}>{f.value}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
