@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const anim = (v) => ({ animation: v, WebkitAnimation: v });
+
 /* ── Colors ── */
 const N = "#1B2A4A";
 const G = "#D4A843";
@@ -546,7 +548,7 @@ export default function ExportModal({ phases, config, calc, configActive, onClos
     <>
       <div onClick={onClose} style={{
         position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
-        zIndex: 2000, animation: "cpFadeIn 0.3s ease",
+        zIndex: 2000, ...anim("cpFadeIn 0.3s ease"),
       }} />
       <div style={{
         position: "fixed", top: "50%", left: "50%",
@@ -556,7 +558,7 @@ export default function ExportModal({ phases, config, calc, configActive, onClos
         borderRadius: "14px", border: `1px solid ${MC.gold}40`,
         boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
         zIndex: 2001, display: "flex", flexDirection: "column",
-        animation: "cpFadeIn 0.3s ease",
+        ...anim("cpFadeIn 0.3s ease"),
       }}>
         {/* Header */}
         <div style={{

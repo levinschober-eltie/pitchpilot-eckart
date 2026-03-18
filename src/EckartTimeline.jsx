@@ -20,6 +20,9 @@ const C = {
   white: "#FFFFFF",
 };
 
+/* Cross-browser animation helper */
+const anim = (v) => ({ animation: v, WebkitAnimation: v });
+
 const phases = [
   {
     num: "I",
@@ -432,7 +435,7 @@ function IndependenceRing({ score, size = 130, strokeWidth = 10 }) {
   return (
     <div style={{
       position: "relative", width: size, height: size, flexShrink: 0,
-      animation: "ringPulse 3s ease-in-out infinite",
+      ...anim("ringPulse 3s ease-in-out infinite"),
     }}>
       <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
         <defs>
@@ -622,7 +625,7 @@ export default function EckartTimeline() {
             fontSize: "clamp(1.5rem, 4vw, 2.4rem)", fontWeight: 700,
             margin: "0.6rem 0 0", lineHeight: 1.2,
             background: `linear-gradient(135deg, ${C.white} 0%, ${C.goldLight} 100%)`,
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+            backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
           }}>
             Phasenkonzept zur Energietransformation
           </h1>
@@ -721,6 +724,7 @@ export default function EckartTimeline() {
                 fontSize: i === active ? "1.6rem" : "1rem",
                 transition: "all 0.3s ease",
                 filter: i === active ? "none" : "grayscale(0.5)",
+                WebkitFilter: i === active ? "none" : "grayscale(0.5)",
               }}>{p.icon}</span>
               <span style={{
                 fontFamily: "Calibri, sans-serif",
@@ -810,7 +814,7 @@ export default function EckartTimeline() {
       <div key={animKey} style={{
         padding: "1rem 2rem 2rem",
         position: "relative", zIndex: 2,
-        animation: "fadeSlideIn 0.5s ease forwards",
+        ...anim("fadeSlideIn 0.5s ease forwards"),
       }}>
         {/* Phase Title Row */}
         <div style={{
@@ -839,6 +843,7 @@ export default function EckartTimeline() {
               fontSize: "clamp(1.5rem, 3.5vw, 2.2rem)",
               fontWeight: 700, margin: 0, lineHeight: 1.15,
               background: phase.isFinal ? `linear-gradient(135deg, ${C.white}, ${C.goldLight})` : "none",
+              backgroundClip: phase.isFinal ? "text" : "unset",
               WebkitBackgroundClip: phase.isFinal ? "text" : "unset",
               WebkitTextFillColor: phase.isFinal ? "transparent" : "inherit",
             }}>{phase.title}</h2>
@@ -894,7 +899,7 @@ export default function EckartTimeline() {
                     borderRadius: "7px",
                     padding: "0.45rem 0.5rem",
                     borderLeft: `2px solid ${phase.color || C.gold}70`,
-                    animation: `fadeSlideIn 0.3s ease ${0.1 + i * 0.05}s both`,
+                    ...anim(`fadeSlideIn 0.3s ease ${0.1 + i * 0.05}s both`),
                   }}>
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
@@ -924,7 +929,7 @@ export default function EckartTimeline() {
                     border: `1px solid ${phase.color || C.gold}30`,
                     borderRadius: "8px",
                     padding: "0.45rem 0.55rem",
-                    animation: `fadeSlideIn 0.4s ease ${0.15 + i * 0.07}s both`,
+                    ...anim(`fadeSlideIn 0.4s ease ${0.15 + i * 0.07}s both`),
                   }}>
                     <div style={{
                       display: "flex", alignItems: "center", gap: "0.3rem",
@@ -960,7 +965,7 @@ export default function EckartTimeline() {
                   {phase.results.slice(0, 5).map((r, i) => (
                     <div key={i} style={{
                       display: "flex", alignItems: "flex-start", gap: "0.4rem",
-                      animation: `fadeSlideIn 0.3s ease ${0.25 + i * 0.05}s both`,
+                      ...anim(`fadeSlideIn 0.3s ease ${0.25 + i * 0.05}s both`),
                     }}>
                       <span style={{
                         color: phase.color || C.gold, fontSize: "0.6rem",
@@ -981,7 +986,7 @@ export default function EckartTimeline() {
             {phase.investTotal && (
               <div style={{
                 display: "flex", gap: "0.5rem", flexWrap: "wrap",
-                animation: "fadeSlideIn 0.4s ease 0.5s both",
+                ...anim("fadeSlideIn 0.4s ease 0.5s both"),
               }}>
                 <div style={{
                   background: `linear-gradient(135deg, ${phase.color || C.gold}12, ${phase.color || C.gold}05)`,
@@ -1046,7 +1051,7 @@ export default function EckartTimeline() {
                     padding: "1.2rem 1.3rem",
                     position: "relative",
                     overflow: "hidden",
-                    animation: `fadeSlideIn 0.5s ease ${ci * 0.15}s both`,
+                    ...anim(`fadeSlideIn 0.5s ease ${ci * 0.15}s both`),
                   }}>
                     {/* Top glow line */}
                     <div style={{
@@ -1114,7 +1119,7 @@ export default function EckartTimeline() {
                 border: `2px solid ${C.gold}35`,
                 borderRadius: "12px", padding: "1rem 1.2rem",
                 marginBottom: "1.25rem",
-                animation: "fadeSlideIn 0.4s ease 0.3s both",
+                ...anim("fadeSlideIn 0.4s ease 0.3s both"),
               }}>
                 <div style={{
                   fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
@@ -1175,7 +1180,7 @@ export default function EckartTimeline() {
                     background: `linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))`,
                     border: `1px solid ${C.gold}20`,
                     borderRadius: "10px", padding: "0.75rem 0.8rem",
-                    animation: `fadeSlideIn 0.4s ease ${i * 0.07}s both`,
+                    ...anim(`fadeSlideIn 0.4s ease ${i * 0.07}s both`),
                     position: "relative", overflow: "hidden",
                   }}>
                     <div style={{
@@ -1213,7 +1218,7 @@ export default function EckartTimeline() {
                   const barPct = Math.max((item.maxMio / maxVal) * 100, 3);
                   return (
                     <div key={i} style={{
-                      animation: `fadeSlideIn 0.4s ease ${0.1 + i * 0.08}s both`,
+                      ...anim(`fadeSlideIn 0.4s ease ${0.1 + i * 0.08}s both`),
                       background: "rgba(255,255,255,0.03)",
                       border: "1px solid rgba(255,255,255,0.06)",
                       borderRadius: "8px", padding: "0.65rem 0.8rem",
@@ -1283,7 +1288,7 @@ export default function EckartTimeline() {
                   border: `1px solid ${C.gold}30`,
                   borderRadius: "8px", padding: "0.75rem 0.9rem",
                   marginTop: "0.2rem",
-                  animation: `fadeSlideIn 0.4s ease 0.7s both`,
+                  ...anim(`fadeSlideIn 0.4s ease 0.7s both`),
                   flexWrap: "wrap", gap: "0.5rem",
                 }}>
                   <div>
@@ -1338,7 +1343,7 @@ export default function EckartTimeline() {
                   border: `1px solid ${C.green}25`,
                   borderRadius: "10px", padding: "0.85rem 1rem",
                   marginBottom: "0.5rem",
-                  animation: "fadeSlideIn 0.4s ease 0.2s both",
+                  ...anim("fadeSlideIn 0.4s ease 0.2s both"),
                 }}>
                   <div style={{
                     fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
@@ -1396,7 +1401,7 @@ export default function EckartTimeline() {
                       background: "rgba(255,255,255,0.03)",
                       border: `1px solid ${C.gold}15`,
                       borderRadius: "8px", padding: "0.65rem 0.75rem",
-                      animation: `fadeSlideIn 0.4s ease ${0.3 + i * 0.08}s both`,
+                      ...anim(`fadeSlideIn 0.4s ease ${0.3 + i * 0.08}s both`),
                     }}>
                       <div style={{
                         fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
@@ -1419,7 +1424,7 @@ export default function EckartTimeline() {
                 <div style={{
                   borderLeft: `3px solid ${C.green}`,
                   paddingLeft: "0.8rem",
-                  animation: "fadeSlideIn 0.4s ease 0.5s both",
+                  ...anim("fadeSlideIn 0.4s ease 0.5s both"),
                 }}>
                   <p style={{
                     fontFamily: "Calibri, sans-serif",
@@ -1448,7 +1453,7 @@ export default function EckartTimeline() {
                     background: "rgba(255,255,255,0.03)",
                     border: "1px solid rgba(255,255,255,0.06)",
                     borderRadius: "8px", padding: "0.65rem 0.75rem",
-                    animation: `fadeSlideIn 0.4s ease ${0.3 + i * 0.06}s both`,
+                    ...anim(`fadeSlideIn 0.4s ease ${0.3 + i * 0.06}s both`),
                   }}>
                     <span style={{
                       fontSize: "1.1rem", flexShrink: 0, marginTop: "0.05rem",
@@ -1489,7 +1494,7 @@ export default function EckartTimeline() {
                       background: `linear-gradient(135deg, rgba(212,168,67,0.06), rgba(212,168,67,0.02))`,
                       border: `1px solid ${C.gold}20`,
                       borderRadius: "8px", padding: "0.65rem 0.8rem",
-                      animation: `fadeSlideIn 0.4s ease ${0.1 + i * 0.06}s both`,
+                      ...anim(`fadeSlideIn 0.4s ease ${0.1 + i * 0.06}s both`),
                       position: "relative", overflow: "hidden",
                     }}>
                       <div style={{
@@ -1543,7 +1548,7 @@ export default function EckartTimeline() {
                       background: `linear-gradient(135deg, rgba(45,106,79,0.06), rgba(45,106,79,0.02))`,
                       border: `1px solid ${C.green}20`,
                       borderRadius: "8px", padding: "0.65rem 0.8rem",
-                      animation: `fadeSlideIn 0.4s ease ${0.2 + i * 0.08}s both`,
+                      ...anim(`fadeSlideIn 0.4s ease ${0.2 + i * 0.08}s both`),
                       display: "flex", alignItems: "flex-start", gap: "0.6rem",
                     }}>
                       <span style={{
@@ -1584,7 +1589,7 @@ export default function EckartTimeline() {
                 {phase.pillars.map((p, i) => (
                   <div key={i} style={{
                     display: "flex", alignItems: "center", gap: "0.4rem",
-                    animation: `fadeSlideIn 0.4s ease ${0.5 + i * 0.1}s both`,
+                    ...anim(`fadeSlideIn 0.4s ease ${0.5 + i * 0.1}s both`),
                   }}>
                     <div style={{
                       background: `linear-gradient(135deg, ${C.green}30, ${C.navy})`,
@@ -1617,7 +1622,7 @@ export default function EckartTimeline() {
               background: `linear-gradient(135deg, ${C.green}15, ${C.gold}10)`,
               border: `1px solid ${C.gold}30`,
               borderRadius: "10px", padding: "1.2rem 1.5rem",
-              animation: "fadeSlideIn 0.5s ease 0.8s both",
+              ...anim("fadeSlideIn 0.5s ease 0.8s both"),
             }}>
               <div style={{
                 display: "flex", alignItems: "center", gap: "0.75rem",
@@ -1699,7 +1704,7 @@ export default function EckartTimeline() {
                       background: "rgba(255,255,255,0.04)",
                       border: "1px solid rgba(255,255,255,0.06)",
                       borderRadius: "8px", padding: "0.7rem 0.8rem",
-                      animation: `fadeSlideIn 0.4s ease ${i * 0.08}s both`,
+                      ...anim(`fadeSlideIn 0.4s ease ${i * 0.08}s both`),
                     }}>
                       <div style={{
                         fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
@@ -1732,7 +1737,7 @@ export default function EckartTimeline() {
                       display: "flex", alignItems: "flex-start", gap: "0.5rem",
                       padding: "0.35rem 0",
                       borderBottom: i < phase.results.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
-                      animation: `fadeSlideIn 0.4s ease ${i * 0.06}s both`,
+                      ...anim(`fadeSlideIn 0.4s ease ${i * 0.06}s both`),
                     }}>
                       <span style={{
                         color: C.green, fontSize: "0.95rem", marginTop: "0.05rem", flexShrink: 0,
@@ -1772,7 +1777,7 @@ export default function EckartTimeline() {
                         display: "flex", justifyContent: "space-between", alignItems: "center",
                         padding: "0.4rem 0",
                         borderBottom: i < phase.investment.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
-                        animation: `fadeSlideIn 0.4s ease ${0.2 + i * 0.06}s both`,
+                        ...anim(`fadeSlideIn 0.4s ease ${0.2 + i * 0.06}s both`),
                       }}>
                         <span style={{
                           fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
@@ -1791,7 +1796,7 @@ export default function EckartTimeline() {
                       padding: "0.5rem 0 0.1rem",
                       marginTop: "0.3rem",
                       borderTop: `1px solid ${C.gold}30`,
-                      animation: `fadeSlideIn 0.4s ease 0.4s both`,
+                      ...anim(`fadeSlideIn 0.4s ease 0.4s both`),
                     }}>
                       <span style={{
                         fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
@@ -1811,7 +1816,7 @@ export default function EckartTimeline() {
                     border: `1px solid ${C.green}30`,
                     borderRadius: "8px", padding: "0.8rem",
                     display: "flex", flexDirection: "column", justifyContent: "center",
-                    animation: `fadeSlideIn 0.4s ease 0.3s both`,
+                    ...anim(`fadeSlideIn 0.4s ease 0.3s both`),
                   }}>
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
@@ -1871,7 +1876,7 @@ export default function EckartTimeline() {
                       background: `linear-gradient(135deg, ${C.gold}10, ${C.gold}04)`,
                       border: `1px solid ${C.gold}25`,
                       borderRadius: "8px", padding: "0.45rem 0.7rem",
-                      animation: `fadeSlideIn 0.4s ease ${0.4 + i * 0.08}s both`,
+                      ...anim(`fadeSlideIn 0.4s ease ${0.4 + i * 0.08}s both`),
                       display: "flex", alignItems: "center", gap: "0.5rem",
                     }}>
                       <span style={{
@@ -1900,7 +1905,7 @@ export default function EckartTimeline() {
                   background: `linear-gradient(135deg, ${C.gold}08, ${C.green}05)`,
                   border: `1px solid ${C.gold}30`,
                   borderRadius: "10px", padding: "0.7rem 0.85rem",
-                  animation: "fadeSlideIn 0.4s ease 0.5s both",
+                  ...anim("fadeSlideIn 0.4s ease 0.5s both"),
                 }}>
                   <div style={{
                     fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",

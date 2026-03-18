@@ -1,5 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 
+const anim = (v) => ({ animation: v, WebkitAnimation: v });
+
 /* ── Colors (matches EckartTimeline) ── */
 const C = {
   navy: "#1B2A4A", navyLight: "#253757", navyMid: "#1E3050",
@@ -345,7 +347,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
       {/* Backdrop */}
       <div onClick={onClose} style={{
         position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)",
-        zIndex: 1000, animation: "cpFadeIn 0.3s ease",
+        zIndex: 1000, ...anim("cpFadeIn 0.3s ease"),
       }} />
 
       {/* Panel */}
@@ -355,7 +357,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
         background: `linear-gradient(180deg, ${C.navy} 0%, ${C.navyMid} 100%)`,
         borderLeft: `1px solid ${C.gold}30`,
         zIndex: 1001, display: "flex", flexDirection: "column",
-        animation: "cpSlideIn 0.3s ease",
+        ...anim("cpSlideIn 0.3s ease"),
         boxShadow: `-8px 0 40px rgba(0,0,0,0.5)`,
       }}>
         {/* ── Header with live results ── */}

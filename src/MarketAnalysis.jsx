@@ -912,9 +912,11 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
           border: 2px solid #1B2A4A;
         }
         .ma-btn-action {
+          -webkit-transition: -webkit-filter 0.15s, transform 0.1s;
           transition: filter 0.15s, transform 0.1s;
         }
         .ma-btn-action:hover {
+          -webkit-filter: brightness(1.25);
           filter: brightness(1.25);
           transform: translateY(-1px);
         }
@@ -924,8 +926,8 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
       `}</style>
       {/* Header */}
       <div style={{
-        position: "sticky", top: 0, zIndex: 10, background: "rgba(27,42,74,0.95)",
-        backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(212,168,67,0.2)",
+        position: "sticky", top: 0, zIndex: 10, background: "rgba(27,42,74,0.97)",
+        backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderBottom: "1px solid rgba(212,168,67,0.2)",
         padding: "0.8rem 1.2rem", display: "flex", justifyContent: "space-between", alignItems: "center",
       }}>
         <div>

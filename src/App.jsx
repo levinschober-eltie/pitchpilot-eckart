@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import EckartTimeline from "./EckartTimeline";
 
+const anim = (v) => ({ animation: v, WebkitAnimation: v });
+
 const C = {
   navy: "#1B2A4A",
   navyMid: "#1E3050",
@@ -92,7 +94,7 @@ function IntroScreen({ onEnter }) {
           fontSize: "clamp(2.5rem, 8vw, 5rem)", fontWeight: 700,
           margin: 0, lineHeight: 1,
           background: `linear-gradient(135deg, ${C.white} 30%, ${C.goldLight} 100%)`,
-          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+          backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
           opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)",
           transition: "all 1s ease 0.6s",
         }}>Eckart Werke</h1>
@@ -230,7 +232,7 @@ export default function App() {
 
   return (
     <div style={{
-      animation: "introFadeIn 0.8s ease forwards",
+      ...anim("introFadeIn 0.8s ease forwards"),
     }}>
       <EckartTimeline />
       <style>{`
