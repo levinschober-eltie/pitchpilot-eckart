@@ -582,7 +582,7 @@ export default function EckartTimeline() {
               }}>{p.icon}</span>
               <span style={{
                 fontFamily: "Calibri, sans-serif",
-                fontSize: "0.6rem", letterSpacing: "1.5px",
+                fontSize: "0.75rem", letterSpacing: "1.5px",
                 textTransform: "uppercase", fontWeight: 700,
                 color: i === active ? C.gold : C.midGray,
                 transition: "color 0.3s ease",
@@ -651,7 +651,7 @@ export default function EckartTimeline() {
         <div style={{
           display: "flex", justifyContent: "space-between",
           padding: "0.4rem 0.5rem 0", fontFamily: "Calibri, sans-serif",
-          fontSize: "0.55rem", color: C.midGray, letterSpacing: "0.5px",
+          fontSize: "0.7rem", color: C.midGray, letterSpacing: "0.5px",
         }}>
           {phases.map((p, i) => (
             <span key={i} style={{
@@ -689,12 +689,12 @@ export default function EckartTimeline() {
           </div>
           <div style={{ flex: 1 }}>
             <div style={{
-              fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+              fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
               letterSpacing: "3px", textTransform: "uppercase",
-              color: C.gold, fontWeight: 700, marginBottom: "0.15rem",
+              color: C.gold, fontWeight: 700, marginBottom: "0.2rem",
             }}>{phase.isFinal ? "Gesamtergebnis" : `Phase ${phase.num}`} · {phase.subtitle}</div>
             <h2 style={{
-              fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
+              fontSize: "clamp(1.5rem, 3.5vw, 2.2rem)",
               fontWeight: 700, margin: 0, lineHeight: 1.15,
               background: phase.isFinal ? `linear-gradient(135deg, ${C.white}, ${C.goldLight})` : "none",
               WebkitBackgroundClip: phase.isFinal ? "text" : "unset",
@@ -710,7 +710,7 @@ export default function EckartTimeline() {
           marginBottom: "1rem",
         }}>
           <p style={{
-            fontSize: "clamp(0.95rem, 2vw, 1.15rem)",
+            fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)",
             fontStyle: "italic", color: C.goldLight,
             margin: 0, lineHeight: 1.5,
           }}>
@@ -731,8 +731,8 @@ export default function EckartTimeline() {
             {/* Description */}
             <p style={{
               fontFamily: "Calibri, sans-serif",
-              fontSize: "0.85rem", color: "rgba(255,255,255,0.75)",
-              lineHeight: 1.65, margin: "0 0 0.7rem 0",
+              fontSize: "1.0rem", color: "rgba(255,255,255,0.75)",
+              lineHeight: 1.7, margin: "0 0 0.8rem 0",
             }}>
               {phase.description}
             </p>
@@ -754,12 +754,12 @@ export default function EckartTimeline() {
                     animation: `fadeSlideIn 0.3s ease ${0.1 + i * 0.05}s both`,
                   }}>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.5rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
                       letterSpacing: "0.5px", textTransform: "uppercase",
                       color: C.midGray, marginBottom: "0.15rem",
                     }}>{kpi.label}</div>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "1.05rem",
                       fontWeight: 700, color: C.goldLight, lineHeight: 1.1,
                     }}>{kpi.value}</div>
                   </div>
@@ -787,18 +787,18 @@ export default function EckartTimeline() {
                       display: "flex", alignItems: "center", gap: "0.3rem",
                       marginBottom: "0.15rem",
                     }}>
-                      <span style={{ fontSize: "0.7rem" }}>{h.icon}</span>
+                      <span style={{ fontSize: "0.9rem" }}>{h.icon}</span>
                       <span style={{
                         fontFamily: "Calibri, sans-serif",
-                        fontSize: "0.65rem", fontWeight: 700,
+                        fontSize: "0.8rem", fontWeight: 700,
                         color: phase.color || C.goldLight,
                         letterSpacing: "0.3px",
                       }}>{h.title}</span>
                     </div>
                     <p style={{
                       fontFamily: "Calibri, sans-serif",
-                      fontSize: "0.6rem", color: "rgba(255,255,255,0.5)",
-                      lineHeight: 1.4, margin: 0,
+                      fontSize: "0.75rem", color: "rgba(255,255,255,0.5)",
+                      lineHeight: 1.45, margin: 0,
                     }}>{h.text}</p>
                   </div>
                 ))}
@@ -809,9 +809,9 @@ export default function EckartTimeline() {
             {phase.results && phase.results.length > 0 && (
               <div style={{ marginBottom: "0.6rem" }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.5rem",
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
                   letterSpacing: "2px", textTransform: "uppercase",
-                  color: C.midGray, fontWeight: 700, marginBottom: "0.3rem",
+                  color: C.midGray, fontWeight: 700, marginBottom: "0.35rem",
                 }}>{phase.isFinal ? "ERGEBNISSE" : "LIEFERERGEBNISSE"}</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
                   {phase.results.slice(0, 5).map((r, i) => (
@@ -820,12 +820,12 @@ export default function EckartTimeline() {
                       animation: `fadeSlideIn 0.3s ease ${0.25 + i * 0.05}s both`,
                     }}>
                       <span style={{
-                        color: phase.color || C.gold, fontSize: "0.5rem",
+                        color: phase.color || C.gold, fontSize: "0.6rem",
                         marginTop: "0.15rem", flexShrink: 0, opacity: 0.6,
                       }}>●</span>
                       <span style={{
                         fontFamily: "Calibri, sans-serif",
-                        fontSize: "0.7rem", color: "rgba(255,255,255,0.6)",
+                        fontSize: "0.85rem", color: "rgba(255,255,255,0.6)",
                         lineHeight: 1.4,
                       }}>{r}</span>
                     </div>
@@ -847,12 +847,12 @@ export default function EckartTimeline() {
                   flex: "1 1 auto",
                 }}>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.45rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
                     letterSpacing: "1.5px", textTransform: "uppercase",
                     color: C.midGray, fontWeight: 700,
                   }}>INVESTMENT</div>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.9rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "1.1rem",
                     fontWeight: 700, color: C.goldLight, lineHeight: 1.2,
                     marginTop: "0.1rem",
                   }}>{phase.investTotal}</div>
@@ -864,12 +864,12 @@ export default function EckartTimeline() {
                   flex: "1 1 auto",
                 }}>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.45rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
                     letterSpacing: "1.5px", textTransform: "uppercase",
                     color: C.midGray, fontWeight: 700,
                   }}>WIRTSCHAFTLICHKEIT</div>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
                     fontWeight: 700, color: C.greenLight, lineHeight: 1.2,
                     marginTop: "0.1rem",
                   }}>{phase.roiValue}</div>
@@ -888,7 +888,7 @@ export default function EckartTimeline() {
             {/* System KPIs - 6 big numbers */}
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{
-                fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                 letterSpacing: "3px", textTransform: "uppercase",
                 color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
               }}>SYSTEMKENNZAHLEN IM VOLLAUSBAU</div>
@@ -910,16 +910,16 @@ export default function EckartTimeline() {
                       background: `linear-gradient(90deg, ${C.gold}60, ${C.green}40, transparent)`,
                     }} />
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.5rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
                       letterSpacing: "1px", textTransform: "uppercase",
                       color: C.midGray, marginBottom: "0.3rem",
                     }}>{kpi.label}</div>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "1.15rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "1.35rem",
                       fontWeight: 700, color: C.goldLight, lineHeight: 1.1,
                     }}>{kpi.value}</div>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                       color: "rgba(255,255,255,0.45)", marginTop: "0.2rem",
                     }}>{kpi.sub}</div>
                   </div>
@@ -930,7 +930,7 @@ export default function EckartTimeline() {
             {/* ── INVESTMENT ROADMAP (Final) ───────────── */}
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{
-                fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                 letterSpacing: "3px", textTransform: "uppercase",
                 color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
               }}>INVESTITIONS-ROADMAP · RENDITE PRO BAUSTEIN</div>
@@ -962,17 +962,17 @@ export default function EckartTimeline() {
                       }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
                           <span style={{
-                            fontFamily: "Georgia, serif", fontSize: "0.85rem",
+                            fontFamily: "Georgia, serif", fontSize: "1.05rem",
                             fontWeight: 700, color: C.goldLight,
-                            width: "24px", textAlign: "center",
+                            width: "28px", textAlign: "center",
                           }}>{item.phase}</span>
                           <div>
                             <div style={{
-                              fontFamily: "Calibri, sans-serif", fontSize: "0.78rem",
+                              fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
                               fontWeight: 700, color: C.white,
                             }}>{item.label}</div>
                             <div style={{
-                              fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                              fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
                               color: C.midGray, marginTop: "0.1rem",
                             }}>{item.range}</div>
                           </div>
@@ -981,7 +981,7 @@ export default function EckartTimeline() {
                           {/* Autarkie score dot */}
                           <div style={{
                             display: "flex", alignItems: "center", gap: "0.25rem",
-                            fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                            fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
                             color: C.goldLight,
                           }}>
                             <div style={{
@@ -993,8 +993,8 @@ export default function EckartTimeline() {
                           <div style={{
                             background: `linear-gradient(135deg, ${C.green}25, ${C.green}10)`,
                             border: `1px solid ${C.green}40`,
-                            borderRadius: "6px", padding: "0.25rem 0.55rem",
-                            fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                            borderRadius: "6px", padding: "0.3rem 0.6rem",
+                            fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
                             fontWeight: 700, color: C.greenLight,
                             whiteSpace: "nowrap",
                           }}>{item.roi}</div>
@@ -1015,34 +1015,34 @@ export default function EckartTimeline() {
                 }}>
                   <div>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                       letterSpacing: "2px", textTransform: "uppercase",
                       color: C.midGray, fontWeight: 700,
                     }}>GESAMTINVESTITION</div>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "1.15rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "1.35rem",
                       fontWeight: 700, color: C.goldLight, marginTop: "0.15rem",
                     }}>43–70 Mio €</div>
                   </div>
                   <div style={{ textAlign: "center" }}>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                       letterSpacing: "2px", textTransform: "uppercase",
                       color: C.midGray, fontWeight: 700,
                     }}>DAVON GRAUSTROM-BESS</div>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "1.15rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "1.35rem",
                       fontWeight: 700, color: C.gold, marginTop: "0.15rem",
-                    }}>35–48 Mio € <span style={{ fontSize: "0.7rem", color: C.midGray, fontWeight: 400 }}>· sep. Finanzierung</span></div>
+                    }}>35–48 Mio € <span style={{ fontSize: "0.85rem", color: C.midGray, fontWeight: 400 }}>· sep. Finanzierung</span></div>
                   </div>
                   <div style={{ textAlign: "right" }}>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                       letterSpacing: "2px", textTransform: "uppercase",
                       color: C.midGray, fontWeight: 700,
                     }}>AUTARKIE-ZIEL</div>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "1.15rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "1.35rem",
                       fontWeight: 700, color: C.greenLight, marginTop: "0.15rem",
                     }}>95 %</div>
                   </div>
@@ -1054,7 +1054,7 @@ export default function EckartTimeline() {
             {phase.economicSummary && (
               <div style={{ marginBottom: "1.25rem" }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                   letterSpacing: "3px", textTransform: "uppercase",
                   color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
                 }}>GESAMTWIRTSCHAFTLICHE BETRACHTUNG</div>
@@ -1068,7 +1068,7 @@ export default function EckartTimeline() {
                   animation: "fadeSlideIn 0.4s ease 0.2s both",
                 }}>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
                     letterSpacing: "2px", textTransform: "uppercase",
                     color: C.greenLight, fontWeight: 700, marginBottom: "0.5rem",
                   }}>JÄHRLICHE EINSPARUNGEN & ERLÖSE (PHASEN I–V)</div>
@@ -1080,11 +1080,11 @@ export default function EckartTimeline() {
                         borderBottom: i < phase.economicSummary.savings.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
                       }}>
                         <span style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.9rem",
                           color: "rgba(255,255,255,0.7)",
                         }}>{s.label}</span>
                         <span style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
                           fontWeight: 700, color: C.greenLight,
                           whiteSpace: "nowrap", marginLeft: "1rem",
                         }}>{s.value}</span>
@@ -1098,11 +1098,11 @@ export default function EckartTimeline() {
                     display: "flex", justifyContent: "space-between", alignItems: "center",
                   }}>
                     <span style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
                       fontWeight: 700, color: C.white,
                     }}>Gesamt jährliche Einsparung</span>
                     <span style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "1.05rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "1.25rem",
                       fontWeight: 700, color: C.goldLight,
                     }}>{phase.economicSummary.totals.annualSavings}</span>
                   </div>
@@ -1126,16 +1126,16 @@ export default function EckartTimeline() {
                       animation: `fadeSlideIn 0.4s ease ${0.3 + i * 0.08}s both`,
                     }}>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.5rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
                         letterSpacing: "1px", textTransform: "uppercase",
                         color: C.midGray, marginBottom: "0.2rem",
                       }}>{m.label}</div>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "1.1rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "1.3rem",
                         fontWeight: 700, color: C.goldLight, lineHeight: 1.1,
                       }}>{m.value}</div>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                         color: "rgba(255,255,255,0.4)", marginTop: "0.15rem",
                       }}>{m.sub}</div>
                     </div>
@@ -1150,7 +1150,7 @@ export default function EckartTimeline() {
                 }}>
                   <p style={{
                     fontFamily: "Calibri, sans-serif",
-                    fontSize: "0.78rem", color: "rgba(255,255,255,0.7)",
+                    fontSize: "0.95rem", color: "rgba(255,255,255,0.7)",
                     lineHeight: 1.6, margin: 0, fontStyle: "italic",
                   }}>{phase.economicSummary.conclusion}</p>
                 </div>
@@ -1160,7 +1160,7 @@ export default function EckartTimeline() {
             {/* 6 Economic Levers */}
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{
-                fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                 letterSpacing: "3px", textTransform: "uppercase",
                 color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
               }}>SECHS HEBEL · EIN INTEGRIERTES ENERGIESYSTEM</div>
@@ -1185,12 +1185,12 @@ export default function EckartTimeline() {
                     }}>{l.icon}</span>
                     <div>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
                         fontWeight: 700, color: C.white, marginBottom: "0.1rem",
                       }}>{l.title}</div>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                        color: "rgba(255,255,255,0.55)", lineHeight: 1.35,
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                        color: "rgba(255,255,255,0.55)", lineHeight: 1.4,
                       }}>{l.desc}</div>
                     </div>
                   </div>
@@ -1201,7 +1201,7 @@ export default function EckartTimeline() {
             {/* Transformation Pillars */}
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{
-                fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                 letterSpacing: "3px", textTransform: "uppercase",
                 color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
               }}>VOM ENERGIEVERBRAUCHER ZUR ENERGIEPLATTFORM</div>
@@ -1220,11 +1220,11 @@ export default function EckartTimeline() {
                       <span style={{ fontSize: "0.9rem" }}>{p.icon}</span>
                       <div>
                         <div style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.9rem",
                           fontWeight: 700, color: C.white,
                         }}>{p.label}</div>
                         <div style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.5rem",
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
                           color: C.midGray, letterSpacing: "1px",
                         }}>PHASE {p.phase}</div>
                       </div>
@@ -1256,11 +1256,11 @@ export default function EckartTimeline() {
                 }}>→</div>
                 <div>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "1.05rem",
                     fontWeight: 700, color: C.white,
                   }}>Nächster Schritt: Standortanalyse und Wirtschaftlichkeitsbewertung</div>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
                     color: "rgba(255,255,255,0.5)", marginTop: "0.15rem",
                   }}>Die Entscheidung liegt nicht zwischen Investition und Abwarten. Sie liegt zwischen Handeln und Exponiertsein.</div>
                 </div>
@@ -1273,23 +1273,23 @@ export default function EckartTimeline() {
               }}>
                 <div>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
                     letterSpacing: "2px", textTransform: "uppercase",
                     color: C.midGray, fontWeight: 700, marginBottom: "0.2rem",
                   }}>ANSPRECHPARTNER</div>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "1.0rem",
                     color: C.white,
                   }}>Levin Schober · Elite PV GmbH</div>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.9rem",
                     color: C.midGray, marginTop: "0.1rem",
                   }}>levinschober@elite-pv.de</div>
                 </div>
                 <a
                   href="mailto:levinschober@elite-pv.de?subject=Eckart%20Werke%20–%20Energietransformation"
                   style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
                     fontWeight: 700, color: C.navy, textDecoration: "none",
                     background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`,
                     borderRadius: "6px", padding: "0.6rem 1.4rem",
@@ -1312,7 +1312,7 @@ export default function EckartTimeline() {
               {/* KPI Cards */}
               <div>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                   letterSpacing: "3px", textTransform: "uppercase",
                   color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
                 }}>KENNZAHLEN</div>
@@ -1327,7 +1327,7 @@ export default function EckartTimeline() {
                       animation: `fadeSlideIn 0.4s ease ${i * 0.08}s both`,
                     }}>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                         letterSpacing: "1px", textTransform: "uppercase",
                         color: C.midGray, marginBottom: "0.25rem",
                       }}>{kpi.label}</div>
@@ -1343,7 +1343,7 @@ export default function EckartTimeline() {
               {/* Results */}
               <div>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                   letterSpacing: "3px", textTransform: "uppercase",
                   color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
                 }}>ERGEBNISSE</div>
@@ -1360,11 +1360,11 @@ export default function EckartTimeline() {
                       animation: `fadeSlideIn 0.4s ease ${i * 0.06}s both`,
                     }}>
                       <span style={{
-                        color: C.green, fontSize: "0.8rem", marginTop: "0.05rem", flexShrink: 0,
+                        color: C.green, fontSize: "0.95rem", marginTop: "0.05rem", flexShrink: 0,
                       }}>✓</span>
                       <span style={{
                         fontFamily: "Calibri, sans-serif",
-                        fontSize: "0.8rem", color: "rgba(255,255,255,0.8)",
+                        fontSize: "0.95rem", color: "rgba(255,255,255,0.8)",
                         lineHeight: 1.4,
                       }}>{r}</span>
                     </div>
@@ -1377,7 +1377,7 @@ export default function EckartTimeline() {
             {phase.investment && (
               <div style={{ marginTop: "1rem" }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                   letterSpacing: "3px", textTransform: "uppercase",
                   color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
                 }}>INVESTITION & RENDITE</div>
@@ -1400,11 +1400,11 @@ export default function EckartTimeline() {
                         animation: `fadeSlideIn 0.4s ease ${0.2 + i * 0.06}s both`,
                       }}>
                         <span style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.78rem",
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
                           color: "rgba(255,255,255,0.8)",
                         }}>{inv.label}</span>
                         <span style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                          fontFamily: "Calibri, sans-serif", fontSize: "1.05rem",
                           fontWeight: 700, color: C.goldLight, whiteSpace: "nowrap",
                           marginLeft: "0.5rem",
                         }}>{inv.range}</span>
@@ -1419,12 +1419,12 @@ export default function EckartTimeline() {
                       animation: `fadeSlideIn 0.4s ease 0.4s both`,
                     }}>
                       <span style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
                         letterSpacing: "1.5px", textTransform: "uppercase",
                         color: C.midGray, fontWeight: 700,
                       }}>GESAMT PHASE {phase.num}</span>
                       <span style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "1rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "1.2rem",
                         fontWeight: 700, color: C.gold,
                       }}>{phase.investTotal}</span>
                     </div>
@@ -1439,12 +1439,12 @@ export default function EckartTimeline() {
                     animation: `fadeSlideIn 0.4s ease 0.3s both`,
                   }}>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                       letterSpacing: "2px", textTransform: "uppercase",
                       color: C.midGray, fontWeight: 700, marginBottom: "0.4rem",
                     }}>RENDITE-HEBEL</div>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "1.0rem",
                       color: C.white, lineHeight: 1.5, marginBottom: "0.5rem",
                     }}>{phase.roi}</div>
                     {phase.roiValue && (
@@ -1455,7 +1455,7 @@ export default function EckartTimeline() {
                         borderRadius: "6px", padding: "0.35rem 0.7rem",
                       }}>
                         <span style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
+                          fontFamily: "Calibri, sans-serif", fontSize: "1.15rem",
                           fontWeight: 700, color: C.greenLight,
                         }}>{phase.roiValue}</span>
                       </div>
@@ -1471,7 +1471,7 @@ export default function EckartTimeline() {
                         background: `linear-gradient(135deg, ${C.gold}, ${C.green})`,
                       }} />
                       <span style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
                         color: C.midGray,
                       }}>Autarkie-Status: <span style={{ color: C.goldLight, fontWeight: 700 }}>{phase.independenceLabel}</span></span>
                     </div>
@@ -1490,7 +1490,7 @@ export default function EckartTimeline() {
           borderRadius: "8px", padding: "0.8rem 1rem",
         }}>
           <div style={{
-            fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+            fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
             letterSpacing: "3px", textTransform: "uppercase",
             color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
           }}>KUMULIERTE WIRKUNG</div>
@@ -1501,7 +1501,7 @@ export default function EckartTimeline() {
               <div key={i} style={{
                 display: "flex", alignItems: "center", gap: "0.35rem",
                 padding: "0.3rem 0.65rem", borderRadius: "20px",
-                fontSize: "0.7rem", fontFamily: "Calibri, sans-serif",
+                fontSize: "0.85rem", fontFamily: "Calibri, sans-serif",
                 fontWeight: 600,
                 background: i <= active
                   ? `linear-gradient(135deg, ${C.green}25, ${C.green}10)`
@@ -1524,7 +1524,7 @@ export default function EckartTimeline() {
         borderTop: "1px solid rgba(255,255,255,0.05)",
         display: "flex", justifyContent: "space-between", alignItems: "center",
         flexWrap: "wrap", gap: "0.5rem",
-        fontFamily: "Calibri, sans-serif", fontSize: "0.6rem", color: C.midGray,
+        fontFamily: "Calibri, sans-serif", fontSize: "0.75rem", color: C.midGray,
         position: "relative", zIndex: 2,
       }}>
         <span>ECKART GmbH · Güntersthal 4, 91235 Hartenstein</span>
