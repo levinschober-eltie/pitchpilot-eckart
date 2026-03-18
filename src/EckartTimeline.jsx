@@ -487,7 +487,12 @@ export default function EckartTimeline() {
   const [exportOpen, setExportOpen] = useState(false);
   const [marketOpen, setMarketOpen] = useState(false);
   const [config, setConfig] = useState(defaultConfig);
+  const [savedConfig, setSavedConfig] = useState(null);
+  const configSaved = savedConfig !== null;
   const calc = useMemo(() => calculateAll(config), [config]);
+  const activeCalc = useMemo(() => configSaved ? calculateAll(savedConfig) : calc, [configSaved, savedConfig, calc]);
+  // showCalc: true when presentation should display calculated values (saved OR panel open)
+  const showCalc = configOpen || configSaved;
 
   useEffect(() => {
     setAnimKey((k) => k + 1);
@@ -645,16 +650,30 @@ export default function EckartTimeline() {
           <button
             onClick={() => setConfigOpen(o => !o)}
             style={{
-              background: configOpen ? `${C.gold}20` : "rgba(255,255,255,0.06)",
-              border: `1px solid ${configOpen ? C.gold + "50" : "rgba(255,255,255,0.12)"}`,
+              background: configSaved ? `${C.green}25` : configOpen ? `${C.gold}20` : "rgba(255,255,255,0.06)",
+              border: `1px solid ${configSaved ? C.green + "60" : configOpen ? C.gold + "50" : "rgba(255,255,255,0.12)"}`,
               borderRadius: "6px", padding: "0.3rem 0.7rem",
               fontFamily: "Calibri, sans-serif", fontSize: "0.68rem",
               letterSpacing: "1.5px", textTransform: "uppercase",
-              fontWeight: 700, color: configOpen ? C.gold : C.midGray,
+              fontWeight: 700, color: configSaved ? C.green : configOpen ? C.gold : C.midGray,
               cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
               transition: "all 0.3s", marginTop: "0.6rem", whiteSpace: "nowrap",
             }}
-          >⚙ Kalkulator</button>
+          >{configSaved ? "✓" : "⚙"} Kalkulator</button>
+          {configSaved && (
+            <button
+              onClick={() => { setSavedConfig(null); setConfig(defaultConfig); }}
+              style={{
+                background: "rgba(255,100,100,0.1)", border: "1px solid rgba(255,100,100,0.3)",
+                borderRadius: "6px", padding: "0.3rem 0.7rem",
+                fontFamily: "Calibri, sans-serif", fontSize: "0.68rem",
+                letterSpacing: "1.5px", textTransform: "uppercase",
+                fontWeight: 700, color: "#ff8888",
+                cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
+                transition: "all 0.3s", marginTop: "0.6rem", whiteSpace: "nowrap",
+              }}
+            >↺ Zurücksetzen</button>
+          )}
           <button
             onClick={() => setExportOpen(true)}
             style={{
@@ -1009,7 +1028,7 @@ export default function EckartTimeline() {
           <>
             {/* ── HERO CARDS: CO2 + Gesamtertrag auf einen Blick ── */}
             {phase.heroCards && (() => {
-              const cards = configOpen ? getDynamicHeroCards(calc) : phase.heroCards;
+              const cards = showCalc ? getDynamicHeroCards(configOpen ? calc : activeCalc) : phase.heroCards;
               return (
               <div style={{
                 display: "grid",
@@ -1086,8 +1105,8 @@ export default function EckartTimeline() {
               );
             })()}
 
-            {/* Ihre Gesamtberechnung (when config open) */}
-            {configOpen && (
+            {/* Ihre Gesamtberechnung (when config active) */}
+            {showCalc && (
               <div style={{
                 background: `linear-gradient(135deg, ${C.gold}10, ${C.green}06)`,
                 border: `2px solid ${C.gold}35`,
@@ -1108,16 +1127,16 @@ export default function EckartTimeline() {
                   display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
                   gap: "0.4rem",
                 }}>
-                  {[
-                    { label: "Investition Standort", value: fmtEuro(calc.investStandort) },
-                    { label: "Investition BESS", value: fmtEuro(calc.investPhase6) },
-                    { label: "Gesamtinvestition", value: fmtEuro(calc.investGesamt), accent: true },
-                    { label: "Einsparung Standort", value: `${fmtEuro(calc.einsparungStandort)}/a`, accent: true },
-                    { label: "BESS-Erlöse", value: `${fmtEuro(calc.bessErloes)}/a`, accent: true },
-                    { label: "Amortisation", value: `${calc.amortisationStandort} Jahre` },
-                    { label: "BESS-Rendite", value: `${calc.bessRendite} % p.a.` },
-                    { label: "Autarkie-Grad", value: `${calc.autarkie} %`, accent: true },
-                  ].map((item, i) => (
+                  {(() => { const c = configOpen ? calc : activeCalc; return [
+                    { label: "Investition Standort", value: fmtEuro(c.investStandort) },
+                    { label: "Investition BESS", value: fmtEuro(c.investPhase6) },
+                    { label: "Gesamtinvestition", value: fmtEuro(c.investGesamt), accent: true },
+                    { label: "Einsparung Standort", value: `${fmtEuro(c.einsparungStandort)}/a`, accent: true },
+                    { label: "BESS-Erlöse", value: `${fmtEuro(c.bessErloes)}/a`, accent: true },
+                    { label: "Amortisation", value: `${c.amortisationStandort} Jahre` },
+                    { label: "BESS-Rendite", value: `${c.bessRendite} % p.a.` },
+                    { label: "Autarkie-Grad", value: `${c.autarkie} %`, accent: true },
+                  ]; })().map((item, i) => (
                     <div key={i} style={{
                       background: "rgba(255,255,255,0.03)", borderRadius: "6px",
                       padding: "0.4rem 0.55rem",
@@ -1867,9 +1886,11 @@ export default function EckartTimeline() {
               </div>
             )}
 
-            {/* ── IHRE BERECHNUNG (when config open, normal phases) ── */}
-            {configOpen && (() => {
-              const items = getPhaseCalcItems(active, calc, config);
+            {/* ── IHRE BERECHNUNG (when config active, normal phases) ── */}
+            {showCalc && (() => {
+              const c = configOpen ? calc : activeCalc;
+              const cfg = configOpen ? config : savedConfig;
+              const items = getPhaseCalcItems(active, c, cfg);
               if (!items) return null;
               return (
                 <div style={{
@@ -1997,6 +2018,8 @@ export default function EckartTimeline() {
           setConfig={setConfig}
           calc={calc}
           onClose={() => setConfigOpen(false)}
+          onSave={() => { setSavedConfig({ ...config }); setConfigOpen(false); }}
+          configSaved={configSaved}
         />
       )}
 
@@ -2004,9 +2027,9 @@ export default function EckartTimeline() {
       {exportOpen && (
         <ExportModal
           phases={phases}
-          config={config}
-          calc={calc}
-          configActive={configOpen}
+          config={configSaved ? savedConfig : config}
+          calc={configSaved ? activeCalc : calc}
+          configActive={showCalc}
           onClose={() => setExportOpen(false)}
         />
       )}
@@ -2014,8 +2037,8 @@ export default function EckartTimeline() {
       {/* ── Market Analysis Overlay ── */}
       {marketOpen && (
         <MarketAnalysis
-          config={config}
-          configActive={configOpen}
+          config={configSaved ? savedConfig : config}
+          configActive={showCalc}
           onClose={() => setMarketOpen(false)}
         />
       )}

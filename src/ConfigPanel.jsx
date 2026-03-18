@@ -303,7 +303,7 @@ function parseLastgangCSV(text) {
 }
 
 /* ── ConfigPanel Component ── */
-export default function ConfigPanel({ config, setConfig, calc, onClose }) {
+export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, configSaved }) {
   const [openGroups, setOpenGroups] = useState(
     Object.fromEntries(GROUPS.map(g => [g.key, true]))
   );
@@ -537,11 +537,29 @@ export default function ConfigPanel({ config, setConfig, calc, onClose }) {
             </div>
           ))}
 
+          {/* Save */}
+          {onSave && (
+            <button
+              onClick={onSave}
+              style={{
+                width: "100%", marginTop: "0.7rem",
+                background: `linear-gradient(135deg, ${C.green}, ${C.green}cc)`,
+                border: "none",
+                borderRadius: "8px", padding: "0.7rem",
+                fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
+                fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase",
+                color: "#fff", cursor: "pointer",
+                boxShadow: `0 4px 15px ${C.green}40`,
+                transition: "all 0.3s",
+              }}
+            >✓ Kalkulation speichern</button>
+          )}
+
           {/* Reset */}
           <button
             onClick={() => setConfig({ ...defaultConfig })}
             style={{
-              width: "100%", marginTop: "0.5rem",
+              width: "100%", marginTop: "0.4rem",
               background: "rgba(255,255,255,0.04)",
               border: "1px solid rgba(255,255,255,0.1)",
               borderRadius: "6px", padding: "0.5rem",
