@@ -628,70 +628,82 @@ export default function EckartTimeline() {
         position: "relative", zIndex: 2,
         animation: "fadeSlideIn 0.5s ease forwards",
       }}>
-        {/* Phase Title Block + Independence Ring */}
+        {/* Phase Title Row */}
         <div style={{
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          marginBottom: "1rem", gap: "1rem", flexWrap: "wrap",
+          display: "flex", alignItems: "center", gap: "1rem",
+          marginBottom: "1rem",
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem", flex: 1 }}>
-            <div style={{
-              width: "56px", height: "56px", borderRadius: "50%",
-              background: phase.isFinal
-                ? `linear-gradient(135deg, ${C.gold}40, ${C.green}30)`
-                : `linear-gradient(135deg, ${phase.color}30, ${phase.color}10)`,
-              border: `2px solid ${phase.isFinal ? C.gold : phase.color + "60"}`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: "1.5rem", flexShrink: 0,
-              boxShadow: phase.isFinal ? `0 0 24px ${C.gold}30` : "none",
-            }}>
-              {phase.icon}
-            </div>
-            <div>
-              <div style={{
-                fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
-                letterSpacing: "3px", textTransform: "uppercase",
-                color: C.gold, fontWeight: 700, marginBottom: "0.15rem",
-              }}>{phase.isFinal ? "Gesamtergebnis" : `Phase ${phase.num}`} · {phase.subtitle}</div>
-              <h2 style={{
-                fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
-                fontWeight: 700, margin: 0, lineHeight: 1.15,
-                background: phase.isFinal ? `linear-gradient(135deg, ${C.white}, ${C.goldLight})` : "none",
-                WebkitBackgroundClip: phase.isFinal ? "text" : "unset",
-                WebkitTextFillColor: phase.isFinal ? "transparent" : "inherit",
-              }}>{phase.title}</h2>
-            </div>
+          <div style={{
+            width: "56px", height: "56px", borderRadius: "50%",
+            background: phase.isFinal
+              ? `linear-gradient(135deg, ${C.gold}40, ${C.green}30)`
+              : `linear-gradient(135deg, ${phase.color}30, ${phase.color}10)`,
+            border: `2px solid ${phase.isFinal ? C.gold : phase.color + "60"}`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "1.5rem", flexShrink: 0,
+            boxShadow: phase.isFinal ? `0 0 24px ${C.gold}30` : "none",
+          }}>
+            {phase.icon}
           </div>
-
-          {/* Independence Ring */}
-          <IndependenceRing score={displayScore} size={phase.isFinal ? 150 : 120} strokeWidth={phase.isFinal ? 12 : 9} />
+          <div style={{ flex: 1 }}>
+            <div style={{
+              fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+              letterSpacing: "3px", textTransform: "uppercase",
+              color: C.gold, fontWeight: 700, marginBottom: "0.15rem",
+            }}>{phase.isFinal ? "Gesamtergebnis" : `Phase ${phase.num}`} · {phase.subtitle}</div>
+            <h2 style={{
+              fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
+              fontWeight: 700, margin: 0, lineHeight: 1.15,
+              background: phase.isFinal ? `linear-gradient(135deg, ${C.white}, ${C.goldLight})` : "none",
+              WebkitBackgroundClip: phase.isFinal ? "text" : "unset",
+              WebkitTextFillColor: phase.isFinal ? "transparent" : "inherit",
+            }}>{phase.title}</h2>
+          </div>
         </div>
 
-        {/* Headline Quote */}
+        {/* Two-Column Layout: Text left, Illustration + Ring right */}
         <div style={{
-          borderLeft: `3px solid ${C.gold}`,
-          paddingLeft: "1rem",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "1.5rem",
+          alignItems: "start",
           marginBottom: "1.25rem",
         }}>
-          <p style={{
-            fontSize: "clamp(0.95rem, 2vw, 1.15rem)",
-            fontStyle: "italic", color: C.goldLight,
-            margin: 0, lineHeight: 1.5,
+          {/* Left: Quote + Description */}
+          <div>
+            {/* Headline Quote */}
+            <div style={{
+              borderLeft: `3px solid ${C.gold}`,
+              paddingLeft: "1rem",
+              marginBottom: "1rem",
+            }}>
+              <p style={{
+                fontSize: "clamp(0.95rem, 2vw, 1.15rem)",
+                fontStyle: "italic", color: C.goldLight,
+                margin: 0, lineHeight: 1.5,
+              }}>
+                „{phase.headline}"
+              </p>
+            </div>
+
+            {/* Description */}
+            <p style={{
+              fontFamily: "Calibri, sans-serif",
+              fontSize: "0.85rem", color: "rgba(255,255,255,0.75)",
+              lineHeight: 1.65, margin: 0,
+            }}>
+              {phase.description}
+            </p>
+          </div>
+
+          {/* Right: Illustration + Independence Ring */}
+          <div style={{
+            display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem",
           }}>
-            „{phase.headline}"
-          </p>
+            <PhaseVisual phaseNum={phase.num} />
+            <IndependenceRing score={displayScore} size={phase.isFinal ? 130 : 100} strokeWidth={phase.isFinal ? 11 : 8} />
+          </div>
         </div>
-
-        {/* Description */}
-        <p style={{
-          fontFamily: "Calibri, sans-serif",
-          fontSize: "0.85rem", color: "rgba(255,255,255,0.75)",
-          lineHeight: 1.65, marginBottom: "0.75rem", maxWidth: "700px",
-        }}>
-          {phase.description}
-        </p>
-
-        {/* Phase Illustration */}
-        <PhaseVisual phaseNum={phase.num} />
 
         {/* === FINAL RESULT SPECIAL LAYOUT === */}
         {phase.isFinal ? (
@@ -1362,7 +1374,7 @@ export default function EckartTimeline() {
         * { box-sizing: border-box; margin: 0; }
         button:focus-visible { outline: 2px solid ${C.gold}; outline-offset: 2px; }
         a:hover { opacity: 0.9; }
-        @media (max-width: 600px) {
+        @media (max-width: 800px) {
           header, footer, .content { padding-left: 1rem !important; padding-right: 1rem !important; }
         }
       `}</style>
