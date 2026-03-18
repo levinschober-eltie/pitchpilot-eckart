@@ -8,6 +8,7 @@ const C = {
   navy: "#1B2A4A", navyLight: "#253757", gold: "#D4A843", goldLight: "#E8C97A",
   green: "#2D6A4F", greenLight: "#3A8A66", white: "#F5F5F0", darkText: "#2B2B2B",
 };
+const F = "Calibri, sans-serif";
 const MONTHS = ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
 const DAYS_IN_MONTH = [31,28,31,30,31,30,31,31,30,31,30,31];
 const HARTENSTEIN = { lat: 49.63, lon: 11.52, tz: 1 }; // CET offset
@@ -514,7 +515,7 @@ function DailyProfileChart({ pvHourly, priceHourly, loadHourly, title, season })
   const barW = plotW / 24 * 0.65;
   return (
     <div style={{ marginBottom: "1.5rem" }}>
-      <div style={{ fontSize: "0.85rem", fontWeight: 600, color: C.gold, marginBottom: "0.4rem" }}>
+      <div style={{ fontFamily: F, fontSize: "0.85rem", fontWeight: 700, color: C.gold, marginBottom: "0.4rem" }}>
         {title}{season && <span style={{ color: "#999", fontWeight: 400 }}> — {season}</span>}
       </div>
       <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
@@ -523,10 +524,10 @@ function DailyProfileChart({ pvHourly, priceHourly, loadHourly, title, season })
           const y = pad.t + plotH * (1 - f);
           return <g key={f}>
             <line x1={pad.l} y1={y} x2={pad.l + plotW} y2={y} stroke="rgba(255,255,255,0.08)" />
-            <text x={pad.l - 6} y={y + 4} textAnchor="end" fill="#888" fontSize={10}>{(maxY * f).toFixed(0)}</text>
+            <text x={pad.l - 6} y={y + 4} textAnchor="end" fill="#888" fontSize={10} fontFamily="Calibri, sans-serif">{(maxY * f).toFixed(0)}</text>
           </g>;
         })}
-        <text x={10} y={pad.t - 10} fill="#888" fontSize={10}>kW</text>
+        <text x={10} y={pad.t - 10} fill="#888" fontSize={10} fontFamily="Calibri, sans-serif">kW</text>
 
         {/* Load bars (navy) */}
         {loadHourly.map((v, h) => {
@@ -551,26 +552,26 @@ function DailyProfileChart({ pvHourly, priceHourly, loadHourly, title, season })
           ).join(" ")} />
 
         {/* Price axis right */}
-        <text x={chartW - 5} y={pad.t - 10} textAnchor="end" fill={C.gold} fontSize={10}>€/MWh</text>
+        <text x={chartW - 5} y={pad.t - 10} textAnchor="end" fill={C.gold} fontSize={10} fontFamily="Calibri, sans-serif">€/MWh</text>
         {[0, 0.5, 1].map(f => {
           const y = pad.t + plotH * (1 - f);
-          return <text key={`p${f}`} x={chartW - 5} y={y + 4} textAnchor="end" fill={C.gold} fontSize={9} opacity={0.7}>
+          return <text key={`p${f}`} x={chartW - 5} y={y + 4} textAnchor="end" fill={C.gold} fontSize={9} opacity={0.7} fontFamily="Calibri, sans-serif">
             {(maxYPrice * f).toFixed(0)}
           </text>;
         })}
 
         {/* X-axis */}
         {[0,3,6,9,12,15,18,21].map(h => (
-          <text key={h} x={pad.l + (h + 0.5) / 24 * plotW} y={chartH - 8} textAnchor="middle" fill="#888" fontSize={10}>{h}:00</text>
+          <text key={h} x={pad.l + (h + 0.5) / 24 * plotW} y={chartH - 8} textAnchor="middle" fill="#888" fontSize={10} fontFamily="Calibri, sans-serif">{h}:00</text>
         ))}
 
         {/* Legend */}
         <rect x={pad.l + 10} y={pad.t + 5} width={10} height={10} fill={C.green} rx={2} />
-        <text x={pad.l + 24} y={pad.t + 14} fill="#ccc" fontSize={10}>PV</text>
+        <text x={pad.l + 24} y={pad.t + 14} fill="#ccc" fontSize={10} fontFamily="Calibri, sans-serif">PV</text>
         <rect x={pad.l + 55} y={pad.t + 5} width={10} height={10} fill="rgba(37,55,87,0.7)" rx={2} />
-        <text x={pad.l + 69} y={pad.t + 14} fill="#ccc" fontSize={10}>Verbrauch</text>
+        <text x={pad.l + 69} y={pad.t + 14} fill="#ccc" fontSize={10} fontFamily="Calibri, sans-serif">Verbrauch</text>
         <line x1={pad.l + 130} y1={pad.t + 10} x2={pad.l + 148} y2={pad.t + 10} stroke={C.gold} strokeWidth={2.5} />
-        <text x={pad.l + 152} y={pad.t + 14} fill="#ccc" fontSize={10}>Börsenpreis</text>
+        <text x={pad.l + 152} y={pad.t + 14} fill="#ccc" fontSize={10} fontFamily="Calibri, sans-serif">Börsenpreis</text>
       </svg>
     </div>
   );
@@ -581,16 +582,16 @@ function MonthlyChart({ data, title }) {
   const barW = plotW / 12 * 0.35;
   return (
     <div style={{ marginBottom: "1.5rem" }}>
-      <div style={{ fontSize: "0.85rem", fontWeight: 600, color: C.gold, marginBottom: "0.4rem" }}>{title}</div>
+      <div style={{ fontFamily: F, fontSize: "0.85rem", fontWeight: 700, color: C.gold, marginBottom: "0.4rem" }}>{title}</div>
       <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
         {[0, 0.25, 0.5, 0.75, 1].map(f => {
           const y = pad.t + plotH * (1 - f);
           return <g key={f}>
             <line x1={pad.l} y1={y} x2={pad.l + plotW} y2={y} stroke="rgba(255,255,255,0.08)" />
-            <text x={pad.l - 6} y={y + 4} textAnchor="end" fill="#888" fontSize={10}>{(maxY * f / 1000).toFixed(0)}</text>
+            <text x={pad.l - 6} y={y + 4} textAnchor="end" fill="#888" fontSize={10} fontFamily="Calibri, sans-serif">{(maxY * f / 1000).toFixed(0)}</text>
           </g>;
         })}
-        <text x={10} y={pad.t - 10} fill="#888" fontSize={10}>MWh</text>
+        <text x={10} y={pad.t - 10} fill="#888" fontSize={10} fontFamily="Calibri, sans-serif">MWh</text>
 
         {MONTHS.map((m, i) => {
           const cx = pad.l + (i + 0.5) / 12 * plotW;
@@ -601,7 +602,7 @@ function MonthlyChart({ data, title }) {
             <rect x={cx - barW - 1} y={pad.t + plotH - pvH} width={barW} height={pvH} fill={C.green} opacity={0.8} rx={2} />
             <rect x={cx + 1} y={pad.t + plotH - loadH} width={barW} height={loadH} fill={C.navyLight} rx={2} />
             <rect x={cx - barW - 1} y={pad.t + plotH - scH} width={barW} height={scH} fill={C.greenLight} rx={2} />
-            <text x={cx} y={chartH - 8} textAnchor="middle" fill="#888" fontSize={10}>{m}</text>
+            <text x={cx} y={chartH - 8} textAnchor="middle" fill="#888" fontSize={10} fontFamily="Calibri, sans-serif">{m}</text>
           </g>;
         })}
 
@@ -613,11 +614,11 @@ function MonthlyChart({ data, title }) {
           }).join(" ")} />
 
         <rect x={pad.l + 10} y={pad.t + 5} width={10} height={10} fill={C.green} rx={2} />
-        <text x={pad.l + 24} y={pad.t + 14} fill="#ccc" fontSize={10}>PV-Erzeugung</text>
+        <text x={pad.l + 24} y={pad.t + 14} fill="#ccc" fontSize={10} fontFamily="Calibri, sans-serif">PV-Erzeugung</text>
         <rect x={pad.l + 115} y={pad.t + 5} width={10} height={10} fill={C.navyLight} rx={2} />
-        <text x={pad.l + 129} y={pad.t + 14} fill="#ccc" fontSize={10}>Verbrauch</text>
+        <text x={pad.l + 129} y={pad.t + 14} fill="#ccc" fontSize={10} fontFamily="Calibri, sans-serif">Verbrauch</text>
         <rect x={pad.l + 205} y={pad.t + 5} width={10} height={10} fill={C.greenLight} rx={2} />
-        <text x={pad.l + 219} y={pad.t + 14} fill="#ccc" fontSize={10}>Eigenverbrauch</text>
+        <text x={pad.l + 219} y={pad.t + 14} fill="#ccc" fontSize={10} fontFamily="Calibri, sans-serif">Eigenverbrauch</text>
       </svg>
     </div>
   );
@@ -627,17 +628,17 @@ function ComparisonBars({ items, title, unit }) {
   const maxVal = Math.max(...items.map(i => Math.abs(i.value)));
   return (
     <div style={{ marginBottom: "1.5rem" }}>
-      <div style={{ fontSize: "0.85rem", fontWeight: 600, color: C.gold, marginBottom: "0.6rem" }}>{title}</div>
+      <div style={{ fontFamily: F, fontSize: "0.85rem", fontWeight: 700, color: C.gold, marginBottom: "0.6rem" }}>{title}</div>
       {items.map((item, i) => (
         <div key={i} style={{ display: "flex", alignItems: "center", marginBottom: "0.5rem", gap: "0.6rem" }}>
-          <div style={{ width: 180, fontSize: "0.8rem", color: "#ccc", textAlign: "right" }}>{item.label}</div>
+          <div style={{ width: 180, fontFamily: F, fontSize: "0.8rem", color: "rgba(255,255,255,0.7)", textAlign: "right" }}>{item.label}</div>
           <div style={{ flex: 1, position: "relative", height: 24 }}>
             <div style={{
               width: `${Math.abs(item.value) / maxVal * 100}%`, height: "100%",
               background: item.color || C.gold, borderRadius: 4, opacity: 0.85,
               display: "flex", alignItems: "center", justifyContent: "flex-end", paddingRight: 8,
             }}>
-              <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#fff" }}>
+              <span style={{ fontFamily: F, fontSize: "0.75rem", fontWeight: 700, color: "#fff" }}>
                 {item.value >= 0 ? "+" : ""}{fmtK(item.value)} {unit}
               </span>
             </div>
@@ -658,7 +659,7 @@ function BESSChart({ bess, prices, selectedDay }) {
 
   return (
     <div style={{ marginBottom: "1.5rem" }}>
-      <div style={{ fontSize: "0.85rem", fontWeight: 600, color: C.gold, marginBottom: "0.4rem" }}>
+      <div style={{ fontFamily: F, fontSize: "0.85rem", fontWeight: 700, color: C.gold, marginBottom: "0.4rem" }}>
         BESS Speicherzustand — Tag {selectedDay + 1}
       </div>
       <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
@@ -679,7 +680,7 @@ function BESSChart({ bess, prices, selectedDay }) {
             <circle cx={x} cy={pad.t + plotH * (1 - socData[h] / maxSoc)} r={4}
               fill={isCharge ? C.greenLight : C.gold} stroke="#fff" strokeWidth={1} />
             <text x={x} y={pad.t + plotH * (1 - socData[h] / maxSoc) - 8}
-              textAnchor="middle" fill={isCharge ? C.greenLight : C.gold} fontSize={8}>
+              textAnchor="middle" fill={isCharge ? C.greenLight : C.gold} fontSize={8} fontFamily="Calibri, sans-serif">
               {isCharge ? "▲" : "▼"}
             </text>
           </g>;
@@ -692,12 +693,12 @@ function BESSChart({ bess, prices, selectedDay }) {
           ).join(" ")} />
 
         {[0,3,6,9,12,15,18,21].map(h => (
-          <text key={h} x={pad.l + (h + 0.5) / 24 * plotW} y={chartH - 8} textAnchor="middle" fill="#888" fontSize={10}>{h}:00</text>
+          <text key={h} x={pad.l + (h + 0.5) / 24 * plotW} y={chartH - 8} textAnchor="middle" fill="#888" fontSize={10} fontFamily="Calibri, sans-serif">{h}:00</text>
         ))}
-        <text x={10} y={pad.t - 10} fill="#888" fontSize={10}>kWh SoC</text>
+        <text x={10} y={pad.t - 10} fill="#888" fontSize={10} fontFamily="Calibri, sans-serif">kWh SoC</text>
         {[0, 0.5, 1].map(f => {
           const y = pad.t + plotH * (1 - f);
-          return <text key={f} x={pad.l - 6} y={y + 4} textAnchor="end" fill="#888" fontSize={10}>{(maxSoc * f).toFixed(0)}</text>;
+          return <text key={f} x={pad.l - 6} y={y + 4} textAnchor="end" fill="#888" fontSize={10} fontFamily="Calibri, sans-serif">{(maxSoc * f).toFixed(0)}</text>;
         })}
       </svg>
     </div>
@@ -729,7 +730,7 @@ const sliderStyle = {
 function Slider({ label, value, min, max, step, unit, onChange }) {
   return (
     <div style={{ marginBottom: "0.6rem" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.78rem", color: "#bbb", marginBottom: "0.2rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", fontFamily: F, fontSize: "0.78rem", color: "rgba(255,255,255,0.65)", marginBottom: "0.2rem" }}>
         <span>{label}</span>
         <span style={{ color: C.goldLight, fontWeight: 600 }}>{typeof value === "number" ? value.toLocaleString("de-DE") : value} {unit}</span>
       </div>
@@ -743,10 +744,15 @@ function KPICard({ label, value, sub, color }) {
     <div style={{
       background: "rgba(27,42,74,0.5)", border: "1px solid rgba(255,255,255,0.08)",
       borderRadius: 10, padding: "0.8rem 1rem", textAlign: "center", minWidth: 130,
+      position: "relative", overflow: "hidden",
     }}>
-      <div style={{ fontSize: "0.7rem", color: "#999", textTransform: "uppercase", letterSpacing: "0.05em" }}>{label}</div>
-      <div style={{ fontSize: "1.3rem", fontWeight: 700, color: color || C.gold, marginTop: "0.2rem" }}>{value}</div>
-      {sub && <div style={{ fontSize: "0.7rem", color: "#888", marginTop: "0.15rem" }}>{sub}</div>}
+      <div style={{
+        position: "absolute", top: 0, left: 0, right: 0, height: "2px",
+        background: `linear-gradient(90deg, ${color || C.gold}60, ${color || C.gold}20, transparent)`,
+      }} />
+      <div style={{ fontFamily: F, fontSize: "0.65rem", color: "#999", textTransform: "uppercase", letterSpacing: "1.5px" }}>{label}</div>
+      <div style={{ fontFamily: F, fontSize: "1.4rem", fontWeight: 700, color: color || C.gold, marginTop: "0.2rem" }}>{value}</div>
+      {sub && <div style={{ fontFamily: F, fontSize: "0.7rem", color: "#888", marginTop: "0.15rem" }}>{sub}</div>}
     </div>
   );
 }
@@ -756,7 +762,7 @@ function Section({ title, children, defaultOpen }) {
   return (
     <div style={{ marginBottom: "1.2rem", borderBottom: "1px solid rgba(255,255,255,0.06)", paddingBottom: "0.8rem" }}>
       <button onClick={() => setOpen(o => !o)} style={{
-        background: "none", border: "none", color: C.gold, fontSize: "1rem", fontWeight: 600,
+        background: "none", border: "none", color: C.gold, fontFamily: F, fontSize: "0.95rem", fontWeight: 700, letterSpacing: "0.3px",
         cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.3rem 0",
         width: "100%", textAlign: "left",
       }}>
@@ -775,18 +781,18 @@ function PVArrayRow({ arr, idx, onChange, onRemove }) {
       borderRadius: 8, padding: "0.7rem", marginBottom: "0.5rem",
     }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.4rem" }}>
-        <span style={{ fontSize: "0.8rem", color: C.greenLight, fontWeight: 600 }}>Anlage {idx + 1}</span>
+        <span style={{ fontFamily: F, fontSize: "0.8rem", color: C.greenLight, fontWeight: 700, letterSpacing: "0.5px" }}>Anlage {idx + 1}</span>
         <button onClick={onRemove} style={{
           background: "rgba(255,100,100,0.15)", border: "1px solid rgba(255,100,100,0.3)",
           color: "#ff8888", borderRadius: 4, padding: "0.1rem 0.5rem", fontSize: "0.7rem", cursor: "pointer",
         }}>✕</button>
       </div>
       <div style={{ marginBottom: "0.4rem" }}>
-        <label style={{ fontSize: "0.72rem", color: "#999" }}>Ausrichtung</label>
+        <label style={{ fontFamily: F, fontSize: "0.72rem", color: "rgba(255,255,255,0.55)" }}>Ausrichtung</label>
         <select value={arr.azimuth} onChange={e => onChange({ ...arr, azimuth: +e.target.value })}
           style={{
             width: "100%", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
-            color: "#ddd", borderRadius: 4, padding: "0.3rem", fontSize: "0.8rem", marginTop: "0.15rem",
+            color: "#ddd", borderRadius: 6, padding: "0.35rem", fontSize: "0.8rem", fontFamily: F, marginTop: "0.15rem",
           }}>
           {DIRECTIONS.map(d => <option key={d.label} value={d.az}>{d.label} ({d.az}°)</option>)}
         </select>
@@ -931,12 +937,12 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
         padding: "0.8rem 1.2rem", display: "flex", justifyContent: "space-between", alignItems: "center",
       }}>
         <div>
-          <div style={{ fontSize: "1.1rem", fontWeight: 700, color: C.gold }}>📊 Energiemarkt-Analyse</div>
-          <div style={{ fontSize: "0.72rem", color: "#888" }}>Börsenpreise · Direktvermarktung · BESS-Optimierung · CO₂</div>
+          <div style={{ fontFamily: F, fontSize: "1.2rem", fontWeight: 700, color: C.gold, letterSpacing: "0.5px" }}>Energiemarkt-Analyse</div>
+          <div style={{ fontFamily: F, fontSize: "0.72rem", color: "#888", letterSpacing: "1px" }}>Börsenpreise · Direktvermarktung · BESS-Optimierung · CO₂</div>
         </div>
         <button onClick={onClose} style={{
           background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)",
-          color: "#ccc", borderRadius: "50%", width: 36, height: 36, fontSize: "1.1rem",
+          color: "#ccc", borderRadius: "8px", width: 36, height: 36, fontSize: "1rem", fontFamily: F,
           cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
         }}>✕</button>
       </div>
@@ -977,20 +983,20 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
               ))}
               <button onClick={addArray} className="ma-btn-action" style={{
                 width: "100%", background: "rgba(45,106,79,0.15)", border: "1px dashed rgba(45,106,79,0.4)",
-                color: C.greenLight, borderRadius: 6, padding: "0.4rem", fontSize: "0.78rem",
+                color: C.greenLight, borderRadius: 6, padding: "0.4rem", fontFamily: F, fontSize: "0.78rem",
                 cursor: "pointer", marginTop: "0.3rem",
               }}>+ Anlage hinzufügen</button>
-              <div style={{ fontSize: "0.72rem", color: "#888", marginTop: "0.5rem", textAlign: "center" }}>
+              <div style={{ fontFamily: F, fontSize: "0.72rem", color: "#888", marginTop: "0.5rem", textAlign: "center" }}>
                 Gesamt: {totalKWp.toLocaleString("de-DE")} kWp · {specificYield.toFixed(0)} kWh/kWp/a · {(pvData.total / 1000).toFixed(1)} GWh/a
               </div>
               <button onClick={handleFetchSolar} disabled={loadingSolar} className="ma-btn-action" style={{
                 width: "100%", background: loadingSolar ? "rgba(255,255,255,0.05)" : "rgba(45,106,79,0.15)",
                 border: "1px solid rgba(45,106,79,0.3)", color: C.greenLight,
-                borderRadius: 6, padding: "0.4rem", fontSize: "0.75rem", cursor: "pointer", marginTop: "0.5rem",
+                borderRadius: 6, padding: "0.4rem", fontFamily: F, fontSize: "0.75rem", cursor: "pointer", marginTop: "0.5rem",
               }}>
                 {loadingSolar ? "Lade Einstrahlungsdaten…" : liveSolar ? `✓ ${liveSolar.source} geladen` : "🌤 Echte Einstrahlungsdaten laden"}
               </button>
-              <div style={{ fontSize: "0.65rem", color: "#777", marginTop: "0.2rem", textAlign: "center" }}>
+              <div style={{ fontFamily: F, fontSize: "0.65rem", color: "#777", marginTop: "0.2rem", textAlign: "center" }}>
                 Open-Meteo API (Reanalyse-Daten, kostenlos)
               </div>
             </Section>
@@ -1004,11 +1010,11 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                 <button onClick={handleFetchPrices} disabled={loadingPrices} className="ma-btn-action" style={{
                   width: "100%", background: loadingPrices ? "rgba(255,255,255,0.05)" : "rgba(212,168,67,0.15)",
                   border: "1px solid rgba(212,168,67,0.3)", color: C.goldLight,
-                  borderRadius: 6, padding: "0.4rem", fontSize: "0.75rem", cursor: "pointer",
+                  borderRadius: 6, padding: "0.4rem", fontFamily: F, fontSize: "0.75rem", cursor: "pointer",
                 }}>
                   {loadingPrices ? "Lade Börsenpreise…" : livePrice ? "✓ Live-Preise geladen" : "📡 Live-Börsenpreise laden"}
                 </button>
-                <div style={{ fontSize: "0.65rem", color: "#777", marginTop: "0.2rem", textAlign: "center" }}>
+                <div style={{ fontFamily: F, fontSize: "0.65rem", color: "#777", marginTop: "0.2rem", textAlign: "center" }}>
                   energy-charts.info (Fraunhofer ISE)
                 </div>
               </div>
@@ -1026,12 +1032,12 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
             <Section title="🌍 CO₂-Zertifikate" defaultOpen={true}>
               <Slider label="EU-ETS Preis" value={co2CertPrice} min={20} max={150} step={5} unit="€/t CO₂"
                 onChange={setCo2CertPrice} />
-              <div style={{ fontSize: "0.72rem", color: "#888", marginTop: "0.2rem" }}>
+              <div style={{ fontFamily: F, fontSize: "0.72rem", color: "#888", marginTop: "0.2rem" }}>
                 Grid-Emissionsfaktor: 400 g CO₂/kWh
               </div>
             </Section>
 
-            <div style={{ fontSize: "0.65rem", color: "#666", textAlign: "center", marginTop: "0.5rem" }}>
+            <div style={{ fontFamily: F, fontSize: "0.65rem", color: "#666", textAlign: "center", marginTop: "0.5rem" }}>
               📍 Standort: Hartenstein (49.63°N, 11.52°E)
             </div>
           </div>
@@ -1045,7 +1051,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                   background: season === key ? "rgba(212,168,67,0.2)" : "rgba(255,255,255,0.04)",
                   border: `1px solid ${season === key ? "rgba(212,168,67,0.4)" : "rgba(255,255,255,0.08)"}`,
                   color: season === key ? C.goldLight : "#888",
-                  borderRadius: "2rem", padding: "0.3rem 0.9rem", fontSize: "0.78rem", cursor: "pointer",
+                  borderRadius: "2rem", padding: "0.3rem 0.9rem", fontFamily: F, fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.5px", cursor: "pointer",
                 }}>{label}</button>
               ))}
             </div>
@@ -1059,7 +1065,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                 title="Durchschnittliches Tagesprofil"
                 season={seasonLabel}
               />
-              <div style={{ fontSize: "0.75rem", color: "#999", lineHeight: 1.6 }}>
+              <div style={{ fontFamily: F, fontSize: "0.78rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.65, background: "rgba(212,168,67,0.06)", borderLeft: `3px solid ${C.gold}40`, borderRadius: "0 6px 6px 0", padding: "0.6rem 0.8rem", marginTop: "0.5rem" }}>
                 <strong style={{ color: C.gold }}>Key Insight:</strong> PV-Erzeugung korreliert mit niedrigen Börsenpreisen
                 (Solardip um Mittag). Mit BESS lässt sich die Einspeisung in die Abendspitze verschieben —
                 dort liegen die Preise {season === "winter" ? "30–50%" : "40–80%"} über dem Tagesdurchschnitt.
@@ -1080,10 +1086,10 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
               ]} />
               <div style={{
                 background: "rgba(45,106,79,0.1)", border: "1px solid rgba(45,106,79,0.2)",
-                borderRadius: 8, padding: "0.8rem", fontSize: "0.78rem", color: "#bbb", lineHeight: 1.6,
+                borderRadius: 8, padding: "0.8rem", fontFamily: F, fontSize: "0.78rem", color: "#bbb", lineHeight: 1.6,
               }}>
                 <div style={{ color: C.greenLight, fontWeight: 600, marginBottom: "0.3rem" }}>Analyse Direktvermarktung</div>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: F }}>
                   <tbody>
                     <tr><td style={{ padding: "0.2rem 0", color: "#999" }}>Einspeisung gesamt</td>
                       <td style={{ textAlign: "right", fontWeight: 600 }}>{fmtMWh(results.gridFeedIn)}</td></tr>
@@ -1109,10 +1115,10 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
               ]} />
               <div style={{
                 background: "rgba(45,106,79,0.1)", border: "1px solid rgba(45,106,79,0.2)",
-                borderRadius: 8, padding: "0.8rem", fontSize: "0.78rem", color: "#bbb", lineHeight: 1.6,
+                borderRadius: 8, padding: "0.8rem", fontFamily: F, fontSize: "0.78rem", color: "#bbb", lineHeight: 1.6,
               }}>
                 <div style={{ color: C.greenLight, fontWeight: 600, marginBottom: "0.3rem" }}>Einkaufsoptimierung</div>
-                <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: F }}>
                   <tbody>
                     <tr><td style={{ padding: "0.2rem 0", color: "#999" }}>Restbedarf nach PV</td>
                       <td style={{ textAlign: "right" }}>{fmtMWh(results.gridImport)}</td></tr>
@@ -1125,7 +1131,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                       <td style={{ textAlign: "right", color: C.gold, fontWeight: 700 }}>{fmtEur(results.procSavingsBess)}/a</td></tr>
                   </tbody>
                 </table>
-                <div style={{ marginTop: "0.5rem", fontSize: "0.72rem", color: "#888" }}>
+                <div style={{ marginTop: "0.5rem", fontFamily: F, fontSize: "0.72rem", color: "#888" }}>
                   Inkl. Netzentgelte (6,5 ct/kWh) + Umlagen (2,5 ct/kWh) auf Netzbezug.
                   BESS lädt bei niedrigen Nachtpreisen und entlädt während teurer Spitzenstunden.
                 </div>
@@ -1139,7 +1145,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                   onChange={v => setSelectedDay(v - 1)} />
               </div>
               <BESSChart bess={results.bess} prices={prices} selectedDay={selectedDay} />
-              <div style={{ fontSize: "0.72rem", color: "#888" }}>
+              <div style={{ fontFamily: F, fontSize: "0.72rem", color: "#888" }}>
                 ▲ = Laden (günstig/PV-Überschuss) · ▼ = Entladen (teuer/Bedarf) · Gestrichelt = Börsenpreis
               </div>
             </Section>
@@ -1153,11 +1159,11 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                   background: "rgba(45,106,79,0.12)", border: "1px solid rgba(45,106,79,0.25)",
                   borderRadius: 10, padding: "1rem", textAlign: "center",
                 }}>
-                  <div style={{ fontSize: "2rem", fontWeight: 700, color: C.green }}>
+                  <div style={{ fontFamily: F, fontSize: "2rem", fontWeight: 700, color: C.green }}>
                     {results.co2SavedT.toFixed(0)} t
                   </div>
-                  <div style={{ fontSize: "0.78rem", color: "#bbb" }}>CO₂-Einsparung pro Jahr</div>
-                  <div style={{ fontSize: "0.68rem", color: "#888", marginTop: "0.3rem" }}>
+                  <div style={{ fontFamily: F, fontSize: "0.78rem", color: "#bbb" }}>CO₂-Einsparung pro Jahr</div>
+                  <div style={{ fontFamily: F, fontSize: "0.68rem", color: "#888", marginTop: "0.3rem" }}>
                     durch {fmtMWh(results.selfConsumed)} Eigenverbrauch
                   </div>
                 </div>
@@ -1165,17 +1171,17 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                   background: "rgba(212,168,67,0.08)", border: "1px solid rgba(212,168,67,0.2)",
                   borderRadius: 10, padding: "1rem", textAlign: "center",
                 }}>
-                  <div style={{ fontSize: "2rem", fontWeight: 700, color: C.gold }}>
+                  <div style={{ fontFamily: F, fontSize: "2rem", fontWeight: 700, color: C.gold }}>
                     {fmtEur(results.co2CertSaved)}
                   </div>
-                  <div style={{ fontSize: "0.78rem", color: "#bbb" }}>Vermiedene Zertifikatskosten</div>
-                  <div style={{ fontSize: "0.68rem", color: "#888", marginTop: "0.3rem" }}>
+                  <div style={{ fontFamily: F, fontSize: "0.78rem", color: "#bbb" }}>Vermiedene Zertifikatskosten</div>
+                  <div style={{ fontFamily: F, fontSize: "0.68rem", color: "#888", marginTop: "0.3rem" }}>
                     bei {co2CertPrice} €/t CO₂ (EU-ETS)
                   </div>
                 </div>
               </div>
               <div style={{
-                marginTop: "0.8rem", fontSize: "0.75rem", color: "#999", lineHeight: 1.6,
+                marginTop: "0.8rem", fontFamily: F, fontSize: "0.75rem", color: "#999", lineHeight: 1.6,
                 background: "rgba(27,42,74,0.3)", borderRadius: 8, padding: "0.7rem",
               }}>
                 <strong style={{ color: C.gold }}>EU-ETS & CBAM:</strong> Unternehmen im Emissionshandel müssen für
@@ -1192,7 +1198,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                 background: "rgba(27,42,74,0.4)", borderRadius: 10,
                 border: "1px solid rgba(212,168,67,0.15)", padding: "1rem",
               }}>
-                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: F, fontSize: "0.82rem" }}>
                   <thead>
                     <tr style={{ borderBottom: "2px solid rgba(212,168,67,0.3)" }}>
                       <th style={{ textAlign: "left", padding: "0.4rem", color: C.gold }}>Position</th>
@@ -1227,7 +1233,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                   </tbody>
                 </table>
               </div>
-              <div style={{ fontSize: "0.7rem", color: "#666", marginTop: "0.5rem", textAlign: "center" }}>
+              <div style={{ fontFamily: F, fontSize: "0.7rem", color: "#666", marginTop: "0.5rem", textAlign: "center" }}>
                 Alle Werte p.a. · Standort Hartenstein · PV {liveSolar ? liveSolar.source : "Parametrisches Modell"} · Börsenpreise {livePrice ? "live (energy-charts)" : "modelliert"} · Industrielastprofil
               </div>
             </Section>
