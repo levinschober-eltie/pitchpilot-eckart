@@ -1579,106 +1579,344 @@ function GesamtVisual() {
   return (
     <>
       <ValleyBg />
-      <SiteBase solar>
-        {/* Carport roofs */}
-        <rect x="110" y="206" width="50" height="2" fill={C.gold} opacity="0.35" rx="0.5" />
-        <rect x="267" y="200" width="42" height="2" fill={C.gold} opacity="0.35" rx="0.5" />
-
-        {/* BESS containers near site */}
-        {[0, 1, 2].map((i) => (
-          <rect key={i} x={128 + i * 17} y="250" width="13" height="8" rx="1.5"
-            fill={C.green} opacity="0.4" stroke={C.greenLight} strokeWidth="0.3" />
+      <SiteBase solar heat>
+        {/* ═══ CARPORTS WITH SOLAR (active, shimmer) ═══ */}
+        <g>
+          <path d="M108,206 L110,199 L158,199 L160,206 Z" fill="url(#solarGrad)" opacity="0.7" />
+          <rect x="108" y="206" width="52" height="2" fill={C.goldDim} opacity="0.4" />
+          {[111, 126, 141, 157].map((xp) => (
+            <line key={xp} x1={xp} y1="208" x2={xp} y2="230"
+              stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+          ))}
+          <Car x={113} y={216} color="rgba(100,180,255,0.1)" s={0.7} />
+          <Car x={127} y={216} s={0.7} suv />
+          <Car x={141} y={216} color="rgba(180,255,180,0.08)" s={0.7} />
+        </g>
+        <g>
+          <path d="M265,199 L267,192 L310,192 L312,199 Z" fill="url(#solarGrad)" opacity="0.7" />
+          <rect x="265" y="199" width="47" height="2" fill={C.goldDim} opacity="0.4" />
+          {[268, 282, 296, 310].map((xp) => (
+            <line key={xp} x1={xp} y1="201" x2={xp} y2="228"
+              stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+          ))}
+        </g>
+        {/* Solar shimmer on all roofs */}
+        {[[170, 144], [228, 138], [175, 176], [228, 176], [278, 150], [134, 200], [288, 194]].map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r="0" fill={C.goldLight} opacity="0">
+            <animate attributeName="r" values="0;8;0" dur={`${3 + i * 0.6}s`} repeatCount="indefinite" begin={`${i * 0.4}s`} />
+            <animate attributeName="opacity" values="0;0.1;0" dur={`${3 + i * 0.6}s`} repeatCount="indefinite" begin={`${i * 0.4}s`} />
+          </circle>
         ))}
 
-        {/* Heat pipes (subtle) */}
-        <path d="M170,178 L170,200 L232,200 L232,178"
-          fill="none" stroke={C.warmOrange} strokeWidth="1.2" opacity="0.12" />
+        {/* ═══ ON-SITE BESS (5 containers with pulsing charge bars) ═══ */}
+        <g>
+          {[0, 1, 2, 3, 4].map((i) => {
+            const bx = 118 + i * 17;
+            const by = 244;
+            const charge = 60 + (i * 17 % 35); // 60-95%
+            const barH = (charge / 100) * 10;
+            return (
+              <g key={i}>
+                {/* Container body */}
+                <rect x={bx} y={by} width="14" height="10" rx="1.5"
+                  fill={C.green} opacity="0.45" stroke={C.greenLight} strokeWidth="0.5" />
+                {/* 3D side */}
+                <path d={`M${bx + 14},${by} L${bx + 16},${by - 1} L${bx + 16},${by + 9} L${bx + 14},${by + 10}`}
+                  fill={C.forestMid} opacity="0.25" />
+                {/* Pulsing glow when charging */}
+                <rect x={bx - 1} y={by - 1} width="16" height="12" rx="2.5"
+                  fill={C.greenLight} opacity="0">
+                  <animate attributeName="opacity" values="0;0.08;0" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
+                </rect>
+                {/* Battery bar (vertical fill) */}
+                <rect x={bx + 10} y={by + 10 - barH} width="2.5" height={barH} rx="0.5"
+                  fill={C.greenLight} opacity="0.6">
+                  <animate attributeName="height" values={`${barH - 1};${barH + 1};${barH - 1}`}
+                    dur={`${2.5 + i * 0.4}s`} repeatCount="indefinite" />
+                  <animate attributeName="y" values={`${by + 11 - barH};${by + 9 - barH};${by + 11 - barH}`}
+                    dur={`${2.5 + i * 0.4}s`} repeatCount="indefinite" />
+                </rect>
+                {/* Status LED */}
+                <circle cx={bx + 3} cy={by + 2.5} r="1" fill={C.greenLight}>
+                  <animate attributeName="opacity" values="0.3;0.9;0.3" dur={`${1.5 + i * 0.2}s`} repeatCount="indefinite" />
+                </circle>
+                {/* % label */}
+                <text x={bx + 7} y={by + 7} textAnchor="middle" fill={C.greenLight}
+                  fontSize="3.5" fontFamily="Calibri, sans-serif" fontWeight="700" opacity="0.5">{charge}%</text>
+              </g>
+            );
+          })}
+          <text x="160" y="260" textAnchor="middle" fill={C.greenLight}
+            fontSize="4" fontFamily="Calibri, sans-serif" fontWeight="700" opacity="0.5">6,5–11 MWh</text>
+        </g>
 
-        {/* Chargers */}
-        {[0, 1, 2].map((i) => (
-          <rect key={i} x={275 + i * 9} y="235" width="5" height="7" rx="1"
-            fill={C.greenLight} opacity="0.35" />
+        {/* ═══ HEAT PIPE NETWORK (active, flowing) ═══ */}
+        <defs>
+          <path id="ghp1" d="M170,172 L170,195 L232,195 L232,172" />
+          <path id="ghp2" d="M200,195 L200,210" />
+          <path id="ghp3" d="M170,195 L140,195 L140,180" />
+        </defs>
+        {["ghp1", "ghp2", "ghp3"].map((id, i) => (
+          <g key={id}>
+            <use href={`#${id}`} fill="none" stroke={C.warmOrange} strokeWidth="3" opacity="0.12" strokeLinecap="round" />
+            <use href={`#${id}`} fill="none" stroke={C.warmOrangeLight} strokeWidth="0.8"
+              opacity="0.25" strokeDasharray="3,4" strokeLinecap="round">
+              <animate attributeName="strokeDashoffset" values="0;-14" dur="2.5s" repeatCount="indefinite" />
+            </use>
+            <FlowParticles pathId={id} color={C.warmOrangeLight} count={2} dur={3 + i * 0.5} r={1.5} />
+          </g>
         ))}
-        <Car x={114} y={212} s={0.7} />
-        <Car x={126} y={212} s={0.7} suv />
+        {/* WP unit (compact) */}
+        <g>
+          <rect x="195" y="166" width="12" height="10" rx="2" fill={C.navy} stroke={C.warmOrange} strokeWidth="0.6" />
+          <text x="201" y="174" textAnchor="middle" fill={C.warmOrangeLight}
+            fontSize="3.5" fontFamily="Calibri, sans-serif" fontWeight="700">WP</text>
+          {/* Heat wave */}
+          <path d="M198,164 Q200,160 202,164" fill="none" stroke={C.warmOrangeLight} strokeWidth="0.5" opacity="0.3">
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-3;0,0" dur="1.5s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.15;0.4;0.15" dur="1.5s" repeatCount="indefinite" />
+          </path>
+        </g>
+
+        {/* ═══ CHARGING STATIONS (active with cars) ═══ */}
+        {/* AC chargers left */}
+        {[0, 1, 2, 3].map((i) => (
+          <g key={`ac${i}`}>
+            <rect x={272 + i * 9} y="215" width="5" height="8" rx="1"
+              fill={C.navy} stroke={C.greenLight} strokeWidth="0.4" />
+            <circle cx={274.5 + i * 9} cy="221" r="0.7" fill={C.greenLight}>
+              <animate attributeName="opacity" values="0.3;1;0.3" dur={`${1 + i * 0.15}s`} repeatCount="indefinite" />
+            </circle>
+          </g>
+        ))}
+        <Car x={273} y={225} color="rgba(100,180,255,0.1)" s={0.7} />
+        <Car x={285} y={225} s={0.7} />
+        {/* HPC hint */}
+        <g opacity="0.5">
+          <rect x="260" y="240" width="8" height="10" rx="1.5" fill={C.navy} stroke={C.greenLight} strokeWidth="0.5" />
+          <text x="264" y="248" textAnchor="middle" fill={C.greenLight} fontSize="3.5" fontWeight="700">⚡</text>
+          <Truck x={268} y={242} s={0.5} />
+        </g>
       </SiteBase>
 
-      {/* Concentric energy rings */}
-      {[
-        { rx: 115, ry: 60, sw: 1.2, c: C.gold, op: 0.1, dur: 5, dash: "6,4" },
-        { rx: 128, ry: 68, sw: 0.8, c: C.greenLight, op: 0.07, dur: 7, dash: "4,8" },
-        { rx: 140, ry: 75, sw: 0.5, c: C.gold, op: 0.04, dur: 9, dash: "3,12" },
-      ].map((r, i) => (
-        <ellipse key={i} cx="200" cy="200" rx={r.rx} ry={r.ry} fill="none"
-          stroke={r.c} strokeWidth={r.sw} opacity={r.op} strokeDasharray={r.dash}>
-          <animate attributeName="strokeDashoffset" values={`0;${i % 2 ? 20 : -20}`}
-            dur={`${r.dur}s`} repeatCount="indefinite" />
-        </ellipse>
-      ))}
-
-      {/* External BESS array */}
-      <g opacity="0.3">
-        {[0, 1, 2, 3].map((row) =>
-          [0, 1, 2].map((col) => (
-            <rect key={`${row}-${col}`} x={325 + col * 17} y={182 + row * 14}
-              width="13" height="10" rx="1.5"
-              fill={C.green} stroke={C.greenLight} strokeWidth="0.3" />
-          ))
-        )}
-        <text x="351" y="242" textAnchor="middle" fill={C.midGray}
-          fontSize="4" fontFamily="Calibri, sans-serif">BESS 200 MWh</text>
+      {/* ═══ EMS CENTRAL HUB (on top of site) ═══ */}
+      <g filter="url(#glow)">
+        <rect x="180" y="130" width="40" height="22" rx="5" fill={C.navy} stroke={C.gold} strokeWidth="1.2" />
+        <rect x="184" y="134" width="32" height="14" rx="2" fill="rgba(0,0,0,0.3)" />
+        {/* Mini live bars */}
+        {Array.from({ length: 6 }, (_, i) => {
+          const bh = 2 + ((i * 3 + 1) % 6);
+          return (
+            <rect key={i} x={186 + i * 5} y={146 - bh} width="3" height={bh}
+              fill={i < 3 ? C.gold : C.greenLight} opacity="0.5" rx="0.3">
+              <animate attributeName="height" values={`${bh};${bh + 2};${bh}`} dur={`${1.8 + i * 0.15}s`} repeatCount="indefinite" />
+              <animate attributeName="y" values={`${146 - bh};${144 - bh};${146 - bh}`} dur={`${1.8 + i * 0.15}s`} repeatCount="indefinite" />
+            </rect>
+          );
+        })}
+        <text x="200" y="150" textAnchor="middle" fill={C.goldLight}
+          fontSize="6" fontFamily="Calibri, sans-serif" fontWeight="700">EMS</text>
       </g>
 
-      {/* 95% Autarkie badge */}
-      <g filter="url(#glowWide)">
-        <circle cx="200" cy="100" r="26" fill={C.navy} stroke={C.gold} strokeWidth="2" />
-        <circle cx="200" cy="100" r="22" fill="none" stroke={C.gold} strokeWidth="0.5" opacity="0.3" />
-        <text x="200" y="106" textAnchor="middle" fill={C.goldLight}
-          fontSize="17" fontFamily="Calibri, sans-serif" fontWeight="700">95%</text>
-        <text x="200" y="116" textAnchor="middle" fill={C.midGray}
-          fontSize="5" fontFamily="Calibri, sans-serif" letterSpacing="1">AUTARKIE</text>
-      </g>
-
-      {/* Ecosystem KPI badges */}
-      {[
-        [32, 138, "☀️", "6,5–11 MWp", C.gold],
-        [32, 162, "🔥", "5–10 MW", C.warmOrange],
-        [32, 186, "🔌", "70+ Lader", C.greenLight],
-        [32, 210, "⚡", "6,5–11 MWh", C.green],
-        [350, 138, "📈", "1,4–2,5 Mio €/a", C.goldLight],
-        [350, 162, "🎯", "Amort. 6–9 J.", C.goldLight],
-        [350, 186, "🏭", "100 MW BESS", C.greenLight],
-      ].map(([x, y, icon, text, col], i) => (
-        <g key={i}>
-          <rect x={x - 3} y={y - 8} width={text.length * 5 + 18} height="17" rx="8.5"
-            fill={C.navy} stroke={col} strokeWidth="0.5" opacity="0.9" />
-          <text x={x + 4} y={y + 2.5} fontSize="7">{icon}</text>
-          <text x={x + 15} y={y + 2} fill={col}
-            fontSize="5.5" fontFamily="Calibri, sans-serif" fontWeight="700">{text}</text>
-        </g>
-      ))}
-
-      {/* Connecting lines */}
-      {[[77, 144, 128, 168], [77, 168, 155, 192], [77, 192, 135, 224],
-        [77, 216, 145, 250], [317, 144, 272, 168], [317, 168, 278, 196],
-        [317, 192, 290, 218]].map(([x1, y1, x2, y2], i) => (
-        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-          stroke={C.gold} strokeWidth="0.3" opacity="0.1" strokeDasharray="2,4" />
-      ))}
-
-      {/* Mini timeline at bottom */}
+      {/* ═══ ENERGY FLOW PATHS (all systems connected) ═══ */}
+      <defs>
+        {/* PV → EMS */}
+        <path id="gf_pv" d="M220,155 Q225,148 220,140 Q215,135 210,140" />
+        {/* EMS → BESS on-site */}
+        <path id="gf_bess" d="M200,152 Q195,200 165,244" />
+        {/* EMS → Chargers */}
+        <path id="gf_charge" d="M220,148 Q260,180 280,215" />
+        {/* EMS → Grid */}
+        <path id="gf_grid" d="M190,140 Q120,130 85,125" />
+        {/* PV → Production (Eigenverbrauch) */}
+        <path id="gf_prod" d="M210,155 Q215,160 220,168" />
+        {/* Grid → External BESS */}
+        <path id="gf_ext" d="M85,125 Q80,135 78,150" />
+      </defs>
+      {/* PV → EMS (gold) */}
       <g>
-        <line x1="60" y1="300" x2="340" y2="300" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-        {["I", "II", "III", "IV", "V", "VI"].map((num, i) => (
+        <use href="#gf_pv" fill="none" stroke={C.gold} strokeWidth="1.2" opacity="0.08" />
+        <FlowParticles pathId="gf_pv" color={C.goldLight} count={3} dur={2} r={2} />
+      </g>
+      {/* EMS → BESS on-site (green) */}
+      <g>
+        <use href="#gf_bess" fill="none" stroke={C.greenLight} strokeWidth="1" opacity="0.08" />
+        <FlowParticles pathId="gf_bess" color={C.greenLight} count={3} dur={3} r={1.8} />
+      </g>
+      {/* EMS → Chargers (green) */}
+      <g>
+        <use href="#gf_charge" fill="none" stroke={C.greenLight} strokeWidth="0.8" opacity="0.06" />
+        <FlowParticles pathId="gf_charge" color={C.greenLight} count={2} dur={3.5} r={1.5} />
+      </g>
+      {/* EMS ↔ Grid (gold, bidirectional) */}
+      <g>
+        <use href="#gf_grid" fill="none" stroke={C.gold} strokeWidth="1" opacity="0.06" />
+        <FlowParticles pathId="gf_grid" color={C.goldLight} count={2} dur={3} r={1.8} />
+      </g>
+      {/* PV → Production (gold, direct consumption) */}
+      <g>
+        <use href="#gf_prod" fill="none" stroke={C.gold} strokeWidth="0.8" opacity="0.06" />
+        <FlowParticles pathId="gf_prod" color={C.goldLight} count={2} dur={2} r={1.5} />
+      </g>
+
+      {/* ═══ 110kV Grid Connection ═══ */}
+      <g opacity="0.6">
+        <line x1="12" y1="105" x2="78" y2="125" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
+        {/* Pylon (compact) */}
+        <line x1="76" y1="133" x2="82" y2="118" stroke="rgba(255,255,255,0.18)" strokeWidth="1" />
+        <line x1="88" y1="133" x2="82" y2="118" stroke="rgba(255,255,255,0.18)" strokeWidth="1" />
+        <line x1="73" y1="120" x2="91" y2="120" stroke="rgba(255,255,255,0.12)" strokeWidth="0.6" />
+        <circle cx="73" cy="120" r="1.5" fill={C.blue} />
+        <circle cx="91" cy="120" r="1.5" fill={C.blue} />
+        <text x="42" y="102" fill={C.midGray} fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">110 kV</text>
+      </g>
+
+      {/* ═══ EXTERNAL BESS (100MW/200MWh) with charging animation ═══ */}
+      <g>
+        {/* Green landscape patch */}
+        <ellipse cx="62" cy="195" rx="42" ry="30" fill={C.forest} opacity="0.1" />
+        <Pine x={25} y={178} h={5.5} opacity={0.3} />
+        <Pine x={100} y={176} h={6} opacity={0.3} />
+        <Pine x={22} y={210} h={5} opacity={0.25} />
+        <Pine x={102} y={212} h={5.5} opacity={0.25} />
+
+        {[0, 1, 2, 3].map((row) =>
+          [0, 1, 2].map((col) => {
+            const cx = 35 + col * 19;
+            const cy = 170 + row * 14;
+            const charge = 50 + ((row * 3 + col) * 13) % 45;
+            const barH = (charge / 100) * 9;
+            return (
+              <g key={`e${row}-${col}`}>
+                {/* Container */}
+                <rect x={cx} y={cy} width="15" height="10" rx="1.5"
+                  fill={C.green} opacity={0.3 + row * 0.03} stroke={C.greenLight} strokeWidth="0.4" />
+                {/* Pulsing charge glow */}
+                <rect x={cx - 0.5} y={cy - 0.5} width="16" height="11" rx="2"
+                  fill={C.greenLight} opacity="0">
+                  <animate attributeName="opacity" values="0;0.06;0" dur={`${2.5 + row * 0.3 + col * 0.2}s`} repeatCount="indefinite" />
+                </rect>
+                {/* Battery charge bar */}
+                <rect x={cx + 11.5} y={cy + 10 - barH} width="2" height={barH} rx="0.5"
+                  fill={C.greenLight} opacity="0.55">
+                  <animate attributeName="height" values={`${barH - 0.5};${barH + 1};${barH - 0.5}`}
+                    dur={`${3 + row * 0.4 + col * 0.3}s`} repeatCount="indefinite" />
+                  <animate attributeName="y" values={`${cy + 10.5 - barH};${cy + 9 - barH};${cy + 10.5 - barH}`}
+                    dur={`${3 + row * 0.4 + col * 0.3}s`} repeatCount="indefinite" />
+                </rect>
+                {/* LED */}
+                <circle cx={cx + 3} cy={cy + 2.5} r="0.8" fill={C.greenLight}>
+                  <animate attributeName="opacity" values="0.3;0.8;0.3"
+                    dur={`${1.5 + row * 0.12 + col * 0.1}s`} repeatCount="indefinite" />
+                </circle>
+              </g>
+            );
+          })
+        )}
+
+        {/* Grid → BESS flow */}
+        <defs>
+          <path id="gf_ext2" d="M82,135 Q72,155 55,170" />
+        </defs>
+        <use href="#gf_ext2" fill="none" stroke={C.greenLight} strokeWidth="0.8" opacity="0.08" />
+        <FlowParticles pathId="gf_ext2" color={C.greenLight} count={3} dur={2.5} r={1.8} />
+
+        {/* BESS → Grid (revenue flow back) */}
+        <defs>
+          <path id="gf_rev" d="M70,175 Q76,150 82,135" />
+        </defs>
+        <use href="#gf_rev" fill="none" stroke={C.gold} strokeWidth="0.6" opacity="0.05" />
+        <FlowParticles pathId="gf_rev" color={C.goldLight} count={2} dur={4} r={1.5} />
+
+        <text x="62" y="232" textAnchor="middle" fill={C.greenLight}
+          fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700" opacity="0.6">100 MW / 200 MWh</text>
+        <text x="62" y="238" textAnchor="middle" fill={C.midGray}
+          fontSize="3.5" fontFamily="Calibri, sans-serif" opacity="0.4">Graustrom-BESS</text>
+      </g>
+
+      {/* ═══ SUN (energy source indicator) ═══ */}
+      <g>
+        <circle cx="355" cy="80" r="12" fill={C.gold} opacity="0.06" />
+        <circle cx="355" cy="80" r="7" fill={C.goldLight} opacity="0.15" />
+        <circle cx="355" cy="80" r="4" fill={C.goldLight} opacity="0.3" />
+        {Array.from({ length: 12 }, (_, i) => {
+          const a = (i / 12) * Math.PI * 2;
+          return (
+            <line key={i}
+              x1={355 + Math.cos(a) * 15} y1={80 + Math.sin(a) * 15}
+              x2={355 + Math.cos(a) * 20} y2={80 + Math.sin(a) * 20}
+              stroke={C.goldLight} strokeWidth="0.6" opacity="0.1" strokeLinecap="round">
+              <animate attributeName="opacity" values="0.05;0.18;0.05"
+                dur={`${2.5 + (i % 3) * 0.4}s`} repeatCount="indefinite" />
+            </line>
+          );
+        })}
+      </g>
+
+      {/* ═══ 95% AUTARKIE BADGE (prominent) ═══ */}
+      <g filter="url(#glowWide)">
+        <circle cx="340" cy="130" r="22" fill={C.navy} stroke={C.gold} strokeWidth="1.5" />
+        <circle cx="340" cy="130" r="18" fill="none" stroke={C.gold} strokeWidth="0.5" opacity="0.25" />
+        <text x="340" y="135" textAnchor="middle" fill={C.goldLight}
+          fontSize="14" fontFamily="Calibri, sans-serif" fontWeight="700">95%</text>
+        <text x="340" y="144" textAnchor="middle" fill={C.midGray}
+          fontSize="4.5" fontFamily="Calibri, sans-serif" letterSpacing="1">AUTARKIE</text>
+      </g>
+
+      {/* ═══ SYSTEM LABELS (right side, compact) ═══ */}
+      <g>
+        {[
+          [325, 168, "☀️", "6,5–11 MWp", C.gold],
+          [325, 184, "🔋", "6,5–11 MWh", C.greenLight],
+          [325, 200, "🔥", "5–10 MW WP", C.warmOrange],
+          [325, 216, "🔌", "70+ Lader", C.greenLight],
+          [325, 232, "📈", "1,4–2,5 Mio €/a", C.goldLight],
+        ].map(([x, y, icon, text, col], i) => (
           <g key={i}>
-            <circle cx={80 + i * 50} cy="300" r="4" fill={C.gold} opacity={0.15 + i * 0.05}
+            <rect x={x} y={y - 6} width={text.length * 4.8 + 16} height="13" rx="6.5"
+              fill={C.navy} stroke={col} strokeWidth="0.4" opacity="0.92" />
+            <text x={x + 5} y={y + 2} fontSize="6">{icon}</text>
+            <text x={x + 14} y={y + 1.5} fill={col}
+              fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">{text}</text>
+          </g>
+        ))}
+      </g>
+
+      {/* ═══ ENERGY FLOW LEGEND (bottom left) ═══ */}
+      <g opacity="0.6">
+        <rect x="12" y="260" width="65" height="42" rx="4" fill={C.navy} opacity="0.85"
+          stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
+        <text x="44" y="270" textAnchor="middle" fill={C.midGray}
+          fontSize="3.5" fontFamily="Calibri, sans-serif" letterSpacing="1" fontWeight="700">ENERGIEFLÜSSE</text>
+        {[
+          [C.goldLight, "PV → Verbrauch"],
+          [C.greenLight, "Speicher laden"],
+          [C.warmOrangeLight, "Wärmenetz"],
+          [C.goldLight, "Netz ↔ BESS"],
+        ].map(([col, label], i) => (
+          <g key={i}>
+            <line x1="18" y1={278 + i * 6} x2="28" y2={278 + i * 6}
+              stroke={col} strokeWidth="1.5" />
+            <circle cx="23" cy={278 + i * 6} r="1.5" fill={col} opacity="0.6" />
+            <text x="32" y={279.5 + i * 6} fill={C.midGray}
+              fontSize="3.5" fontFamily="Calibri, sans-serif">{label}</text>
+          </g>
+        ))}
+      </g>
+
+      {/* ═══ MINI TIMELINE (bottom) ═══ */}
+      <g>
+        <line x1="100" y1="308" x2="310" y2="308" stroke="rgba(255,255,255,0.05)" strokeWidth="0.8" />
+        {[
+          ["I", "☀️"], ["II", "☀️"], ["III", "🔋"], ["IV", "🔥"], ["V", "🔌"], ["VI", "⚡"],
+        ].map(([num, icon], i) => (
+          <g key={i}>
+            <circle cx={118 + i * 36} cy="308" r="5" fill={C.gold} opacity={0.12 + i * 0.04}
               stroke={C.goldLight} strokeWidth="0.3" />
-            <text x={80 + i * 50} y="302" textAnchor="middle" fill={C.goldLight}
+            <text x={118 + i * 36} y="310" textAnchor="middle" fill={C.goldLight}
               fontSize="4" fontFamily="Georgia, serif" fontWeight="700">{num}</text>
           </g>
         ))}
-        <text x="200" y="312" textAnchor="middle" fill={C.midGray}
-          fontSize="3.5" fontFamily="Calibri, sans-serif" letterSpacing="1">VOLLSTÄNDIGE TRANSFORMATION</text>
       </g>
 
       <PhaseBadge x={12} y={8} num="✦" icon="🏆" label="GESAMT" color={C.gold} />
