@@ -517,29 +517,32 @@ export default function EckartTimeline() {
   const [displayScore, setDisplayScore] = useState(0);
   const sliderRef = useRef(null);
   const contentRef = useRef(null);
-  const [configOpen, setConfigOpen] = useState(false);
+  const [analysisOpen, setAnalysisOpen] = useState(false);
+  const [analysisTab, setAnalysisTab] = useState("calc"); // "calc" | "market"
   const [exportOpen, setExportOpen] = useState(false);
-  const [marketOpen, setMarketOpen] = useState(false);
+  // Legacy aliases for minimal downstream changes
+  const configOpen = analysisOpen && analysisTab === "calc";
+  const marketOpen = analysisOpen && analysisTab === "market";
   const [config, setConfig] = useState(defaultConfig);
   const [savedConfig, setSavedConfig] = useState(null);
   const configSaved = savedConfig !== null;
   const calc = useMemo(() => calculateAll(config), [config]);
   const activeCalc = useMemo(() => configSaved ? calculateAll(savedConfig) : calc, [configSaved, savedConfig, calc]);
   // showCalc: true when presentation should display calculated values (saved OR panel open)
-  const showCalc = configOpen || configSaved;
+  const showCalc = analysisOpen || configSaved;
   const [saveToast, setSaveToast] = useState(false);
 
   const heroCards = useMemo(() => {
     if (!showCalc) return null;
-    return getDynamicHeroCards(configOpen ? calc : activeCalc);
-  }, [showCalc, configOpen, calc, activeCalc]);
+    return getDynamicHeroCards(analysisOpen ? calc : activeCalc);
+  }, [showCalc, analysisOpen, calc, activeCalc]);
 
   const phaseCalcItems = useMemo(() => {
     if (!showCalc) return null;
-    const c = configOpen ? calc : activeCalc;
-    const cfg = configOpen ? config : savedConfig;
+    const c = analysisOpen ? calc : activeCalc;
+    const cfg = analysisOpen ? config : savedConfig;
     return getPhaseCalcItems(active, c, cfg);
-  }, [showCalc, configOpen, calc, activeCalc, config, savedConfig, active]);
+  }, [showCalc, analysisOpen, calc, activeCalc, config, savedConfig, active]);
 
   useEffect(() => { sessionStorage.removeItem("chunk-retry"); }, []);
 
@@ -558,7 +561,7 @@ export default function EckartTimeline() {
   useEffect(() => {
     const onKey = (e) => {
       // Don't capture arrow keys when a modal/overlay is open (breaks slider input)
-      if (configOpen || exportOpen || marketOpen) return;
+      if (analysisOpen || exportOpen) return;
       if (e.key === "ArrowRight" || e.key === "ArrowDown") {
         e.preventDefault();
         startTransition(() => setActive((a) => Math.min(a + 1, phases.length - 1)));
@@ -575,20 +578,19 @@ export default function EckartTimeline() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [configOpen, exportOpen, marketOpen]);
+  }, [analysisOpen, exportOpen]);
 
   // Escape key closes modals/panels
   useEffect(() => {
     const onEsc = (e) => {
       if (e.key === "Escape") {
         if (exportOpen) setExportOpen(false);
-        else if (marketOpen) setMarketOpen(false);
-        else if (configOpen) setConfigOpen(false);
+        else if (analysisOpen) setAnalysisOpen(false);
       }
     };
     window.addEventListener("keydown", onEsc);
     return () => window.removeEventListener("keydown", onEsc);
-  }, [configOpen, exportOpen, marketOpen]);
+  }, [analysisOpen, exportOpen]);
 
   // Animate the independence score number
   const targetScore = phases[active].independenceScore;
@@ -730,21 +732,21 @@ export default function EckartTimeline() {
               />
             ))}
           </div>
-          {/* Kalkulator toggle */}
+          {/* Analyse & Kalkulation toggle */}
           <button
-            onClick={() => setConfigOpen(o => !o)}
+            onClick={() => { setAnalysisOpen(o => !o); setAnalysisTab("calc"); }}
             style={{
               ...S.pillBtn,
-              background: configSaved ? `${C.green}25` : configOpen ? `${C.gold}20` : "rgba(255,255,255,0.06)",
-              border: `1px solid ${configSaved ? C.green + "60" : configOpen ? C.gold + "50" : "rgba(255,255,255,0.12)"}`,
+              background: configSaved ? `${C.green}25` : analysisOpen ? `${C.gold}20` : "rgba(255,255,255,0.06)",
+              border: `1px solid ${configSaved ? C.green + "60" : analysisOpen ? C.gold + "50" : "rgba(255,255,255,0.12)"}`,
               padding: "0.3rem 0.7rem",
-              color: configSaved ? C.green : configOpen ? C.gold : C.midGray,
+              color: configSaved ? C.green : analysisOpen ? C.gold : C.midGray,
               marginTop: "0.6rem",
             }}
-          ><Icon name={configSaved ? "check" : "gear"} size={12} /> Kalkulator</button>
+          ><Icon name={configSaved ? "check" : "chart"} size={12} /> Analyse & Kalkulation</button>
           {configSaved && (
             <button
-              onClick={() => { setSavedConfig(null); setConfig(defaultConfig); setConfigOpen(false); }}
+              onClick={() => { setSavedConfig(null); setConfig(defaultConfig); setAnalysisOpen(false); }}
               style={{
                 ...S.pillBtn,
                 background: "rgba(255,100,100,0.1)", border: "1px solid rgba(255,100,100,0.3)",
@@ -764,16 +766,6 @@ export default function EckartTimeline() {
               transition: "all 0.3s", whiteSpace: "nowrap",
             }}
           ><Icon name="document" size={14} /> PDF Export</button>
-          <button
-            onClick={() => setMarketOpen(true)}
-            style={{
-              background: "rgba(212,168,67,0.15)", border: "1px solid rgba(212,168,67,0.4)",
-              color: C.goldLight, borderRadius: "2rem", padding: "0.35rem 1rem",
-              fontSize: "0.82rem", fontWeight: 600, letterSpacing: "0.03em",
-              cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
-              transition: "all 0.3s", whiteSpace: "nowrap",
-            }}
-          ><Icon name="chart" size={14} /> Marktanalyse</button>
         </div>
       </header>
 
@@ -1207,7 +1199,7 @@ export default function EckartTimeline() {
                   display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
                   gap: "0.4rem",
                 }}>
-                  {(() => { const c = configOpen ? calc : activeCalc; return [
+                  {(() => { const c = analysisOpen ? calc : activeCalc; return [
                     { label: "Investition Standort", value: fmtEuro(c.investStandort) },
                     { label: "Investition BESS", value: fmtEuro(c.investPhase6) },
                     { label: "Gesamtinvestition", value: fmtEuro(c.investGesamt), accent: true },
@@ -2173,17 +2165,75 @@ export default function EckartTimeline() {
         }
       `}</style>
 
-      {/* ── Interactive Config Panel (lazy) ── */}
-      {configOpen && (
-        <Suspense fallback={null}>
-          <ConfigPanel
-            config={config}
-            setConfig={setConfig}
-            calc={calc}
-            onClose={() => setConfigOpen(false)}
-            onSave={() => { setSavedConfig({ ...config }); setConfigOpen(false); setSaveToast(true); setTimeout(() => setSaveToast(false), 2500); }}
-          />
-        </Suspense>
+      {/* ── Combined Analysis & Kalkulation Overlay (lazy) ── */}
+      {analysisOpen && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 9000, background: "rgba(10,18,32,0.97)",
+          display: "flex", flexDirection: "column",
+        }}>
+          {/* Sticky header with tabs */}
+          <div style={{
+            position: "sticky", top: 0, zIndex: 10, background: "rgba(27,42,74,0.97)",
+            backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+            borderBottom: "1px solid rgba(212,168,67,0.2)",
+            padding: "0.6rem 1.2rem",
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <div style={{ fontFamily: "Calibri, sans-serif", fontSize: "1.1rem", fontWeight: 700, color: C.gold, letterSpacing: "0.5px" }}>Analyse & Kalkulation</div>
+              </div>
+              <button onClick={() => setAnalysisOpen(false)} aria-label="Panel schließen" style={{
+                background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)",
+                color: "#ccc", borderRadius: "8px", width: 44, height: 44, fontSize: "1rem",
+                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                fontFamily: "Calibri, sans-serif",
+              }}><Icon name="close" size={14} /></button>
+            </div>
+            {/* Tab buttons */}
+            <div style={{ display: "flex", gap: "0.3rem", marginTop: "0.5rem" }}>
+              {[
+                { key: "calc", label: "Kalkulation", icon: "gear" },
+                { key: "market", label: "Marktanalyse", icon: "chart" },
+              ].map(tab => (
+                <button key={tab.key} onClick={() => setAnalysisTab(tab.key)} style={{
+                  background: analysisTab === tab.key ? `${C.gold}25` : "rgba(255,255,255,0.04)",
+                  border: `1px solid ${analysisTab === tab.key ? C.gold + "60" : "rgba(255,255,255,0.1)"}`,
+                  color: analysisTab === tab.key ? C.gold : C.midGray,
+                  borderRadius: "6px", padding: "0.4rem 1rem",
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.82rem", fontWeight: 600,
+                  letterSpacing: "0.03em", cursor: "pointer",
+                  display: "flex", alignItems: "center", gap: "0.3rem",
+                  transition: "all 0.2s",
+                }}>
+                  <Icon name={tab.icon} size={13} /> {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Tab content */}
+          <div style={{ flex: 1, overflow: "hidden" }}>
+            <Suspense fallback={null}>
+              {analysisTab === "calc" ? (
+                <ConfigPanel
+                  config={config}
+                  setConfig={setConfig}
+                  calc={calc}
+                  onClose={() => setAnalysisOpen(false)}
+                  onSave={() => { setSavedConfig({ ...config }); setAnalysisOpen(false); setSaveToast(true); setTimeout(() => setSaveToast(false), 2500); }}
+                  embedded
+                />
+              ) : (
+                <MarketAnalysis
+                  config={configSaved ? savedConfig : config}
+                  configActive={showCalc}
+                  onClose={() => setAnalysisOpen(false)}
+                  embedded
+                />
+              )}
+            </Suspense>
+          </div>
+        </div>
       )}
 
       {/* ── PDF Export Modal (lazy) ── */}
@@ -2195,17 +2245,6 @@ export default function EckartTimeline() {
             calc={configSaved ? activeCalc : calc}
             configActive={showCalc}
             onClose={() => setExportOpen(false)}
-          />
-        </Suspense>
-      )}
-
-      {/* ── Market Analysis Overlay (lazy) ── */}
-      {marketOpen && (
-        <Suspense fallback={null}>
-          <MarketAnalysis
-            config={configSaved ? savedConfig : config}
-            configActive={showCalc}
-            onClose={() => setMarketOpen(false)}
           />
         </Suspense>
       )}

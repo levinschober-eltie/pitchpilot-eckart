@@ -807,7 +807,7 @@ const defaultArrays = [
   { azimuth: 90, tilt: 15, kwp: 500 },   // West
 ];
 
-export default function MarketAnalysis({ config, configActive, onClose }) {
+export default function MarketAnalysis({ config, configActive, onClose, embedded }) {
   const trapRef = useFocusTrap();
   // PV Array config
   const [arrays, setArrays] = useState(defaultArrays);
@@ -921,10 +921,10 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
     season === "winter" ? "Winter (Okt–Mär)" : "Jahresdurchschnitt";
 
   return (
-    <div ref={trapRef} role="dialog" aria-modal="true" aria-label="Energiemarkt-Analyse" style={{
-      position: "fixed", inset: 0, zIndex: 9000, background: "rgba(10,18,32,0.97)",
-      overflowY: "auto", WebkitOverflowScrolling: "touch",
-    }}>
+    <div ref={embedded ? undefined : trapRef} role={embedded ? undefined : "dialog"} aria-modal={embedded ? undefined : "true"} aria-label={embedded ? undefined : "Energiemarkt-Analyse"} style={embedded
+      ? { overflowY: "auto", height: "100%", background: "transparent" }
+      : { position: "fixed", inset: 0, zIndex: 9000, background: "rgba(10,18,32,0.97)", overflowY: "auto", WebkitOverflowScrolling: "touch" }
+    }>
       <style>{`
         .ma-slider {
           -webkit-appearance: none;
@@ -972,7 +972,8 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
           }
         }
       `}</style>
-      {/* Header */}
+      {/* Header — only in standalone mode */}
+      {!embedded && (
       <div style={{
         position: "sticky", top: 0, zIndex: 10, background: "rgba(27,42,74,0.97)",
         backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderBottom: "1px solid rgba(212,168,67,0.2)",
@@ -988,6 +989,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
           cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
         }}><Icon name="close" size={14} /></button>
       </div>
+      )}
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "1rem 1.2rem 3rem" }}>
         {/* ─── KPI Dashboard ─── */}

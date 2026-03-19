@@ -91,7 +91,7 @@ function parseLastgangCSV(text) {
 }
 
 /* ── ConfigPanel Component ── */
-export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }) {
+export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, embedded }) {
   const trapRef = useFocusTrap();
   const [openGroups, setOpenGroups] = useState(
     Object.fromEntries(GROUPS.map(g => [g.key, true]))
@@ -137,6 +137,106 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
     setConfig(prev => ({ ...prev, stromrechnungFile: file.name }));
   }, [setConfig]);
 
+  /* ── Embedded mode: render content only (no backdrop/overlay) ── */
+  if (embedded) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        {/* Key results dashboard */}
+        <div style={{
+          padding: "0.8rem 1.2rem", flexShrink: 0,
+          borderBottom: `1px solid ${C.gold}25`,
+          background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})`,
+        }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "0.35rem" }}>
+            {[
+              { label: "Einsparung/a", value: `${fmtEuro(calc.einsparungStandort)}/a`, color: C.greenLight },
+              { label: "CO₂-Reduktion", value: `${fmtVal(calc.co2Gesamt)} t/a`, color: C.greenLight },
+              { label: "Amortisation", value: `${fmtVal(calc.amortisationStandort, 1)} J.`, color: C.goldLight },
+              { label: "BESS-Rendite", value: `${fmtVal(calc.bessRendite, 1)} %`, color: C.goldLight },
+              { label: "Gesamtinvest", value: fmtEuro(calc.investGesamt), color: C.white },
+              { label: "Kredit", value: fmtEuro(calc.kreditBetrag), color: C.midGray },
+              { label: "EK-Rendite", value: `${fmtVal(calc.ekRendite, 1)} %`, color: C.goldLight },
+              { label: "Annuität", value: `${fmtEuro(calc.annuitaet)}/a`, color: C.midGray },
+              { label: "Autarkie", value: `${calc.autarkie} %`, color: C.goldLight },
+            ].map((r, i) => (
+              <div key={i} style={{
+                background: "rgba(255,255,255,0.04)", borderRadius: "6px", padding: "0.35rem 0.5rem",
+              }}>
+                <div style={{
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                  letterSpacing: "1px", color: C.midGray, textTransform: "uppercase",
+                }}>{r.label}</div>
+                <div style={{
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
+                  fontWeight: 700, color: r.color,
+                }}>{r.value}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Scrollable slider groups */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "0.5rem 1.2rem 2rem" }}>
+          {GROUPS.map((group) => (
+            <fieldset key={group.key} style={{ marginBottom: "0.4rem", border: "none", padding: 0, margin: 0 }}>
+              <legend style={{ padding: 0, width: "100%" }}>
+              <button onClick={() => toggleGroup(group.key)} aria-expanded={openGroups[group.key]} style={{
+                width: "100%", background: "none", border: "none",
+                display: "flex", alignItems: "center", gap: "0.5rem",
+                padding: "0.5rem 0", cursor: "pointer",
+                borderBottom: "1px solid rgba(255,255,255,0.06)",
+              }}>
+                <Icon name={group.icon} size={14} color={C.gold} />
+                <span style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.65rem", letterSpacing: "2px", color: C.gold, fontWeight: 700, flex: 1, textAlign: "left" }}>{group.title}</span>
+                <span style={{ color: C.midGray, fontSize: "0.75rem", transform: openGroups[group.key] ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>▾</span>
+              </button>
+              </legend>
+              {openGroups[group.key] && (
+                <div style={{ padding: "0.5rem 0" }}>
+                  {group.sliders.map((s) => (
+                    <div key={s.key} style={{ marginBottom: "0.5rem" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.15rem" }}>
+                        <span style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.78rem", color: "rgba(255,255,255,0.65)" }}>{s.label}</span>
+                        <span style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.82rem", fontWeight: 700, color: C.goldLight }}>{fmtVal(config[s.key], s.dec || 0)} {s.unit}</span>
+                      </div>
+                      <input type="range" min={s.min} max={s.max} step={s.step} value={config[s.key]} onChange={(e) => update(s.key, parseFloat(e.target.value))} aria-label={s.label} className="cp-slider" style={{ width: "100%" }} />
+                    </div>
+                  ))}
+                  {group.note && <div style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.7rem", color: C.midGray, fontStyle: "italic", padding: "0.2rem 0" }}>{group.note}</div>}
+                  {group.hasUploads && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem", marginTop: "0.3rem" }}>
+                      <div role="button" tabIndex={0} aria-label="Lastgang-CSV hochladen" onClick={() => fileRef.current?.click()} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileRef.current?.click(); } }} onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }} onDrop={(e) => { e.preventDefault(); handleLastgang(e.dataTransfer.files[0]); }} style={{ border: `2px dashed ${config.lastgangFile ? C.green + "50" : "rgba(255,255,255,0.12)"}`, borderRadius: "8px", padding: "0.55rem", textAlign: "center", cursor: "pointer", background: config.lastgangFile ? `${C.green}08` : "transparent", transition: "all 0.2s" }}>
+                        <input ref={fileRef} type="file" accept=".csv" style={{ display: "none" }} onChange={(e) => handleLastgang(e.target.files[0])} />
+                        <div style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.72rem", color: config.lastgangFile ? C.greenLight : C.midGray }}>{config.lastgangFile ? <><Icon name="check" size={12} color={C.greenLight} style={{ marginRight: 4 }} />{config.lastgangFile}{config.lastgangData ? ` → ${fmtVal(config.lastgangData.annualMWh)} MWh/a` : ""}</> : <><Icon name="chart" size={12} style={{ marginRight: 4 }} /> Lastgang-CSV hochladen (15-Min-Intervall)</>}</div>
+                      </div>
+                      <div role="button" tabIndex={0} aria-label="Stromrechnung hochladen" onClick={() => billRef.current?.click()} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); billRef.current?.click(); } }} onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }} onDrop={(e) => { e.preventDefault(); handleBill(e.dataTransfer.files[0]); }} style={{ border: `2px dashed ${config.stromrechnungFile ? C.green + "50" : "rgba(255,255,255,0.12)"}`, borderRadius: "8px", padding: "0.55rem", textAlign: "center", cursor: "pointer", background: config.stromrechnungFile ? `${C.green}08` : "transparent" }}>
+                        <input ref={billRef} type="file" accept=".pdf,.jpg,.jpeg,.png" style={{ display: "none" }} onChange={(e) => handleBill(e.target.files[0])} />
+                        <div style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.72rem", color: config.stromrechnungFile ? C.greenLight : C.midGray }}>{config.stromrechnungFile ? <><Icon name="check" size={12} color={C.greenLight} style={{ marginRight: 4 }} />{config.stromrechnungFile}</> : <><Icon name="document" size={12} style={{ marginRight: 4 }} /> Stromrechnung hochladen (PDF/Bild)</>}</div>
+                      </div>
+                      <div style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.7rem", color: "rgba(255,255,255,0.45)", fontStyle: "italic" }}>Alle Daten bleiben lokal in Ihrem Browser — kein Upload an Server</div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </fieldset>
+          ))}
+          {onSave && (
+            <button onClick={onSave} aria-label="Kalkulation speichern" style={{ width: "100%", marginTop: "0.7rem", background: `linear-gradient(135deg, ${C.green}, ${C.green}cc)`, border: "none", borderRadius: "8px", padding: "0.7rem", fontFamily: "Calibri, sans-serif", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "#fff", cursor: "pointer", boxShadow: `0 4px 15px ${C.green}40`, transition: "all 0.3s" }}><><Icon name="check" size={14} style={{ marginRight: 4 }} /> Kalkulation speichern</></button>
+          )}
+          <button onClick={() => setConfig({ ...defaultConfig })} aria-label="Auf Standardwerte zurücksetzen" style={{ width: "100%", marginTop: "0.4rem", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "6px", padding: "0.5rem", fontFamily: "Calibri, sans-serif", fontSize: "0.78rem", color: C.midGray, cursor: "pointer" }}><><Icon name="reset" size={13} style={{ marginRight: 4 }} /> Auf Standardwerte zurücksetzen</></button>
+        </div>
+
+        <style>{`
+          .cp-slider { -webkit-appearance: none; appearance: none; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.08); outline: none; cursor: pointer; }
+          .cp-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(135deg, ${C.gold}, ${C.goldLight}); cursor: pointer; box-shadow: 0 0 8px rgba(212,168,67,0.3); border: 2px solid ${C.navy}; }
+          .cp-slider::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: linear-gradient(135deg, ${C.gold}, ${C.goldLight}); cursor: pointer; border: 2px solid ${C.navy}; }
+          .cp-slider::-webkit-slider-runnable-track { height: 5px; border-radius: 3px; }
+        `}</style>
+      </div>
+    );
+  }
+
+  /* ── Standalone mode: full overlay (legacy, kept for backwards compat) ── */
   return (
     <>
       {/* Backdrop */}
