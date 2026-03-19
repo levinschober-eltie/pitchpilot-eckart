@@ -479,6 +479,19 @@ export default function EckartTimeline() {
   const activeCalc = useMemo(() => configSaved ? calculateAll(savedConfig) : calc, [configSaved, savedConfig, calc]);
   // showCalc: true when presentation should display calculated values (saved OR panel open)
   const showCalc = configOpen || configSaved;
+  const [saveToast, setSaveToast] = useState(false);
+
+  const heroCards = useMemo(() => {
+    if (!showCalc) return null;
+    return getDynamicHeroCards(configOpen ? calc : activeCalc);
+  }, [showCalc, configOpen, calc, activeCalc]);
+
+  const phaseCalcItems = useMemo(() => {
+    if (!showCalc) return null;
+    const c = configOpen ? calc : activeCalc;
+    const cfg = configOpen ? config : savedConfig;
+    return getPhaseCalcItems(active, c, cfg);
+  }, [showCalc, configOpen, calc, activeCalc, config, savedConfig, active]);
 
   useEffect(() => {
     const el = contentRef.current;
@@ -1040,7 +1053,7 @@ export default function EckartTimeline() {
           <>
             {/* ── HERO CARDS: CO2 + Gesamtertrag auf einen Blick ── */}
             {phase.heroCards && (() => {
-              const cards = showCalc ? getDynamicHeroCards(configOpen ? calc : activeCalc) : phase.heroCards;
+              const cards = heroCards || phase.heroCards;
               return (
               <div className="hero-cards-grid" style={{
                 display: "grid",
@@ -1898,9 +1911,7 @@ export default function EckartTimeline() {
 
             {/* ── IHRE BERECHNUNG (when config active, normal phases) ── */}
             {showCalc && (() => {
-              const c = configOpen ? calc : activeCalc;
-              const cfg = configOpen ? config : savedConfig;
-              const items = getPhaseCalcItems(active, c, cfg);
+              const items = phaseCalcItems;
               if (!items) return null;
               return (
                 <div style={{
@@ -2067,6 +2078,13 @@ export default function EckartTimeline() {
             min-width: 44px !important;
           }
         }
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+          }
+        }
       `}</style>
 
       {/* ── Interactive Config Panel (lazy) ── */}
@@ -2077,7 +2095,7 @@ export default function EckartTimeline() {
             setConfig={setConfig}
             calc={calc}
             onClose={() => setConfigOpen(false)}
-            onSave={() => { setSavedConfig({ ...config }); setConfigOpen(false); }}
+            onSave={() => { setSavedConfig({ ...config }); setConfigOpen(false); setSaveToast(true); setTimeout(() => setSaveToast(false), 2500); }}
           />
         </Suspense>
       )}
@@ -2104,6 +2122,22 @@ export default function EckartTimeline() {
             onClose={() => setMarketOpen(false)}
           />
         </Suspense>
+      )}
+
+      {/* Save confirmation toast */}
+      {saveToast && (
+        <div style={{
+          position: "fixed", bottom: "2rem", left: "50%", transform: "translateX(-50%)",
+          background: `linear-gradient(135deg, ${C.green}, ${C.green}dd)`,
+          color: "#fff", padding: "0.6rem 1.4rem", borderRadius: "8px",
+          fontFamily: "Calibri, sans-serif", fontSize: "0.9rem", fontWeight: 700,
+          display: "flex", alignItems: "center", gap: "0.4rem",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+          zIndex: 9999,
+          ...anim("fadeSlideIn 0.3s ease"),
+        }} role="status" aria-live="polite">
+          <Icon name="check" size={16} color="#fff" /> Kalkulation gespeichert
+        </div>
       )}
     </div>
   );

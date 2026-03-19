@@ -3,7 +3,7 @@
  * viewBox 0 0 400 320 · All animations use SVG animate/animateTransform
  * Colors: Navy #1B2A4A · Gold #D4A843 · Green #2D6A4F · WarmOrange #E8785A
  */
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 import { SvgIcon } from "./Icons";
 import { C } from "./colors";
 
@@ -2903,6 +2903,24 @@ function SvgAutarkieRing({ cx, cy, score, size = 36 }) {
 
 /* ── Main export ────────────────────────────────────────────── */
 function PhaseVisualInner({ phaseNum, score = 0 }) {
+  const svgRef = useRef(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      const svg = svgRef.current;
+      if (!svg) return;
+      if (mq.matches) {
+        svg.pauseAnimations?.();
+      } else {
+        svg.unpauseAnimations?.();
+      }
+    };
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   const Visual = visuals[phaseNum];
   if (!Visual) return null;
   const warm = phaseNum === "II" || phaseNum === "✦";
@@ -2915,7 +2933,7 @@ function PhaseVisualInner({ phaseNum, score = 0 }) {
       border: "1px solid rgba(212,168,67,0.08)",
       boxShadow: "0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.02)",
     }}>
-      <svg viewBox="0 0 400 320" style={{ width: "100%", height: "auto", display: "block" }}
+      <svg ref={svgRef} viewBox="0 0 400 320" style={{ width: "100%", height: "auto", display: "block" }}
         xmlns="http://www.w3.org/2000/svg">
         <SharedDefs warm={warm} cool={cool} />
         <Visual />

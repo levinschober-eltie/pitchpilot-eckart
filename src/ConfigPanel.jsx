@@ -2,6 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import { Icon } from "./Icons";
 import { C, anim } from "./colors";
 import { defaultConfig, fmtEuro, fmtVal } from "./calcEngine";
+import useFocusTrap from "./useFocusTrap";
 
 /* ── Slider Group Definitions ── */
 const GROUPS = [
@@ -91,6 +92,7 @@ function parseLastgangCSV(text) {
 
 /* ── ConfigPanel Component ── */
 export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }) {
+  const trapRef = useFocusTrap();
   const [openGroups, setOpenGroups] = useState(
     Object.fromEntries(GROUPS.map(g => [g.key, true]))
   );
@@ -140,7 +142,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
       }} />
 
       {/* Panel */}
-      <div role="dialog" aria-modal="true" aria-labelledby="cp-title" style={{
+      <div ref={trapRef} role="dialog" aria-modal="true" aria-labelledby="cp-title" style={{
         position: "fixed", top: 0, right: 0, bottom: 0,
         width: "min(420px, 92vw)",
         background: `linear-gradient(180deg, ${C.navy} 0%, ${C.navyMid} 100%)`,

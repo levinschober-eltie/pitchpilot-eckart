@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { anim } from "./colors";
+import useFocusTrap from "./useFocusTrap";
 
 /* ── Colors ── */
 const N = "#1B2A4A";
@@ -815,6 +816,7 @@ const MC = {
 };
 
 export default function ExportModal({ phases, config, calc, configActive, onClose }) {
+  const trapRef = useFocusTrap();
   const [sel, setSel] = useState(
     Object.fromEntries(SECTIONS.map(s => [s.key, s.def]))
   );
@@ -844,7 +846,7 @@ export default function ExportModal({ phases, config, calc, configActive, onClos
         position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
         zIndex: 2000, ...anim("cpFadeIn 0.3s ease"),
       }} />
-      <div role="dialog" aria-modal="true" aria-label="PDF Export" style={{
+      <div ref={trapRef} role="dialog" aria-modal="true" aria-label="PDF Export" style={{
         position: "fixed", top: "50%", left: "50%",
         transform: "translate(-50%, -50%)",
         width: "min(560px, 92vw)", maxHeight: "85vh",

@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { Icon } from "./Icons";
 import { C } from "./colors";
+import useFocusTrap from "./useFocusTrap";
 
 /* ═══════════════════════════════════════════════════════════════════════
    SECTION 1 — CONSTANTS
@@ -814,6 +815,7 @@ const defaultArrays = [
 ];
 
 export default function MarketAnalysis({ config, configActive, onClose }) {
+  const trapRef = useFocusTrap();
   // PV Array config
   const [arrays, setArrays] = useState(defaultArrays);
   // Market settings
@@ -896,7 +898,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
     season === "winter" ? "Winter (Okt–Mär)" : "Jahresdurchschnitt";
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Energiemarkt-Analyse" style={{
+    <div ref={trapRef} role="dialog" aria-modal="true" aria-label="Energiemarkt-Analyse" style={{
       position: "fixed", inset: 0, zIndex: 9000, background: "rgba(10,18,32,0.97)",
       overflowY: "auto", WebkitOverflowScrolling: "touch",
     }}>
