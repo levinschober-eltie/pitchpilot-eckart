@@ -60,6 +60,7 @@ export default defineConfig({
   ],
   base: '/pitchpilot-eckart/',
   build: {
+    sourcemap: 'hidden',
     target: ['es2020', 'chrome80', 'firefox80', 'safari14', 'edge80'],
     rollupOptions: {
       output: {

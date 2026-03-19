@@ -655,6 +655,14 @@ export default function EckartTimeline() {
     }}>
       <a className="skip-link" href="#main-content">Zum Hauptinhalt springen</a>
 
+      {/* Screen reader announcer for phase changes */}
+      <div aria-live="polite" aria-atomic="true" style={{
+        position: "absolute", width: "1px", height: "1px",
+        overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap",
+      }}>
+        {`Phase ${phase.num}: ${phase.title} — ${phase.subtitle}`}
+      </div>
+
       {/* Subtle grid pattern overlay */}
       <div style={{
         position: "fixed", inset: 0, pointerEvents: "none", opacity: 0.03,
@@ -2129,6 +2137,23 @@ export default function EckartTimeline() {
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
           }
+        }
+
+        /* ── Print Stylesheet ── */
+        @media print {
+          body { background: white !important; color: black !important; }
+          .pitch-root { background: white !important; min-height: auto !important; }
+          .skip-link, .progress-dot, .header-actions button,
+          .phase-btn { display: none !important; }
+          header { padding: 1rem !important; }
+          main { padding: 1rem !important; }
+          .pitch-grid { grid-template-columns: 1fr !important; }
+          svg { max-width: 100% !important; height: auto !important; }
+          * { color: black !important; background: white !important;
+              box-shadow: none !important; text-shadow: none !important; }
+          h1, h2 { color: #1B2A4A !important; }
+          a { text-decoration: underline !important; }
+          @page { margin: 2cm; }
         }
       `}</style>
 
