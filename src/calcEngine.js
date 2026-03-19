@@ -1,4 +1,4 @@
-import { defaultCalcConfig, economicModel as EM } from "./siteConfig";
+import { defaultCalcConfig, economicModel as EM, investmentCosts as IC } from "./siteConfig";
 
 /* ── Default Configuration ── */
 export const defaultConfig = defaultCalcConfig;
@@ -84,21 +84,21 @@ export function calculateAll(cfg) {
   const co2Kosten = co2Gesamt * EM.co2Price; // €/a
 
   /* ── Investitionen ── */
-  const investPhase1 = 65000;
-  const investPhase2 = pvDach * 650000 + pvFassade * 650000 + pvCarport * 1200000;
-  const investPhase3 = standortBESS * 187000 + 185000;
+  const investPhase1 = IC.phase1Fixed;
+  const investPhase2 = pvDach * IC.pvPerKWp + pvFassade * IC.pvPerKWp + pvCarport * IC.carportPerKWp;
+  const investPhase3 = standortBESS * IC.bessPerMWh + IC.bessFixed;
   const investPhase4 = wpLeistung > 0
-    ? wpLeistung * 400000 + 1000000 + pufferspeicher * 600 + 800000
+    ? wpLeistung * IC.wpPerMW + IC.wpFixed + pufferspeicher * IC.pufferPerM3 + IC.waermenetzFixed
     : 0;
   const hasVehicles = anzahlPKW > 0 || anzahlLKW > 0;
   const investPhase5 = hasVehicles
-    ? anzahlPKW * 2500
-      + (anzahlPKW > 0 ? 5 * 75000 : 0)
-      + (anzahlLKW > 0 ? Math.max(1, Math.ceil(anzahlLKW * 0.5)) * 200000 : 0)
-      + 350000 + 40000
+    ? anzahlPKW * IC.wallboxPerStk
+      + (anzahlPKW > 0 ? 5 * IC.dcChargerPerStk : 0)
+      + (anzahlLKW > 0 ? Math.max(1, Math.ceil(anzahlLKW * 0.5)) * IC.hpcPerStk : 0)
+      + IC.ladeFixed + IC.ladeMisc
     : 0;
   const investPhase6 = graustromBESS > 0
-    ? graustromBESS * 175000 + 6500000
+    ? graustromBESS * IC.graustromPerMWh + IC.graustromGridFixed
     : 0;
   const investStandort = investPhase1 + investPhase2 + investPhase3 + investPhase4 + investPhase5;
   const investGesamt = investStandort + investPhase6;

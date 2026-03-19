@@ -318,13 +318,16 @@ export default function EckartTimeline() {
             marginTop: "0.6rem",
           }}>
             {phases.map((p, i) => (
-              <div key={i}
+              <button key={i}
                 className="progress-dot"
+                aria-label={`Phase ${p.num}: ${p.title}`}
+                aria-current={i === active ? "step" : undefined}
                 onClick={() => startTransition(() => setActive(i))}
                 style={{
                   width: i === active ? "20px" : "8px",
                   height: "8px",
                   borderRadius: "4px",
+                  border: "none", padding: 0,
                   background: i <= active
                     ? `linear-gradient(90deg, ${C.gold}, ${C.green})`
                     : "rgba(255,255,255,0.12)",

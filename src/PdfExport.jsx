@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { C, anim } from "./colors";
 import useFocusTrap from "./useFocusTrap";
-import { company, site, project, phases as phaseData } from "./siteConfig";
+import { company, site, project, phases as phaseData, projectionFactors as PF, investmentCosts as IC } from "./siteConfig";
 
 /* ── Colors (from shared palette) ── */
 const N = C.navy;
@@ -97,15 +97,15 @@ function project20Years(calc, config) {
       rows.push({ y, inv: -calc.investGesamt, invFin: -calc.ekBetrag, strom: 0, einsp: 0, peak: 0, gas: 0, mob: 0, bess: 0, wart: 0, cf: -calc.investGesamt, cum: cumCf, debt: 0, cfFin: -calc.ekBetrag, cumFin: cumCfFin, restschuld: calc.kreditBetrag });
       continue;
     }
-    const pvF = Math.pow(0.995, y);
-    const pF = Math.pow(1.02, y);
+    const pvF = Math.pow(PF.pvDegradation, y);
+    const pF = Math.pow(PF.priceInflation, y);
     const strom = calc.stromEinsparung * pvF * pF;
     const einsp = calc.einspeiseErloese * pvF;
     const peak = calc.peakShavingSavings * pF;
-    const gas = calc.gasEinsparung * Math.pow(1.025, y);
+    const gas = calc.gasEinsparung * Math.pow(PF.gasInflation, y);
     const mob = calc.mobilitaetEinsparung * pF;
-    const bess = calc.bessErloes * Math.pow(1.01, y);
-    const wart = calc.investStandort * 0.015 + calc.investPhase6 * 0.008;
+    const bess = calc.bessErloes * Math.pow(PF.bessGrowth, y);
+    const wart = calc.investStandort * IC.maintenanceStandort + calc.investPhase6 * IC.maintenancePhase6;
     const cf = strom + einsp + peak + gas + mob + bess - wart;
     cumCf += cf;
     const debt = debtSchedule[y].annuitaet;

@@ -182,6 +182,36 @@ export const economicModel = {
   co2Price: 60,             // €/t CO₂-Preis
 };
 
+/* ── Investitions-Koeffizienten (€-Beträge pro Einheit) ── */
+export const investmentCosts = {
+  phase1Fixed: 65000,           // € Analyse & Gutachten
+  pvPerKWp: 650000,             // €/MWp Dach + Fassade
+  carportPerKWp: 1200000,       // €/MWp Carport-PV
+  bessPerMWh: 187000,           // €/MWh Standort-BESS
+  bessFixed: 185000,            // € EMS-Integration
+  wpPerMW: 400000,              // €/MW Wärmepumpe
+  wpFixed: 1000000,             // € Pufferspeicher-Basis
+  pufferPerM3: 600,             // €/m³ Pufferspeicher
+  waermenetzFixed: 800000,      // € Wärmenetz + Dämmung
+  wallboxPerStk: 2500,          // €/Stk AC-Wallbox
+  dcChargerPerStk: 75000,       // €/Stk DC-Schnelllader
+  hpcPerStk: 200000,            // €/Stk HPC-Lader
+  ladeFixed: 350000,            // € Lastmanagement
+  ladeMisc: 40000,              // € Netzanschluss-Erweiterung
+  graustromPerMWh: 175000,      // €/MWh Graustrom-BESS
+  graustromGridFixed: 6500000,  // € Netzanschluss + Trafo
+  maintenanceStandort: 0.015,   // 1,5 % p.a.
+  maintenancePhase6: 0.008,     // 0,8 % p.a.
+};
+
+/* ── Projektions-Faktoren (20-Jahres-Cashflow) ── */
+export const projectionFactors = {
+  pvDegradation: 0.995,         // 0,5 %/a Leistungsabnahme
+  priceInflation: 1.02,         // 2 %/a Strom-/Dienstleistungsinflation
+  gasInflation: 1.025,          // 2,5 %/a Gaspreis-Inflation
+  bessGrowth: 1.01,             // 1 %/a BESS-Erlöswachstum
+};
+
 /* ── Intro-Screen Texte ── */
 export const intro = {
   subtitle: "Phasenkonzept zur ganzheitlichen Energietransformation",
