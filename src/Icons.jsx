@@ -206,7 +206,7 @@ export function Icon({ name, size = 16, color = "currentColor", style = {}, clas
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      style={{ display: "inline-block", verticalAlign: "middle", flexShrink: 0, ...style }}
+      style={{ display: "inline-block", verticalAlign: "middle", flexShrink: 0, color, ...style }}
       className={className}
     >
       {d}
@@ -231,6 +231,7 @@ export function SvgIcon({ name, x, y, size = 8, color = "currentColor" }) {
       strokeWidth={1.5 / scale > 3 ? 3 : 1.5 / scale}
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ color }}
     >
       {d}
     </g>
