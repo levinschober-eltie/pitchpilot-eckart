@@ -153,7 +153,7 @@ function BillAnalysis({ file, currentConfig, onApply }) {
           leistung: Math.round(monthKWh / 730 * 1.15), // avg load × 1.15
           grundpreis: 30,
         });
-        setTimeout(() => setPhase("results"), 350);
+        stepTimeoutRef.current = setTimeout(() => setPhase("results"), 350);
         return;
       }
       const step = ANALYSIS_STEPS[stepIdx];
@@ -291,7 +291,7 @@ function BillAnalysis({ file, currentConfig, onApply }) {
               </span>
               <input
                 type="text" inputMode="decimal"
-                value={f.dec ? (data[f.key] ?? 0).toFixed(f.dec) : (data[f.key] ?? 0)}
+                value={f.derived && f.dec ? (data[f.key] ?? 0).toFixed(f.dec) : (data[f.key] ?? 0)}
                 onChange={e => updateField(f.key, e.target.value)}
                 readOnly={f.derived}
                 style={{

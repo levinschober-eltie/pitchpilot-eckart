@@ -1339,7 +1339,6 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
                   </thead>
                   <tbody>
                     {[
-                      ["Eigenverbrauch-Ersparnis", results.selfConsumptionSavings, results.selfConsumptionSavings],
                       ["Direktvermarktung Erlös", results.dvNet, results.dvBessNet],
                       ["Einkauf-Optimierung (Spot vs. Fest)", results.procSavings, results.procSavingsBess],
                       ["CO₂-Zertifikate Ersparnis", results.co2CertSaved, results.co2CertSaved],
@@ -1355,10 +1354,10 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
                         Gesamt jährlicher Vorteil
                       </td>
                       <td style={{ textAlign: "right", padding: "0.5rem 0.4rem", color: C.gold, fontWeight: 700, fontSize: "0.9rem" }}>
-                        {fmtEur(results.selfConsumptionSavings + results.dvNet + results.procSavings + results.co2CertSaved)}
+                        {fmtEur(results.dvNet + results.procSavings + results.co2CertSaved)}
                       </td>
                       <td style={{ textAlign: "right", padding: "0.5rem 0.4rem", color: C.green, fontWeight: 700, fontSize: "0.95rem" }}>
-                        {fmtEur(results.selfConsumptionSavings + results.dvBessNet + results.procSavingsBess + results.co2CertSaved)}
+                        {fmtEur(results.dvBessNet + results.procSavingsBess + results.co2CertSaved)}
                       </td>
                     </tr>
                   </tbody>
@@ -1473,14 +1472,13 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
                   </thead>
                   <tbody>
                     {[
-                      ["Eigenverbrauch-Ersparnis (Spot)", fmtEur(results.selfConsumptionSavings)],
                       ["Direktvermarktung mit BESS", fmtEur(results.dvBessNet)],
                       ["Einkauf-Optimierung (Spot+BESS vs. Fest)", fmtEur(results.procSavingsBess)],
                       ["CO₂-Zertifikate Ersparnis", fmtEur(results.co2CertSaved)],
                       ...(calc ? [
-                        ["Wärmeersparnis (WP statt Gas)", fmtEur(calc.gasEinsparung)],
-                        ["Mobilität (E statt Diesel)", fmtEur(calc.mobilitaetEinsparung)],
-                        ["Graustrom-BESS Erlöse", fmtEur(calc.bessErloes)],
+                        ["Wärmeersparnis (WP statt Gas)", fmtEur(calc.gasEinsparung || 0)],
+                        ["Mobilität (E statt Diesel)", fmtEur(calc.mobilitaetEinsparung || 0)],
+                        ["Graustrom-BESS Erlöse", fmtEur(calc.bessErloes || 0)],
                       ] : []),
                     ].map(([label, value], i) => (
                       <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
@@ -1492,8 +1490,8 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
                       <td style={{ padding: "0.5rem 0.4rem", color: C.gold, fontWeight: 700, fontSize: "0.9rem" }}>Gesamt jährlicher Vorteil</td>
                       <td style={{ textAlign: "right", padding: "0.5rem 0.4rem", color: C.green, fontWeight: 700, fontSize: "0.95rem" }}>
                         {fmtEur(
-                          results.selfConsumptionSavings + results.dvBessNet + results.procSavingsBess + results.co2CertSaved
-                          + (calc ? calc.gasEinsparung + calc.mobilitaetEinsparung + calc.bessErloes : 0)
+                          results.dvBessNet + results.procSavingsBess + results.co2CertSaved
+                          + (calc ? (calc.gasEinsparung || 0) + (calc.mobilitaetEinsparung || 0) + (calc.bessErloes || 0) : 0)
                         )}
                       </td>
                     </tr>
