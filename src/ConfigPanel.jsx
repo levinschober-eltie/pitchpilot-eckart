@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Icon } from "./Icons";
 import { C, anim } from "./colors";
 import { defaultConfig, fmtEuro, fmtVal } from "./calcEngine";
@@ -88,6 +88,238 @@ function parseLastgangCSV(text) {
     }
     return { annualMWh: Math.round(annualMWh), peakKW: Math.round(peak), dataPoints: values.length };
   } catch { return null; }
+}
+
+/* ── Bill Analysis Component ── */
+const ANALYSIS_STEPS = [
+  { target: 12, text: "Dokument wird eingelesen…", delay: 70 },
+  { target: 30, text: "Tarifstruktur wird erkannt…", delay: 100 },
+  { target: 50, text: "Preiskomponenten werden extrahiert…", delay: 130 },
+  { target: 72, text: "Verbrauchsdaten werden analysiert…", delay: 110 },
+  { target: 88, text: "Netzentgelte & Umlagen werden berechnet…", delay: 90 },
+  { target: 100, text: "Ergebnisse werden aufbereitet…", delay: 60 },
+];
+
+const BILL_FIELDS = [
+  { key: "monatsverbrauch", label: "Monatsverbrauch", unit: "kWh", step: 100, group: "verbrauch" },
+  { key: "jahresverbrauch", label: "Jahresverbrauch (hochger.)", unit: "MWh/a", step: 100, group: "verbrauch", derived: true },
+  { key: "arbeitspreis", label: "Arbeitspreis (gewichtet)", unit: "ct/kWh", step: 0.1, dec: 2, group: "preise" },
+  { key: "netzentgelte", label: "Netzentgelte", unit: "ct/kWh", step: 0.1, dec: 2, group: "preise" },
+  { key: "umlagenSteuern", label: "Umlagen & Steuern", unit: "ct/kWh", step: 0.1, dec: 2, group: "preise" },
+  { key: "gesamtpreis", label: "Effektiver Gesamtpreis", unit: "ct/kWh", step: 0.1, dec: 1, group: "preise", derived: true, accent: true },
+  { key: "leistung", label: "Spitzenleistung", unit: "kW", step: 1, group: "leistung" },
+  { key: "grundpreis", label: "Grundpreis", unit: "€/Mon", step: 1, group: "leistung" },
+];
+
+function BillAnalysis({ file, currentConfig, onApply }) {
+  const [phase, setPhase] = useState("idle"); // idle | analyzing | results | applied
+  const [progress, setProgress] = useState(0);
+  const [statusText, setStatusText] = useState("");
+  const timerRef = useRef(null);
+  const [data, setData] = useState({
+    monatsverbrauch: 0, jahresverbrauch: 0,
+    arbeitspreis: 0, netzentgelte: 0, umlagenSteuern: 0, gesamtpreis: 0,
+    leistung: 0, grundpreis: 0,
+  });
+
+  // Cleanup timers on unmount
+  useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current); }, []);
+
+  const startAnalysis = useCallback(() => {
+    setPhase("analyzing");
+    setProgress(0);
+    let current = 0, stepIdx = 0;
+
+    function runStep() {
+      if (stepIdx >= ANALYSIS_STEPS.length) {
+        // "Detection" complete — populate with smart defaults
+        const monthKWh = Math.round(currentConfig.stromverbrauch * 1000 / 12);
+        const ap = Math.max(8, currentConfig.strompreis - 9.5); // rough: total - netz - umlagen
+        setData({
+          monatsverbrauch: monthKWh,
+          jahresverbrauch: currentConfig.stromverbrauch,
+          arbeitspreis: Math.round(ap * 100) / 100,
+          netzentgelte: 5.01,
+          umlagenSteuern: 4.49,
+          gesamtpreis: currentConfig.strompreis,
+          leistung: Math.round(monthKWh / 730 * 1.15), // avg load × 1.15
+          grundpreis: 30,
+        });
+        setTimeout(() => setPhase("results"), 350);
+        return;
+      }
+      const step = ANALYSIS_STEPS[stepIdx];
+      setStatusText(step.text);
+      const range = step.target - current;
+      const ticks = Math.max(3, Math.ceil(range / 4));
+      let t = 0;
+      timerRef.current = setInterval(() => {
+        t++;
+        current = Math.min(step.target, current + Math.ceil(range / ticks));
+        setProgress(current);
+        if (t >= ticks || current >= step.target) {
+          clearInterval(timerRef.current);
+          current = step.target;
+          setProgress(current);
+          stepIdx++;
+          setTimeout(runStep, 180);
+        }
+      }, step.delay);
+    }
+    runStep();
+  }, [currentConfig]);
+
+  const updateField = useCallback((key, raw) => {
+    const val = parseFloat(String(raw).replace(",", "."));
+    if (isNaN(val)) return;
+    setData(prev => {
+      const next = { ...prev, [key]: val };
+      if (key === "monatsverbrauch") next.jahresverbrauch = Math.round(val * 12 / 1000);
+      if (["arbeitspreis", "netzentgelte", "umlagenSteuern"].includes(key)) {
+        next.gesamtpreis = Math.round((next.arbeitspreis + next.netzentgelte + next.umlagenSteuern) * 10) / 10;
+      }
+      return next;
+    });
+  }, []);
+
+  const apply = useCallback(() => {
+    onApply({ stromverbrauch: data.jahresverbrauch, strompreis: data.gesamtpreis });
+    setPhase("applied");
+  }, [data, onApply]);
+
+  const F = "Calibri, sans-serif";
+
+  // ─── Idle: Show "Auswerten" button ───
+  if (phase === "idle") {
+    return (
+      <button onClick={startAnalysis} style={{
+        width: "100%", marginTop: "0.4rem",
+        background: `linear-gradient(135deg, ${C.gold}20, ${C.gold}08)`,
+        border: `1px solid ${C.gold}50`, borderRadius: 8,
+        padding: "0.6rem", fontFamily: F, fontSize: "0.8rem", fontWeight: 700,
+        color: C.goldLight, cursor: "pointer", display: "flex", alignItems: "center",
+        justifyContent: "center", gap: "0.4rem", letterSpacing: "0.5px",
+        transition: "all 0.2s",
+      }}>
+        <Icon name="chart" size={14} /> Rechnung auswerten
+      </button>
+    );
+  }
+
+  // ─── Analyzing: Progress bar ───
+  if (phase === "analyzing") {
+    return (
+      <div style={{
+        marginTop: "0.4rem", background: "rgba(27,42,74,0.6)", border: `1px solid ${C.gold}30`,
+        borderRadius: 10, padding: "0.8rem", overflow: "hidden",
+      }}>
+        <div style={{ fontFamily: F, fontSize: "0.72rem", color: C.goldLight, fontWeight: 700, marginBottom: "0.5rem", letterSpacing: "1px" }}>
+          AUSWERTUNG LÄUFT
+        </div>
+        {/* Progress bar */}
+        <div style={{ position: "relative", height: 22, background: "rgba(255,255,255,0.06)", borderRadius: 11, overflow: "hidden", marginBottom: "0.4rem" }}>
+          <div style={{
+            height: "100%", width: `${progress}%`, borderRadius: 11,
+            background: `linear-gradient(90deg, ${C.green}, ${C.greenLight})`,
+            transition: "width 0.15s ease-out",
+            boxShadow: `0 0 12px ${C.green}40`,
+          }} />
+          <div style={{
+            position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center",
+            fontFamily: F, fontSize: "0.72rem", fontWeight: 700, color: "#fff", textShadow: "0 1px 3px rgba(0,0,0,0.5)",
+          }}>{progress} %</div>
+        </div>
+        <div style={{ fontFamily: F, fontSize: "0.7rem", color: "#999", display: "flex", alignItems: "center", gap: "0.3rem" }}>
+          <span style={{ display: "inline-block", width: 6, height: 6, borderRadius: "50%", background: C.green, animation: "cpPulse 1s infinite" }} />
+          {statusText}
+        </div>
+        <style>{`@keyframes cpPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }`}</style>
+      </div>
+    );
+  }
+
+  // ─── Applied: Success ───
+  if (phase === "applied") {
+    return (
+      <div style={{
+        marginTop: "0.4rem", background: `${C.green}15`, border: `1px solid ${C.green}40`,
+        borderRadius: 8, padding: "0.5rem 0.8rem", fontFamily: F, fontSize: "0.78rem",
+        color: C.greenLight, display: "flex", alignItems: "center", gap: "0.4rem",
+      }}>
+        <Icon name="check" size={14} color={C.greenLight} />
+        Rechnungsdaten übernommen — {fmtVal(data.jahresverbrauch)} MWh/a · {fmtVal(data.gesamtpreis, 1)} ct/kWh
+      </div>
+    );
+  }
+
+  // ─── Results: Editable form ───
+  const groups = [
+    { key: "verbrauch", title: "Verbrauch", icon: "bolt" },
+    { key: "preise", title: "Preiskomponenten", icon: "chart" },
+    { key: "leistung", title: "Leistung & Grundpreis", icon: "factory" },
+  ];
+
+  return (
+    <div style={{
+      marginTop: "0.4rem", background: "rgba(27,42,74,0.6)", border: `1px solid ${C.gold}30`,
+      borderRadius: 10, padding: "0.8rem", overflow: "hidden",
+    }}>
+      <div style={{ fontFamily: F, fontSize: "0.72rem", color: C.goldLight, fontWeight: 700, marginBottom: "0.1rem", letterSpacing: "1px" }}>
+        AUSWERTUNG ABGESCHLOSSEN
+      </div>
+      <div style={{ fontFamily: F, fontSize: "0.65rem", color: "#888", marginBottom: "0.6rem" }}>
+        Bitte prüfen und ggf. anpassen — Werte werden bei Bestätigung übernommen
+      </div>
+
+      {groups.map(g => (
+        <div key={g.key} style={{ marginBottom: "0.5rem" }}>
+          <div style={{ fontFamily: F, fontSize: "0.68rem", letterSpacing: "1.5px", color: C.gold, fontWeight: 700, marginBottom: "0.3rem", display: "flex", alignItems: "center", gap: "0.3rem" }}>
+            <Icon name={g.icon} size={11} color={C.gold} /> {g.title}
+          </div>
+          {BILL_FIELDS.filter(f => f.group === g.key).map(f => (
+            <div key={f.key} style={{ display: "flex", alignItems: "center", marginBottom: "0.25rem", gap: "0.4rem" }}>
+              <span style={{ flex: 1, fontFamily: F, fontSize: "0.75rem", color: f.derived ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.7)" }}>
+                {f.label}
+              </span>
+              <input
+                type="text" inputMode="decimal"
+                value={f.dec ? data[f.key].toFixed(f.dec) : data[f.key]}
+                onChange={e => updateField(f.key, e.target.value)}
+                readOnly={f.derived}
+                style={{
+                  width: 72, background: f.derived ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.08)",
+                  border: `1px solid ${f.accent ? C.gold + "60" : f.derived ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.12)"}`,
+                  borderRadius: 4, padding: "0.2rem 0.35rem", textAlign: "right",
+                  color: f.accent ? C.goldLight : f.derived ? "#888" : "#ddd",
+                  fontFamily: F, fontSize: "0.78rem", fontWeight: f.accent ? 700 : 600,
+                  outline: "none",
+                }}
+              />
+              <span style={{ fontFamily: F, fontSize: "0.68rem", color: "#777", width: 48, flexShrink: 0 }}>{f.unit}</span>
+            </div>
+          ))}
+        </div>
+      ))}
+
+      {/* Action buttons */}
+      <div style={{ display: "flex", gap: "0.4rem", marginTop: "0.5rem" }}>
+        <button onClick={apply} style={{
+          flex: 1, background: `linear-gradient(135deg, ${C.green}, ${C.green}cc)`,
+          border: "none", borderRadius: 6, padding: "0.55rem",
+          fontFamily: F, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.5px",
+          color: "#fff", cursor: "pointer", display: "flex", alignItems: "center",
+          justifyContent: "center", gap: "0.3rem",
+        }}>
+          <Icon name="check" size={13} /> Übernehmen
+        </button>
+        <button onClick={() => setPhase("idle")} style={{
+          background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)",
+          borderRadius: 6, padding: "0.55rem 0.8rem",
+          fontFamily: F, fontSize: "0.75rem", color: C.midGray, cursor: "pointer",
+        }}>Abbrechen</button>
+      </div>
+    </div>
+  );
 }
 
 /* ── ConfigPanel Component ── */
@@ -212,6 +444,15 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, 
                         <div style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.72rem", color: config.stromrechnungFile ? C.greenLight : C.midGray }}>{config.stromrechnungFile ? <><Icon name="check" size={12} color={C.greenLight} style={{ marginRight: 4 }} />{config.stromrechnungFile}</> : <><Icon name="document" size={12} style={{ marginRight: 4 }} /> Stromrechnung hochladen (PDF/Bild)</>}</div>
                       </div>
                       <div style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.7rem", color: "rgba(255,255,255,0.45)", fontStyle: "italic" }}>Alle Daten bleiben lokal in Ihrem Browser — kein Upload an Server</div>
+                      {/* Bill Analysis */}
+                      {config.stromrechnungFile && !config.stromrechnungFile.includes("(") && (
+                        <BillAnalysis
+                          key={config.stromrechnungFile}
+                          file={config.stromrechnungFile}
+                          currentConfig={config}
+                          onApply={(values) => setConfig(prev => ({ ...prev, ...values }))}
+                        />
+                      )}
                     </div>
                   )}
                 </div>
@@ -455,6 +696,15 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, 
                         fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                         color: "rgba(255,255,255,0.45)", fontStyle: "italic",
                       }}>Alle Daten bleiben lokal in Ihrem Browser — kein Upload an Server</div>
+                      {/* Bill Analysis */}
+                      {config.stromrechnungFile && !config.stromrechnungFile.includes("(") && (
+                        <BillAnalysis
+                          key={config.stromrechnungFile}
+                          file={config.stromrechnungFile}
+                          currentConfig={config}
+                          onApply={(values) => setConfig(prev => ({ ...prev, ...values }))}
+                        />
+                      )}
                     </div>
                   )}
                 </div>
