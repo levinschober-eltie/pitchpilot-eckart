@@ -146,11 +146,14 @@ async function fetchLivePrices(signal) {
   );
   if (!resp.ok) throw new Error("API error");
   const data = await resp.json();
-  if (!data.price || data.price.length < 2000) throw new Error("Insufficient data");
+  if (!Array.isArray(data.price) || data.price.length < 2000) throw new Error("Insufficient data");
   // energy-charts returns { unix_seconds: [...], price: [...] } in €/MWh
   const hourly = new Float64Array(8760);
   const len = Math.min(data.price.length, 8760);
-  for (let i = 0; i < len; i++) hourly[i] = data.price[i] ?? 60;
+  for (let i = 0; i < len; i++) {
+    const v = Number(data.price[i]);
+    hourly[i] = isFinite(v) ? v : 60;
+  }
   // Fill remaining with average if partial year
   if (len < 8760) {
     const avg = hourly.slice(0, len).reduce((s, v) => s + v, 0) / len;
@@ -173,9 +176,10 @@ async function fetchSolarIrradiance(lat, lon, arrays, signal) {
   const resp = await fetch(url, { signal });
   if (!resp.ok) throw new Error("API error");
   const data = await resp.json();
+  if (!data.hourly) throw new Error("Invalid API response");
   const { direct_radiation, diffuse_radiation, direct_normal_irradiance, temperature_2m } = data.hourly;
   const hours = data.hourly.time;
-  if (!direct_radiation || direct_radiation.length < 8000) throw new Error("Insufficient data");
+  if (!Array.isArray(direct_radiation) || direct_radiation.length < 8000) throw new Error("Insufficient data");
 
   // Compute PV output for each array using real irradiance
   const hourly = new Float64Array(8760);

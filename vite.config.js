@@ -42,7 +42,7 @@ export default defineConfig({
             handler: 'NetworkFirst',
             options: {
               cacheName: 'energy-api',
-              expiration: { maxEntries: 5, maxAgeSeconds: 24 * 60 * 60 },
+              expiration: { maxEntries: 5, maxAgeSeconds: 6 * 60 * 60 },
               networkTimeoutSeconds: 10,
             },
           },
