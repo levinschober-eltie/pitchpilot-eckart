@@ -638,7 +638,7 @@ export default function EckartTimeline() {
                   ...S.sectionHeading, color: C.midGray, marginBottom: "0.35rem",
                 }}>{phase.isFinal ? "ERGEBNISSE" : "LIEFERERGEBNISSE"}</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
-                  {phase.results.slice(0, 5).map((r, i) => (
+                  {phase.results.map((r, i) => (
                     <div key={i} style={{
                       display: "flex", alignItems: "flex-start", gap: "0.4rem",
                       ...anim(`fadeSlideIn 0.3s ease ${0.25 + i * 0.05}s both`),

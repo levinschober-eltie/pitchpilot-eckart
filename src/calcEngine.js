@@ -46,10 +46,14 @@ export function calculateAll(cfg) {
   const stromEinsparung = eigenverbrauch * strompreis * 10; // €/a (MWh × ct/kWh × 10)
   const einspeiseErloese = einspeisung * EM.feedInTariffCt * 10; // €/a
 
-  /* ── Peak Shaving ── */
-  const peakShavingRate = standortBESS > 0 && stromverbrauch > 0
-    ? Math.max(0, Math.min(0.15, (standortBESS / stromverbrauch) * 8)) : 0;
-  const peakShavingSavings = stromverbrauch * strompreis * 10 * peakShavingRate * 0.12;
+  /* ── Peak Shaving (Leistungspreis-Reduktion) ── */
+  // BESS-Entladeleistung (0.5C) kappen Lastspitzen → Leistungspreis-Senkung
+  const bessEntladeMW = standortBESS * 0.5; // MW (0.5C Entladerate)
+  const peakDemandMW = stromverbrauch / 4000; // grobe Spitzenlast (MWh/a ÷ ~4000 Volllaststunden)
+  const peakReductionRate = peakDemandMW > 0
+    ? Math.max(0, Math.min(0.15, bessEntladeMW / peakDemandMW)) : 0;
+  const leistungspreis = 120; // €/kW/a (typisch Industrie HV)
+  const peakShavingSavings = peakDemandMW * 1000 * peakReductionRate * leistungspreis;
 
   /* ── Wärme ── */
   const wpErzeugung = wpLeistung * 2200; // MWh therm /a

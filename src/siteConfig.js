@@ -388,7 +388,7 @@ export const phases = [
     ],
     funding: [
       { label: "BEG (Bundesförderung Effiziente Gebäude)", value: "bis 40 % Zuschuss" },
-      { label: "KfW 261/262", value: "Tilgungszuschuss bis 150 T€" },
+      { label: "KfW 261 (Klimafreundl. Nichtwohngebäude)", value: "Tilgungszuschuss" },
     ],
     investTotal: "4,3–8,0 Mio €",
     roi: "Gaskosten-Reduktion + CO₂-Vermeidung",
@@ -432,7 +432,7 @@ export const phases = [
       { label: "Lastmanagement + Netzanschluss", range: "350–500 T€" },
     ],
     funding: [
-      { label: "KfW 441/439 (Ladeinfrastruktur)", value: "bis 900 € / Ladepunkt" },
+      { label: "THG-Quotenhandel + Landesförderung", value: "Erstattung pro Ladepunkt" },
       { label: "GEIG-Pflicht ab 2026", value: "Regulatorische Compliance" },
     ],
     investTotal: "1,6–2,4 Mio €",
@@ -474,7 +474,7 @@ export const phases = [
       { label: "Netzanschluss + Trafo", range: "3,5–6,0 Mio €" },
     ],
     funding: [
-      { label: "EEG Innovationsausschreibung", value: "Zuschlag möglich" },
+      { label: "Projektfinanzierung (Non-Recourse SPV)", value: "Cashflow-besichert" },
       { label: "EU Innovation Fund", value: "Co-Finanzierung" },
     ],
     investTotal: "38–48 Mio €",
