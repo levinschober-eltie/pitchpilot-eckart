@@ -1,19 +1,7 @@
 import { useState, useEffect } from "react";
 import EckartTimeline from "./EckartTimeline";
 import { Icon } from "./Icons";
-
-const anim = (v) => ({ animation: v, WebkitAnimation: v });
-
-const C = {
-  navy: "#1B2A4A",
-  navyMid: "#1E3050",
-  navyLight: "#253757",
-  gold: "#D4A843",
-  goldLight: "#E8C97A",
-  green: "#2D6A4F",
-  midGray: "#9A9A90",
-  white: "#FFFFFF",
-};
+import { C, anim } from "./colors";
 
 function IntroScreen({ onEnter }) {
   const [visible, setVisible] = useState(false);

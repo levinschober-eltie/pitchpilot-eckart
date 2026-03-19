@@ -4,18 +4,7 @@
  * Colors: Navy #1B2A4A · Gold #D4A843 · Green #2D6A4F · WarmOrange #E8785A
  */
 import { SvgIcon } from "./Icons";
-
-const C = {
-  navy: "#1B2A4A", navyLight: "#253757", navyMid: "#1E3050",
-  gold: "#D4A843", goldLight: "#E8C97A", goldDim: "#B8923A",
-  green: "#2D6A4F", greenLight: "#3A8A66",
-  forest: "#1A4D2E", forestMid: "#245E3A", forestLight: "#2E7A4E",
-  forestDark: "#0F3520",
-  warmOrange: "#E8785A", warmOrangeLight: "#F4A589",
-  midGray: "#9A9A90", blue: "rgba(100,170,255,0.4)",
-  skyTop: "#0D1B30", skyMid: "#152540",
-  coolBlue: "#4A8EC2", coolBlueDim: "#2A5E8A",
-};
+import { C } from "./colors";
 
 /* ── Shared SVG Defs ──────────────────────────────────────────── */
 function SharedDefs({ warm = false, cool = false }) {
@@ -2630,7 +2619,8 @@ function GesamtVisual() {
         ["gf_charge",C.greenLight,"EMS→EV",3.5,1.5,false],
         ["gf_grid",C.goldLight,"Netz↔EMS",3,1.8,false],
         ["gf_prod",C.goldLight,"EMS→Prod",2,1.5,false],
-      ].map(([id,col,label,dur,r,glow],i) => (
+      // eslint-disable-next-line no-unused-vars
+      ].map(([id,col,_label,dur,r,glow],_i) => (
         <g key={id}>
           <use href={`#${id}`} fill="none" stroke={col} strokeWidth="1" opacity="0.08" />
           <FlowParticles pathId={id} color={col} count={3} dur={dur} r={r} glow={glow} />
@@ -2770,7 +2760,8 @@ function GesamtVisual() {
           );
         })}
         {/* Rays to all systems */}
-        {[[200,130,"EMS"],[160,244,"BESS"],[280,215,"EV"]].map(([tx,ty,sys],i) => (
+        {/* eslint-disable-next-line no-unused-vars */}
+        {[[200,130,"EMS"],[160,244,"BESS"],[280,215,"EV"]].map(([tx,ty,_sys],i) => (
           <line key={`sr${i}`} x1={350-i*5} y1={84+i*2} x2={tx} y2={ty}
             stroke={C.goldLight} strokeWidth="0.25" opacity="0.04" strokeDasharray="6,12">
             <animate attributeName="opacity" values="0.01;0.07;0.01"

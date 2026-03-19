@@ -6,6 +6,15 @@ export default defineConfig({
   plugins: [react()],
   base: '/pitchpilot-eckart/',
   build: {
-    target: ['es2015', 'chrome64', 'firefox60', 'safari11.1', 'edge79'],
+    target: ['es2020', 'chrome80', 'firefox80', 'safari14', 'edge80'],
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/')) {
+            return 'vendor';
+          }
+        },
+      },
+    },
   },
 })

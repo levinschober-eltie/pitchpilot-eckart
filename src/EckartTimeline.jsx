@@ -1,28 +1,12 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, lazy, Suspense } from "react";
 import PhaseVisual from "./PhaseVisuals";
-import ConfigPanel, { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./ConfigPanel";
-import ExportModal from "./PdfExport";
-import MarketAnalysis from "./MarketAnalysis";
+import { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./calcEngine";
 import { Icon } from "./Icons";
 
-const C = {
-  navy: "#1B2A4A",
-  navyLight: "#253757",
-  navyMid: "#1E3050",
-  green: "#2D6A4F",
-  greenLight: "#3A8A66",
-  gold: "#D4A843",
-  goldLight: "#E8C97A",
-  goldDim: "#B8923A",
-  warmWhite: "#F5F5F0",
-  lightGray: "#EAEAE5",
-  midGray: "#9A9A90",
-  darkText: "#2B2B2B",
-  white: "#FFFFFF",
-};
-
-/* Cross-browser animation helper */
-const anim = (v) => ({ animation: v, WebkitAnimation: v });
+const ConfigPanel = lazy(() => import("./ConfigPanel"));
+const ExportModal = lazy(() => import("./PdfExport"));
+const MarketAnalysis = lazy(() => import("./MarketAnalysis"));
+import { C, anim } from "./colors";
 
 const phases = [
   {
@@ -503,6 +487,8 @@ export default function EckartTimeline() {
   // Keyboard navigation
   useEffect(() => {
     const onKey = (e) => {
+      // Don't capture arrow keys when a modal/overlay is open (breaks slider input)
+      if (configOpen || exportOpen || marketOpen) return;
       if (e.key === "ArrowRight" || e.key === "ArrowDown") {
         e.preventDefault();
         setActive((a) => Math.min(a + 1, phases.length - 1));
@@ -519,7 +505,20 @@ export default function EckartTimeline() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [configOpen, exportOpen, marketOpen]);
+
+  // Escape key closes modals/panels
+  useEffect(() => {
+    const onEsc = (e) => {
+      if (e.key === "Escape") {
+        if (exportOpen) setExportOpen(false);
+        else if (marketOpen) setMarketOpen(false);
+        else if (configOpen) setConfigOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onEsc);
+    return () => window.removeEventListener("keydown", onEsc);
+  }, [configOpen, exportOpen, marketOpen]);
 
   // Animate the independence score number
   const targetScore = phases[active].independenceScore;
@@ -539,6 +538,7 @@ export default function EckartTimeline() {
     };
     frame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frame);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetScore]);
 
   const phase = phases[active];
@@ -576,7 +576,7 @@ export default function EckartTimeline() {
   const sliderPct = (active / (phases.length - 1)) * 100;
 
   return (
-    <div style={{
+    <div className="pitch-root" style={{
       minHeight: "100vh",
       background: `linear-gradient(170deg, ${C.navy} 0%, ${C.navyMid} 40%, ${C.navyLight} 100%)`,
       fontFamily: "'Georgia', 'Times New Roman', serif",
@@ -603,7 +603,7 @@ export default function EckartTimeline() {
           flexWrap: "wrap",
         }}>
           <span style={{
-            fontSize: "0.65rem", fontFamily: "Calibri, sans-serif",
+            fontSize: "0.7rem", fontFamily: "Calibri, sans-serif",
             letterSpacing: "4px", textTransform: "uppercase", color: C.gold,
             fontWeight: 700,
           }}>ECKART WERKE</span>
@@ -612,11 +612,11 @@ export default function EckartTimeline() {
             display: "inline-block", verticalAlign: "middle",
           }} />
           <span style={{
-            fontSize: "0.65rem", fontFamily: "Calibri, sans-serif",
+            fontSize: "0.7rem", fontFamily: "Calibri, sans-serif",
             letterSpacing: "2px", textTransform: "uppercase", color: C.midGray,
           }}>Energietransformation</span>
         </div>
-        <div style={{
+        <div className="header-actions" style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
           gap: "1rem", flexWrap: "wrap",
         }}>
@@ -635,6 +635,7 @@ export default function EckartTimeline() {
           }}>
             {phases.map((p, i) => (
               <div key={i}
+                className="progress-dot"
                 onClick={() => setActive(i)}
                 style={{
                   width: i === active ? "20px" : "8px",
@@ -656,7 +657,7 @@ export default function EckartTimeline() {
               background: configSaved ? `${C.green}25` : configOpen ? `${C.gold}20` : "rgba(255,255,255,0.06)",
               border: `1px solid ${configSaved ? C.green + "60" : configOpen ? C.gold + "50" : "rgba(255,255,255,0.12)"}`,
               borderRadius: "2rem", padding: "0.3rem 0.7rem",
-              fontFamily: "Calibri, sans-serif", fontSize: "0.68rem",
+              fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
               letterSpacing: "1.5px", textTransform: "uppercase",
               fontWeight: 700, color: configSaved ? C.green : configOpen ? C.gold : C.midGray,
               cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
@@ -669,7 +670,7 @@ export default function EckartTimeline() {
               style={{
                 background: "rgba(255,100,100,0.1)", border: "1px solid rgba(255,100,100,0.3)",
                 borderRadius: "2rem", padding: "0.3rem 0.7rem",
-                fontFamily: "Calibri, sans-serif", fontSize: "0.68rem",
+                fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                 letterSpacing: "1.5px", textTransform: "uppercase",
                 fontWeight: 700, color: "#ff8888",
                 cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
@@ -710,6 +711,7 @@ export default function EckartTimeline() {
           {phases.map((p, i) => (
             <button
               key={i}
+              className="phase-btn"
               onClick={() => setActive(i)}
               style={{
                 background: "none", border: "none", cursor: "pointer",
@@ -784,7 +786,7 @@ export default function EckartTimeline() {
             transition: isDragging ? "none" : "left 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
             cursor: "grab",
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "0.65rem", fontWeight: 700, color: C.gold,
+            fontSize: "0.7rem", fontWeight: 700, color: C.gold,
             fontFamily: "Georgia, serif",
           }}>
             {phase.num}
@@ -864,7 +866,7 @@ export default function EckartTimeline() {
         </div>
 
         {/* Two-Column: Content left, Illustration right */}
-        <div style={{
+        <div className="pitch-grid" style={{
           display: "grid",
           gridTemplateColumns: "5fr 4fr",
           gap: "1.25rem",
@@ -900,7 +902,7 @@ export default function EckartTimeline() {
                     ...anim(`fadeSlideIn 0.3s ease ${0.1 + i * 0.05}s both`),
                   }}>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                       letterSpacing: "0.5px", textTransform: "uppercase",
                       color: C.midGray, marginBottom: "0.15rem",
                     }}>{kpi.label}</div>
@@ -955,7 +957,7 @@ export default function EckartTimeline() {
             {phase.results && phase.results.length > 0 && (
               <div style={{ marginBottom: "0.6rem" }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                   letterSpacing: "2px", textTransform: "uppercase",
                   color: C.midGray, fontWeight: 700, marginBottom: "0.35rem",
                 }}>{phase.isFinal ? "ERGEBNISSE" : "LIEFERERGEBNISSE"}</div>
@@ -966,7 +968,7 @@ export default function EckartTimeline() {
                       ...anim(`fadeSlideIn 0.3s ease ${0.25 + i * 0.05}s both`),
                     }}>
                       <span style={{
-                        color: phase.color || C.gold, fontSize: "0.6rem",
+                        color: phase.color || C.gold, fontSize: "0.7rem",
                         marginTop: "0.15rem", flexShrink: 0, opacity: 0.6,
                       }}>●</span>
                       <span style={{
@@ -993,7 +995,7 @@ export default function EckartTimeline() {
                   flex: "1 1 auto",
                 }}>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                     letterSpacing: "1.5px", textTransform: "uppercase",
                     color: C.midGray, fontWeight: 700,
                   }}>INVESTMENT</div>
@@ -1010,7 +1012,7 @@ export default function EckartTimeline() {
                   flex: "1 1 auto",
                 }}>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                     letterSpacing: "1.5px", textTransform: "uppercase",
                     color: C.midGray, fontWeight: 700,
                   }}>WIRTSCHAFTLICHKEIT</div>
@@ -1035,7 +1037,7 @@ export default function EckartTimeline() {
             {phase.heroCards && (() => {
               const cards = showCalc ? getDynamicHeroCards(configOpen ? calc : activeCalc) : phase.heroCards;
               return (
-              <div style={{
+              <div className="hero-cards-grid" style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
                 gap: "0.75rem",
@@ -1120,7 +1122,7 @@ export default function EckartTimeline() {
                 ...anim("fadeSlideIn 0.4s ease 0.3s both"),
               }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                   letterSpacing: "2.5px", textTransform: "uppercase",
                   color: C.gold, fontWeight: 700, marginBottom: "0.6rem",
                   display: "flex", alignItems: "center", gap: "0.4rem",
@@ -1148,7 +1150,7 @@ export default function EckartTimeline() {
                       borderLeft: item.accent ? `2px solid ${C.gold}60` : "none",
                     }}>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                         color: C.midGray, letterSpacing: "0.5px", textTransform: "uppercase",
                       }}>{item.label}</div>
                       <div style={{
@@ -1186,7 +1188,7 @@ export default function EckartTimeline() {
                       background: `linear-gradient(90deg, ${C.gold}60, ${C.green}40, transparent)`,
                     }} />
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                       letterSpacing: "1px", textTransform: "uppercase",
                       color: C.midGray, marginBottom: "0.3rem",
                     }}>{kpi.label}</div>
@@ -1402,7 +1404,7 @@ export default function EckartTimeline() {
                       ...anim(`fadeSlideIn 0.4s ease ${0.3 + i * 0.08}s both`),
                     }}>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                         letterSpacing: "1px", textTransform: "uppercase",
                         color: C.midGray, marginBottom: "0.2rem",
                       }}>{m.label}</div>
@@ -1602,7 +1604,7 @@ export default function EckartTimeline() {
                           fontWeight: 700, color: C.white,
                         }}>{p.label}</div>
                         <div style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                           color: C.midGray, letterSpacing: "1px",
                         }}>PHASE {p.phase}</div>
                       </div>
@@ -1860,7 +1862,7 @@ export default function EckartTimeline() {
             {phase.funding && phase.funding.length > 0 && (
               <div style={{ marginTop: "0.75rem" }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                   letterSpacing: "2.5px", textTransform: "uppercase",
                   color: C.midGray, fontWeight: 700, marginBottom: "0.4rem",
                 }}>FÖRDERMITTEL & FINANZIERUNGSHEBEL</div>
@@ -1904,7 +1906,7 @@ export default function EckartTimeline() {
                   ...anim("fadeSlideIn 0.4s ease 0.5s both"),
                 }}>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                    fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                     letterSpacing: "2.5px", textTransform: "uppercase",
                     color: C.gold, fontWeight: 700, marginBottom: "0.45rem",
                     display: "flex", alignItems: "center", gap: "0.35rem",
@@ -1924,7 +1926,7 @@ export default function EckartTimeline() {
                         borderLeft: item.accent ? `2px solid ${C.gold}60` : "none",
                       }}>
                         <div style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                          fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                           color: C.midGray, letterSpacing: "0.5px",
                         }}>{item.label}</div>
                         <div style={{
@@ -1991,7 +1993,7 @@ export default function EckartTimeline() {
             display: "inline-flex", alignItems: "center", gap: "0.25rem",
             padding: "0.15rem 0.4rem", borderRadius: "3px",
             border: "1px solid rgba(255,255,255,0.1)",
-            fontSize: "0.5rem", color: "rgba(255,255,255,0.3)",
+            fontSize: "0.7rem", color: "rgba(255,255,255,0.3)",
           }}><Icon name="arrowLeft" size={8} style={{ opacity: 0.5 }} /> <Icon name="arrowRight" size={8} style={{ opacity: 0.5 }} /> Phasen wechseln</span>
           <span style={{ fontStyle: "italic" }}>Energiewirtschaftliche Konzeptbegleitung: Elite PV</span>
         </span>
@@ -2020,37 +2022,83 @@ export default function EckartTimeline() {
         @media (max-width: 800px) {
           header, footer, .content { padding-left: 1rem !important; padding-right: 1rem !important; }
         }
+
+        /* ── Mobile Responsive Fixes ── */
+        @media (max-width: 768px) {
+          /* Issue 1: Collapse two-column grid to single column */
+          .pitch-grid {
+            grid-template-columns: 1fr !important;
+          }
+          /* Hero cards stack on mobile */
+          .hero-cards-grid {
+            grid-template-columns: 1fr !important;
+          }
+          /* Issue 2: Header buttons wrap gracefully */
+          .header-actions {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 0.5rem !important;
+          }
+          /* Issue 3: Touch targets min 44px */
+          .progress-dot {
+            min-height: 44px !important;
+            min-width: 44px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            position: relative !important;
+          }
+          .progress-dot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 44px;
+            min-height: 44px;
+          }
+          .phase-btn {
+            min-height: 44px !important;
+            min-width: 44px !important;
+          }
+        }
       `}</style>
 
-      {/* ── Interactive Config Panel ── */}
+      {/* ── Interactive Config Panel (lazy) ── */}
       {configOpen && (
-        <ConfigPanel
-          config={config}
-          setConfig={setConfig}
-          calc={calc}
-          onClose={() => setConfigOpen(false)}
-          onSave={() => { setSavedConfig({ ...config }); setConfigOpen(false); }}
-        />
+        <Suspense fallback={null}>
+          <ConfigPanel
+            config={config}
+            setConfig={setConfig}
+            calc={calc}
+            onClose={() => setConfigOpen(false)}
+            onSave={() => { setSavedConfig({ ...config }); setConfigOpen(false); }}
+          />
+        </Suspense>
       )}
 
-      {/* ── PDF Export Modal ── */}
+      {/* ── PDF Export Modal (lazy) ── */}
       {exportOpen && (
-        <ExportModal
-          phases={phases}
-          config={configSaved ? savedConfig : config}
-          calc={configSaved ? activeCalc : calc}
-          configActive={showCalc}
-          onClose={() => setExportOpen(false)}
-        />
+        <Suspense fallback={null}>
+          <ExportModal
+            phases={phases}
+            config={configSaved ? savedConfig : config}
+            calc={configSaved ? activeCalc : calc}
+            configActive={showCalc}
+            onClose={() => setExportOpen(false)}
+          />
+        </Suspense>
       )}
 
-      {/* ── Market Analysis Overlay ── */}
+      {/* ── Market Analysis Overlay (lazy) ── */}
       {marketOpen && (
-        <MarketAnalysis
-          config={configSaved ? savedConfig : config}
-          configActive={showCalc}
-          onClose={() => setMarketOpen(false)}
-        />
+        <Suspense fallback={null}>
+          <MarketAnalysis
+            config={configSaved ? savedConfig : config}
+            configActive={showCalc}
+            onClose={() => setMarketOpen(false)}
+          />
+        </Suspense>
       )}
     </div>
   );

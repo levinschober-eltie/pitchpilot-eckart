@@ -1,14 +1,11 @@
 import { useState, useMemo, useCallback } from "react";
 import { Icon } from "./Icons";
+import { C } from "./colors";
 
 /* ═══════════════════════════════════════════════════════════════════════
    SECTION 1 — CONSTANTS
    ═══════════════════════════════════════════════════════════════════════ */
 const RAD = Math.PI / 180;
-const C = {
-  navy: "#1B2A4A", navyLight: "#253757", gold: "#D4A843", goldLight: "#E8C97A",
-  green: "#2D6A4F", greenLight: "#3A8A66", white: "#F5F5F0", darkText: "#2B2B2B",
-};
 const F = "Calibri, sans-serif";
 const MONTHS = ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
 const DAYS_IN_MONTH = [31,28,31,30,31,30,31,31,30,31,30,31];
@@ -832,9 +829,10 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
   const [loadingSolar, setLoadingSolar] = useState(false);
   const [selectedDay, setSelectedDay] = useState(172); // Summer solstice
   const [season, setSeason] = useState("year"); // year, summer, winter
+  const [apiError, setApiError] = useState(null);
 
   // Use config values if ConfigPanel is active
-  const effectiveLoad = configActive && config ? config.jahresverbrauch : annualLoad;
+  const effectiveLoad = configActive && config ? config.stromverbrauch : annualLoad;
   const effectiveBess = configActive && config ? config.standortBESS * 1000 : bessCapacity;
 
   // Generate solar data (use live irradiance if available, else parametric model)
@@ -862,16 +860,26 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
   // Fetch live prices
   const handleFetchPrices = useCallback(async () => {
     setLoadingPrices(true);
+    setApiError(null);
     const data = await fetchLivePrices();
-    if (data) setLivePrice(data);
+    if (data) {
+      setLivePrice(data);
+    } else {
+      setApiError("Preisdaten konnten nicht geladen werden — Fallback-Modell wird verwendet");
+    }
     setLoadingPrices(false);
   }, []);
 
   // Fetch live solar irradiance from Open-Meteo
   const handleFetchSolar = useCallback(async () => {
     setLoadingSolar(true);
+    setApiError(null);
     const data = await fetchSolarIrradiance(HARTENSTEIN.lat, HARTENSTEIN.lon, arrays);
-    if (data) setLiveSolar(data);
+    if (data) {
+      setLiveSolar(data);
+    } else {
+      setApiError("Einstrahlungsdaten konnten nicht geladen werden — Fallback-Modell wird verwendet");
+    }
     setLoadingSolar(false);
   }, [arrays]);
 
@@ -1019,6 +1027,15 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                   energy-charts.info (Fraunhofer ISE)
                 </div>
               </div>
+              {apiError && (
+                <div style={{
+                  marginTop: "0.5rem", padding: "0.45rem 0.6rem",
+                  background: "rgba(255,180,50,0.1)", border: "1px solid rgba(255,180,50,0.3)",
+                  borderRadius: 6, fontFamily: F, fontSize: "0.72rem", color: "#e8b84a", lineHeight: 1.5,
+                }}>
+                  {apiError}
+                </div>
+              )}
             </Section>
 
             <Section title={<><Icon name="battery" size={14} color={C.greenLight} /> Batteriespeicher</>} defaultOpen={true}>

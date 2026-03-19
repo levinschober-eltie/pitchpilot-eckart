@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-const anim = (v) => ({ animation: v, WebkitAnimation: v });
+import { anim } from "./colors";
 
 /* ── Colors ── */
 const N = "#1B2A4A";
@@ -69,7 +68,7 @@ function project20Years(calc, config) {
   let cumCf = 0, cumCfFin = 0;
   const zinsRate = config.kreditZins / 100;
   const tilgungsfrei = config.tilgungsfrei;
-  const tilgungsJahre = Math.max(1, config.kreditLaufzeit - tilgungsfrei);
+  const _tilgungsJahre = Math.max(1, config.kreditLaufzeit - tilgungsfrei);
 
   // Build amortization schedule
   let restschuld = calc.kreditBetrag;
@@ -186,7 +185,7 @@ function revenueSvg(proj) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" style="width:100%;max-width:520px;height:auto;">
     <rect width="${w}" height="${h}" fill="#fafafa" rx="6"/>
     ${proj.slice(1).map((p, i) => {
-      const total = p.strom + p.einsp + p.peak + p.gas + p.mob + p.bess;
+      const _total = p.strom + p.einsp + p.peak + p.gas + p.mob + p.bess;
       const bx = pad.l + i * (pw / 20) + gap / 2;
       let cy = pad.t + ph;
       const segments = [

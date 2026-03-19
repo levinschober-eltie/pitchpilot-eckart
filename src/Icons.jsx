@@ -241,6 +241,7 @@ export function SvgIcon({ name, x, y, size = 8, color = "currentColor" }) {
 /**
  * Emoji-to-icon name mapping for easy migration.
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export const emojiMap = {
   "🔍": "search",
   "☀️": "sun",
