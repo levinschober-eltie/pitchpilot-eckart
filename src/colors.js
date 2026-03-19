@@ -24,6 +24,13 @@ export const C = {
   skyMid: "#152540",
   coolBlue: "#4A8EC2",
   coolBlueDim: "#2A5E8A",
+  red: "#E74C3C",
+  softGray: "#9A9A90",
+};
+
+export const fonts = {
+  heading: "'Georgia', 'Times New Roman', serif",
+  body: "'Calibri', 'Helvetica Neue', sans-serif",
 };
 
 export const anim = (v) => ({ animation: v, WebkitAnimation: v });
