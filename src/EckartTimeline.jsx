@@ -518,11 +518,7 @@ export default function EckartTimeline() {
   const sliderRef = useRef(null);
   const contentRef = useRef(null);
   const [analysisOpen, setAnalysisOpen] = useState(false);
-  const [analysisTab, setAnalysisTab] = useState("calc"); // "calc" | "market"
   const [exportOpen, setExportOpen] = useState(false);
-  // Legacy aliases for minimal downstream changes
-  const configOpen = analysisOpen && analysisTab === "calc";
-  const marketOpen = analysisOpen && analysisTab === "market";
   const [config, setConfig] = useState(defaultConfig);
   const [savedConfig, setSavedConfig] = useState(null);
   const configSaved = savedConfig !== null;
@@ -734,7 +730,7 @@ export default function EckartTimeline() {
           </div>
           {/* Analyse & Kalkulation toggle */}
           <button
-            onClick={() => { setAnalysisOpen(o => !o); setAnalysisTab("calc"); }}
+            onClick={() => setAnalysisOpen(o => !o)}
             style={{
               ...S.pillBtn,
               background: configSaved ? `${C.green}25` : analysisOpen ? `${C.gold}20` : "rgba(255,255,255,0.06)",
@@ -2171,7 +2167,8 @@ export default function EckartTimeline() {
           position: "fixed", inset: 0, zIndex: 9000, background: "rgba(10,18,32,0.97)",
           display: "flex", flexDirection: "column",
         }}>
-          {/* Sticky header with tabs */}
+          <style>{`@media (max-width: 768px) { .analysis-split { flex-direction: column !important; } .analysis-split > div:first-child { width: 100% !important; max-height: 40vh; border-right: none !important; border-bottom: 1px solid rgba(212,168,67,0.2); } }`}</style>
+          {/* Sticky header */}
           <div style={{
             position: "sticky", top: 0, zIndex: 10, background: "rgba(27,42,74,0.97)",
             backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
@@ -2189,32 +2186,21 @@ export default function EckartTimeline() {
                 fontFamily: "Calibri, sans-serif",
               }}><Icon name="close" size={14} /></button>
             </div>
-            {/* Tab buttons */}
-            <div style={{ display: "flex", gap: "0.3rem", marginTop: "0.5rem" }}>
-              {[
-                { key: "calc", label: "Kalkulation", icon: "gear" },
-                { key: "market", label: "Marktanalyse", icon: "chart" },
-              ].map(tab => (
-                <button key={tab.key} onClick={() => setAnalysisTab(tab.key)} style={{
-                  background: analysisTab === tab.key ? `${C.gold}25` : "rgba(255,255,255,0.04)",
-                  border: `1px solid ${analysisTab === tab.key ? C.gold + "60" : "rgba(255,255,255,0.1)"}`,
-                  color: analysisTab === tab.key ? C.gold : C.midGray,
-                  borderRadius: "6px", padding: "0.4rem 1rem",
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.82rem", fontWeight: 600,
-                  letterSpacing: "0.03em", cursor: "pointer",
-                  display: "flex", alignItems: "center", gap: "0.3rem",
-                  transition: "all 0.2s",
-                }}>
-                  <Icon name={tab.icon} size={13} /> {tab.label}
-                </button>
-              ))}
+            <div style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.68rem", color: C.midGray, letterSpacing: "1px" }}>
+              Kalkulation · Marktanalyse · BESS-Optimierung
             </div>
           </div>
 
-          {/* Tab content */}
-          <div style={{ flex: 1, overflow: "hidden" }}>
+          {/* Combined content: ConfigPanel left sidebar + MarketAnalysis main area */}
+          <div className="analysis-split" style={{ flex: 1, overflow: "auto", display: "flex" }}>
             <Suspense fallback={null}>
-              {analysisTab === "calc" ? (
+              {/* Left sidebar: Kalkulation sliders */}
+              <div style={{
+                width: "min(380px, 40vw)", flexShrink: 0,
+                borderRight: `1px solid ${C.gold}20`,
+                background: "rgba(27,42,74,0.3)",
+                overflow: "hidden", display: "flex", flexDirection: "column",
+              }}>
                 <ConfigPanel
                   config={config}
                   setConfig={setConfig}
@@ -2223,14 +2209,17 @@ export default function EckartTimeline() {
                   onSave={() => { setSavedConfig({ ...config }); setAnalysisOpen(false); setSaveToast(true); setTimeout(() => setSaveToast(false), 2500); }}
                   embedded
                 />
-              ) : (
+              </div>
+
+              {/* Right main area: Marktanalyse */}
+              <div style={{ flex: 1, overflow: "hidden" }}>
                 <MarketAnalysis
-                  config={configSaved ? savedConfig : config}
-                  configActive={showCalc}
+                  config={config}
+                  configActive={true}
                   onClose={() => setAnalysisOpen(false)}
                   embedded
                 />
-              )}
+              </div>
             </Suspense>
           </div>
         </div>

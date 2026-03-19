@@ -1048,8 +1048,8 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
             <Section title={<><Icon name="bolt" size={14} color={C.goldLight} /> Stromeinkauf</>} defaultOpen={true}>
               <Slider label="Aktueller Festpreis" value={fixedPrice} min={8} max={40} step={0.5} unit="ct/kWh"
                 onChange={setFixedPrice} />
-              <Slider label="Jahresverbrauch" value={effectiveLoad} min={1000} max={50000} step={500} unit="MWh"
-                onChange={v => !configActive && setAnnualLoad(v)} />
+              {!embedded && <Slider label="Jahresverbrauch" value={effectiveLoad} min={1000} max={50000} step={500} unit="MWh"
+                onChange={v => !configActive && setAnnualLoad(v)} />}
               <div style={{ marginTop: "0.5rem" }}>
                 <button onClick={handleFetchPrices} disabled={loadingPrices} className="ma-btn-action" style={{
                   width: "100%", background: loadingPrices ? "rgba(255,255,255,0.05)" : "rgba(212,168,67,0.15)",
@@ -1074,8 +1074,8 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
             </Section>
 
             <Section title={<><Icon name="battery" size={14} color={C.greenLight} /> Batteriespeicher</>} defaultOpen={true}>
-              <Slider label="Kapazität" value={effectiveBess} min={0} max={50000} step={500} unit="kWh"
-                onChange={v => !configActive && setBessCapacity(v)} />
+              {!embedded && <Slider label="Kapazität" value={effectiveBess} min={0} max={50000} step={500} unit="kWh"
+                onChange={v => !configActive && setBessCapacity(v)} />}
               <Slider label="Lade-/Entladerate" value={bessRate} min={500} max={20000} step={500} unit="kW"
                 onChange={setBessRate} />
               <Slider label="Roundtrip-Effizienz" value={Math.round(bessEff * 100)} min={80} max={98} step={1} unit="%"
