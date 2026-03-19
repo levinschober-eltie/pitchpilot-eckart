@@ -807,9 +807,9 @@ const defaultArrays = [
   { azimuth: 90, tilt: 15, kwp: 500 },   // West
 ];
 
-export default function MarketAnalysis({ config, configActive, onClose, embedded }) {
+export default function MarketAnalysis({ config, configActive, onClose, embedded, calc }) {
   const trapRef = useFocusTrap();
-  // PV Array config
+  // PV Array config (manual mode only — when embedded, derived from config)
   const [arrays, setArrays] = useState(defaultArrays);
   // Market settings
   const [fixedPrice, setFixedPrice] = useState(18); // ct/kWh
@@ -834,14 +834,27 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
     };
   }, []);
 
+  // When embedded+configActive, auto-derive PV arrays from ConfigPanel values
+  const effectiveArrays = useMemo(() => {
+    if (embedded && configActive && config) {
+      const arr = [];
+      if (config.pvDach > 0) arr.push({ azimuth: 0, tilt: 20, kwp: config.pvDach * 1000 }); // Dach → Süd 20°
+      if (config.pvFassade > 0) arr.push({ azimuth: 0, tilt: 90, kwp: config.pvFassade * 1000 }); // Fassade → 90°
+      if (config.pvCarport > 0) arr.push({ azimuth: 0, tilt: 10, kwp: config.pvCarport * 1000 }); // Carport → 10°
+      if (config.pvBestand > 0) arr.push({ azimuth: 0, tilt: 30, kwp: config.pvBestand * 1000 }); // Bestand → 30°
+      return arr.length > 0 ? arr : defaultArrays;
+    }
+    return arrays;
+  }, [embedded, configActive, config, arrays]);
+
   // Use config values if ConfigPanel is active
   const effectiveLoad = configActive && config ? config.stromverbrauch : annualLoad;
   const effectiveBess = configActive && config ? config.standortBESS * 1000 : bessCapacity;
 
   // Generate solar data (use live irradiance if available, else parametric model)
   const pvDataModel = useMemo(() =>
-    generateAnnualPV(arrays, HARTENSTEIN.lat, HARTENSTEIN.lon, HARTENSTEIN.tz),
-    [arrays]
+    generateAnnualPV(effectiveArrays, HARTENSTEIN.lat, HARTENSTEIN.lon, HARTENSTEIN.tz),
+    [effectiveArrays]
   );
   const pvData = liveSolar || pvDataModel;
 
@@ -857,7 +870,7 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
     [pvData, loadHourly, prices, effectiveBess, bessRate, bessEff, fixedPrice, co2CertPrice]
   );
 
-  const totalKWp = arrays.reduce((s, a) => s + a.kwp, 0);
+  const totalKWp = effectiveArrays.reduce((s, a) => s + a.kwp, 0);
   const specificYield = pvData.total / Math.max(totalKWp, 1);
 
   // Fetch live prices
@@ -896,7 +909,7 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
     setLoadingSolar(true);
     setApiError(null);
     try {
-      const data = await fetchSolarIrradiance(HARTENSTEIN.lat, HARTENSTEIN.lon, arrays, signal);
+      const data = await fetchSolarIrradiance(HARTENSTEIN.lat, HARTENSTEIN.lon, effectiveArrays, signal);
       setLiveSolar(data);
     } catch (err) {
       if (err?.name === 'AbortError') {
@@ -906,7 +919,7 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
       }
     }
     setLoadingSolar(false);
-  }, [arrays]);
+  }, [effectiveArrays]);
 
   const addArray = () => { setArrays(a => [...a, { azimuth: 0, tilt: 20, kwp: 500 }]); setLiveSolar(null); };
   const removeArray = (idx) => { setArrays(a => a.filter((_, i) => i !== idx)); setLiveSolar(null); };
@@ -992,27 +1005,40 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
       )}
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "1rem 1.2rem 3rem" }}>
-        {/* ─── KPI Dashboard ─── */}
+        {/* ─── Unified KPI Dashboard ─── */}
         <div style={{
-          display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-          gap: "0.6rem", marginBottom: "1.5rem",
+          display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
+          gap: "0.5rem", marginBottom: "1.5rem",
         }}>
-          <KPICard label="PV-Erzeugung" value={fmtMWh(pvData.total)} sub={`${specificYield.toFixed(0)} kWh/kWp`} color={C.green} />
+          {/* Market simulation KPIs */}
+          <KPICard label="PV-Erzeugung (8760h)" value={fmtMWh(pvData.total)} sub={`${specificYield.toFixed(0)} kWh/kWp · Stundensimulation`} color={C.green} />
           <KPICard label="Eigenverbrauch" value={`${(results.selfConsumptionRate * 100).toFixed(0)}%`}
             sub={fmtMWh(results.selfConsumed)} color={C.greenLight} />
           <KPICard label="Autarkie" value={`${(results.autarkieRate * 100).toFixed(0)}%`}
             sub={`${fmtMWh(results.gridImport)} Import`} />
-          <KPICard label="DV ohne BESS" value={fmtEur(results.dvNet)} sub="Direktvermarktung" />
           <KPICard label="DV mit BESS" value={fmtEur(results.dvBessNet)}
             sub={`+${fmtK(results.dvDelta)} € vs. ohne`} color={C.green} />
           <KPICard label="Einkauf-Ersparnis" value={fmtEur(results.procSavingsBess)}
             sub={`vs. ${fixedPrice} ct/kWh fest`} color={C.green} />
-          <KPICard label="CO₂-Einsparung" value={`${results.co2SavedT.toFixed(0)} t/a`}
+          <KPICard label="CO₂ (Simulation)" value={`${results.co2SavedT.toFixed(0)} t/a`}
             sub={fmtEur(results.co2CertSaved) + " Zertifikate"} color={C.greenLight} />
-          <KPICard label="BESS-Zyklen" value={`${results.bessCycles.toFixed(0)}/a`}
-            sub={`${(effectiveBess / 1000).toFixed(0)} MWh Kapazität`} />
+          {/* calcEngine financial KPIs (when available) */}
+          {calc && <>
+            <KPICard label="Gesamtinvest" value={fmtEur(calc.investGesamt)} sub={`EK ${Math.round(calc.ekBetrag / 1000)} T€ · FK ${Math.round(calc.kreditBetrag / 1000)} T€`} color={C.gold} />
+            <KPICard label="Amortisation" value={`${calc.amortisationStandort} J.`} sub="Standort (ohne BESS-Utility)" color={C.goldLight} />
+            <KPICard label="EK-Rendite" value={`${calc.ekRendite} %`} sub={`DSCR ${calc.dscr}`} color={C.goldLight} />
+            <KPICard label="Annuität" value={fmtEur(calc.annuitaet)} sub={`${calc.tilgungsJahre} J. Tilgung`} />
+            <KPICard label="Wärme-Ersparnis" value={fmtEur(calc.gasEinsparung)} sub={`${calc.gasErsatzRate}% Gasreduktion`} color={C.greenLight} />
+            <KPICard label="Mobilität" value={fmtEur(calc.mobilitaetEinsparung)} sub="PKW + LKW Diesel→E" color={C.greenLight} />
+          </>}
+          {!calc && <>
+            <KPICard label="BESS-Zyklen" value={`${results.bessCycles.toFixed(0)}/a`}
+              sub={`${(effectiveBess / 1000).toFixed(0)} MWh Kapazität`} />
+          </>}
         </div>
 
+        {/* When embedded, skip left settings (ConfigPanel handles it). Otherwise show full layout. */}
+        {!embedded && (
         <div className="ma-layout" style={{ display: "grid", gridTemplateColumns: "min(300px, 85vw) 1fr", gap: "1.5rem", alignItems: "start" }}>
           {/* ─── LEFT: Configuration ─── */}
           <div style={{
@@ -1048,8 +1074,8 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
             <Section title={<><Icon name="bolt" size={14} color={C.goldLight} /> Stromeinkauf</>} defaultOpen={true}>
               <Slider label="Aktueller Festpreis" value={fixedPrice} min={8} max={40} step={0.5} unit="ct/kWh"
                 onChange={setFixedPrice} />
-              {!embedded && <Slider label="Jahresverbrauch" value={effectiveLoad} min={1000} max={50000} step={500} unit="MWh"
-                onChange={v => !configActive && setAnnualLoad(v)} />}
+              <Slider label="Jahresverbrauch" value={effectiveLoad} min={1000} max={50000} step={500} unit="MWh"
+                onChange={v => !configActive && setAnnualLoad(v)} />
               <div style={{ marginTop: "0.5rem" }}>
                 <button onClick={handleFetchPrices} disabled={loadingPrices} className="ma-btn-action" style={{
                   width: "100%", background: loadingPrices ? "rgba(255,255,255,0.05)" : "rgba(212,168,67,0.15)",
@@ -1074,8 +1100,8 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
             </Section>
 
             <Section title={<><Icon name="battery" size={14} color={C.greenLight} /> Batteriespeicher</>} defaultOpen={true}>
-              {!embedded && <Slider label="Kapazität" value={effectiveBess} min={0} max={50000} step={500} unit="kWh"
-                onChange={v => !configActive && setBessCapacity(v)} />}
+              <Slider label="Kapazität" value={effectiveBess} min={0} max={50000} step={500} unit="kWh"
+                onChange={v => !configActive && setBessCapacity(v)} />
               <Slider label="Lade-/Entladerate" value={bessRate} min={500} max={20000} step={500} unit="kW"
                 onChange={setBessRate} />
               <Slider label="Roundtrip-Effizienz" value={Math.round(bessEff * 100)} min={80} max={98} step={1} unit="%"
@@ -1293,6 +1319,142 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
             </Section>
           </div>
         </div>
+        )}
+
+        {/* ─── Embedded mode: charts only (no left settings, no layout grid) ─── */}
+        {embedded && (
+          <div>
+            {/* Compact market-only settings row */}
+            <div style={{
+              display: "flex", flexWrap: "wrap", gap: "0.6rem", marginBottom: "1rem",
+              background: "rgba(27,42,74,0.3)", borderRadius: 8, padding: "0.6rem 0.8rem",
+              alignItems: "center",
+            }}>
+              <Slider label="Festpreis (alt)" value={fixedPrice} min={8} max={40} step={0.5} unit="ct/kWh" onChange={setFixedPrice} />
+              <Slider label="BESS Lade-/Entladerate" value={bessRate} min={500} max={20000} step={500} unit="kW" onChange={setBessRate} />
+              <Slider label="Roundtrip-Effizienz" value={Math.round(bessEff * 100)} min={80} max={98} step={1} unit="%" onChange={v => setBessEff(v / 100)} />
+              <Slider label="CO₂-Preis (EU-ETS)" value={co2CertPrice} min={20} max={150} step={5} unit="€/t" onChange={setCo2CertPrice} />
+              <div style={{ display: "flex", gap: "0.4rem" }}>
+                <button onClick={handleFetchPrices} disabled={loadingPrices} className="ma-btn-action" style={{
+                  background: loadingPrices ? "rgba(255,255,255,0.05)" : "rgba(212,168,67,0.12)",
+                  border: "1px solid rgba(212,168,67,0.25)", color: C.goldLight,
+                  borderRadius: 6, padding: "0.35rem 0.7rem", fontFamily: F, fontSize: "0.7rem", cursor: "pointer",
+                }}>
+                  {loadingPrices ? "…" : livePrice ? "Live ✓" : "Live-Preise"}
+                </button>
+                <button onClick={handleFetchSolar} disabled={loadingSolar} className="ma-btn-action" style={{
+                  background: loadingSolar ? "rgba(255,255,255,0.05)" : "rgba(45,106,79,0.12)",
+                  border: "1px solid rgba(45,106,79,0.25)", color: C.greenLight,
+                  borderRadius: 6, padding: "0.35rem 0.7rem", fontFamily: F, fontSize: "0.7rem", cursor: "pointer",
+                }}>
+                  {loadingSolar ? "…" : liveSolar ? "Solar ✓" : "Echte Solarerträge"}
+                </button>
+              </div>
+              {apiError && <div style={{ fontFamily: F, fontSize: "0.7rem", color: "#e8b84a" }}>{apiError}</div>}
+            </div>
+
+            {/* Season selector */}
+            <div style={{ display: "flex", gap: "0.4rem", marginBottom: "1rem" }}>
+              {[["year", "Ganzjahr"], ["summer", "Sommer"], ["winter", "Winter"]].map(([key, label]) => (
+                <button key={key} onClick={() => setSeason(key)} className="ma-btn-action" aria-label={label + " anzeigen"} style={{
+                  background: season === key ? "rgba(212,168,67,0.2)" : "rgba(255,255,255,0.04)",
+                  border: `1px solid ${season === key ? "rgba(212,168,67,0.4)" : "rgba(255,255,255,0.08)"}`,
+                  color: season === key ? C.goldLight : "#888",
+                  borderRadius: "2rem", padding: "0.3rem 0.9rem", fontFamily: F, fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.5px", cursor: "pointer",
+                  minHeight: 44,
+                }}>{label}</button>
+              ))}
+            </div>
+
+            <Section title="Tages-Erzeugungsprofil vs. Börsenpreis" defaultOpen={true}>
+              <DailyProfileChart pvHourly={chartPV} priceHourly={chartPrice} loadHourly={results.avgHourlyLoad}
+                title="Durchschnittliches Tagesprofil" season={seasonLabel} />
+            </Section>
+
+            <Section title="Monatliche Erzeugung, Verbrauch & Börsenpreis" defaultOpen={true}>
+              <MonthlyChart data={results} title="Monatliche Energiebilanz" />
+            </Section>
+
+            <Section title="Direktvermarktung — Erlösvergleich" defaultOpen={true}>
+              <ComparisonBars title="Jährliche Einnahmen aus Netzeinspeisung" unit="€" items={[
+                { label: "EEG-Vergütung (7,5 ct)", value: results.eegRevenue, color: "#888" },
+                { label: "Direktverm. ohne BESS", value: results.dvNet, color: C.gold },
+                { label: "Direktverm. mit BESS", value: results.dvBessNet, color: C.green },
+              ]} />
+            </Section>
+
+            <Section title="Stromeinkauf — Alt vs. Börse" defaultOpen={true}>
+              <ComparisonBars title="Jährliche Strombeschaffungskosten" unit="€" items={[
+                { label: `Festpreis (${fixedPrice} ct/kWh)`, value: results.oldProcurementCost, color: "#cc5555" },
+                { label: "Spot ohne BESS", value: results.newProcurementCost, color: C.gold },
+                { label: "Spot + BESS-Optimierung", value: results.newProcCostBess, color: C.green },
+              ]} />
+            </Section>
+
+            <Section title="BESS Speicherfahrplan" defaultOpen={false}>
+              <Slider label="Tag im Jahr" value={selectedDay + 1} min={1} max={365} step={1} unit={`(${dayToDate(selectedDay)})`}
+                onChange={v => setSelectedDay(v - 1)} />
+              <BESSChart bess={results.bess} prices={prices} selectedDay={selectedDay} />
+            </Section>
+
+            <Section title="CO₂-Bilanz & Zertifikate" defaultOpen={true}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.8rem" }}>
+                <div style={{ background: "rgba(45,106,79,0.12)", border: "1px solid rgba(45,106,79,0.25)", borderRadius: 10, padding: "1rem", textAlign: "center" }}>
+                  <div style={{ fontFamily: F, fontSize: "2rem", fontWeight: 700, color: C.green }}>{results.co2SavedT.toFixed(0)} t</div>
+                  <div style={{ fontFamily: F, fontSize: "0.78rem", color: "#bbb" }}>CO₂-Einsparung/a (Strom)</div>
+                </div>
+                <div style={{ background: "rgba(212,168,67,0.08)", border: "1px solid rgba(212,168,67,0.2)", borderRadius: 10, padding: "1rem", textAlign: "center" }}>
+                  <div style={{ fontFamily: F, fontSize: "2rem", fontWeight: 700, color: C.gold }}>{calc ? `${calc.co2Gesamt} t` : `${results.co2SavedT.toFixed(0)} t`}</div>
+                  <div style={{ fontFamily: F, fontSize: "0.78rem", color: "#bbb" }}>{calc ? "CO₂ gesamt (inkl. Wärme+Mobilität)" : "CO₂-Einsparung/a"}</div>
+                </div>
+              </div>
+            </Section>
+
+            {/* Unified summary table */}
+            <Section title="Gesamtübersicht — Jährliche Wirtschaftlichkeit" defaultOpen={true}>
+              <div style={{ background: "rgba(27,42,74,0.4)", borderRadius: 10, border: "1px solid rgba(212,168,67,0.15)", padding: "1rem" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: F, fontSize: "0.82rem" }}>
+                  <thead>
+                    <tr style={{ borderBottom: "2px solid rgba(212,168,67,0.3)" }}>
+                      <th style={{ textAlign: "left", padding: "0.4rem", color: C.gold }}>Position</th>
+                      <th style={{ textAlign: "right", padding: "0.4rem", color: C.gold }}>€/a</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ["Eigenverbrauch-Ersparnis (Spot)", fmtEur(results.selfConsumptionSavings)],
+                      ["Direktvermarktung mit BESS", fmtEur(results.dvBessNet)],
+                      ["Einkauf-Optimierung (Spot+BESS vs. Fest)", fmtEur(results.procSavingsBess)],
+                      ["CO₂-Zertifikate Ersparnis", fmtEur(results.co2CertSaved)],
+                      ...(calc ? [
+                        ["Wärmeersparnis (WP statt Gas)", fmtEur(calc.gasEinsparung)],
+                        ["Mobilität (E statt Diesel)", fmtEur(calc.mobilitaetEinsparung)],
+                        ["Graustrom-BESS Erlöse", fmtEur(calc.bessErloes)],
+                      ] : []),
+                    ].map(([label, value], i) => (
+                      <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                        <td style={{ padding: "0.4rem", color: "#ccc" }}>{label}</td>
+                        <td style={{ textAlign: "right", padding: "0.4rem", color: C.greenLight, fontWeight: 600 }}>{value}</td>
+                      </tr>
+                    ))}
+                    <tr style={{ borderTop: "2px solid rgba(212,168,67,0.3)" }}>
+                      <td style={{ padding: "0.5rem 0.4rem", color: C.gold, fontWeight: 700, fontSize: "0.9rem" }}>Gesamt jährlicher Vorteil</td>
+                      <td style={{ textAlign: "right", padding: "0.5rem 0.4rem", color: C.green, fontWeight: 700, fontSize: "0.95rem" }}>
+                        {fmtEur(
+                          results.selfConsumptionSavings + results.dvBessNet + results.procSavingsBess + results.co2CertSaved
+                          + (calc ? calc.gasEinsparung + calc.mobilitaetEinsparung + calc.bessErloes : 0)
+                        )}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div style={{ fontFamily: F, fontSize: "0.7rem", color: "#666", marginTop: "0.5rem", textAlign: "center" }}>
+                Marktdaten: {liveSolar ? liveSolar.source : "Parametrisches Modell"} · {livePrice ? "Live-Börsenpreise" : "Modellierte Börsenpreise"} · 8760h Stundensimulation
+              </div>
+            </Section>
+          </div>
+        )}
       </div>
     </div>
   );

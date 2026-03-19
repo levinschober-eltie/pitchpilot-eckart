@@ -2215,6 +2215,7 @@ export default function EckartTimeline() {
               <div style={{ flex: 1, overflow: "hidden" }}>
                 <MarketAnalysis
                   config={config}
+                  calc={calc}
                   configActive={true}
                   onClose={() => setAnalysisOpen(false)}
                   embedded

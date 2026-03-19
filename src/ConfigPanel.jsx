@@ -141,40 +141,6 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, 
   if (embedded) {
     return (
       <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-        {/* Key results dashboard */}
-        <div style={{
-          padding: "0.8rem 1.2rem", flexShrink: 0,
-          borderBottom: `1px solid ${C.gold}25`,
-          background: `linear-gradient(135deg, ${C.navy}, ${C.navyLight})`,
-        }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "0.35rem" }}>
-            {[
-              { label: "Einsparung/a", value: `${fmtEuro(calc.einsparungStandort)}/a`, color: C.greenLight },
-              { label: "CO₂-Reduktion", value: `${fmtVal(calc.co2Gesamt)} t/a`, color: C.greenLight },
-              { label: "Amortisation", value: `${fmtVal(calc.amortisationStandort, 1)} J.`, color: C.goldLight },
-              { label: "BESS-Rendite", value: `${fmtVal(calc.bessRendite, 1)} %`, color: C.goldLight },
-              { label: "Gesamtinvest", value: fmtEuro(calc.investGesamt), color: C.white },
-              { label: "Kredit", value: fmtEuro(calc.kreditBetrag), color: C.midGray },
-              { label: "EK-Rendite", value: `${fmtVal(calc.ekRendite, 1)} %`, color: C.goldLight },
-              { label: "Annuität", value: `${fmtEuro(calc.annuitaet)}/a`, color: C.midGray },
-              { label: "Autarkie", value: `${calc.autarkie} %`, color: C.goldLight },
-            ].map((r, i) => (
-              <div key={i} style={{
-                background: "rgba(255,255,255,0.04)", borderRadius: "6px", padding: "0.35rem 0.5rem",
-              }}>
-                <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                  letterSpacing: "1px", color: C.midGray, textTransform: "uppercase",
-                }}>{r.label}</div>
-                <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
-                  fontWeight: 700, color: r.color,
-                }}>{r.value}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Scrollable slider groups */}
         <div style={{ flex: 1, overflowY: "auto", padding: "0.5rem 1.2rem 2rem" }}>
           {GROUPS.map((group) => (
