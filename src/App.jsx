@@ -7,7 +7,8 @@ function IntroScreen({ onEnter }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 100);
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const t = setTimeout(() => setVisible(true), prefersReducedMotion ? 0 : 100);
     return () => clearTimeout(t);
   }, []);
 
@@ -203,8 +204,9 @@ export default function App() {
   const [fadeOut, setFadeOut] = useState(false);
 
   const handleEnter = () => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setFadeOut(true);
-    setTimeout(() => setScreen("timeline"), 600);
+    setTimeout(() => setScreen("timeline"), prefersReducedMotion ? 0 : 600);
   };
 
   if (screen === "intro") {
