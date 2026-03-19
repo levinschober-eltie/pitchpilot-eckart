@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo, lazy, Suspense, memo } from "react";
-import PhaseVisual from "./PhaseVisuals";
+const PhaseVisual = lazy(() => import("./PhaseVisuals"));
 import { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./calcEngine";
 import { Icon } from "./Icons";
 
@@ -408,6 +408,40 @@ const cumulative = [
   "Strategischer Standortvorteil",
 ];
 
+/* ── Extracted Static Styles (reduce GC pressure) ── */
+const S = {
+  labelSmall: {
+    fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+    letterSpacing: "0.5px", textTransform: "uppercase", color: "#B0B0A6",
+  },
+  labelTiny: {
+    fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+    letterSpacing: "3px", textTransform: "uppercase", fontWeight: 700,
+  },
+  valueText: {
+    fontFamily: "Calibri, sans-serif", fontSize: "1.05rem",
+    fontWeight: 700, lineHeight: 1.1,
+  },
+  cardBase: {
+    borderRadius: "7px", padding: "0.45rem 0.5rem",
+    background: "linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015))",
+  },
+  sectionHeading: {
+    fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+    letterSpacing: "2px", textTransform: "uppercase", fontWeight: 700,
+    marginBottom: "0.5rem",
+  },
+  flexCenter: {
+    display: "flex", alignItems: "center", justifyContent: "center",
+  },
+  pillBtn: {
+    borderRadius: "2rem", fontFamily: "Calibri, sans-serif",
+    fontSize: "0.7rem", letterSpacing: "1.5px", textTransform: "uppercase",
+    fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center",
+    gap: "0.3rem", transition: "all 0.3s", whiteSpace: "nowrap",
+  },
+};
+
 /* ── Independence Score Ring ─────────────────────────── */
 const IndependenceRing = memo(function IndependenceRing({ score, size = 130, strokeWidth = 10 }) {
   const r = (size - strokeWidth) / 2;
@@ -674,27 +708,23 @@ export default function EckartTimeline() {
           <button
             onClick={() => setConfigOpen(o => !o)}
             style={{
+              ...S.pillBtn,
               background: configSaved ? `${C.green}25` : configOpen ? `${C.gold}20` : "rgba(255,255,255,0.06)",
               border: `1px solid ${configSaved ? C.green + "60" : configOpen ? C.gold + "50" : "rgba(255,255,255,0.12)"}`,
-              borderRadius: "2rem", padding: "0.3rem 0.7rem",
-              fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-              letterSpacing: "1.5px", textTransform: "uppercase",
-              fontWeight: 700, color: configSaved ? C.green : configOpen ? C.gold : C.midGray,
-              cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
-              transition: "all 0.3s", marginTop: "0.6rem", whiteSpace: "nowrap",
+              padding: "0.3rem 0.7rem",
+              color: configSaved ? C.green : configOpen ? C.gold : C.midGray,
+              marginTop: "0.6rem",
             }}
           ><Icon name={configSaved ? "check" : "gear"} size={12} /> Kalkulator</button>
           {configSaved && (
             <button
               onClick={() => { setSavedConfig(null); setConfig(defaultConfig); setConfigOpen(false); }}
               style={{
+                ...S.pillBtn,
                 background: "rgba(255,100,100,0.1)", border: "1px solid rgba(255,100,100,0.3)",
-                borderRadius: "2rem", padding: "0.3rem 0.7rem",
-                fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                letterSpacing: "1.5px", textTransform: "uppercase",
-                fontWeight: 700, color: "#ff8888",
-                cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
-                transition: "all 0.3s", marginTop: "0.6rem", whiteSpace: "nowrap",
+                padding: "0.3rem 0.7rem",
+                color: "#ff8888",
+                marginTop: "0.6rem",
               }}
             ><Icon name="reset" size={12} /> Zurücksetzen</button>
           )}
@@ -769,6 +799,12 @@ export default function EckartTimeline() {
             cursor: "pointer", margin: "0 0.5rem",
           }}
         >
+          {/* Invisible touch area expander (44px tall hit area) */}
+          <div style={{
+            position: "absolute", left: 0, right: 0, top: "-19px", bottom: "-19px",
+            cursor: "pointer",
+          }} />
+
           {/* Filled track */}
           <div style={{
             position: "absolute", left: 0, top: 0, height: "100%",
@@ -855,9 +891,8 @@ export default function EckartTimeline() {
           </div>
           <div style={{ flex: 1 }}>
             <div style={{
-              fontFamily: "Calibri, sans-serif", fontSize: "0.75rem",
-              letterSpacing: "3px", textTransform: "uppercase",
-              color: C.gold, fontWeight: 700, marginBottom: "0.2rem",
+              ...S.labelTiny, fontSize: "0.75rem",
+              color: C.gold, marginBottom: "0.2rem",
             }}>{phase.isFinal ? "Gesamtergebnis" : `Phase ${phase.num}`} · {phase.subtitle}</div>
             <h2 style={{
               fontSize: "clamp(1.5rem, 3.5vw, 2.2rem)",
@@ -915,20 +950,15 @@ export default function EckartTimeline() {
               }}>
                 {phase.kpis.slice(0, 4).map((kpi, i) => (
                   <div key={i} style={{
-                    background: `linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015))`,
-                    borderRadius: "7px",
-                    padding: "0.45rem 0.5rem",
+                    ...S.cardBase,
                     borderLeft: `2px solid ${phase.color || C.gold}70`,
                     ...anim(`fadeSlideIn 0.3s ease ${0.1 + i * 0.05}s both`),
                   }}>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                      letterSpacing: "0.5px", textTransform: "uppercase",
-                      color: C.midGray, marginBottom: "0.15rem",
+                      ...S.labelSmall, color: C.midGray, marginBottom: "0.15rem",
                     }}>{kpi.label}</div>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "1.05rem",
-                      fontWeight: 700, color: C.goldLight, lineHeight: 1.1,
+                      ...S.valueText, color: C.goldLight,
                     }}>{kpi.value}</div>
                   </div>
                 ))}
@@ -977,9 +1007,7 @@ export default function EckartTimeline() {
             {phase.results && phase.results.length > 0 && (
               <div style={{ marginBottom: "0.6rem" }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                  letterSpacing: "2px", textTransform: "uppercase",
-                  color: C.midGray, fontWeight: 700, marginBottom: "0.35rem",
+                  ...S.sectionHeading, color: C.midGray, marginBottom: "0.35rem",
                 }}>{phase.isFinal ? "ERGEBNISSE" : "LIEFERERGEBNISSE"}</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
                   {phase.results.slice(0, 5).map((r, i) => (
@@ -1015,13 +1043,11 @@ export default function EckartTimeline() {
                   flex: "1 1 auto",
                 }}>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                    letterSpacing: "1.5px", textTransform: "uppercase",
-                    color: C.midGray, fontWeight: 700,
+                    ...S.sectionHeading, letterSpacing: "1.5px",
+                    color: C.midGray, marginBottom: 0,
                   }}>INVESTMENT</div>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "1.1rem",
-                    fontWeight: 700, color: C.goldLight, lineHeight: 1.2,
+                    ...S.valueText, fontSize: "1.1rem", color: C.goldLight, lineHeight: 1.2,
                     marginTop: "0.1rem",
                   }}>{phase.investTotal}</div>
                 </div>
@@ -1032,13 +1058,11 @@ export default function EckartTimeline() {
                   flex: "1 1 auto",
                 }}>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                    letterSpacing: "1.5px", textTransform: "uppercase",
-                    color: C.midGray, fontWeight: 700,
+                    ...S.sectionHeading, letterSpacing: "1.5px",
+                    color: C.midGray, marginBottom: 0,
                   }}>WIRTSCHAFTLICHKEIT</div>
                   <div style={{
-                    fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
-                    fontWeight: 700, color: C.greenLight, lineHeight: 1.2,
+                    ...S.valueText, fontSize: "0.95rem", color: C.greenLight, lineHeight: 1.2,
                     marginTop: "0.1rem",
                   }}>{phase.roiValue}</div>
                 </div>
@@ -1047,7 +1071,9 @@ export default function EckartTimeline() {
           </div>
 
           {/* Right: Illustration (with Autarkie ring inside SVG) */}
-          <PhaseVisual phaseNum={phase.num} score={displayScore} />
+          <Suspense fallback={<div style={{ width: "100%", aspectRatio: "400/320", background: "rgba(27,42,74,0.3)", borderRadius: 12 }} />}>
+            <PhaseVisual phaseNum={phase.num} score={displayScore} />
+          </Suspense>
         </div>
 
         {/* === FINAL RESULT SPECIAL LAYOUT === */}
@@ -1085,9 +1111,7 @@ export default function EckartTimeline() {
                     }}>
                       <Icon name={card.icon} size={20} />
                       <span style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                        letterSpacing: "2px", textTransform: "uppercase",
-                        color: C.midGray, fontWeight: 700,
+                        ...S.sectionHeading, marginBottom: 0, color: C.midGray,
                       }}>{card.label}</span>
                     </div>
                     {/* Big value */}
@@ -1170,12 +1194,11 @@ export default function EckartTimeline() {
                       borderLeft: item.accent ? `2px solid ${C.gold}60` : "none",
                     }}>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                        color: C.midGray, letterSpacing: "0.5px", textTransform: "uppercase",
+                        ...S.labelSmall, color: C.midGray,
                       }}>{item.label}</div>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
-                        fontWeight: 700, color: item.accent ? C.goldLight : C.white,
+                        ...S.valueText, fontSize: "0.95rem", lineHeight: "normal",
+                        color: item.accent ? C.goldLight : C.white,
                       }}>{item.value}</div>
                     </div>
                   ))}
@@ -1186,9 +1209,7 @@ export default function EckartTimeline() {
             {/* System KPIs - 6 big numbers */}
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{
-                fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                letterSpacing: "3px", textTransform: "uppercase",
-                color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
               }}>SYSTEMKENNZAHLEN IM VOLLAUSBAU</div>
               <div style={{
                 display: "grid",
@@ -1228,9 +1249,7 @@ export default function EckartTimeline() {
             {/* ── INVESTMENT ROADMAP (Final) ───────────── */}
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{
-                fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                letterSpacing: "3px", textTransform: "uppercase",
-                color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
               }}>INVESTITIONS-ROADMAP · RENDITE PRO BAUSTEIN</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
                 {phase.investmentSummary.map((item, i) => {
@@ -1313,9 +1332,7 @@ export default function EckartTimeline() {
                 }}>
                   <div>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                      letterSpacing: "2px", textTransform: "uppercase",
-                      color: C.midGray, fontWeight: 700,
+                      ...S.sectionHeading, color: C.midGray, marginBottom: 0,
                     }}>GESAMTINVESTITION</div>
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "1.35rem",
@@ -1324,9 +1341,7 @@ export default function EckartTimeline() {
                   </div>
                   <div style={{ textAlign: "center" }}>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                      letterSpacing: "2px", textTransform: "uppercase",
-                      color: C.midGray, fontWeight: 700,
+                      ...S.sectionHeading, color: C.midGray, marginBottom: 0,
                     }}>DAVON GRAUSTROM-BESS</div>
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "1.35rem",
@@ -1335,9 +1350,7 @@ export default function EckartTimeline() {
                   </div>
                   <div style={{ textAlign: "right" }}>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                      letterSpacing: "2px", textTransform: "uppercase",
-                      color: C.midGray, fontWeight: 700,
+                      ...S.sectionHeading, color: C.midGray, marginBottom: 0,
                     }}>AUTARKIE-ZIEL</div>
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "1.35rem",
@@ -1352,9 +1365,7 @@ export default function EckartTimeline() {
             {phase.economicSummary && (
               <div style={{ marginBottom: "1.25rem" }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                  letterSpacing: "3px", textTransform: "uppercase",
-                  color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                  ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
                 }}>GESAMTWIRTSCHAFTLICHE BETRACHTUNG</div>
 
                 {/* Savings table */}
@@ -1458,9 +1469,7 @@ export default function EckartTimeline() {
             {/* 6 Economic Levers */}
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{
-                fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                letterSpacing: "3px", textTransform: "uppercase",
-                color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
               }}>SECHS HEBEL · EIN INTEGRIERTES ENERGIESYSTEM</div>
               <div style={{
                 display: "grid",
@@ -1500,9 +1509,7 @@ export default function EckartTimeline() {
             {phase.regulatorik && (
               <div style={{ marginBottom: "1.25rem" }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                  letterSpacing: "3px", textTransform: "uppercase",
-                  color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                  ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
                 }}>REGULATORIK & COMPLIANCE · KONZERN-ANFORDERUNGEN</div>
                 <div style={{
                   display: "grid",
@@ -1554,9 +1561,7 @@ export default function EckartTimeline() {
             {phase.riskManagement && (
               <div style={{ marginBottom: "1.25rem" }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                  letterSpacing: "3px", textTransform: "uppercase",
-                  color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                  ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
                 }}>RISIKOMANAGEMENT · STRATEGISCHE ABSICHERUNG</div>
                 <div style={{
                   display: "grid",
@@ -1601,9 +1606,7 @@ export default function EckartTimeline() {
             {/* Transformation Pillars */}
             <div style={{ marginBottom: "1.25rem" }}>
               <div style={{
-                fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                letterSpacing: "3px", textTransform: "uppercase",
-                color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
               }}>VOM ENERGIEVERBRAUCHER ZUR ENERGIEPLATTFORM</div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
                 {phase.pillars.map((p, i) => (
@@ -1712,9 +1715,7 @@ export default function EckartTimeline() {
               {/* KPI Cards */}
               <div>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                  letterSpacing: "3px", textTransform: "uppercase",
-                  color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                  ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
                 }}>KENNZAHLEN</div>
                 <div style={{
                   display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem",
@@ -1727,13 +1728,11 @@ export default function EckartTimeline() {
                       ...anim(`fadeSlideIn 0.4s ease ${i * 0.08}s both`),
                     }}>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                        letterSpacing: "1px", textTransform: "uppercase",
+                        ...S.labelSmall, letterSpacing: "1px",
                         color: C.midGray, marginBottom: "0.25rem",
                       }}>{kpi.label}</div>
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "1.05rem",
-                        fontWeight: 700, color: C.goldLight,
+                        ...S.valueText, color: C.goldLight,
                       }}>{kpi.value}</div>
                     </div>
                   ))}
@@ -1743,9 +1742,7 @@ export default function EckartTimeline() {
               {/* Results */}
               <div>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                  letterSpacing: "3px", textTransform: "uppercase",
-                  color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                  ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
                 }}>ERGEBNISSE</div>
                 <div style={{
                   background: "rgba(255,255,255,0.03)",
@@ -1775,9 +1772,7 @@ export default function EckartTimeline() {
             {phase.investment && (
               <div style={{ marginTop: "1rem" }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                  letterSpacing: "3px", textTransform: "uppercase",
-                  color: C.midGray, fontWeight: 700, marginBottom: "0.6rem",
+                  ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
                 }}>INVESTITION & RENDITE</div>
                 <div style={{
                   display: "grid",
@@ -1837,9 +1832,7 @@ export default function EckartTimeline() {
                     ...anim(`fadeSlideIn 0.4s ease 0.3s both`),
                   }}>
                     <div style={{
-                      fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                      letterSpacing: "2px", textTransform: "uppercase",
-                      color: C.midGray, fontWeight: 700, marginBottom: "0.4rem",
+                      ...S.sectionHeading, color: C.midGray, marginBottom: "0.4rem",
                     }}>RENDITE-HEBEL</div>
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "1.0rem",
