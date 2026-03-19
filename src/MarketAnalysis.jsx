@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { Icon } from "./Icons";
 import { C } from "./colors";
 import useFocusTrap from "./useFocusTrap";
@@ -134,94 +134,86 @@ function mulberry32(a) {
 }
 
 // Try to fetch live prices from energy-charts.info (Fraunhofer ISE)
-async function fetchLivePrices() {
-  try {
-    const now = new Date();
-    const year = now.getFullYear();
-    const start = `${year}-01-01`;
-    const end = `${year}-12-31`;
-    const resp = await fetch(
-      `https://api.energy-charts.info/price?bzn=DE-LU&start=${start}&end=${end}`,
-      { signal: AbortSignal.timeout(8000) }
-    );
-    if (!resp.ok) throw new Error("API error");
-    const data = await resp.json();
-    if (!data.price || data.price.length < 2000) throw new Error("Insufficient data");
-    // energy-charts returns { unix_seconds: [...], price: [...] } in €/MWh
-    const hourly = new Float64Array(8760);
-    const len = Math.min(data.price.length, 8760);
-    for (let i = 0; i < len; i++) hourly[i] = data.price[i] ?? 60;
-    // Fill remaining with average if partial year
-    if (len < 8760) {
-      const avg = hourly.slice(0, len).reduce((s, v) => s + v, 0) / len;
-      for (let i = len; i < 8760; i++) hourly[i] = avg;
-    }
-    return hourly;
-  } catch {
-    return null; // fallback to generated
+async function fetchLivePrices(signal) {
+  const now = new Date();
+  const year = now.getFullYear();
+  const start = `${year}-01-01`;
+  const end = `${year}-12-31`;
+  const resp = await fetch(
+    `https://api.energy-charts.info/price?bzn=DE-LU&start=${start}&end=${end}`,
+    { signal }
+  );
+  if (!resp.ok) throw new Error("API error");
+  const data = await resp.json();
+  if (!data.price || data.price.length < 2000) throw new Error("Insufficient data");
+  // energy-charts returns { unix_seconds: [...], price: [...] } in €/MWh
+  const hourly = new Float64Array(8760);
+  const len = Math.min(data.price.length, 8760);
+  for (let i = 0; i < len; i++) hourly[i] = data.price[i] ?? 60;
+  // Fill remaining with average if partial year
+  if (len < 8760) {
+    const avg = hourly.slice(0, len).reduce((s, v) => s + v, 0) / len;
+    for (let i = len; i < 8760; i++) hourly[i] = avg;
   }
+  return hourly;
 }
 
 // Fetch real solar irradiance from Open-Meteo (CORS-friendly, free)
-async function fetchSolarIrradiance(lat, lon, arrays) {
-  try {
-    const year = new Date().getFullYear() - 1; // last full year
-    const url = new URL("https://archive-api.open-meteo.com/v1/archive");
-    url.searchParams.set("latitude", lat.toFixed(2));
-    url.searchParams.set("longitude", lon.toFixed(2));
-    url.searchParams.set("start_date", `${year}-01-01`);
-    url.searchParams.set("end_date", `${year}-12-31`);
-    url.searchParams.set("hourly", "direct_radiation,diffuse_radiation,direct_normal_irradiance,temperature_2m");
-    url.searchParams.set("timezone", "Europe/Berlin");
+async function fetchSolarIrradiance(lat, lon, arrays, signal) {
+  const year = new Date().getFullYear() - 1; // last full year
+  const url = new URL("https://archive-api.open-meteo.com/v1/archive");
+  url.searchParams.set("latitude", lat.toFixed(2));
+  url.searchParams.set("longitude", lon.toFixed(2));
+  url.searchParams.set("start_date", `${year}-01-01`);
+  url.searchParams.set("end_date", `${year}-12-31`);
+  url.searchParams.set("hourly", "direct_radiation,diffuse_radiation,direct_normal_irradiance,temperature_2m");
+  url.searchParams.set("timezone", "Europe/Berlin");
 
-    const resp = await fetch(url, { signal: AbortSignal.timeout(15000) });
-    if (!resp.ok) throw new Error("API error");
-    const data = await resp.json();
-    const { direct_radiation, diffuse_radiation, direct_normal_irradiance, temperature_2m } = data.hourly;
-    const hours = data.hourly.time;
-    if (!direct_radiation || direct_radiation.length < 8000) throw new Error("Insufficient data");
+  const resp = await fetch(url, { signal });
+  if (!resp.ok) throw new Error("API error");
+  const data = await resp.json();
+  const { direct_radiation, diffuse_radiation, direct_normal_irradiance, temperature_2m } = data.hourly;
+  const hours = data.hourly.time;
+  if (!direct_radiation || direct_radiation.length < 8000) throw new Error("Insufficient data");
 
-    // Compute PV output for each array using real irradiance
-    const hourly = new Float64Array(8760);
-    const monthly = new Float64Array(12);
-    const len = Math.min(hours.length, 8760);
+  // Compute PV output for each array using real irradiance
+  const hourly = new Float64Array(8760);
+  const monthly = new Float64Array(12);
+  const len = Math.min(hours.length, 8760);
 
-    for (let i = 0; i < len; i++) {
-      const dt = new Date(hours[i]);
-      const month = dt.getMonth();
-      const dayOfYear = Math.floor((dt - new Date(dt.getFullYear(), 0, 0)) / 86400000);
-      const hour = dt.getHours();
+  for (let i = 0; i < len; i++) {
+    const dt = new Date(hours[i]);
+    const month = dt.getMonth();
+    const dayOfYear = Math.floor((dt - new Date(dt.getFullYear(), 0, 0)) / 86400000);
+    const hour = dt.getHours();
 
-      const sun = sunPosition(dayOfYear, hour + 0.5, lat, lon, 1);
-      if (sun.alt <= 1) continue;
+    const sun = sunPosition(dayOfYear, hour + 0.5, lat, lon, 1);
+    if (sun.alt <= 1) continue;
 
-      const dni = direct_normal_irradiance[i] || 0;
-      const dhi = diffuse_radiation[i] || 0;
-      const temp = temperature_2m[i] || 25;
-      const tempLoss = 1 - 0.004 * Math.max(0, temp - 25); // Temp coefficient
+    const dni = direct_normal_irradiance[i] || 0;
+    const dhi = diffuse_radiation[i] || 0;
+    const temp = temperature_2m[i] || 25;
+    const tempLoss = 1 - 0.004 * Math.max(0, temp - 25); // Temp coefficient
 
-      for (const arr of arrays) {
-        const tiltR = arr.tilt * RAD;
-        const cosInc = Math.sin(sun.alt * RAD) * Math.cos(tiltR) +
-          Math.cos(sun.alt * RAD) * Math.sin(tiltR) * Math.cos((sun.az - arr.azimuth) * RAD);
-        if (cosInc <= 0) continue;
+    for (const arr of arrays) {
+      const tiltR = arr.tilt * RAD;
+      const cosInc = Math.sin(sun.alt * RAD) * Math.cos(tiltR) +
+        Math.cos(sun.alt * RAD) * Math.sin(tiltR) * Math.cos((sun.az - arr.azimuth) * RAD);
+      if (cosInc <= 0) continue;
 
-        const beam = dni * Math.max(0, cosInc);
-        const diffuse = dhi * (1 + Math.cos(tiltR)) / 2;
-        const reflected = (direct_radiation[i] || 0) * 0.04 * (1 - Math.cos(tiltR)) / 2;
-        const irradiance = beam + diffuse + reflected;
+      const beam = dni * Math.max(0, cosInc);
+      const diffuse = dhi * (1 + Math.cos(tiltR)) / 2;
+      const reflected = (direct_radiation[i] || 0) * 0.04 * (1 - Math.cos(tiltR)) / 2;
+      const irradiance = beam + diffuse + reflected;
 
-        const output = irradiance / 1000 * arr.kwp * 0.85 * tempLoss; // kW
-        hourly[i] += output;
-        monthly[month] += output;
-      }
+      const output = irradiance / 1000 * arr.kwp * 0.85 * tempLoss; // kW
+      hourly[i] += output;
+      monthly[month] += output;
     }
-
-    const total = monthly.reduce((s, v) => s + v, 0);
-    return { hourly, monthly, total, source: "Open-Meteo " + year };
-  } catch {
-    return null;
   }
+
+  const total = monthly.reduce((s, v) => s + v, 0);
+  return { hourly, monthly, total, source: "Open-Meteo " + year };
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -517,7 +509,7 @@ function DailyProfileChart({ pvHourly, priceHourly, loadHourly, title, season })
       <div style={{ fontFamily: F, fontSize: "0.85rem", fontWeight: 700, color: C.gold, marginBottom: "0.4rem" }}>
         {title}{season && <span style={{ color: "#999", fontWeight: 400 }}> — {season}</span>}
       </div>
-      <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", height: "auto", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
+      <svg viewBox={`0 0 ${chartW} ${chartH}`} role="img" aria-label="Tagesprofil: PV-Erzeugung, Last und Netzimport im Stundenverlauf" style={{ width: "100%", height: "auto", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
         {/* Y-axis labels (kW) */}
         {[0, 0.25, 0.5, 0.75, 1].map(f => {
           const y = pad.t + plotH * (1 - f);
@@ -582,7 +574,7 @@ function MonthlyChart({ data, title }) {
   return (
     <div style={{ marginBottom: "1.5rem" }}>
       <div style={{ fontFamily: F, fontSize: "0.85rem", fontWeight: 700, color: C.gold, marginBottom: "0.4rem" }}>{title}</div>
-      <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", height: "auto", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
+      <svg viewBox={`0 0 ${chartW} ${chartH}`} role="img" aria-label="Monatliche PV-Erzeugung und Eigenverbrauch" style={{ width: "100%", height: "auto", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
         {[0, 0.25, 0.5, 0.75, 1].map(f => {
           const y = pad.t + plotH * (1 - f);
           return <g key={f}>
@@ -661,7 +653,7 @@ function BESSChart({ bess, prices, selectedDay }) {
       <div style={{ fontFamily: F, fontSize: "0.85rem", fontWeight: 700, color: C.gold, marginBottom: "0.4rem" }}>
         BESS Speicherzustand — Tag {selectedDay + 1}
       </div>
-      <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", height: "auto", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
+      <svg viewBox={`0 0 ${chartW} ${chartH}`} role="img" aria-label="Batteriespeicher Lade- und Entladeprofil" style={{ width: "100%", height: "auto", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
         {/* SoC area */}
         <path fill="rgba(45,106,79,0.3)" stroke={C.green} strokeWidth={2}
           d={`M${pad.l},${pad.t + plotH} ` +
@@ -832,6 +824,14 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
   const [selectedDay, setSelectedDay] = useState(172); // Summer solstice
   const [season, setSeason] = useState("year"); // year, summer, winter
   const [apiError, setApiError] = useState(null);
+  const abortRef = useRef(null);
+
+  // Abort any in-flight fetch on unmount
+  useEffect(() => {
+    return () => {
+      if (abortRef.current) abortRef.current.abort();
+    };
+  }, []);
 
   // Use config values if ConfigPanel is active
   const effectiveLoad = configActive && config ? config.stromverbrauch : annualLoad;
@@ -861,26 +861,48 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
 
   // Fetch live prices
   const handleFetchPrices = useCallback(async () => {
+    if (abortRef.current) abortRef.current.abort();
+    abortRef.current = new AbortController();
+    const signal = abortRef.current.signal;
+    setTimeout(() => { if (!signal.aborted) abortRef.current?.abort(); }, 8000);
+
     setLoadingPrices(true);
     setApiError(null);
-    const data = await fetchLivePrices();
-    if (data) {
+    try {
+      const data = await fetchLivePrices(signal);
       setLivePrice(data);
-    } else {
-      setApiError("Preisdaten konnten nicht geladen werden — Fallback-Modell wird verwendet");
+    } catch (err) {
+      if (err?.name === 'AbortError') {
+        setApiError("Zeitüberschreitung — Server antwortet nicht");
+      } else if (err?.message === 'API error') {
+        setApiError("Börsendaten-Server nicht erreichbar");
+      } else if (err?.message === 'Insufficient data') {
+        setApiError("Unzureichende Preisdaten für den Zeitraum");
+      } else {
+        setApiError("Preisdaten konnten nicht geladen werden");
+      }
     }
     setLoadingPrices(false);
   }, []);
 
   // Fetch live solar irradiance from Open-Meteo
   const handleFetchSolar = useCallback(async () => {
+    if (abortRef.current) abortRef.current.abort();
+    abortRef.current = new AbortController();
+    const signal = abortRef.current.signal;
+    setTimeout(() => { if (!signal.aborted) abortRef.current?.abort(); }, 15000);
+
     setLoadingSolar(true);
     setApiError(null);
-    const data = await fetchSolarIrradiance(HARTENSTEIN.lat, HARTENSTEIN.lon, arrays);
-    if (data) {
+    try {
+      const data = await fetchSolarIrradiance(HARTENSTEIN.lat, HARTENSTEIN.lon, arrays, signal);
       setLiveSolar(data);
-    } else {
-      setApiError("Einstrahlungsdaten konnten nicht geladen werden — Fallback-Modell wird verwendet");
+    } catch (err) {
+      if (err?.name === 'AbortError') {
+        setApiError("Zeitüberschreitung — Wetter-Server antwortet nicht");
+      } else {
+        setApiError("Einstrahlungsdaten konnten nicht geladen werden");
+      }
     }
     setLoadingSolar(false);
   }, [arrays]);
