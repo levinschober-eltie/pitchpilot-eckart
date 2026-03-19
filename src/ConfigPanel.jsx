@@ -96,12 +96,29 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, 
   const [openGroups, setOpenGroups] = useState(
     Object.fromEntries(GROUPS.map(g => [g.key, true]))
   );
+  const [editingKey, setEditingKey] = useState(null);
+  const [editDraft, setEditDraft] = useState("");
+  const editRef = useRef(null);
   const fileRef = useRef(null);
   const billRef = useRef(null);
 
   const update = useCallback((key, value) => {
     setConfig(prev => ({ ...prev, [key]: value }));
   }, [setConfig]);
+
+  const startEdit = useCallback((key) => {
+    setEditDraft(String(config[key]));
+    setEditingKey(key);
+    setTimeout(() => editRef.current?.select(), 0);
+  }, [config]);
+
+  const commitEdit = useCallback((slider) => {
+    setEditingKey(null);
+    const parsed = parseFloat(editDraft.replace(",", "."));
+    if (!isNaN(parsed)) {
+      update(slider.key, Math.min(slider.max, Math.max(slider.min, parsed)));
+    }
+  }, [editDraft, update]);
 
   const toggleGroup = useCallback((key) => {
     setOpenGroups(prev => ({ ...prev, [key]: !prev[key] }));
@@ -163,7 +180,22 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, 
                     <div key={s.key} style={{ marginBottom: "0.5rem" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.15rem" }}>
                         <span style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.78rem", color: "rgba(255,255,255,0.65)" }}>{s.label}</span>
-                        <span style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.82rem", fontWeight: 700, color: C.goldLight }}>{fmtVal(config[s.key], s.dec || 0)} {s.unit}</span>
+                        {editingKey === s.key ? (
+                          <span style={{ display: "flex", alignItems: "center", gap: 3 }}>
+                            <input ref={editRef} type="text" inputMode="decimal" value={editDraft}
+                              onChange={e => setEditDraft(e.target.value)}
+                              onBlur={() => commitEdit(s)}
+                              onKeyDown={e => { if (e.key === "Enter") commitEdit(s); if (e.key === "Escape") setEditingKey(null); }}
+                              style={{
+                                width: 70, background: "rgba(255,255,255,0.1)", border: `1px solid ${C.gold}80`,
+                                borderRadius: 4, padding: "0.15rem 0.3rem", color: C.goldLight, fontWeight: 700,
+                                fontFamily: "Calibri, sans-serif", fontSize: "0.82rem", textAlign: "right", outline: "none",
+                              }} />
+                            <span style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.72rem", color: "#888" }}>{s.unit}</span>
+                          </span>
+                        ) : (
+                          <span onClick={() => startEdit(s.key)} style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.82rem", fontWeight: 700, color: C.goldLight, cursor: "pointer", borderBottom: `1px dashed ${C.gold}40`, paddingBottom: 1 }}>{fmtVal(config[s.key], s.dec || 0)} {s.unit}</span>
+                        )}
                       </div>
                       <input type="range" min={s.min} max={s.max} step={s.step} value={config[s.key]} onChange={(e) => update(s.key, parseFloat(e.target.value))} aria-label={s.label} className="cp-slider" style={{ width: "100%" }} />
                     </div>
@@ -319,10 +351,26 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, 
                           fontFamily: "Calibri, sans-serif", fontSize: "0.78rem",
                           color: "rgba(255,255,255,0.65)",
                         }}>{s.label}</span>
-                        <span style={{
-                          fontFamily: "Calibri, sans-serif", fontSize: "0.82rem",
-                          fontWeight: 700, color: C.goldLight,
-                        }}>{fmtVal(config[s.key], s.dec || 0)} {s.unit}</span>
+                        {editingKey === s.key ? (
+                          <span style={{ display: "flex", alignItems: "center", gap: 3 }}>
+                            <input ref={editRef} type="text" inputMode="decimal" value={editDraft}
+                              onChange={e => setEditDraft(e.target.value)}
+                              onBlur={() => commitEdit(s)}
+                              onKeyDown={e => { if (e.key === "Enter") commitEdit(s); if (e.key === "Escape") setEditingKey(null); }}
+                              style={{
+                                width: 70, background: "rgba(255,255,255,0.1)", border: `1px solid ${C.gold}80`,
+                                borderRadius: 4, padding: "0.15rem 0.3rem", color: C.goldLight, fontWeight: 700,
+                                fontFamily: "Calibri, sans-serif", fontSize: "0.82rem", textAlign: "right", outline: "none",
+                              }} />
+                            <span style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.72rem", color: "#888" }}>{s.unit}</span>
+                          </span>
+                        ) : (
+                          <span onClick={() => startEdit(s.key)} style={{
+                            fontFamily: "Calibri, sans-serif", fontSize: "0.82rem",
+                            fontWeight: 700, color: C.goldLight, cursor: "pointer",
+                            borderBottom: `1px dashed ${C.gold}40`, paddingBottom: 1,
+                          }}>{fmtVal(config[s.key], s.dec || 0)} {s.unit}</span>
+                        )}
                       </div>
                       <input
                         type="range"

@@ -719,11 +719,46 @@ const sliderStyle = {
 };
 
 function Slider({ label, value, min, max, step, unit, onChange }) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState("");
+  const inputRef = useRef(null);
+
+  const startEdit = () => {
+    setDraft(String(value));
+    setEditing(true);
+    setTimeout(() => inputRef.current?.select(), 0);
+  };
+
+  const commitEdit = () => {
+    setEditing(false);
+    const parsed = parseFloat(draft.replace(",", "."));
+    if (!isNaN(parsed)) {
+      onChange(Math.min(max, Math.max(min, parsed)));
+    }
+  };
+
   return (
     <div style={{ marginBottom: "0.6rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", fontFamily: F, fontSize: "0.78rem", color: "rgba(255,255,255,0.65)", marginBottom: "0.2rem" }}>
         <span>{label}</span>
-        <span style={{ color: C.goldLight, fontWeight: 600 }}>{typeof value === "number" ? value.toLocaleString("de-DE") : value} {unit}</span>
+        {editing ? (
+          <span style={{ display: "flex", alignItems: "center", gap: 3 }}>
+            <input ref={inputRef} type="text" inputMode="decimal" value={draft}
+              onChange={e => setDraft(e.target.value)}
+              onBlur={commitEdit}
+              onKeyDown={e => { if (e.key === "Enter") commitEdit(); if (e.key === "Escape") setEditing(false); }}
+              style={{
+                width: 70, background: "rgba(255,255,255,0.1)", border: `1px solid ${C.gold}80`,
+                borderRadius: 4, padding: "0.15rem 0.3rem", color: C.goldLight, fontWeight: 600,
+                fontFamily: F, fontSize: "0.78rem", textAlign: "right", outline: "none",
+              }} />
+            <span style={{ color: "#888", fontSize: "0.72rem" }}>{unit}</span>
+          </span>
+        ) : (
+          <span onClick={startEdit} style={{ color: C.goldLight, fontWeight: 600, cursor: "pointer", borderBottom: `1px dashed ${C.gold}40`, paddingBottom: 1 }}>
+            {typeof value === "number" ? value.toLocaleString("de-DE") : value} {unit}
+          </span>
+        )}
       </div>
       <input type="range" min={min} max={max} step={step} value={value} onChange={e => onChange(+e.target.value)} className="ma-slider" style={sliderStyle} />
     </div>
