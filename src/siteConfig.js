@@ -152,7 +152,7 @@ export const phaseKPIs = {
     ],
   },
   gesamt: {
-    co2Total: "–4.800 t",
+    co2Total: "–3.800 t",
     systemKPIs: [
       { icon: "sun", text: "6,5–11 MWp" },
       { icon: "battery", text: "6,5–11 MWh" },
@@ -506,15 +506,15 @@ export const phases = [
     investTotal: "43–70 Mio €",
     results: [
       "Integriertes Energiesystem über alle 6 Phasen realisiert",
-      "Energieautarkie von 95 % am Standort erreicht",
+      "Energieautarkie von 50–65 % am Standort erreicht",
       "Jährliche Einsparungen und Erlöse von 1,4–2,5 Mio € (Standort) + 5,2–8,7 Mio € (BESS)",
-      "CO₂-Reduktion von ~4.800 t/a — Klimaneutralität in Reichweite",
+      "CO₂-Reduktion von ~3.800–5.000 t/a — Klimaneutralität in Reichweite",
       "Amortisation des Standort-Invests in 6–9 Jahren",
       "Graustrom-BESS als eigenständiges Ertragsmodell mit 15–25 % Rendite p.a.",
     ],
     kpis: [
-      { label: "Autarkie", value: "95 %" },
-      { label: "CO₂-Reduktion", value: "~4.800 t/a" },
+      { label: "Autarkie", value: "50–65 %" },
+      { label: "CO₂-Reduktion", value: "~3.800–5.000 t/a" },
       { label: "Gesamtinvest", value: "43–70 Mio €" },
     ],
     investment: [
@@ -526,7 +526,7 @@ export const phases = [
       { label: "Projektfinanzierung (SPV)", value: "Non-Recourse für BESS" },
     ],
     roi: "Standort-Amortisation + eigenständiges BESS-Ertragsmodell",
-    roiValue: "95 % Autarkie + 8,7M €/a BESS",
+    roiValue: "50–65 % Autarkie + 8,7M €/a BESS",
 
     /* ── Gesamtzusammenfassung-spezifische Daten ── */
 
@@ -536,7 +536,7 @@ export const phases = [
       { label: "WÄRMEPUMPEN-KASKADE", value: "5–10 MW", sub: "COP 4–5 · Abwärme-basiert" },
       { label: "LADEINFRASTRUKTUR", value: "70+ Ladepunkte", sub: "AC + DC + HPC" },
       { label: "GRAUSTROM-BESS", value: "100 MW / 200 MWh", sub: "Arbitrage + FCR + Redispatch" },
-      { label: "CO₂-EINSPARUNG", value: "~4.800 t/a", sub: "Strom + Wärme + Mobilität" },
+      { label: "CO₂-EINSPARUNG", value: "~3.800–5.000 t/a", sub: "Strom + Wärme + Mobilität" },
     ],
 
     investmentSummary: [
@@ -604,13 +604,13 @@ export const phases = [
       {
         icon: "leaf", accentKey: "green",
         label: "CO₂-EINSPARUNG PRO JAHR",
-        value: "~4.800 t",
-        sub: "CO₂/Jahr weniger · ~288.000 €/a vermiedene CO₂-Kosten",
+        value: "~3.800 t",
+        sub: "CO₂/Jahr weniger · ~230.000 €/a vermiedene CO₂-Kosten",
         details: [
-          { label: "Strom (PV statt Netz)", value: "–2.100 t" },
-          { label: "Wärme (WP statt Gas)", value: "–2.400 t" },
-          { label: "Mobilität (E statt Diesel)", value: "–300 t" },
-          { label: "CO₂-Preis (~60 €/t)", value: "288.000 €/a" },
+          { label: "Strom (PV statt Netz)", value: "–1.600 t" },
+          { label: "Wärme (WP statt Gas)", value: "–1.700 t" },
+          { label: "Mobilität (E statt Diesel)", value: "–470 t" },
+          { label: "CO₂-Preis (~60 €/t)", value: "230.000 €/a" },
         ],
       },
       {
@@ -626,9 +626,9 @@ export const phases = [
     ],
 
     highlights: [
-      { icon: "trophy",  title: "95 % Energieautarkie",     text: "Nahezu vollständige Unabhängigkeit vom Energiemarkt — strategischer Standortvorteil" },
+      { icon: "trophy",  title: "50–65 % Energieautarkie",   text: "Erhebliche Unabhängigkeit vom Energiemarkt — strategischer Standortvorteil" },
       { icon: "money",   title: "6–9 Jahre Amortisation",   text: "Standort-Invest amortisiert sich schnell — BESS liefert zusätzlichen Cashflow ab Jahr 1" },
-      { icon: "leaf",    title: "4.800 t CO₂ weniger",      text: "Massive Reduktion über Strom, Wärme und Mobilität — Klimaneutralität in Reichweite" },
+      { icon: "leaf",    title: "~3.800 t CO₂ weniger",     text: "Massive Reduktion über Strom, Wärme und Mobilität — Klimaneutralität in Reichweite" },
       { icon: "bolt",    title: "Eigenständiges Ertragsmodell", text: "100 MW BESS macht den Standort zum Energiehändler — 5,2–8,7 Mio €/a Zusatzerlöse" },
     ],
   },

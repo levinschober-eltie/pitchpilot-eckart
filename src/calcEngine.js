@@ -113,8 +113,20 @@ export function calculateAll(cfg) {
   const bessRenditeRaw = investPhase6 > 0 ? (bessErloes / investPhase6) * 100 : 0;
   const bessRendite = isFinite(bessRenditeRaw) ? bessRenditeRaw : 0;
   const gesamtertrag = einsparungStandort + bessErloes;
+  // Autarkie: gewichteter Score aus Strom, Wärme und Mobilität
+  // Strom: PV-Eigenverbrauch + BESS-Zeitverschiebung decken Strombedarf
+  const bessShiftMWh = standortBESS * 250; // ~250 Zyklen/a × 1 Zyklus/MWh nutzbarer Strom
+  const stromSelbstversorgung = stromverbrauch > 0
+    ? Math.min(1, (eigenverbrauch + bessShiftMWh) / stromverbrauch) : 0;
+  // Mobilität: Anteil elektrifizierter Fahrzeuge ersetzt fossile Energie
+  const mobilitaetScore = (anzahlPKW > 0 || anzahlLKW > 0) ? 1 : 0;
   const autarkieRaw = stromverbrauch > 0
-    ? Math.min(95, Math.round(Math.max(0, Math.min(1, eigenverbrauch / stromverbrauch)) * 60 + gasErsatzRate * 30 + 5))
+    ? Math.min(95, Math.round(
+        stromSelbstversorgung * 55          // max 55 Pkte: Strom-Eigenversorgung
+        + gasErsatzRate * 30                 // max 30 Pkte: Wärme-Substitution
+        + mobilitaetScore * 5                // max 5 Pkte: Mobilitäts-Elektrifizierung
+        + 5                                  // 5 Pkte: EMS-Basiseffekt
+      ))
     : 0;
   const autarkie = isFinite(autarkieRaw) ? autarkieRaw : 0;
 
