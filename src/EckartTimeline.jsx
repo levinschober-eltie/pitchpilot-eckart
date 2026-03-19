@@ -550,6 +550,8 @@ export default function EckartTimeline() {
     // Force reflow to restart animation
     void el.offsetHeight;
     el.style.animation = '';
+    // Scroll content into view for keyboard navigation
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [active]);
 
   // Keyboard navigation
@@ -1095,7 +1097,7 @@ export default function EckartTimeline() {
           </div>
 
           {/* Right: Illustration (with Autarkie ring inside SVG) */}
-          <Suspense fallback={<div style={{ width: "100%", aspectRatio: "400/320", background: "rgba(27,42,74,0.3)", borderRadius: 12 }} />}>
+          <Suspense fallback={<div className="shimmer-placeholder" style={{ width: "100%", aspectRatio: "400/320", borderRadius: 12 }} />}>
             <PhaseVisual phaseNum={phase.num} score={displayScore} />
           </Suspense>
         </div>
@@ -2137,6 +2139,17 @@ export default function EckartTimeline() {
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
           }
+        }
+
+        /* Shimmer loading placeholder */
+        .shimmer-placeholder {
+          background: linear-gradient(90deg, rgba(27,42,74,0.3) 25%, rgba(212,168,67,0.08) 50%, rgba(27,42,74,0.3) 75%);
+          background-size: 200% 100%;
+          animation: shimmer 1.5s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
         }
 
         /* ── Print Stylesheet ── */

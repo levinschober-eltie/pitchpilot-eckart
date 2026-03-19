@@ -7,8 +7,20 @@ export default class ErrorBoundary extends Component {
     return { error };
   }
 
+  componentDidCatch(error) {
+    const isChunkError = error?.message &&
+      /chunk|dynamically imported|Failed to fetch/i.test(error.message);
+    if (isChunkError && !sessionStorage.getItem("eb-retry")) {
+      sessionStorage.setItem("eb-retry", "1");
+      window.location.reload();
+    }
+  }
+
   render() {
     if (this.state.error) {
+      const isChunkError = this.state.error?.message &&
+        /chunk|dynamically imported|Failed to fetch/i.test(this.state.error.message);
+
       return (
         <div style={{
           minHeight: "100vh",
@@ -22,10 +34,12 @@ export default class ErrorBoundary extends Component {
         }}>
           <div style={{ textAlign: "center", maxWidth: "400px" }}>
             <h1 style={{ color: "#D4A843", marginBottom: "1rem", fontSize: "1.5rem" }}>
-              Ein Fehler ist aufgetreten
+              {isChunkError ? "Aktualisierung verfügbar" : "Ein Fehler ist aufgetreten"}
             </h1>
             <p style={{ color: "rgba(255,255,255,0.6)", marginBottom: "1.5rem" }}>
-              Bitte laden Sie die Seite neu.
+              {isChunkError
+                ? "Eine neue Version ist verfügbar. Die Seite wird automatisch aktualisiert."
+                : "Bitte laden Sie die Seite neu."}
             </p>
             <button
               onClick={() => window.location.reload()}
