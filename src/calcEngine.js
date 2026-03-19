@@ -209,6 +209,15 @@ export function getPhaseCalcItems(phaseIdx, calc, config) {
       { label: "Rendite", value: `${fmtVal(calc.bessRendite, 1)} % p.a.`, accent: true },
       { label: "Investition", value: fmtEuro(calc.investPhase6) },
     ],
+    6: [
+      { label: "Standort-Invest (I–V)", value: fmtEuro(calc.investStandort), accent: true },
+      { label: "BESS-Invest (VI)", value: fmtEuro(calc.investPhase6) },
+      { label: "Gesamtinvestition", value: fmtEuro(calc.investGesamt), accent: true },
+      { label: "Jährl. Einsparung", value: `${fmtEuro(calc.einsparungStandort)}/a`, accent: true },
+      { label: "BESS-Erlöse", value: `${fmtEuro(calc.bessErloes)}/a`, accent: true },
+      { label: "Amortisation", value: `${calc.amortisationStandort} Jahre` },
+      { label: "Autarkie", value: `${calc.autarkie} %`, accent: true },
+    ],
   }[phaseIdx];
   return items || null;
 }

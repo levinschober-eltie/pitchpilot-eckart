@@ -2849,7 +2849,7 @@ function GesamtVisual() {
         <SvgIcon name="check" x={330} y={308} size={6} color={C.goldLight} />
       </g>
 
-      <PhaseBadge x={12} y={8} num="✦" icon="trophy" label="GESAMT" color={C.gold} />
+      <PhaseBadge x={12} y={8} num="∑" icon="trophy" label="GESAMT" color={C.gold} />
       <Atmosphere warm />
     </>
   );
@@ -2858,7 +2858,7 @@ function GesamtVisual() {
 /* ── Export map ─────────────────────────────────────────────── */
 const visuals = {
   "I": AnalyseVisual, "II": PVVisual, "III": SpeicherVisual,
-  "IV": WaermeVisual, "V": LadeVisual, "VI": BESSVisual, "✦": GesamtVisual,
+  "IV": WaermeVisual, "V": LadeVisual, "VI": BESSVisual, "∑": GesamtVisual,
 };
 
 /* ── SVG Autarkie Ring ──────────────────────────────────────── */
@@ -2914,7 +2914,7 @@ function PhaseVisualInner({ phaseNum, score = 0 }) {
 
   const Visual = visuals[phaseNum];
   if (!Visual) return null;
-  const warm = phaseNum === "II" || phaseNum === "✦";
+  const warm = phaseNum === "II" || phaseNum === "∑";
   const cool = phaseNum === "VI";
   return (
     <div style={{
@@ -2929,7 +2929,7 @@ function PhaseVisualInner({ phaseNum, score = 0 }) {
         <SharedDefs warm={warm} cool={cool} />
         <Visual />
         {score > 0 && <SvgAutarkieRing cx={365} cy={42} score={score}
-          size={phaseNum === "✦" ? 42 : 36} />}
+          size={phaseNum === "∑" ? 42 : 36} />}
       </svg>
     </div>
   );
