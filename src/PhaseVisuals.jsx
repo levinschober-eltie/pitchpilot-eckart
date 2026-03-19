@@ -3,6 +3,7 @@
  * viewBox 0 0 400 320 · All animations use SVG animate/animateTransform
  * Colors: Navy #1B2A4A · Gold #D4A843 · Green #2D6A4F · WarmOrange #E8785A
  */
+import { memo } from "react";
 import { SvgIcon } from "./Icons";
 import { C } from "./colors";
 
@@ -2901,7 +2902,7 @@ function SvgAutarkieRing({ cx, cy, score, size = 36 }) {
 }
 
 /* ── Main export ────────────────────────────────────────────── */
-export default function PhaseVisual({ phaseNum, score = 0 }) {
+function PhaseVisualInner({ phaseNum, score = 0 }) {
   const Visual = visuals[phaseNum];
   if (!Visual) return null;
   const warm = phaseNum === "II" || phaseNum === "✦";
@@ -2924,3 +2925,5 @@ export default function PhaseVisual({ phaseNum, score = 0 }) {
     </div>
   );
 }
+
+export default memo(PhaseVisualInner);

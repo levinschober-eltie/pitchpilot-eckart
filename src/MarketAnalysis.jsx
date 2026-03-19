@@ -896,7 +896,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
     season === "winter" ? "Winter (Okt–Mär)" : "Jahresdurchschnitt";
 
   return (
-    <div style={{
+    <div role="dialog" aria-modal="true" aria-label="Energiemarkt-Analyse" style={{
       position: "fixed", inset: 0, zIndex: 9000, background: "rgba(10,18,32,0.97)",
       overflowY: "auto", WebkitOverflowScrolling: "touch",
     }}>
@@ -949,7 +949,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
           <div style={{ fontFamily: F, fontSize: "1.2rem", fontWeight: 700, color: C.gold, letterSpacing: "0.5px" }}>Energiemarkt-Analyse</div>
           <div style={{ fontFamily: F, fontSize: "0.72rem", color: "#888", letterSpacing: "1px" }}>Börsenpreise · Direktvermarktung · BESS-Optimierung · CO₂</div>
         </div>
-        <button onClick={onClose} style={{
+        <button onClick={onClose} aria-label="Analyse schließen" style={{
           background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)",
           color: "#ccc", borderRadius: "8px", width: 36, height: 36, fontSize: "1rem", fontFamily: F,
           cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",

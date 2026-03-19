@@ -193,7 +193,7 @@ const defs = {
  * Icon component for HTML/React contexts.
  * Usage: <Icon name="sun" size={16} color="#D4A843" />
  */
-export function Icon({ name, size = 16, color = "currentColor", style = {}, className = "" }) {
+export function Icon({ name, size = 16, color = "currentColor", style = {}, className = "", ariaLabel, ariaHidden = true }) {
   const d = defs[name];
   if (!d) return null;
   return (
@@ -208,6 +208,9 @@ export function Icon({ name, size = 16, color = "currentColor", style = {}, clas
       strokeLinejoin="round"
       style={{ display: "inline-block", verticalAlign: "middle", flexShrink: 0, color, ...style }}
       className={className}
+      aria-hidden={ariaLabel ? undefined : ariaHidden}
+      aria-label={ariaLabel}
+      role={ariaLabel ? "img" : undefined}
     >
       {d}
     </svg>
@@ -232,6 +235,7 @@ export function SvgIcon({ name, x, y, size = 8, color = "currentColor" }) {
       strokeLinecap="round"
       strokeLinejoin="round"
       style={{ color }}
+      aria-hidden="true"
     >
       {d}
     </g>

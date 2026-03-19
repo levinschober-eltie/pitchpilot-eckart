@@ -844,7 +844,7 @@ export default function ExportModal({ phases, config, calc, configActive, onClos
         position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
         zIndex: 2000, ...anim("cpFadeIn 0.3s ease"),
       }} />
-      <div style={{
+      <div role="dialog" aria-modal="true" aria-label="PDF Export" style={{
         position: "fixed", top: "50%", left: "50%",
         transform: "translate(-50%, -50%)",
         width: "min(560px, 92vw)", maxHeight: "85vh",
@@ -947,7 +947,7 @@ export default function ExportModal({ phases, config, calc, configActive, onClos
           borderTop: `1px solid ${MC.gold}20`,
           display: "flex", justifyContent: "space-between", alignItems: "center",
         }}>
-          <button onClick={onClose} style={{
+          <button onClick={onClose} aria-label="Export schließen" style={{
             background: "rgba(255,255,255,0.06)",
             border: "1px solid rgba(255,255,255,0.12)",
             borderRadius: "6px", padding: "0.45rem 1rem",

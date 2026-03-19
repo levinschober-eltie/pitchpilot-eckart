@@ -140,7 +140,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
       }} />
 
       {/* Panel */}
-      <div style={{
+      <div role="dialog" aria-modal="true" aria-labelledby="cp-title" style={{
         position: "fixed", top: 0, right: 0, bottom: 0,
         width: "min(420px, 92vw)",
         background: `linear-gradient(180deg, ${C.navy} 0%, ${C.navyMid} 100%)`,
@@ -164,12 +164,12 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
                 fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
                 letterSpacing: "3px", color: C.gold, fontWeight: 700,
               }}>INTERAKTIVER KALKULATOR</div>
-              <div style={{
+              <div id="cp-title" style={{
                 fontFamily: "Georgia, serif", fontSize: "1.05rem",
                 fontWeight: 700, color: C.white, marginTop: "0.1rem",
               }}>Ihre Konfiguration</div>
             </div>
-            <button onClick={onClose} style={{
+            <button onClick={onClose} aria-label="Kalkulator schließen" style={{
               background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
               borderRadius: "6px", width: "32px", height: "32px",
               display: "flex", alignItems: "center", justifyContent: "center",
@@ -213,6 +213,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
               {/* Group header */}
               <button
                 onClick={() => toggleGroup(group.key)}
+                aria-expanded={openGroups[group.key]}
                 style={{
                   width: "100%", background: "none", border: "none",
                   display: "flex", alignItems: "center", gap: "0.5rem",
@@ -255,6 +256,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
                         min={s.min} max={s.max} step={s.step}
                         value={config[s.key]}
                         onChange={(e) => update(s.key, parseFloat(e.target.value))}
+                        aria-label={s.label}
                         className="cp-slider"
                         style={{ width: "100%" }}
                       />
@@ -273,7 +275,11 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
                     <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem", marginTop: "0.3rem" }}>
                       {/* Lastgang */}
                       <div
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Lastgang-CSV hochladen"
                         onClick={() => fileRef.current?.click()}
+                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileRef.current?.click(); } }}
                         onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
                         onDrop={(e) => { e.preventDefault(); handleLastgang(e.dataTransfer.files[0]); }}
                         style={{
@@ -298,7 +304,11 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
 
                       {/* Stromrechnung */}
                       <div
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Stromrechnung hochladen"
                         onClick={() => billRef.current?.click()}
+                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); billRef.current?.click(); } }}
                         onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
                         onDrop={(e) => { e.preventDefault(); handleBill(e.dataTransfer.files[0]); }}
                         style={{
@@ -335,6 +345,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
           {onSave && (
             <button
               onClick={onSave}
+              aria-label="Kalkulation speichern"
               style={{
                 width: "100%", marginTop: "0.7rem",
                 background: `linear-gradient(135deg, ${C.green}, ${C.green}cc)`,
@@ -352,6 +363,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
           {/* Reset */}
           <button
             onClick={() => setConfig({ ...defaultConfig })}
+            aria-label="Auf Standardwerte zurücksetzen"
             style={{
               width: "100%", marginTop: "0.4rem",
               background: "rgba(255,255,255,0.04)",

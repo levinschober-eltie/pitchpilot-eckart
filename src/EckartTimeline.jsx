@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, lazy, Suspense } from "react";
+import { useState, useEffect, useRef, useMemo, lazy, Suspense, memo } from "react";
 import PhaseVisual from "./PhaseVisuals";
 import { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./calcEngine";
 import { Icon } from "./Icons";
@@ -409,7 +409,7 @@ const cumulative = [
 ];
 
 /* ── Independence Score Ring ─────────────────────────── */
-function IndependenceRing({ score, size = 130, strokeWidth = 10 }) {
+const IndependenceRing = memo(function IndependenceRing({ score, size = 130, strokeWidth = 10 }) {
   const r = (size - strokeWidth) / 2;
   const circ = 2 * Math.PI * r;
   const offset = circ - (score / 100) * circ;
@@ -460,15 +460,15 @@ function IndependenceRing({ score, size = 130, strokeWidth = 10 }) {
       </div>
     </div>
   );
-}
+});
 
 /* ── Main Component ──────────────────────────────────── */
 export default function EckartTimeline() {
   const [active, setActive] = useState(0);
-  const [animKey, setAnimKey] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [displayScore, setDisplayScore] = useState(0);
   const sliderRef = useRef(null);
+  const contentRef = useRef(null);
   const [configOpen, setConfigOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
   const [marketOpen, setMarketOpen] = useState(false);
@@ -481,7 +481,12 @@ export default function EckartTimeline() {
   const showCalc = configOpen || configSaved;
 
   useEffect(() => {
-    setAnimKey((k) => k + 1);
+    const el = contentRef.current;
+    if (!el) return;
+    el.style.animation = 'none';
+    // Force reflow to restart animation
+    void el.offsetHeight;
+    el.style.animation = '';
   }, [active]);
 
   // Keyboard navigation
@@ -811,7 +816,7 @@ export default function EckartTimeline() {
       </div>
 
       {/* Main Content Area */}
-      <div key={animKey} style={{
+      <div ref={contentRef} style={{
         padding: "1rem 2rem 2rem",
         position: "relative", zIndex: 2,
         ...anim("fadeSlideIn 0.5s ease forwards"),
