@@ -1,4 +1,4 @@
-import { defaultCalcConfig } from "./siteConfig";
+import { defaultCalcConfig, economicModel as EM } from "./siteConfig";
 
 /* ── Default Configuration ── */
 export const defaultConfig = defaultCalcConfig;
@@ -31,7 +31,7 @@ export function calculateAll(cfg) {
 
   /* ── PV ── */
   const totalPV = pvDach + pvFassade + pvCarport + pvBestand;
-  const pvErzeugung = totalPV * 950; // MWh/a (specific yield Bavaria)
+  const pvErzeugung = totalPV * EM.specificYield; // MWh/a
 
   /* ── Self-consumption ── */
   const baseRatio = pvErzeugung > 0 ? Math.max(0, Math.min(0.55, (stromverbrauch / pvErzeugung) * 0.55)) : 0;
@@ -44,7 +44,7 @@ export function calculateAll(cfg) {
 
   /* ── Strom savings ── */
   const stromEinsparung = eigenverbrauch * strompreis * 10; // €/a (MWh × ct/kWh × 10)
-  const einspeiseErloese = einspeisung * 70; // €/a (7 ct/kWh)
+  const einspeiseErloese = einspeisung * EM.feedInTariffCt * 10; // €/a
 
   /* ── Peak Shaving ── */
   const peakShavingRate = standortBESS > 0 && stromverbrauch > 0
@@ -73,15 +73,15 @@ export function calculateAll(cfg) {
 
   /* ── Graustrom-BESS ── */
   const bessLeistung = graustromBESS / 2; // MW (2h system)
-  const bessErloes = graustromBESS * 42500; // 42.5k€/MWh/a (calibrated: 200MWh→8.5M)
+  const bessErloes = graustromBESS * EM.bessRevenuePerMWh; // €/a
 
   /* ── CO₂ ── */
-  const co2Strom = eigenverbrauch * 0.382; // t (German grid mix 382g/kWh)
-  const co2Waerme = gasverbrauch * gasErsatzRate * 0.201; // t (gas 201g/kWh)
-  const co2PKW = pkwDieselL * 2.65 / 1000; // t
-  const co2LKW = lkwDieselL * 2.65 / 1000;
+  const co2Strom = eigenverbrauch * EM.co2GridMix; // t
+  const co2Waerme = gasverbrauch * gasErsatzRate * EM.co2Gas; // t
+  const co2PKW = pkwDieselL * EM.dieselCo2Factor / 1000; // t
+  const co2LKW = lkwDieselL * EM.dieselCo2Factor / 1000;
   const co2Gesamt = co2Strom + co2Waerme + co2PKW + co2LKW;
-  const co2Kosten = co2Gesamt * 60; // €/a at ~60€/t
+  const co2Kosten = co2Gesamt * EM.co2Price; // €/a
 
   /* ── Investitionen ── */
   const investPhase1 = 65000;
@@ -217,7 +217,7 @@ export function getPhaseCalcItems(phaseIdx, calc, config) {
 export function getDynamicHeroCards(calc) {
   return [
     {
-      icon: "leaf", accent: "#2D6A4F",
+      icon: "leaf", accentKey: "green",
       label: "CO₂-EINSPARUNG PRO JAHR",
       value: `~${fmtVal(calc.co2Gesamt)} t`,
       sub: `CO₂/Jahr weniger · ${fmtEuro(calc.co2Kosten)}/a vermiedene CO₂-Kosten`,
@@ -225,11 +225,11 @@ export function getDynamicHeroCards(calc) {
         { label: "Strom (PV statt Netz)", value: `–${fmtVal(calc.co2Strom)} t` },
         { label: "Wärme (WP statt Gas)", value: `–${fmtVal(calc.co2Waerme)} t` },
         { label: "Mobilität (E statt Diesel)", value: `–${fmtVal(calc.co2PKW + calc.co2LKW)} t` },
-        { label: "CO₂-Preis (~60 €/t)", value: `${fmtEuro(calc.co2Kosten)}/a` },
+        { label: `CO₂-Preis (~${EM.co2Price} €/t)`, value: `${fmtEuro(calc.co2Kosten)}/a` },
       ],
     },
     {
-      icon: "money", accent: "#D4A843",
+      icon: "money", accentKey: "gold",
       label: "JÄHRLICHER GESAMTERTRAG",
       value: fmtEuro(calc.gesamtertrag),
       sub: "Einsparung + Erlöse pro Jahr",

@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { anim } from "./colors";
+import { C, anim } from "./colors";
 import useFocusTrap from "./useFocusTrap";
-import { company } from "./siteConfig";
+import { company, site, project, phases as phaseData } from "./siteConfig";
 
-/* ── Colors ── */
-const N = "#1B2A4A";
-const G = "#D4A843";
-const GR = "#2D6A4F";
-const RED = "#c0392b";
+/* ── Colors (from shared palette) ── */
+const N = C.navy;
+const G = C.gold;
+const GR = C.green;
+const RED = C.red;
 
 /* ── Formatting ── */
 const fmt = (n) => isFinite(n) ? Math.round(n).toLocaleString("de-DE") : "—";
@@ -243,7 +243,7 @@ const hdr = `<div style="display:flex;justify-content:space-between;align-items:
   <div><div style="font-size:7pt;letter-spacing:2.5px;color:${G};font-weight:bold;font-family:Calibri,sans-serif;">${company.name.toUpperCase()} · ENERGIETRANSFORMATION</div>
   <div style="font-size:8.5pt;color:#666;font-family:Calibri,sans-serif;">${company.address}</div></div>
   <div style="text-align:right;"><div style="font-size:6.5pt;color:#aaa;letter-spacing:1px;font-family:Calibri,sans-serif;">ERSTELLT DURCH</div>
-  <div style="font-size:8pt;font-weight:bold;font-family:Calibri,sans-serif;">Elite PV GmbH · Levin Schober</div></div></div>`;
+  <div style="font-size:8pt;font-weight:bold;font-family:Calibri,sans-serif;">${company.consultant.company} · ${company.consultant.name}</div></div></div>`;
 
 /* ── CSS ── */
 const css = `
@@ -293,8 +293,8 @@ function coverPage(phases, calc, cfgActive, config) {
       <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,${G},${G}80,transparent);"></div>
       <div style="font-family:Calibri,sans-serif;font-size:7.5pt;letter-spacing:4px;color:${G};font-weight:bold;margin-bottom:3mm;">${company.name.toUpperCase()}</div>
       <div style="width:40mm;height:0.7mm;background:linear-gradient(90deg,${G},transparent);margin-bottom:8mm;"></div>
-      <div style="font-family:Georgia,serif;font-size:28pt;font-weight:bold;line-height:1.15;margin-bottom:4mm;">Energietransformation<br>Phasenkonzept</div>
-      <div style="font-family:Calibri,sans-serif;font-size:10pt;color:rgba(255,255,255,0.65);letter-spacing:0.5px;">50 Hektar Industriestandort · 6 Phasen · Integriertes Energiesystem</div>
+      <div style="font-family:Georgia,serif;font-size:28pt;font-weight:bold;line-height:1.15;margin-bottom:4mm;">${project.title.replace("\n", "<br>")}</div>
+      <div style="font-family:Calibri,sans-serif;font-size:10pt;color:rgba(255,255,255,0.65);letter-spacing:0.5px;">${site.area} Industriestandort · ${phaseData.length} Phasen · ${project.tagline}</div>
     </div>
     <div style="flex:1;padding:10mm 20mm;display:flex;flex-direction:column;justify-content:space-between;">
       <div>
@@ -337,7 +337,7 @@ function coverPage(phases, calc, cfgActive, config) {
 
       <div style="display:flex;justify-content:space-between;align-items:flex-end;border-top:1.5px solid ${N};padding-top:4mm;">
         <div><div style="font-family:Calibri,sans-serif;font-size:6.5pt;color:#aaa;letter-spacing:1.5px;font-weight:600;">ERSTELLT DURCH</div>
-          <div style="font-weight:bold;font-size:9.5pt;">Elite PV GmbH</div><div style="font-size:8pt;color:#666;">Levin Schober · levinschober@elite-pv.de</div></div>
+          <div style="font-weight:bold;font-size:9.5pt;">${company.consultant.company}</div><div style="font-size:8pt;color:#666;">${company.consultant.name} · ${company.consultant.email}</div></div>
         <div style="text-align:center;"><div style="font-family:Calibri,sans-serif;font-size:6.5pt;color:#aaa;letter-spacing:1.5px;font-weight:600;">ERSTELLT FÜR</div>
           <div style="font-weight:bold;font-size:9.5pt;">${company.legal}</div><div style="font-size:8pt;color:#666;">${company.address}</div></div>
         <div style="text-align:right;"><div style="font-family:Calibri,sans-serif;font-size:6.5pt;color:#aaa;letter-spacing:1.5px;font-weight:600;">DATUM</div>
@@ -812,8 +812,8 @@ function generatePdf(phases, config, calc, sel, cfgActive) {
 /* ════════════════════════════════════════════════════ */
 
 const MC = {
-  navy: "#1B2A4A", gold: "#D4A843", goldLight: "#E8C97A",
-  green: "#2D6A4F", greenLight: "#3A8A66", midGray: "#9A9A90", white: "#FFFFFF",
+  navy: C.navy, gold: C.gold, goldLight: C.goldLight,
+  green: C.green, greenLight: C.greenLight, midGray: C.softGray, white: C.warmWhite,
 };
 
 export default function ExportModal({ phases, config, calc, configActive, onClose }) {

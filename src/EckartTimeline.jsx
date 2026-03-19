@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback, lazy, Suspense, memo
 import { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./calcEngine";
 import { Icon } from "./Icons";
 import { C, anim } from "./colors";
-import { phases as phaseData, company } from "./siteConfig";
+import { phases as phaseData, company, project } from "./siteConfig";
 
 /* ── Lazy import with retry (handles stale chunks after redeployment) ── */
 function lazyRetry(importFn) {
@@ -26,15 +26,7 @@ const MarketAnalysis = lazyRetry(() => import("./MarketAnalysis"));
 const colorMap = { gold: C.gold, green: C.green, greenLight: C.greenLight, warmOrange: C.warmOrange, navy: C.navy };
 const phases = phaseData.map(p => ({ ...p, color: colorMap[p.colorKey] || C.gold }));
 
-const cumulative = [
-  "Bestand + Datenbasis",
-  "6,5–11,0 MWp Erzeugungsportfolio",
-  "Steuerbarkeit erreicht",
-  "Thermisch unabhängig",
-  "Mobilität elektrifiziert",
-  "Eigenständiges Ertragsmodell",
-  "Strategischer Standortvorteil",
-];
+const cumulative = phases.map(p => p.independenceLabel).concat("Strategischer Standortvorteil");
 
 /* ── Extracted Static Styles (reduce GC pressure) ── */
 const S = {
@@ -750,7 +742,7 @@ export default function EckartTimeline() {
                       fontFamily: "Calibri, sans-serif",
                       fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
                       fontWeight: 700,
-                      color: card.accent === "#2D6A4F" ? C.greenLight : C.goldLight,
+                      color: card.accentKey === "green" ? C.greenLight : C.goldLight,
                       lineHeight: 1.1,
                       marginBottom: "0.2rem",
                     }}>{card.value}</div>
@@ -760,7 +752,7 @@ export default function EckartTimeline() {
                     }}>{card.sub}</div>
                     {/* Breakdown */}
                     <div style={{
-                      borderTop: `1px solid ${card.accent}30`,
+                      borderTop: `1px solid ${(card.accentKey === "green" ? C.green : C.gold)}30`,
                       paddingTop: "0.5rem",
                       display: "flex", flexDirection: "column", gap: "0.3rem",
                     }}>
@@ -775,7 +767,7 @@ export default function EckartTimeline() {
                           <span style={{
                             fontFamily: "Calibri, sans-serif", fontSize: "0.9rem",
                             fontWeight: 700,
-                            color: card.accent === "#2D6A4F" ? C.greenLight : C.goldLight,
+                            color: card.accentKey === "green" ? C.greenLight : C.goldLight,
                             whiteSpace: "nowrap", marginLeft: "0.5rem",
                           }}>{d.value}</span>
                         </div>
@@ -1314,14 +1306,14 @@ export default function EckartTimeline() {
                   <div style={{
                     fontFamily: "Calibri, sans-serif", fontSize: "1.0rem",
                     color: C.white,
-                  }}>Levin Schober · Elite PV GmbH</div>
+                  }}>{company.consultant.name} · {company.consultant.company}</div>
                   <div style={{
                     fontFamily: "Calibri, sans-serif", fontSize: "0.9rem",
                     color: C.midGray, marginTop: "0.1rem",
-                  }}>levinschober@elite-pv.de</div>
+                  }}>{company.consultant.email}</div>
                 </div>
                 <a
-                  href={`mailto:levinschober@elite-pv.de?subject=${encodeURIComponent(company.name + ' – Energietransformation')}`}
+                  href={`mailto:${company.consultant.email}?subject=${encodeURIComponent(company.name + ' – Energietransformation')}`}
                   style={{
                     fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
                     fontWeight: 700, color: C.navy, textDecoration: "none",
@@ -1637,7 +1629,7 @@ export default function EckartTimeline() {
             border: "1px solid rgba(255,255,255,0.1)",
             fontSize: "0.7rem", color: "rgba(255,255,255,0.3)",
           }}><Icon name="arrowLeft" size={8} style={{ opacity: 0.5 }} /> <Icon name="arrowRight" size={8} style={{ opacity: 0.5 }} /> Phasen wechseln</span>
-          <span style={{ fontStyle: "italic" }}>Energiewirtschaftliche Konzeptbegleitung: Elite PV</span>
+          <span style={{ fontStyle: "italic" }}>{company.consultant.label}: {company.consultant.company}</span>
         </span>
       </footer>
 

@@ -18,7 +18,12 @@ export const company = {
   region: "Oberfranken",
   date: "März 2026",
   confidential: true,
-  consultant: "Elite PV",
+  consultant: {
+    company: "Elite PV GmbH",
+    name: "Levin Schober",
+    email: "levinschober@elite-pv.de",
+    label: "Energiewirtschaftliche Konzeptbegleitung",
+  },
 };
 
 /* ── Standort-Koordinaten ── */
@@ -160,12 +165,29 @@ export const phaseKPIs = {
   },
 };
 
+/* ── Projekt-Titel (PDF Cover, HTML Title) ── */
+export const project = {
+  title: "Energietransformation\nPhasenkonzept",
+  tagline: "Integriertes Energiesystem",
+};
+
+/* ── Wirtschaftliche Annahmen (Region/Markt-spezifisch) ── */
+export const economicModel = {
+  specificYield: 950,       // kWh/kWp (Oberfranken); 1100 für Süd-DE, 800 für Nord-DE
+  feedInTariffCt: 7,        // ct/kWh Einspeisevergütung
+  bessRevenuePerMWh: 42500, // €/MWh/a (kalibriert: 200 MWh → 8,5M)
+  co2GridMix: 0.382,        // t/MWh (dt. Strommix 382 g/kWh)
+  co2Gas: 0.201,            // t/MWh (Erdgas 201 g/kWh)
+  dieselCo2Factor: 2.65,    // kg CO₂/l Diesel
+  co2Price: 60,             // €/t CO₂-Preis
+};
+
 /* ── Intro-Screen Texte ── */
 export const intro = {
   subtitle: "Phasenkonzept zur ganzheitlichen Energietransformation",
   description: `Aufbauend auf den bereits realisierten 2 MWp Freiflächen-PV zeigt dieses interaktive Dokument die strategische Roadmap zur vollständigen Energietransformation Ihres Standorts in Hartenstein – in sechs aufeinander aufbauenden Phasen von Strom über Wärme und Mobilität bis zum eigenständigen Ertragsmodell.`,
   cta: "Konzept entdecken",
-  footerRight: "Energiewirtschaftliche Konzeptbegleitung",
+  footerRight: company.consultant.label,
   phasePills: [
     { num: "I", label: "Analyse" },
     { num: "II", label: "PV & Hülle" },
