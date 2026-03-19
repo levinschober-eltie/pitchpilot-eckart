@@ -111,7 +111,7 @@ function IntroScreen({ onEnter }) {
         <p style={{
           fontFamily: "Calibri, sans-serif",
           fontSize: "clamp(0.85rem, 1.5vw, 0.95rem)",
-          color: "rgba(255,255,255,0.6)", lineHeight: 1.7,
+          color: "rgba(255,255,255,0.75)", lineHeight: 1.7,
           maxWidth: "520px", margin: "1.5rem 0 2rem",
           opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(15px)",
           transition: "all 0.8s ease 1.3s",

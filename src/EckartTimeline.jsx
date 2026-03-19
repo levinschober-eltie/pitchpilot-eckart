@@ -162,8 +162,10 @@ export default function EckartTimeline() {
   // Keyboard navigation
   useEffect(() => {
     const onKey = (e) => {
-      // Don't capture arrow keys when a modal/overlay is open (breaks slider input)
+      // Don't capture arrow keys when a modal/overlay is open or focus is in an input
       if (analysisOpen || exportOpen) return;
+      const tag = e.target?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || e.target?.isContentEditable) return;
       if (e.key === "ArrowRight" || e.key === "ArrowDown") {
         e.preventDefault();
         startTransition(() => setActive((a) => Math.min(a + 1, phases.length - 1)));
@@ -866,7 +868,7 @@ export default function EckartTimeline() {
                     }}>{kpi.value}</div>
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                      color: "rgba(255,255,255,0.45)", marginTop: "0.2rem",
+                      color: "rgba(255,255,255,0.55)", marginTop: "0.2rem",
                     }}>{kpi.sub}</div>
                   </div>
                 ))}
@@ -1072,7 +1074,7 @@ export default function EckartTimeline() {
                       }}>{m.value}</div>
                       <div style={{
                         fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                        color: "rgba(255,255,255,0.4)", marginTop: "0.15rem",
+                        color: "rgba(255,255,255,0.55)", marginTop: "0.15rem",
                       }}>{m.sub}</div>
                     </div>
                   ))}
@@ -1773,7 +1775,7 @@ export default function EckartTimeline() {
 
       {/* ── Combined Analysis & Kalkulation Overlay (lazy) ── */}
       {analysisOpen && (
-        <div style={{
+        <div role="dialog" aria-modal="true" aria-label="Marktanalyse & Kalkulation" style={{
           position: "fixed", inset: 0, zIndex: 9000, background: "rgba(10,18,32,0.97)",
           display: "flex", flexDirection: "column",
         }}>
