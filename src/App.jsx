@@ -60,7 +60,7 @@ function IntroScreen({ onEnter }) {
           fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
           letterSpacing: "4px", textTransform: "uppercase",
           color: C.gold, fontWeight: 700,
-        }}>{company.consultant}</span>
+        }}>{company.consultant.company}</span>
       </header>
 
       {/* Center content */}
