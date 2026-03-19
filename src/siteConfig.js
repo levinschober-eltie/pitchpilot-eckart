@@ -490,4 +490,146 @@ export const phases = [
       { icon: "factory", title: "SCADA 24/7", text: "Vollautomatisches Monitoring mit Remote-Steuerung — minimale Betriebskosten" },
     ],
   },
+  /* ── Phase 7: Gesamtzusammenfassung (Index 6) ── */
+  {
+    num: "∑",
+    title: "Gesamtergebnis",
+    subtitle: "Strategischer Standortvorteil",
+    months: "36 Monate Gesamtlaufzeit",
+    colorKey: "gold",
+    headline: "Vom Energieverbraucher zur Energieplattform",
+    description: "Sechs Phasen, ein integriertes System: Der Standort Hartenstein wird vom reinen Energieverbraucher zum steuerbaren Energieknotenpunkt mit eigenem Ertragsmodell. Erzeugung, Speicherung, Wärme, Mobilität und Großhandel greifen nahtlos ineinander.",
+    icon: "trophy",
+    isFinal: true,
+    independenceScore: 95,
+    independenceLabel: "Strategischer Standortvorteil",
+    investTotal: "43–70 Mio €",
+    results: [
+      "Integriertes Energiesystem über alle 6 Phasen realisiert",
+      "Energieautarkie von 95 % am Standort erreicht",
+      "Jährliche Einsparungen und Erlöse von 1,4–2,5 Mio € (Standort) + 5,2–8,7 Mio € (BESS)",
+      "CO₂-Reduktion von ~4.800 t/a — Klimaneutralität in Reichweite",
+      "Amortisation des Standort-Invests in 6–9 Jahren",
+      "Graustrom-BESS als eigenständiges Ertragsmodell mit 15–25 % Rendite p.a.",
+    ],
+    kpis: [
+      { label: "Autarkie", value: "95 %" },
+      { label: "CO₂-Reduktion", value: "~4.800 t/a" },
+      { label: "Gesamtinvest", value: "43–70 Mio €" },
+    ],
+    investment: [
+      { label: "Standort-Invest (Phasen I–V)", range: "8,5–22 Mio €" },
+      { label: "Graustrom-BESS (Phase VI)", range: "35–48 Mio €" },
+    ],
+    funding: [
+      { label: "KfW + Landesförderung + BEG", value: "Kombinierte Förderstruktur" },
+      { label: "Projektfinanzierung (SPV)", value: "Non-Recourse für BESS" },
+    ],
+    roi: "Standort-Amortisation + eigenständiges BESS-Ertragsmodell",
+    roiValue: "95 % Autarkie + 8,7M €/a BESS",
+
+    /* ── Gesamtzusammenfassung-spezifische Daten ── */
+
+    systemKpis: [
+      { label: "GESAMTE PV-LEISTUNG", value: "6,5–11 MWp", sub: "Dach + Fassade + Carport + Bestand" },
+      { label: "STANDORT-SPEICHER", value: "6,5–11 MWh", sub: "Peak Shaving + Eigenverbrauch" },
+      { label: "WÄRMEPUMPEN-KASKADE", value: "5–10 MW", sub: "COP 4–5 · Abwärme-basiert" },
+      { label: "LADEINFRASTRUKTUR", value: "70+ Ladepunkte", sub: "AC + DC + HPC" },
+      { label: "GRAUSTROM-BESS", value: "100 MW / 200 MWh", sub: "Arbitrage + FCR + Redispatch" },
+      { label: "CO₂-EINSPARUNG", value: "~4.800 t/a", sub: "Strom + Wärme + Mobilität" },
+    ],
+
+    investmentSummary: [
+      { phase: "I",   label: "Analyse & Bewertung",   range: "50–80 T€",        roi: "Entscheidungsgrundlage",          score: 15, maxMio: 0.08 },
+      { phase: "II",  label: "Gebäudehülle & PV",     range: "3,1–8,8 Mio €",   roi: ">60 % Eigenverbrauch",            score: 45, maxMio: 8.8  },
+      { phase: "III", label: "Speicher & Steuerung",   range: "1,1–2,7 Mio €",   roi: "10–15 % Peak Shaving",            score: 65, maxMio: 2.7  },
+      { phase: "IV",  label: "Wärmekonzept",           range: "4,3–8,0 Mio €",   roi: "65–80 % weniger Gas",             score: 80, maxMio: 8.0  },
+      { phase: "V",   label: "Ladeinfrastruktur",      range: "1,6–2,4 Mio €",   roi: "Fuhrpark-Elektrifizierung",       score: 88, maxMio: 2.4  },
+      { phase: "VI",  label: "Graustrom-BESS",         range: "35–48 Mio €",     roi: "15–25 % Rendite p.a.",            score: 95, maxMio: 48   },
+    ],
+
+    economicSummary: {
+      savings: [
+        { label: "PV-Eigenverbrauch (Stromkosten-Reduktion)", value: "800 T€–1,5 Mio €/a" },
+        { label: "Einspeiseerlöse (EEG 7 ct/kWh)",            value: "200–350 T€/a" },
+        { label: "Peak Shaving & Spotmarkt-Optimierung",       value: "100–250 T€/a" },
+        { label: "Gaskosten-Reduktion (WP-Kaskade)",           value: "300–500 T€/a" },
+        { label: "Mobilitäts-Einsparung (PKW + LKW)",          value: "80–150 T€/a" },
+      ],
+      totals: {
+        annualSavings:   "1,4–2,5 Mio €/a",
+        investStandort:  "8,5–22 Mio €",
+        paybackStandort: "~6–9 Jahre",
+        bessRevenue:     "5,2–8,7 Mio €/a",
+      },
+      conclusion: "Das integrierte Energiesystem erreicht eine Standort-Amortisation von 6–9 Jahren bei jährlichen Einsparungen von 1,4–2,5 Mio €. Hinzu kommen 5,2–8,7 Mio €/a aus dem Graustrom-BESS — ein eigenständiges Ertragsmodell mit 15–25 % Rendite, finanzierbar als separates SPV. Zusammen entsteht eine Energieplattform, die Eckart langfristig strategisch unangreifbar macht.",
+    },
+
+    levers: [
+      { icon: "sun",     title: "PV-Eigenverbrauch",       desc: "6,5–11 MWp Erzeugung senken den Strombezug um bis zu 50 % — direkte Kostenreduktion ab Tag 1" },
+      { icon: "battery", title: "Speicher & Peak Shaving",  desc: "Standort-BESS kappt Lastspitzen und optimiert den Eigenverbrauch — 10–15 % Leistungspreis-Senkung" },
+      { icon: "fire",    title: "Wärme-Elektrifizierung",   desc: "WP-Kaskade mit COP 4–5 ersetzt 65–80 % des Gasbezugs — größter CO₂-Hebel am Standort" },
+      { icon: "plug",    title: "E-Mobilität",              desc: "70+ Ladepunkte elektrifizieren Fuhrpark und Mitarbeiter-PKW — Dieselkosten entfallen vollständig" },
+      { icon: "bolt",    title: "BESS-Arbitrage",           desc: "100 MW / 200 MWh am 110-kV-Anschluss — drei Erlösströme mit 15–25 % Rendite p.a." },
+      { icon: "chart",   title: "EMS-Integration",          desc: "Standortweites Energiemanagement steuert alle Flüsse in Echtzeit — maximale Systemeffizienz" },
+    ],
+
+    regulatorik: [
+      { icon: "leaf",     title: "CSRD / ESG-Reporting",     desc: "Vollständige Scope 1+2 Reduktion dokumentiert — CSRD-konform ab 2026",              status: "Adressiert" },
+      { icon: "globe",    title: "EU-Taxonomie",             desc: "Alle Investitionen taxonomie-konform — Zugang zu Green Finance gesichert",             status: "Konform" },
+      { icon: "document", title: "GEIG-Pflicht 2026",        desc: "Ladeinfrastruktur-Pflicht für Nicht-Wohngebäude vollständig erfüllt",                 status: "Erfüllt" },
+      { icon: "bolt",     title: "§14a EnWG (Steuerbare Verbraucher)", desc: "Wärmepumpen und Ladeinfrastruktur netzdienlich steuerbar",                  status: "Ready" },
+      { icon: "factory",  title: "ALTANA Konzernstandards",  desc: "Klimaneutralitätsziel des Konzerns am Standort Hartenstein adressiert",                status: "Aligned" },
+      { icon: "bank",     title: "CO₂-Bepreisung (BEHG)",    desc: "Steigende CO₂-Kosten durch Elektrifizierung weitgehend eliminiert",                   status: "Abgesichert" },
+    ],
+
+    riskManagement: [
+      { icon: "chartDown", title: "Strompreis-Volatilität",   desc: "Eigenverbrauchsquote >80 % reduziert Marktpreisabhängigkeit — Restrisiko durch Speicher gehedgt",  impact: "Niedrig" },
+      { icon: "battery",   title: "BESS-Marktrisiko",         desc: "Drei diversifizierte Erlösströme (Arbitrage, FCR, Redispatch) — kein Single-Point-of-Failure",     impact: "Mittel" },
+      { icon: "gear",      title: "Technologie-Risiko",       desc: "Ausschließlich marktreife Komponenten (LFP-Batterien, monokristalline PV, Industrie-WP)",          impact: "Niedrig" },
+      { icon: "document",  title: "Regulatorisches Risiko",   desc: "EEG, BEHG, GEIG — alle aktuellen Anforderungen erfüllt, EU-Taxonomie-konform",                    impact: "Niedrig" },
+      { icon: "bolt",      title: "Netzanschluss-Risiko",     desc: "Bestehender 110-kV-Anschluss — kein Netzausbau nötig, Vorabstimmung mit Netzbetreiber empfohlen",  impact: "Mittel" },
+    ],
+
+    pillars: [
+      { icon: "sun",     label: "Dezentrale Erzeugung",     phase: "II" },
+      { icon: "battery", label: "Intelligente Speicherung",  phase: "III" },
+      { icon: "fire",    label: "Wärme-Elektrifizierung",    phase: "IV" },
+      { icon: "plug",    label: "Elektromobilität",           phase: "V" },
+      { icon: "bolt",    label: "Energiehandel",              phase: "VI" },
+      { icon: "chart",   label: "System-Steuerung",           phase: "I–VI" },
+    ],
+
+    heroCards: [
+      {
+        icon: "leaf", accentKey: "green",
+        label: "CO₂-EINSPARUNG PRO JAHR",
+        value: "~4.800 t",
+        sub: "CO₂/Jahr weniger · ~288.000 €/a vermiedene CO₂-Kosten",
+        details: [
+          { label: "Strom (PV statt Netz)", value: "–2.100 t" },
+          { label: "Wärme (WP statt Gas)", value: "–2.400 t" },
+          { label: "Mobilität (E statt Diesel)", value: "–300 t" },
+          { label: "CO₂-Preis (~60 €/t)", value: "288.000 €/a" },
+        ],
+      },
+      {
+        icon: "money", accentKey: "gold",
+        label: "JÄHRLICHER GESAMTERTRAG",
+        value: "6,6–11,2 Mio €",
+        sub: "Einsparung + Erlöse pro Jahr",
+        details: [
+          { label: "Standort-Einsparungen (I–V)", value: "1,4–2,5 Mio €/a" },
+          { label: "Graustrom-BESS Erlöse (VI)", value: "5,2–8,7 Mio €/a" },
+        ],
+      },
+    ],
+
+    highlights: [
+      { icon: "trophy",  title: "95 % Energieautarkie",     text: "Nahezu vollständige Unabhängigkeit vom Energiemarkt — strategischer Standortvorteil" },
+      { icon: "money",   title: "6–9 Jahre Amortisation",   text: "Standort-Invest amortisiert sich schnell — BESS liefert zusätzlichen Cashflow ab Jahr 1" },
+      { icon: "leaf",    title: "4.800 t CO₂ weniger",      text: "Massive Reduktion über Strom, Wärme und Mobilität — Klimaneutralität in Reichweite" },
+      { icon: "bolt",    title: "Eigenständiges Ertragsmodell", text: "100 MW BESS macht den Standort zum Energiehändler — 5,2–8,7 Mio €/a Zusatzerlöse" },
+    ],
+  },
 ];

@@ -26,7 +26,7 @@ const MarketAnalysis = lazyRetry(() => import("./MarketAnalysis"));
 const colorMap = { gold: C.gold, green: C.green, greenLight: C.greenLight, warmOrange: C.warmOrange, navy: C.navy };
 const phases = phaseData.map(p => ({ ...p, color: colorMap[p.colorKey] || C.gold }));
 
-const cumulative = phases.map(p => p.independenceLabel).concat("Strategischer Standortvorteil");
+const cumulative = phases.map(p => p.independenceLabel);
 
 /* ── Extracted Static Styles (reduce GC pressure) ── */
 const S = {
@@ -707,7 +707,8 @@ export default function EckartTimeline() {
           <>
             {/* ── HERO CARDS: CO2 + Gesamtertrag auf einen Blick ── */}
             {phase.heroCards && (() => {
-              const cards = heroCards || phase.heroCards;
+              const accentMap = { green: C.green, gold: C.gold };
+              const cards = (heroCards || phase.heroCards).map(c => ({ ...c, accent: c.accent || accentMap[c.accentKey] || C.gold }));
               return (
               <div className="hero-cards-grid" style={{
                 display: "grid",
@@ -1608,7 +1609,7 @@ export default function EckartTimeline() {
                 transition: "all 0.4s ease",
               }}>
                 <Icon name={i <= active ? "check" : "circle"} size={10} />
-                <span>{["Nach I", "Nach II", "Nach III", "Nach IV", "Nach V", "Gesamt"][i]}: {c}</span>
+                <span>{["Nach I", "Nach II", "Nach III", "Nach IV", "Nach V", "Nach VI", "Gesamt"][i]}: {c}</span>
               </div>
             ))}
           </div>
