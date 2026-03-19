@@ -861,12 +861,14 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
   const [selectedDay, setSelectedDay] = useState(172); // Summer solstice
   const [season, setSeason] = useState("year"); // year, summer, winter
   const [apiError, setApiError] = useState(null);
-  const abortRef = useRef(null);
+  const priceAbortRef = useRef(null);
+  const solarAbortRef = useRef(null);
 
-  // Abort any in-flight fetch on unmount
+  // Abort any in-flight fetches on unmount
   useEffect(() => {
     return () => {
-      if (abortRef.current) abortRef.current.abort();
+      if (priceAbortRef.current) priceAbortRef.current.abort();
+      if (solarAbortRef.current) solarAbortRef.current.abort();
     };
   }, []);
 
@@ -882,6 +884,15 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
     }
     return arrays;
   }, [embedded, configActive, config, arrays]);
+
+  // Invalidate live solar data when PV array configuration changes
+  const prevArraysRef = useRef(effectiveArrays);
+  useEffect(() => {
+    if (prevArraysRef.current !== effectiveArrays) {
+      prevArraysRef.current = effectiveArrays;
+      setLiveSolar(null);
+    }
+  }, [effectiveArrays]);
 
   // Use config values if ConfigPanel is active
   const effectiveLoad = configActive && config ? config.stromverbrauch : annualLoad;
@@ -911,10 +922,10 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
 
   // Fetch live prices
   const handleFetchPrices = useCallback(async () => {
-    if (abortRef.current) abortRef.current.abort();
-    abortRef.current = new AbortController();
-    const signal = abortRef.current.signal;
-    setTimeout(() => { if (!signal.aborted) abortRef.current?.abort(); }, 8000);
+    if (priceAbortRef.current) priceAbortRef.current.abort();
+    priceAbortRef.current = new AbortController();
+    const signal = priceAbortRef.current.signal;
+    setTimeout(() => { if (!signal.aborted) priceAbortRef.current?.abort(); }, 8000);
 
     setLoadingPrices(true);
     setApiError(null);
@@ -937,10 +948,10 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
 
   // Fetch live solar irradiance from Open-Meteo
   const handleFetchSolar = useCallback(async () => {
-    if (abortRef.current) abortRef.current.abort();
-    abortRef.current = new AbortController();
-    const signal = abortRef.current.signal;
-    setTimeout(() => { if (!signal.aborted) abortRef.current?.abort(); }, 15000);
+    if (solarAbortRef.current) solarAbortRef.current.abort();
+    solarAbortRef.current = new AbortController();
+    const signal = solarAbortRef.current.signal;
+    setTimeout(() => { if (!signal.aborted) solarAbortRef.current?.abort(); }, 15000);
 
     setLoadingSolar(true);
     setApiError(null);

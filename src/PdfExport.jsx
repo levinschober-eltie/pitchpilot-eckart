@@ -17,7 +17,7 @@ const fmtM = (n) => {
   if (Math.abs(n) >= 1e3) return Math.round(n / 1e3) + " T€";
   return fmt(n) + " €";
 };
-const fmtPct = (n) => (n).toFixed(1).replace(".", ",") + " %";
+const fmtPct = (n) => isFinite(n) ? n.toFixed(1).replace(".", ",") + " %" : "— %";
 const today = new Date().toLocaleDateString("de-DE", { month: "long", year: "numeric" });
 
 /* ── Inline SVG icon strings for HTML templates ── */
@@ -713,7 +713,7 @@ function risikoPage(phases) {
 }
 
 function konfigurationPage(config, calc) {
-  const fmtDec = (v, d) => v.toFixed(d).replace(".", ",");
+  const fmtDec = (v, d) => isFinite(v) ? v.toFixed(d).replace(".", ",") : "—";
   return `<div class="page">${hdr}
     <h2>Individuelle Kalkulation</h2>
     <p class="info-text" style="margin-bottom:4mm;">Basierend auf den individuell konfigurierten Parametern. Alle Werte sind Punktschätzungen.</p>

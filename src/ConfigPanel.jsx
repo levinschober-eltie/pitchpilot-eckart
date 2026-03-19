@@ -66,7 +66,7 @@ function parseLastgangCSV(text) {
   try {
     const lines = text.split(/\r?\n/).filter(l => l.trim());
     if (lines.length < 10) return null;
-    const sep = lines[0].includes(";") ? ";" : ",";
+    const sep = lines[0].includes("\t") ? "\t" : lines[0].includes(";") ? ";" : ",";
     const startIdx = /^[a-zA-Z"Datum]/.test(lines[0]) ? 1 : 0;
     let values = [];
     for (let i = startIdx; i < lines.length; i++) {
@@ -124,9 +124,17 @@ function BillAnalysis({ file, currentConfig, onApply }) {
   });
 
   // Cleanup timers on unmount
-  useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current); }, []);
+  useEffect(() => () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (stepTimeoutRef.current) clearTimeout(stepTimeoutRef.current);
+  }, []);
+
+  const stepTimeoutRef = useRef(null);
 
   const startAnalysis = useCallback(() => {
+    // Clear any running timers from previous analysis
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (stepTimeoutRef.current) clearTimeout(stepTimeoutRef.current);
     setPhase("analyzing");
     setProgress(0);
     let current = 0, stepIdx = 0;
@@ -163,7 +171,7 @@ function BillAnalysis({ file, currentConfig, onApply }) {
           current = step.target;
           setProgress(current);
           stepIdx++;
-          setTimeout(runStep, 180);
+          stepTimeoutRef.current = setTimeout(runStep, 180);
         }
       }, step.delay);
     }
