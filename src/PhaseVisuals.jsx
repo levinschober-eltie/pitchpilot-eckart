@@ -1,5 +1,5 @@
 /**
- * PhaseVisuals v8 — Premium SVG illustrations, Eckart Werke Hartenstein.
+ * PhaseVisuals v8 — Premium SVG illustrations, configurable via siteConfig.
  * viewBox 0 0 400 320 · All animations use SVG animate/animateTransform
  * Colors: Navy #1B2A4A · Gold #D4A843 · Green #2D6A4F · WarmOrange #E8785A
  */

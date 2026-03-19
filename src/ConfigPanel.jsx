@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { Icon } from "./Icons";
 import { C, anim } from "./colors";
 import { defaultConfig, fmtEuro, fmtVal } from "./calcEngine";
+import { site } from "./siteConfig";
 import useFocusTrap from "./useFocusTrap";
 
 /* ── Slider Group Definitions ── */
@@ -23,7 +24,7 @@ const GROUPS = [
       { key: "pvFassade", label: "PV Fassade", unit: "MWp", min: 0, max: 2, step: 0.1, dec: 1 },
       { key: "pvCarport", label: "PV Carport", unit: "MWp", min: 0, max: 4, step: 0.1, dec: 1 },
     ],
-    note: "Bestand Freifläche: 2,0 MWp (bereits installiert)",
+    note: `${site.existingPVLabel}: ${site.existingPV.toFixed(1).replace(".", ",")} MWp (bereits installiert)`,
   },
   {
     key: "speicher", title: "SPEICHER", icon: "battery",
