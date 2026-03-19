@@ -155,8 +155,6 @@ export default function EckartTimeline() {
     // Force reflow to restart animation
     void el.offsetHeight;
     el.style.animation = '';
-    // Scroll content into view for keyboard navigation
-    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [active]);
 
   // Keyboard navigation
