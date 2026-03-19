@@ -117,6 +117,7 @@ function BillAnalysis({ file, currentConfig, onApply }) {
   const [progress, setProgress] = useState(0);
   const [statusText, setStatusText] = useState("");
   const timerRef = useRef(null);
+  const stepTimeoutRef = useRef(null);
   const [data, setData] = useState({
     monatsverbrauch: 0, jahresverbrauch: 0,
     arbeitspreis: 0, netzentgelte: 0, umlagenSteuern: 0, gesamtpreis: 0,
@@ -128,8 +129,6 @@ function BillAnalysis({ file, currentConfig, onApply }) {
     if (timerRef.current) clearInterval(timerRef.current);
     if (stepTimeoutRef.current) clearTimeout(stepTimeoutRef.current);
   }, []);
-
-  const stepTimeoutRef = useRef(null);
 
   const startAnalysis = useCallback(() => {
     // Clear any running timers from previous analysis
@@ -292,7 +291,7 @@ function BillAnalysis({ file, currentConfig, onApply }) {
               </span>
               <input
                 type="text" inputMode="decimal"
-                value={f.dec ? data[f.key].toFixed(f.dec) : data[f.key]}
+                value={f.dec ? (data[f.key] ?? 0).toFixed(f.dec) : (data[f.key] ?? 0)}
                 onChange={e => updateField(f.key, e.target.value)}
                 readOnly={f.derived}
                 style={{
