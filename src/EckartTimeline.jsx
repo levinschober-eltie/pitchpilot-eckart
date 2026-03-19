@@ -460,19 +460,28 @@ export default function EckartTimeline() {
           })}
 
           {/* Thumb */}
-          <div style={{
-            position: "absolute", left: `${sliderPct}%`, top: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "28px", height: "28px", borderRadius: "50%",
-            background: C.navy,
-            border: `3px solid ${C.gold}`,
-            boxShadow: `0 0 20px ${C.gold}40, 0 2px 8px rgba(0,0,0,0.3)`,
-            transition: isDragging ? "none" : "left 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-            cursor: "grab",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "0.7rem", fontWeight: 700, color: C.gold,
-            fontFamily: "Georgia, serif",
-          }}>
+          <div
+            role="slider"
+            tabIndex={0}
+            aria-valuenow={active}
+            aria-valuemin={0}
+            aria-valuemax={phases.length - 1}
+            aria-valuetext={`Phase ${phase.num}: ${phase.title}`}
+            aria-label="Projektphase auswählen"
+            style={{
+              position: "absolute", left: `${sliderPct}%`, top: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "28px", height: "28px", borderRadius: "50%",
+              background: C.navy,
+              border: `3px solid ${C.gold}`,
+              boxShadow: `0 0 20px ${C.gold}40, 0 2px 8px rgba(0,0,0,0.3)`,
+              transition: isDragging ? "none" : "left 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+              cursor: "grab",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: "0.7rem", fontWeight: 700, color: C.gold,
+              fontFamily: "Georgia, serif",
+            }}
+          >
             {phase.num}
           </div>
         </div>
