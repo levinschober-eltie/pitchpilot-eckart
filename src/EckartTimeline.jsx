@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, lazy, Suspense, memo } from "react";
+import { useState, useEffect, useRef, useMemo, lazy, Suspense, memo, startTransition } from "react";
 const PhaseVisual = lazy(() => import("./PhaseVisuals"));
 import { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./calcEngine";
 import { Icon } from "./Icons";
@@ -543,16 +543,16 @@ export default function EckartTimeline() {
       if (configOpen || exportOpen || marketOpen) return;
       if (e.key === "ArrowRight" || e.key === "ArrowDown") {
         e.preventDefault();
-        setActive((a) => Math.min(a + 1, phases.length - 1));
+        startTransition(() => setActive((a) => Math.min(a + 1, phases.length - 1)));
       } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
         e.preventDefault();
-        setActive((a) => Math.max(a - 1, 0));
+        startTransition(() => setActive((a) => Math.max(a - 1, 0)));
       } else if (e.key === "Home") {
         e.preventDefault();
-        setActive(0);
+        startTransition(() => setActive(0));
       } else if (e.key === "End") {
         e.preventDefault();
-        setActive(phases.length - 1);
+        startTransition(() => setActive(phases.length - 1));
       }
     };
     window.addEventListener("keydown", onKey);
@@ -600,7 +600,7 @@ export default function EckartTimeline() {
     const rect = sliderRef.current.getBoundingClientRect();
     const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
     const idx = Math.round(pct * (phases.length - 1));
-    setActive(idx);
+    startTransition(() => setActive(idx));
   };
 
   useEffect(() => {
@@ -690,7 +690,7 @@ export default function EckartTimeline() {
             {phases.map((p, i) => (
               <div key={i}
                 className="progress-dot"
-                onClick={() => setActive(i)}
+                onClick={() => startTransition(() => setActive(i))}
                 style={{
                   width: i === active ? "20px" : "8px",
                   height: "8px",
@@ -762,7 +762,7 @@ export default function EckartTimeline() {
             <button
               key={i}
               className="phase-btn"
-              onClick={() => setActive(i)}
+              onClick={() => startTransition(() => setActive(i))}
               style={{
                 background: "none", border: "none", cursor: "pointer",
                 display: "flex", flexDirection: "column", alignItems: "center",
@@ -1247,7 +1247,7 @@ export default function EckartTimeline() {
             </div>
 
             {/* ── INVESTMENT ROADMAP (Final) ───────────── */}
-            <div style={{ marginBottom: "1.25rem" }}>
+            <div className="cv-auto" style={{ marginBottom: "1.25rem" }}>
               <div style={{
                 ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
               }}>INVESTITIONS-ROADMAP · RENDITE PRO BAUSTEIN</div>
@@ -1363,7 +1363,7 @@ export default function EckartTimeline() {
 
             {/* ── GESAMTWIRTSCHAFTLICHE BETRACHTUNG ───────── */}
             {phase.economicSummary && (
-              <div style={{ marginBottom: "1.25rem" }}>
+              <div className="cv-auto" style={{ marginBottom: "1.25rem" }}>
                 <div style={{
                   ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
                 }}>GESAMTWIRTSCHAFTLICHE BETRACHTUNG</div>
@@ -1507,7 +1507,7 @@ export default function EckartTimeline() {
 
             {/* ── REGULATORIK & COMPLIANCE ─── */}
             {phase.regulatorik && (
-              <div style={{ marginBottom: "1.25rem" }}>
+              <div className="cv-auto" style={{ marginBottom: "1.25rem" }}>
                 <div style={{
                   ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
                 }}>REGULATORIK & COMPLIANCE · KONZERN-ANFORDERUNGEN</div>
@@ -1559,7 +1559,7 @@ export default function EckartTimeline() {
 
             {/* ── RISIKOMANAGEMENT ─── */}
             {phase.riskManagement && (
-              <div style={{ marginBottom: "1.25rem" }}>
+              <div className="cv-auto" style={{ marginBottom: "1.25rem" }}>
                 <div style={{
                   ...S.labelTiny, color: C.midGray, marginBottom: "0.6rem",
                 }}>RISIKOMANAGEMENT · STRATEGISCHE ABSICHERUNG</div>
@@ -2011,6 +2011,11 @@ export default function EckartTimeline() {
       </footer>
 
       <style>{`
+        /* content-visibility for below-fold Gesamtergebnis sections */
+        .cv-auto {
+          content-visibility: auto;
+          contain-intrinsic-size: auto 300px;
+        }
         .skip-link {
           position: absolute;
           left: -9999px;
@@ -2035,6 +2040,10 @@ export default function EckartTimeline() {
           border-radius: 6px;
           text-decoration: none;
           box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        /* Performance: CSS containment for independent subtrees */
+        .pitch-grid > div {
+          contain: content;
         }
         @-webkit-keyframes fadeSlideIn {
           from { opacity: 0; -webkit-transform: translateY(12px); transform: translateY(12px); }
