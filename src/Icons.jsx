@@ -21,7 +21,7 @@ const defs = {
   battery: (
     <>
       <rect x="2" y="7" width="18" height="10" rx="2" />
-      <path d="M22 11v2" strokeWidth="2" strokeLinecap="round" />
+      <path d="M22 11v2" strokeLinecap="round" />
       <rect x="5" y="10" width="6" height="4" rx="0.5" fill="currentColor" stroke="none" />
     </>
   ),
@@ -63,7 +63,7 @@ const defs = {
     <>
       <path d="M6 18h12M14 4l-4 8M10 12a5 5 0 0 0 5 5" />
       <circle cx="14" cy="4" r="2" />
-      <path d="M3 18h18" strokeWidth="2" />
+      <path d="M3 18h18" />
     </>
   ),
   chartDown: (
@@ -124,10 +124,10 @@ const defs = {
     </>
   ),
   check: (
-    <path d="M20 6 9 17l-5-5" strokeWidth="2" />
+    <path d="M20 6 9 17l-5-5" />
   ),
   close: (
-    <path d="M18 6 6 18M6 6l12 12" strokeWidth="2" />
+    <path d="M18 6 6 18M6 6l12 12" />
   ),
   trophy: (
     <>
@@ -156,7 +156,7 @@ const defs = {
   parking: (
     <>
       <circle cx="12" cy="12" r="10" />
-      <path d="M10 16V8h3a3 3 0 0 1 0 6h-3" strokeWidth="2" />
+      <path d="M10 16V8h3a3 3 0 0 1 0 6h-3" />
     </>
   ),
   chartUp: (
@@ -164,6 +164,12 @@ const defs = {
       <path d="M3 3v18h18" />
       <path d="m7 14 4-4 3 3 6-6" />
       <path d="M17 7h3v3" />
+    </>
+  ),
+  pin: (
+    <>
+      <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0Z" />
+      <circle cx="12" cy="10" r="3" />
     </>
   ),
   arrowRight: (

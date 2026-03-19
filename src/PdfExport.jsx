@@ -39,7 +39,9 @@ const iconSvg = (name, size = 16, color = N) => {
     document: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/>`,
     globe: `<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10A15 15 0 0 1 12 2Z"/>`,
     chartUp: `<path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 6-6"/><path d="M17 7h3v3"/>`,
-    check: `<path d="M20 6 9 17l-5-5" stroke-width="2"/>`,
+    car: `<path d="M5 17h14V12l-2-5H7L5 12v5Z"/><path d="M3 17h2v2H3v-2ZM19 17h2v2h-2v-2Z"/><circle cx="7.5" cy="17" r="1.5" fill="${color}" stroke="none"/><circle cx="16.5" cy="17" r="1.5" fill="${color}" stroke="none"/><path d="M5 12h14"/>`,
+    pin: `<path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0Z"/><circle cx="12" cy="10" r="3"/>`,
+    check: `<path d="M20 6 9 17l-5-5"/>`,
   };
   const d = p[name];
   if (!d) return name;

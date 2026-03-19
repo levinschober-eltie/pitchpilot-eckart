@@ -1039,7 +1039,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
             </Section>
 
             <div style={{ fontFamily: F, fontSize: "0.65rem", color: "#666", textAlign: "center", marginTop: "0.5rem" }}>
-              📍 Standort: Hartenstein (49.63°N, 11.52°E)
+              <Icon name="pin" size={11} style={{ marginRight: 3 }} /> Standort: Hartenstein (49.63°N, 11.52°E)
             </div>
           </div>
 
