@@ -768,7 +768,7 @@ export default function EckartTimeline() {
                         }}>
                           <span style={{
                             fontFamily: "Calibri, sans-serif", fontSize: "0.8rem",
-                            color: "rgba(255,255,255,0.55)",
+                            color: "rgba(255,255,255,0.65)",
                           }}>{d.label}</span>
                           <span style={{
                             fontFamily: "Calibri, sans-serif", fontSize: "0.9rem",
@@ -868,7 +868,7 @@ export default function EckartTimeline() {
                     }}>{kpi.value}</div>
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                      color: "rgba(255,255,255,0.55)", marginTop: "0.2rem",
+                      color: "rgba(255,255,255,0.65)", marginTop: "0.2rem",
                     }}>{kpi.sub}</div>
                   </div>
                 ))}
@@ -1074,7 +1074,7 @@ export default function EckartTimeline() {
                       }}>{m.value}</div>
                       <div style={{
                         fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
-                        color: "rgba(255,255,255,0.55)", marginTop: "0.15rem",
+                        color: "rgba(255,255,255,0.65)", marginTop: "0.15rem",
                       }}>{m.sub}</div>
                     </div>
                   ))}
@@ -1126,7 +1126,7 @@ export default function EckartTimeline() {
                       }}>{l.title}</div>
                       <div style={{
                         fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
-                        color: "rgba(255,255,255,0.55)", lineHeight: 1.4,
+                        color: "rgba(255,255,255,0.65)", lineHeight: 1.4,
                       }}>{l.desc}</div>
                     </div>
                   </div>

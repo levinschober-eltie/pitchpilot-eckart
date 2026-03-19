@@ -816,7 +816,7 @@ function PVArrayRow({ arr, idx, onChange, onRemove }) {
         }}><Icon name="close" size={14} /></button>
       </div>
       <div style={{ marginBottom: "0.4rem" }}>
-        <label style={{ fontFamily: F, fontSize: "0.72rem", color: "rgba(255,255,255,0.55)" }}>Ausrichtung</label>
+        <label style={{ fontFamily: F, fontSize: "0.72rem", color: "rgba(255,255,255,0.65)" }}>Ausrichtung</label>
         <select value={arr.azimuth} onChange={e => onChange({ ...arr, azimuth: +e.target.value })}
           style={{
             width: "100%", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
@@ -1192,7 +1192,7 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
                 title="Durchschnittliches Tagesprofil"
                 season={seasonLabel}
               />
-              <div style={{ fontFamily: F, fontSize: "0.78rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.65, background: "rgba(212,168,67,0.06)", borderLeft: `3px solid ${C.gold}40`, borderRadius: "0 6px 6px 0", padding: "0.6rem 0.8rem", marginTop: "0.5rem" }}>
+              <div style={{ fontFamily: F, fontSize: "0.78rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.65, background: "rgba(212,168,67,0.06)", borderLeft: `3px solid ${C.gold}40`, borderRadius: "0 6px 6px 0", padding: "0.6rem 0.8rem", marginTop: "0.5rem" }}>
                 <strong style={{ color: C.gold }}>Key Insight:</strong> PV-Erzeugung korreliert mit niedrigen Börsenpreisen
                 (Solardip um Mittag). Mit BESS lässt sich die Einspeisung in die Abendspitze verschieben —
                 dort liegen die Preise {season === "winter" ? "30–50%" : "40–80%"} über dem Tagesdurchschnitt.

@@ -455,10 +455,10 @@ export const phases = [
     months: "Monat 24–36",
     colorKey: "greenLight",
     headline: "Der Standort wird zum eigenständigen Ertragsmodell",
-    description: "Ein 100 MW / 200 MWh Großspeicher nutzt den bestehenden 110-kV-Netzanschluss. Drei Erlösströme: Arbitrage (EPEX-Spread), FCR/aFRR (Regelenergie) und Redispatch (Netzstabilität) — zusammen 15–25 % Rendite p.a.",
+    description: "Ein 100 MW / 200 MWh Großspeicher nutzt den bestehenden 110-kV-Netzanschluss. Vier Erlösströme: Arbitrage (EPEX-Spread), FCR/aFRR (Regelenergie), Redispatch (Netzstabilität) und ab 2026 Trägheitsmarkt (Inertia Services) — zusammen 15–25 % Rendite p.a.",
     results: [
       "Graustrom-BESS (100 MW / 200 MWh) in Betrieb",
-      "Drei Erlösströme aktiv: Arbitrage + FCR + Redispatch",
+      "Vier Erlösströme aktiv: Arbitrage + FCR + Redispatch + Inertia",
       "24/7 SCADA-Monitoring und Fernsteuerung",
       "Brandschutzkonzept und Genehmigung abgeschlossen",
       "Netzanschluss erweitert und bidirektional",
@@ -570,7 +570,7 @@ export const phases = [
       { icon: "battery", title: "Speicher & Peak Shaving",  desc: "Standort-BESS kappt Lastspitzen und optimiert den Eigenverbrauch — 10–15 % Leistungspreis-Senkung" },
       { icon: "fire",    title: "Wärme-Elektrifizierung",   desc: "WP-Kaskade mit COP 4–5 ersetzt 65–80 % des Gasbezugs — größter CO₂-Hebel am Standort" },
       { icon: "plug",    title: "E-Mobilität",              desc: "70+ Ladepunkte elektrifizieren Fuhrpark und Mitarbeiter-PKW — Dieselkosten entfallen vollständig" },
-      { icon: "bolt",    title: "BESS-Arbitrage",           desc: "100 MW / 200 MWh am 110-kV-Anschluss — drei Erlösströme mit 15–25 % Rendite p.a." },
+      { icon: "bolt",    title: "BESS-Arbitrage",           desc: "100 MW / 200 MWh am 110-kV-Anschluss — vier Erlösströme inkl. Trägheitsmarkt 2026, 15–25 % Rendite p.a." },
       { icon: "chart",   title: "EMS-Integration",          desc: "Standortweites Energiemanagement steuert alle Flüsse in Echtzeit — maximale Systemeffizienz" },
     ],
 
