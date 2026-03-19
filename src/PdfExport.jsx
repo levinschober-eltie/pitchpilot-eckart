@@ -44,7 +44,7 @@ const iconSvg = (name, size = 16, color = N) => {
     check: `<path d="M20 6 9 17l-5-5"/>`,
   };
   const d = p[name];
-  if (!d) return name;
+  if (!d) return "";
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;">${d}</svg>`;
 };
 
