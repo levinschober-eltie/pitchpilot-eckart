@@ -27,6 +27,34 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,ico}'],
+        runtimeCaching: [
+          {
+            urlPattern: /\.js$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'js-chunks',
+              expiration: { maxEntries: 30, maxAgeSeconds: 7 * 24 * 60 * 60 },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/api\.energy-charts\.info\//,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'energy-api',
+              expiration: { maxEntries: 5, maxAgeSeconds: 24 * 60 * 60 },
+              networkTimeoutSeconds: 10,
+            },
+          },
+          {
+            urlPattern: /^https:\/\/archive-api\.open-meteo\.com\//,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'solar-api',
+              expiration: { maxEntries: 5, maxAgeSeconds: 7 * 24 * 60 * 60 },
+              networkTimeoutSeconds: 15,
+            },
+          },
+        ],
       },
     }),
   ],

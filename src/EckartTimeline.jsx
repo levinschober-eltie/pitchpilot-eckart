@@ -1,12 +1,26 @@
 import { useState, useEffect, useRef, useMemo, lazy, Suspense, memo, startTransition } from "react";
-const PhaseVisual = lazy(() => import("./PhaseVisuals"));
 import { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./calcEngine";
 import { Icon } from "./Icons";
-
-const ConfigPanel = lazy(() => import("./ConfigPanel"));
-const ExportModal = lazy(() => import("./PdfExport"));
-const MarketAnalysis = lazy(() => import("./MarketAnalysis"));
 import { C, anim } from "./colors";
+
+/* ── Lazy import with retry (handles stale chunks after redeployment) ── */
+function lazyRetry(importFn) {
+  return lazy(() => importFn().catch(() => {
+    const refreshed = sessionStorage.getItem("chunk-retry");
+    if (!refreshed) {
+      sessionStorage.setItem("chunk-retry", "1");
+      window.location.reload();
+      return new Promise(() => {}); // never resolves, page reloads
+    }
+    sessionStorage.removeItem("chunk-retry");
+    return importFn(); // final attempt after reload
+  }));
+}
+
+const PhaseVisual = lazyRetry(() => import("./PhaseVisuals"));
+const ConfigPanel = lazyRetry(() => import("./ConfigPanel"));
+const ExportModal = lazyRetry(() => import("./PdfExport"));
+const MarketAnalysis = lazyRetry(() => import("./MarketAnalysis"));
 
 const phases = [
   {
@@ -526,6 +540,8 @@ export default function EckartTimeline() {
     const cfg = configOpen ? config : savedConfig;
     return getPhaseCalcItems(active, c, cfg);
   }, [showCalc, configOpen, calc, activeCalc, config, savedConfig, active]);
+
+  useEffect(() => { sessionStorage.removeItem("chunk-retry"); }, []);
 
   useEffect(() => {
     const el = contentRef.current;
