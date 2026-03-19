@@ -603,6 +603,8 @@ export default function EckartTimeline() {
       overflowY: "auto",
       position: "relative",
     }}>
+      <a className="skip-link" href="#main-content">Zum Hauptinhalt springen</a>
+
       {/* Subtle grid pattern overlay */}
       <div style={{
         position: "fixed", inset: 0, pointerEvents: "none", opacity: 0.03,
@@ -829,7 +831,7 @@ export default function EckartTimeline() {
       </div>
 
       {/* Main Content Area */}
-      <main ref={contentRef} style={{
+      <main id="main-content" ref={contentRef} style={{
         padding: "1rem 2rem 2rem",
         position: "relative", zIndex: 2,
         ...anim("fadeSlideIn 0.5s ease forwards"),
@@ -2016,6 +2018,31 @@ export default function EckartTimeline() {
       </footer>
 
       <style>{`
+        .skip-link {
+          position: absolute;
+          left: -9999px;
+          top: auto;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          z-index: 10000;
+        }
+        .skip-link:focus {
+          position: fixed;
+          top: 8px;
+          left: 8px;
+          width: auto;
+          height: auto;
+          padding: 0.6rem 1.2rem;
+          background: #D4A843;
+          color: #1B2A4A;
+          font-family: Calibri, sans-serif;
+          font-weight: 700;
+          font-size: 0.9rem;
+          border-radius: 6px;
+          text-decoration: none;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
         @-webkit-keyframes fadeSlideIn {
           from { opacity: 0; -webkit-transform: translateY(12px); transform: translateY(12px); }
           to { opacity: 1; -webkit-transform: translateY(0); transform: translateY(0); }

@@ -776,6 +776,7 @@ function PVArrayRow({ arr, idx, onChange, onRemove }) {
         <button onClick={onRemove} style={{
           background: "rgba(255,100,100,0.15)", border: "1px solid rgba(255,100,100,0.3)",
           color: "#ff8888", borderRadius: 4, padding: "0.1rem 0.5rem", fontSize: "0.7rem", cursor: "pointer",
+          minWidth: 44, minHeight: 44, display: "flex", alignItems: "center", justifyContent: "center",
         }}><Icon name="close" size={14} /></button>
       </div>
       <div style={{ marginBottom: "0.4rem" }}>
@@ -936,7 +937,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
         }
         .ma-slider::-webkit-slider-thumb {
           -webkit-appearance: none;
-          width: 18px; height: 18px;
+          width: 24px; height: 24px;
           border-radius: 50%;
           background: linear-gradient(135deg, #D4A843, #E8C97A);
           cursor: pointer;
@@ -944,7 +945,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
           border: 2px solid #1B2A4A;
         }
         .ma-slider::-moz-range-thumb {
-          width: 14px; height: 14px;
+          width: 24px; height: 24px;
           border-radius: 50%;
           background: linear-gradient(135deg, #D4A843, #E8C97A);
           cursor: pointer;
@@ -983,7 +984,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
         </div>
         <button onClick={onClose} aria-label="Analyse schließen" style={{
           background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)",
-          color: "#ccc", borderRadius: "8px", width: 36, height: 36, fontSize: "1rem", fontFamily: F,
+          color: "#ccc", borderRadius: "8px", width: 44, height: 44, fontSize: "1rem", fontFamily: F,
           cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
         }}><Icon name="close" size={14} /></button>
       </div>
@@ -1097,11 +1098,12 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
             {/* Season selector */}
             <div style={{ display: "flex", gap: "0.4rem", marginBottom: "1rem" }}>
               {[["year", "Ganzjahr"], ["summer", "Sommer"], ["winter", "Winter"]].map(([key, label]) => (
-                <button key={key} onClick={() => setSeason(key)} className="ma-btn-action" style={{
+                <button key={key} onClick={() => setSeason(key)} className="ma-btn-action" aria-label={label + " anzeigen"} style={{
                   background: season === key ? "rgba(212,168,67,0.2)" : "rgba(255,255,255,0.04)",
                   border: `1px solid ${season === key ? "rgba(212,168,67,0.4)" : "rgba(255,255,255,0.08)"}`,
                   color: season === key ? C.goldLight : "#888",
                   borderRadius: "2rem", padding: "0.3rem 0.9rem", fontFamily: F, fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.5px", cursor: "pointer",
+                  minHeight: 44,
                 }}>{label}</button>
               ))}
             </div>

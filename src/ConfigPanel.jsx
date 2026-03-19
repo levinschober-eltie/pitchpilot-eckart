@@ -215,8 +215,8 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
         {/* ── Scrollable slider groups ── */}
         <div style={{ flex: 1, overflowY: "auto", padding: "0.5rem 1.2rem 2rem" }}>
           {GROUPS.map((group) => (
-            <div key={group.key} style={{ marginBottom: "0.4rem" }}>
-              {/* Group header */}
+            <fieldset key={group.key} style={{ marginBottom: "0.4rem", border: "none", padding: 0, margin: 0 }}>
+              <legend style={{ padding: 0, width: "100%" }}>
               <button
                 onClick={() => toggleGroup(group.key)}
                 aria-expanded={openGroups[group.key]}
@@ -239,6 +239,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
                   transition: "transform 0.2s",
                 }}>▾</span>
               </button>
+              </legend>
 
               {/* Sliders */}
               {openGroups[group.key] && (
@@ -344,7 +345,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
                   )}
                 </div>
               )}
-            </div>
+            </fieldset>
           ))}
 
           {/* Save */}

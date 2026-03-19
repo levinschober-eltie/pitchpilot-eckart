@@ -956,7 +956,7 @@ export default function ExportModal({ phases, config, calc, configActive, onClos
             fontFamily: "Calibri, sans-serif", fontSize: "0.82rem",
             color: MC.midGray, cursor: "pointer",
           }}>Abbrechen</button>
-          <button onClick={doExport} style={{
+          <button onClick={doExport} aria-label="PDF generieren" style={{
             background: `linear-gradient(135deg, ${MC.gold}, ${MC.goldLight})`,
             border: "none", borderRadius: "6px", padding: "0.5rem 1.4rem",
             fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",

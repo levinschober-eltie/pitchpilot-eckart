@@ -21,9 +21,9 @@ export default class ErrorBoundary extends Component {
           padding: "2rem",
         }}>
           <div style={{ textAlign: "center", maxWidth: "400px" }}>
-            <h2 style={{ color: "#D4A843", marginBottom: "1rem" }}>
+            <h1 style={{ color: "#D4A843", marginBottom: "1rem", fontSize: "1.5rem" }}>
               Ein Fehler ist aufgetreten
-            </h2>
+            </h1>
             <p style={{ color: "rgba(255,255,255,0.6)", marginBottom: "1.5rem" }}>
               Bitte laden Sie die Seite neu.
             </p>
