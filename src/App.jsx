@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import EckartTimeline from "./EckartTimeline";
 import { Icon } from "./Icons";
 import { C, anim } from "./colors";
+import { company, intro } from "./siteConfig";
 
 function IntroScreen({ onEnter }) {
   const [visible, setVisible] = useState(false);
@@ -54,12 +55,12 @@ function IntroScreen({ onEnter }) {
           color: C.midGray, fontWeight: 700,
           padding: "0.3rem 0.7rem", borderRadius: "3px",
           border: `1px solid ${C.midGray}40`,
-        }}>Vertraulich</span>
+        }}>{company.confidential && "Vertraulich"}</span>
         <span style={{
           fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
           letterSpacing: "4px", textTransform: "uppercase",
           color: C.gold, fontWeight: 700,
-        }}>Elite PV</span>
+        }}>{company.consultant}</span>
       </header>
 
       {/* Center content */}
@@ -87,7 +88,7 @@ function IntroScreen({ onEnter }) {
           backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
           opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(20px)",
           transition: "all 1s ease 0.6s",
-        }}>Eckart Werke</h1>
+        }}>{company.name}</h1>
 
         {/* Gold accent line */}
         <div style={{
@@ -104,7 +105,7 @@ function IntroScreen({ onEnter }) {
           color: C.goldLight, fontStyle: "italic",
           opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(15px)",
           transition: "all 0.8s ease 1.1s",
-        }}>Phasenkonzept zur ganzheitlichen Energietransformation</h2>
+        }}>{intro.subtitle}</h2>
 
         {/* Intro text */}
         <p style={{
@@ -115,11 +116,7 @@ function IntroScreen({ onEnter }) {
           opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(15px)",
           transition: "all 0.8s ease 1.3s",
         }}>
-          Aufbauend auf den bereits realisierten 2 MWp Freiflächen-PV zeigt dieses
-          interaktive Dokument die strategische Roadmap zur vollständigen
-          Energietransformation Ihres Standorts in Hartenstein – in sechs
-          aufeinander aufbauenden Phasen von Strom über Wärme und Mobilität
-          bis zum eigenständigen Ertragsmodell.
+          {intro.description}
         </p>
 
         {/* 5 Phase pills preview */}
@@ -129,14 +126,7 @@ function IntroScreen({ onEnter }) {
           opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(15px)",
           transition: "all 0.8s ease 1.5s",
         }}>
-          {[
-            { num: "I", label: "Analyse" },
-            { num: "II", label: "PV & Hülle" },
-            { num: "III", label: "Speicher" },
-            { num: "IV", label: "Wärme" },
-            { num: "V", label: "Laden" },
-            { num: "VI", label: "BESS" },
-          ].map((p, i) => (
+          {intro.phasePills.map((p, i) => (
             <div key={i} style={{
               display: "flex", alignItems: "center", gap: "0.35rem",
               padding: "0.3rem 0.65rem", borderRadius: "20px",
@@ -177,7 +167,7 @@ function IntroScreen({ onEnter }) {
             e.currentTarget.style.transform = "translateY(0)";
           }}
         >
-          Konzept entdecken
+          {intro.cta}
           <Icon name="arrowRight" size={18} style={{ transition: "transform 0.3s" }} />
         </button>
       </main>
@@ -192,8 +182,8 @@ function IntroScreen({ onEnter }) {
         opacity: visible ? 1 : 0,
         transition: "opacity 1s ease 1.9s",
       }}>
-        <span>März 2026 · Güntersthal 4, 91235 Hartenstein</span>
-        <span style={{ fontStyle: "italic" }}>Energiewirtschaftliche Konzeptbegleitung</span>
+        <span>{company.date} · {company.address}</span>
+        <span style={{ fontStyle: "italic" }}>{intro.footerRight}</span>
       </footer>
     </div>
   );

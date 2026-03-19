@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { anim } from "./colors";
 import useFocusTrap from "./useFocusTrap";
+import { company } from "./siteConfig";
 
 /* ── Colors ── */
 const N = "#1B2A4A";
@@ -239,8 +240,8 @@ function debtSvg(debtSchedule, kreditLaufzeit) {
 
 /* ── Page Header ── */
 const hdr = `<div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid ${N};padding-bottom:4mm;margin-bottom:5mm;">
-  <div><div style="font-size:7pt;letter-spacing:2.5px;color:${G};font-weight:bold;font-family:Calibri,sans-serif;">ECKART WERKE · ENERGIETRANSFORMATION</div>
-  <div style="font-size:8.5pt;color:#666;font-family:Calibri,sans-serif;">Güntersthal 4, 91235 Hartenstein</div></div>
+  <div><div style="font-size:7pt;letter-spacing:2.5px;color:${G};font-weight:bold;font-family:Calibri,sans-serif;">${company.name.toUpperCase()} · ENERGIETRANSFORMATION</div>
+  <div style="font-size:8.5pt;color:#666;font-family:Calibri,sans-serif;">${company.address}</div></div>
   <div style="text-align:right;"><div style="font-size:6.5pt;color:#aaa;letter-spacing:1px;font-family:Calibri,sans-serif;">ERSTELLT DURCH</div>
   <div style="font-size:8pt;font-weight:bold;font-family:Calibri,sans-serif;">Elite PV GmbH · Levin Schober</div></div></div>`;
 
@@ -290,7 +291,7 @@ function coverPage(phases, calc, cfgActive, config) {
   return `<div class="page" style="display:flex;flex-direction:column;height:100vh;padding:0;">
     <div style="background:linear-gradient(160deg, ${N} 0%, #0F1D35 100%);color:white;padding:30mm 20mm 20mm;flex:0 0 auto;position:relative;">
       <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,${G},${G}80,transparent);"></div>
-      <div style="font-family:Calibri,sans-serif;font-size:7.5pt;letter-spacing:4px;color:${G};font-weight:bold;margin-bottom:3mm;">ECKART WERKE · ALTANA AG</div>
+      <div style="font-family:Calibri,sans-serif;font-size:7.5pt;letter-spacing:4px;color:${G};font-weight:bold;margin-bottom:3mm;">${company.name.toUpperCase()}</div>
       <div style="width:40mm;height:0.7mm;background:linear-gradient(90deg,${G},transparent);margin-bottom:8mm;"></div>
       <div style="font-family:Georgia,serif;font-size:28pt;font-weight:bold;line-height:1.15;margin-bottom:4mm;">Energietransformation<br>Phasenkonzept</div>
       <div style="font-family:Calibri,sans-serif;font-size:10pt;color:rgba(255,255,255,0.65);letter-spacing:0.5px;">50 Hektar Industriestandort · 6 Phasen · Integriertes Energiesystem</div>
@@ -338,7 +339,7 @@ function coverPage(phases, calc, cfgActive, config) {
         <div><div style="font-family:Calibri,sans-serif;font-size:6.5pt;color:#aaa;letter-spacing:1.5px;font-weight:600;">ERSTELLT DURCH</div>
           <div style="font-weight:bold;font-size:9.5pt;">Elite PV GmbH</div><div style="font-size:8pt;color:#666;">Levin Schober · levinschober@elite-pv.de</div></div>
         <div style="text-align:center;"><div style="font-family:Calibri,sans-serif;font-size:6.5pt;color:#aaa;letter-spacing:1.5px;font-weight:600;">ERSTELLT FÜR</div>
-          <div style="font-weight:bold;font-size:9.5pt;">ECKART GmbH</div><div style="font-size:8pt;color:#666;">Güntersthal 4, 91235 Hartenstein</div></div>
+          <div style="font-weight:bold;font-size:9.5pt;">${company.legal}</div><div style="font-size:8pt;color:#666;">${company.address}</div></div>
         <div style="text-align:right;"><div style="font-family:Calibri,sans-serif;font-size:6.5pt;color:#aaa;letter-spacing:1.5px;font-weight:600;">DATUM</div>
           <div style="font-weight:bold;font-size:9.5pt;">${today}</div><div style="font-size:8pt;color:#666;">Vertraulich</div></div>
       </div>
@@ -801,7 +802,7 @@ function generatePdf(phases, config, calc, sel, cfgActive) {
 
   return `<!DOCTYPE html><html lang="de"><head>
     <meta charset="UTF-8">
-    <title>ECKART Werke — Energietransformation</title>
+    <title>${company.name} — Energietransformation</title>
     <style>${css}</style>
   </head><body>${body}</body></html>`;
 }

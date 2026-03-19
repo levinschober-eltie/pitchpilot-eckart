@@ -6,6 +6,7 @@
 import { memo, useEffect, useRef } from "react";
 import { SvgIcon } from "./Icons";
 import { C } from "./colors";
+import { company, site, phaseKPIs as KPI, buildings } from "./siteConfig";
 
 /* ── Shared SVG Defs ──────────────────────────────────────────── */
 function SharedDefs({ warm = false, cool = false }) {
@@ -335,7 +336,7 @@ function ForestCluster({ cx, cy, count = 6, spread = 15, op = 0.65, layer = 1 })
 
 /* ── 3D Building (enhanced) ─────────────────────────────────── */
 function Bldg({ x, y, w, h, d = 6, solar = false, heat = false, op = 1,
-  chimney = false, vent = false, sign = "", antenna = false, flag = false, eckart = false }) {
+  chimney = false, vent = false, sign = "", antenna = false, flag = false, companySign = false }) {
   return (
     <g opacity={op}>
       <ellipse cx={x + w / 2 + 1} cy={y + h + 1} rx={w / 2 + 3} ry="3"
@@ -487,12 +488,12 @@ function Bldg({ x, y, w, h, d = 6, solar = false, heat = false, op = 1,
             fontSize="3.5" fontFamily="Calibri, sans-serif" fontWeight="700" letterSpacing="0.5">{sign}</text>
         </g>
       )}
-      {/* ECKART signage on main building */}
-      {eckart && (
+      {/* Company signage on main building */}
+      {companySign && (
         <g>
           <rect x={x + 4} y={y + h * 0.3} width={32} height="7" rx="1" fill="rgba(212,168,67,0.06)" />
           <text x={x + 5} y={y + h * 0.3 + 5.2} fill="rgba(212,168,67,0.22)"
-            fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700" letterSpacing="1.5">ECKART</text>
+            fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700" letterSpacing="1.5">{company.signage}</text>
         </g>
       )}
       {/* Antenna with blink */}
@@ -713,7 +714,7 @@ function SiteBase({ children, dim = false, solar = false, heat = false }) {
 
       {/* Buildings */}
       <Bldg x={144} y={150} w={52} h={26} d={7} solar={solar} heat={heat} chimney sign="HALLE A" flag />
-      <Bldg x={200} y={142} w={58} h={34} d={9} solar={solar} heat={heat} vent antenna sign="PRODUKTION" eckart />
+      <Bldg x={200} y={142} w={58} h={34} d={9} solar={solar} heat={heat} vent antenna sign="PRODUKTION" companySign />
       <Bldg x={152} y={182} w={46} h={23} d={6} solar={solar} heat={heat} sign="LAGER" />
       <Bldg x={202} y={182} w={54} h={23} d={7} solar={solar} heat={heat} chimney sign="MÜHLE" />
       <Bldg x={120} y={168} w={26} h={18} d={4} solar={solar} sign="BÜRO" />
@@ -1120,7 +1121,7 @@ function AnalyseVisual() {
             stroke={C.goldLight} strokeWidth="0.3" opacity="0.35" />
         ))}
       </g>
-      <Badge x={57} y={164} text="2 MWp" sub="Freifläche (Bestand)" icon="sun" lineFrom={[57,172]} />
+      <Badge x={57} y={164} text={`${site.existingPV} MWp`} sub={site.existingPVLabel} icon="sun" lineFrom={[57,172]} />
 
       {/* Clipboard with animated checkmarks */}
       <g opacity="0.55">
@@ -1128,7 +1129,7 @@ function AnalyseVisual() {
           stroke={C.gold} strokeWidth="0.5" />
         <rect x="342" y="257" width="12" height="5" rx="2" fill={C.navyLight}
           stroke={C.gold} strokeWidth="0.4" />
-        {["Dachstatik","Leitungen","Lastprofil","Netzanschl.","Thermogr."].map((item,i) => (
+        {KPI.analyse.checklist.map((item,i) => (
           <g key={i}>
             <text x="342" y={272+i*6} fill={C.midGray} fontSize="3" fontFamily="Calibri, sans-serif">{item}</text>
             <g opacity="0">
@@ -1141,21 +1142,18 @@ function AnalyseVisual() {
       </g>
 
       {/* Info panel */}
-      <InfoPanel x={315} y={118} w={74} h={82} title="STANDORT-PROFIL" color={C.gold}>
-        {[
-          ["50 ha","Gelände",C.goldLight],
-          ["800+","Mitarbeiter",C.goldLight],
-          ["110 kV","Netzanschluss",C.goldLight],
-          ["12 Mon.","Lastprofil",C.midGray],
-          ["5 Cluster","Dachgutachten",C.midGray],
-        ].map(([val,label,col],i) => (
+      <InfoPanel x={315} y={118} w={74} h={82} title={KPI.analyse.panelTitle} color={C.gold}>
+        {KPI.analyse.items.map(([val,label],i) => {
+          const col = i < 3 ? C.goldLight : C.midGray;
+          return (
           <g key={i}>
             <text x="323" y={142+i*12} fill={col}
               fontSize="6" fontFamily="Calibri, sans-serif" fontWeight="700">{val}</text>
             <text x="358" y={142+i*12} fill={C.midGray}
               fontSize="4.5" fontFamily="Calibri, sans-serif">{label}</text>
           </g>
-        ))}
+        );
+        })}
       </InfoPanel>
 
       {/* Thermographic inset with upload progress */}
@@ -1370,16 +1368,12 @@ function PVVisual() {
             stroke={C.goldLight} strokeWidth="0.2" opacity="0.3" />
         ))}
         <text x="50" y="204" textAnchor="middle" fill={C.midGray}
-          fontSize="3.5" fontFamily="Calibri, sans-serif">2 MWp Bestand</text>
+          fontSize="3.5" fontFamily="Calibri, sans-serif">{site.existingPV} MWp Bestand</text>
       </g>
 
       {/* New PV breakdown */}
-      <InfoPanel x={12} y={110} w={78} h={50} title="NEUE PV-ANLAGEN" color={C.gold}>
-        {[
-          ["sun","Dach-PV","2,5–5,0 MWp","Cluster A–E"],
-          ["building","Fassade","0,5–1,0 MWp","Süd + West"],
-          ["parking","Carports","1,5–3,0 MWp","Parkplätze"],
-        ].map(([icon,label,power,detail],i) => (
+      <InfoPanel x={12} y={110} w={78} h={50} title={KPI.pv.panelTitle} color={C.gold}>
+        {KPI.pv.arrays.map(({icon,label,power,detail},i) => (
           <g key={i}>
             <SvgIcon name={icon} x={20} y={131+i*13} size={6} color={C.goldLight} />
             <text x="30" y={133+i*13} fill={C.goldLight}
@@ -1393,11 +1387,11 @@ function PVVisual() {
       </InfoPanel>
 
       {/* Yield panel */}
-      <InfoPanel x={315} y={130} w={74} h={62} title="ERZEUGUNG GESAMT" color={C.gold}>
+      <InfoPanel x={315} y={130} w={74} h={62} title={KPI.pv.totalLabel} color={C.gold}>
         <text x="352" y={155} textAnchor="middle" fill={C.goldLight}
-          fontSize="11" fontFamily="Calibri, sans-serif" fontWeight="700">6,5–11 MWp</text>
+          fontSize="11" fontFamily="Calibri, sans-serif" fontWeight="700">{KPI.pv.totalPower}</text>
         <text x="352" y={166} textAnchor="middle" fill={C.midGray}
-          fontSize="5" fontFamily="Calibri, sans-serif">5.800–9.800 MWh/a</text>
+          fontSize="5" fontFamily="Calibri, sans-serif">{KPI.pv.totalYield}</text>
         <rect x="322" y="172" width="54" height="5" rx="2" fill="rgba(0,0,0,0.2)" />
         <rect x="322" y="172" width="30" height="5" rx="2" fill={C.gold} opacity="0.3" />
         <rect x="352" y="172" width="10" height="5" fill={C.gold} opacity="0.2" />
@@ -1517,7 +1511,7 @@ function SpeicherVisual() {
 
       <text x="200" y="260" textAnchor="middle" fill={C.greenLight}
         fontSize="5.5" fontFamily="Calibri, sans-serif" fontWeight="700">
-        6,5–11 MWh · 0,5C · 3,25–5,5 MW
+        {KPI.speicher.capacity}
       </text>
 
       {/* EMS Dashboard with charts */}
@@ -1600,36 +1594,32 @@ function SpeicherVisual() {
       </g>
 
       {/* EMS strategy panel */}
-      <InfoPanel x={298} y={132} w={92} h={92} title="INTELLIGENTES EMS" color={C.gold}>
-        <g>
-          <circle cx="310" cy="152" r="4" fill={C.gold} opacity="0.15" />
-          <text x="310" y="154" textAnchor="middle" fill={C.goldLight} fontSize="5" fontWeight="700">1</text>
-          <text x="318" y="152" fill={C.goldLight} fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">Eigenverbrauch</text>
-          <text x="318" y="158" fill={C.midGray} fontSize="3.5" fontFamily="Calibri, sans-serif">PV → Produktion max.</text>
-        </g>
-        <g>
-          <circle cx="310" cy="172" r="4" fill={C.greenLight} opacity="0.15" />
-          <text x="310" y="174" textAnchor="middle" fill={C.greenLight} fontSize="5" fontWeight="700">2</text>
-          <text x="318" y="172" fill={C.greenLight} fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">Peak Shaving</text>
-          <text x="318" y="178" fill={C.midGray} fontSize="3.5" fontFamily="Calibri, sans-serif">Lastspitzen kappen</text>
-          <polyline points="366,178 370,174 374,176 378,172 382,175 386,178"
-            fill="none" stroke="rgba(255,150,150,0.3)" strokeWidth="0.8" />
-          <polyline points="366,178 370,174 374,176 378,176 382,176 386,178"
-            fill="none" stroke={C.greenLight} strokeWidth="0.8" />
-        </g>
-        <g>
-          <circle cx="310" cy="192" r="4" fill={C.gold} opacity="0.15" />
-          <text x="310" y="194" textAnchor="middle" fill={C.gold} fontSize="5" fontWeight="700">3</text>
-          <text x="318" y="192" fill={C.goldLight} fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">Spotmarkt-Handel</text>
-          <text x="318" y="198" fill={C.midGray} fontSize="3.5" fontFamily="Calibri, sans-serif">Günstig laden, teuer verkaufen</text>
-          <text x="374" y="192" fill={C.greenLight} fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">↓</text>
-          <text x="380" y="192" fill={C.warmOrangeLight} fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">↑</text>
-          <text x="374" y="197" fill={C.midGray} fontSize="3" fontFamily="Calibri, sans-serif">2ct</text>
-          <text x="381" y="197" fill={C.midGray} fontSize="3" fontFamily="Calibri, sans-serif">8ct</text>
-        </g>
+      <InfoPanel x={298} y={132} w={92} h={92} title={KPI.speicher.panelTitle} color={C.gold}>
+        {KPI.speicher.strategies.map(({num, title, sub}, i) => {
+          const colors = [C.goldLight, C.greenLight, C.goldLight];
+          const col = colors[i] || C.goldLight;
+          return (
+            <g key={i}>
+              <circle cx="310" cy={152+i*20} r="4" fill={col} opacity="0.15" />
+              <text x="310" y={154+i*20} textAnchor="middle" fill={col} fontSize="5" fontWeight="700">{num}</text>
+              <text x="318" y={152+i*20} fill={col} fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">{title}</text>
+              <text x="318" y={158+i*20} fill={C.midGray} fontSize="3.5" fontFamily="Calibri, sans-serif">{sub}</text>
+            </g>
+          );
+        })}
+        {/* Peak Shaving mini chart */}
+        <polyline points="366,178 370,174 374,176 378,172 382,175 386,178"
+          fill="none" stroke="rgba(255,150,150,0.3)" strokeWidth="0.8" />
+        <polyline points="366,178 370,174 374,176 378,176 382,176 386,178"
+          fill="none" stroke={C.greenLight} strokeWidth="0.8" />
+        {/* Spotmarkt arrows */}
+        <text x="374" y="192" fill={C.greenLight} fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">↓</text>
+        <text x="380" y="192" fill={C.warmOrangeLight} fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">↑</text>
+        <text x="374" y="197" fill={C.midGray} fontSize="3" fontFamily="Calibri, sans-serif">2ct</text>
+        <text x="381" y="197" fill={C.midGray} fontSize="3" fontFamily="Calibri, sans-serif">8ct</text>
         <line x1="304" y1="205" x2="384" y2="205" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
         <text x="344" y="215" textAnchor="middle" fill={C.goldLight}
-          fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">10–15 % Einsparung/a</text>
+          fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">{KPI.speicher.savingsLabel}</text>
       </InfoPanel>
 
       <PhaseBadge x={12} y={8} num="III" icon="battery" label="SPEICHER" color={C.green} />
@@ -1799,9 +1789,9 @@ function WaermeVisual() {
         <text x="252" y="159" textAnchor="end" fill={C.coolBlue} fontSize="2"
           fontFamily="Calibri, sans-serif" opacity="0.32">35°</text>
         <text x="268" y="155" textAnchor="middle" fill={pl}
-          fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">500 m³</text>
+          fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">{KPI.waerme.bufferSize}</text>
         <text x="268" y="161" textAnchor="middle" fill={C.midGray}
-          fontSize="3.5" fontFamily="Calibri, sans-serif">65°C</text>
+          fontSize="3.5" fontFamily="Calibri, sans-serif">{KPI.waerme.bufferTemp}</text>
       </g>
 
       {/* Building temperature indicators */}
@@ -1849,14 +1839,17 @@ function WaermeVisual() {
       </g>
 
       {/* Abwärme source labels */}
-      {[[155,168,"Mühlen"],[212,162,"Trockner"],[248,174,"Kompress."]].map(([x,y,label],i) => (
+      {[[155,168],[212,162],[248,174]].map(([x,y],i) => {
+        const label = buildings.heatSources[i];
+        return (
         <g key={i} opacity="0.42">
           <line x1={x} y1={y} x2={x} y2={y-12} stroke={pl} strokeWidth="1"
             markerEnd="url(#arrW)" />
           <text x={x} y={y-14} textAnchor="middle" fill={pl}
             fontSize="3.5" fontFamily="Calibri, sans-serif">{label}</text>
         </g>
-      ))}
+      );
+      })}
 
       {/* Seasonal indicator */}
       <g opacity="0.35">
@@ -1869,23 +1862,21 @@ function WaermeVisual() {
       </g>
 
       {/* Info panel */}
-      <InfoPanel x={308} y={142} w={80} h={74} title="WÄRMESYSTEM" color={pc}>
-        {[
-          ["5–10 MW","WP-Kaskade",pl],
-          ["COP 4–5","Abwärme-Quelle",pl],
-          ["65–80 %","Gasreduktion",C.greenLight],
-          ["Standortweit","Wärmenetz",C.midGray],
-        ].map(([val,label,col],i) => (
+      <InfoPanel x={308} y={142} w={80} h={74} title={KPI.waerme.panelTitle} color={pc}>
+        {KPI.waerme.items.map(([val,label],i) => {
+          const col = i < 2 ? pl : i === 2 ? C.greenLight : C.midGray;
+          return (
           <g key={i}>
             <text x="316" y={162+i*11} fill={col}
               fontSize="5.5" fontFamily="Calibri, sans-serif" fontWeight="700">{val}</text>
             <text x="352" y={162+i*11} fill={C.midGray}
               fontSize="4" fontFamily="Calibri, sans-serif">{label}</text>
           </g>
-        ))}
+        );
+        })}
         <line x1="314" y1="206" x2="382" y2="206" stroke="rgba(255,255,255,0.05)" strokeWidth="0.3" />
         <text x="316" y="213" fill={C.greenLight} fontSize="5"
-          fontFamily="Calibri, sans-serif" fontWeight="700">–2.400 t</text>
+          fontFamily="Calibri, sans-serif" fontWeight="700">{KPI.waerme.co2Savings}</text>
         <text x="356" y="213" fill={C.midGray} fontSize="3.5"
           fontFamily="Calibri, sans-serif">CO₂/a</text>
       </InfoPanel>
@@ -2119,8 +2110,8 @@ function LadeVisual() {
         <Truck x={192} y={290} />
       </g>
 
-      <Badge x={40} y={260} text="60+ AC" sub="Wallboxen" icon="plug" color={C.greenLight} />
-      <Badge x={340} y={265} text="150–400 kW" sub="CCS Depot-Laden" icon="bolt" color={C.greenLight} align="right" />
+      <Badge x={40} y={260} text={`${KPI.lade.acCount} AC`} sub={KPI.lade.acLabel} icon="plug" color={C.greenLight} />
+      <Badge x={340} y={265} text={KPI.lade.dcRange} sub={KPI.lade.dcLabel} icon="bolt" color={C.greenLight} align="right" />
 
       <InfoPanel x={320} y={152} w={68} h={28} title="GEIG-KONFORM" color={C.greenLight}>
         <text x="354" y="172" textAnchor="middle" fill={C.midGray}
@@ -2378,9 +2369,9 @@ function BESSVisual() {
         <rect x="308" y="248" width="80" height="30" rx="6" fill={C.navy}
           stroke={C.green} strokeWidth="1.2" />
         <text x="348" y="263" textAnchor="middle" fill={C.greenLight}
-          fontSize="11" fontFamily="Calibri, sans-serif" fontWeight="700">100 MW</text>
+          fontSize="11" fontFamily="Calibri, sans-serif" fontWeight="700">{KPI.bess.power}</text>
         <text x="348" y="273" textAnchor="middle" fill={C.midGray}
-          fontSize="5.5" fontFamily="Calibri, sans-serif">200 MWh · 15–25 % p.a.</text>
+          fontSize="5.5" fontFamily="Calibri, sans-serif">{KPI.bess.capacity} · {KPI.bess.rendite}</text>
       </g>
 
       {/* SCADA monitoring */}
@@ -2397,11 +2388,11 @@ function BESSVisual() {
 
       {/* Revenue stream cards */}
       <g>
-        {[
-          [306,165,"Arbitrage","2–5 ct → Peak-Spread",C.gold],
-          [306,190,"FCR / aFRR","< 1s Regelenergie",C.greenLight],
-          [306,215,"Redispatch","Netzstabilität §13.2",C.midGray],
-        ].map(([x,y,title,sub,color],i) => (
+        {KPI.bess.streams.map(({title,sub},i) => {
+          const streamColors = [C.gold, C.greenLight, C.midGray];
+          const color = streamColors[i] || C.midGray;
+          const x = 306, y = 165 + i * 25;
+          return (
           <g key={i}>
             <rect x={x} y={y} width="80" height="20" rx="4.5"
               fill={C.navy} stroke={color} strokeWidth="0.6" opacity="0.94" />
@@ -2413,7 +2404,8 @@ function BESSVisual() {
             <text x={x+19} y={y+15.5} fill={C.midGray}
               fontSize="3.5" fontFamily="Calibri, sans-serif">{sub}</text>
           </g>
-        ))}
+        );
+        })}
       </g>
 
       {/* Revenue ticker */}
@@ -2423,7 +2415,7 @@ function BESSVisual() {
           <animate attributeName="width" values="0;80;0" dur="10s" repeatCount="indefinite" />
         </rect>
         <text x="346" y="242" textAnchor="middle" fill={C.goldLight}
-          fontSize="3" fontFamily="Calibri, sans-serif">REVENUE ▶ +€ 5,2M – 8,7M p.a.</text>
+          fontSize="3" fontFamily="Calibri, sans-serif">REVENUE ▶ {KPI.bess.revenueRange}</text>
       </g>
 
       <PhaseBadge x={12} y={8} num="VI" icon="bolt" label="BESS" color={C.greenLight} />
@@ -2715,7 +2707,7 @@ function GesamtVisual() {
         <rect x="30" y="225" width="58" height="18" rx="3" fill={C.navy} opacity="0.72"
           stroke={C.greenLight} strokeWidth="0.4" />
         <text x="59" y="233" textAnchor="middle" fill={C.greenLight}
-          fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">100 MW / 200 MWh</text>
+          fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">{KPI.gesamt.bessLabel}</text>
         <text x="59" y="240" textAnchor="middle" fill={C.midGray}
           fontSize="3.5" fontFamily="Calibri, sans-serif">Graustrom-BESS</text>
 
@@ -2730,7 +2722,7 @@ function GesamtVisual() {
             <animate attributeName="width" values="0;35;35;0" dur="8s" repeatCount="indefinite" />
           </rect>
           <text x="67" y="250" textAnchor="middle" fill={C.goldLight}
-            fontSize="3" fontFamily="Calibri, sans-serif">+8,7M p.a.</text>
+            fontSize="3" fontFamily="Calibri, sans-serif">{KPI.gesamt.bessRevenueLabel}</text>
         </g>
       </g>
 
@@ -2773,13 +2765,11 @@ function GesamtVisual() {
 
       {/* System KPI labels */}
       <g>
-        {[
-          [325,138,"sun","6,5–11 MWp",C.gold],
-          [325,154,"battery","6,5–11 MWh",C.greenLight],
-          [325,170,"fire","5–10 MW WP",C.warmOrange],
-          [325,186,"plug","70+ Lader",C.greenLight],
-          [325,202,"chartUp","1,4–2,5 Mio €/a",C.goldLight],
-        ].map(([x,y,icon,text,col],i) => (
+        {KPI.gesamt.systemKPIs.map(({icon,text},i) => {
+          const kpiColors = [C.gold, C.greenLight, C.warmOrange, C.greenLight, C.goldLight];
+          const col = kpiColors[i] || C.goldLight;
+          const x = 325, y = 138 + i * 16;
+          return (
           <g key={i}>
             <rect x={x} y={y-6} width={text.length*4.8+16} height="13" rx="6.5"
               fill={C.navy} stroke={col} strokeWidth="0.4" opacity="0.93" />
@@ -2787,7 +2777,8 @@ function GesamtVisual() {
             <text x={x+14} y={y+1.5} fill={col}
               fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">{text}</text>
           </g>
-        ))}
+        );
+        })}
       </g>
 
       {/* CO2 counter ticking down */}
@@ -2796,7 +2787,7 @@ function GesamtVisual() {
           stroke={C.greenLight} strokeWidth="0.4" />
         <SvgIcon name="leaf" x={333} y={217} size={5} color={C.greenLight} />
         <text x="340" y="221" fill={C.greenLight}
-          fontSize="5.5" fontFamily="Calibri, sans-serif" fontWeight="700">–4.800 t</text>
+          fontSize="5.5" fontFamily="Calibri, sans-serif" fontWeight="700">{KPI.gesamt.co2Total}</text>
         <text x="376" y="221" fill={C.midGray}
           fontSize="3.5" fontFamily="Calibri, sans-serif">CO₂/a</text>
         {/* Ticking animation hint */}

@@ -1,31 +1,7 @@
+import { defaultCalcConfig } from "./siteConfig";
+
 /* ── Default Configuration ── */
-export const defaultConfig = {
-  stromverbrauch: 20000,  // MWh/a
-  gasverbrauch: 10000,    // MWh/a
-  strompreis: 22,         // ct/kWh
-  gaspreis: 7,            // ct/kWh
-  pvDach: 3.5,            // MWp
-  pvFassade: 0.7,         // MWp
-  pvCarport: 2.0,         // MWp
-  pvBestand: 2.0,         // MWp (fixed)
-  standortBESS: 8,        // MWh
-  graustromBESS: 200,     // MWh
-  wpLeistung: 7.5,        // MW
-  pufferspeicher: 350,    // m³
-  anzahlPKW: 60,
-  anzahlLKW: 6,
-  kmPKW: 15000,           // km/a
-  kmLKW: 60000,           // km/a
-  dieselpreis: 1.55,      // €/l
-  lastgangFile: null,
-  lastgangData: null,
-  stromrechnungFile: null,
-  // Finanzierung
-  ekAnteil: 30,          // % Eigenkapital
-  kreditZins: 4.5,       // % p.a.
-  kreditLaufzeit: 15,    // Jahre
-  tilgungsfrei: 2,       // Jahre tilgungsfrei
-};
+export const defaultConfig = defaultCalcConfig;
 
 /* ── Formatting ── */
 export function fmtEuro(n) {

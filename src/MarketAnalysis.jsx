@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { Icon } from "./Icons";
 import { C } from "./colors";
 import useFocusTrap from "./useFocusTrap";
+import { coordinates } from "./siteConfig";
 
 /* ═══════════════════════════════════════════════════════════════════════
    SECTION 1 — CONSTANTS
@@ -10,7 +11,7 @@ const RAD = Math.PI / 180;
 const F = "Calibri, sans-serif";
 const MONTHS = ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
 const DAYS_IN_MONTH = [31,28,31,30,31,30,31,31,30,31,30,31];
-const HARTENSTEIN = { lat: 49.63, lon: 11.52, tz: 1 }; // CET offset
+const SITE_COORDS = coordinates;
 
 const DIRECTIONS = [
   { label: "Süd",       az: 0 },
@@ -888,7 +889,7 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
 
   // Generate solar data (use live irradiance if available, else parametric model)
   const pvDataModel = useMemo(() =>
-    generateAnnualPV(effectiveArrays, HARTENSTEIN.lat, HARTENSTEIN.lon, HARTENSTEIN.tz),
+    generateAnnualPV(effectiveArrays, SITE_COORDS.lat, SITE_COORDS.lon, SITE_COORDS.tz),
     [effectiveArrays]
   );
   const pvData = liveSolar || pvDataModel;
@@ -944,7 +945,7 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
     setLoadingSolar(true);
     setApiError(null);
     try {
-      const data = await fetchSolarIrradiance(HARTENSTEIN.lat, HARTENSTEIN.lon, effectiveArrays, signal);
+      const data = await fetchSolarIrradiance(SITE_COORDS.lat, SITE_COORDS.lon, effectiveArrays, signal);
       setLiveSolar(data);
     } catch (err) {
       if (err?.name === 'AbortError') {
@@ -1152,7 +1153,7 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
             </Section>
 
             <div style={{ fontFamily: F, fontSize: "0.65rem", color: "#666", textAlign: "center", marginTop: "0.5rem" }}>
-              <Icon name="pin" size={11} style={{ marginRight: 3 }} /> Standort: Hartenstein (49.63°N, 11.52°E)
+              <Icon name="pin" size={11} style={{ marginRight: 3 }} /> Standort: {SITE_COORDS.name || "Standort"} ({SITE_COORDS.lat.toFixed(2)}°N, {SITE_COORDS.lon.toFixed(2)}°E)
             </div>
           </div>
 
@@ -1349,7 +1350,7 @@ export default function MarketAnalysis({ config, configActive, onClose, embedded
                 </table>
               </div>
               <div style={{ fontFamily: F, fontSize: "0.7rem", color: "#666", marginTop: "0.5rem", textAlign: "center" }}>
-                Alle Werte p.a. · Standort Hartenstein · PV {liveSolar ? liveSolar.source : "Parametrisches Modell"} · Börsenpreise {livePrice ? "live (energy-charts)" : "modelliert"} · Industrielastprofil
+                Alle Werte p.a. · Standort {SITE_COORDS.name || "Standort"} · PV {liveSolar ? liveSolar.source : "Parametrisches Modell"} · Börsenpreise {livePrice ? "live (energy-charts)" : "modelliert"} · Industrielastprofil
               </div>
             </Section>
           </div>
