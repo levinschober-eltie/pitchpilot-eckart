@@ -575,7 +575,7 @@ export const phases = [
     ],
 
     regulatorik: [
-      { icon: "leaf",     title: "CSRD / ESG-Reporting",     desc: "Vollständige Scope 1+2 Reduktion dokumentiert — CSRD-konform ab 2026",              status: "Adressiert" },
+      { icon: "leaf",     title: "CSRD / ESG-Reporting",     desc: "Omnibus I (März 2026): Schwellen auf 1.000 MA / 450 Mio € erhöht — ALTANA-Konzern weiterhin berichtspflichtig, Scope 1+2 Reduktion dokumentiert", status: "Adressiert" },
       { icon: "globe",    title: "EU-Taxonomie",             desc: "Alle Investitionen taxonomie-konform — Zugang zu Green Finance gesichert",             status: "Konform" },
       { icon: "document", title: "GEIG-Pflicht 2026",        desc: "Ladeinfrastruktur-Pflicht für Nicht-Wohngebäude vollständig erfüllt",                 status: "Erfüllt" },
       { icon: "bolt",     title: "§14a EnWG (Steuerbare Verbraucher)", desc: "Wärmepumpen und Ladeinfrastruktur netzdienlich steuerbar",                  status: "Ready" },
@@ -585,7 +585,7 @@ export const phases = [
 
     riskManagement: [
       { icon: "chartDown", title: "Strompreis-Volatilität",   desc: "Eigenverbrauchsquote >80 % reduziert Marktpreisabhängigkeit — Restrisiko durch Speicher gehedgt",  impact: "Niedrig" },
-      { icon: "battery",   title: "BESS-Marktrisiko",         desc: "Drei diversifizierte Erlösströme (Arbitrage, FCR, Redispatch) — kein Single-Point-of-Failure",     impact: "Mittel" },
+      { icon: "battery",   title: "BESS-Marktrisiko",         desc: "Vier diversifizierte Erlösströme (Arbitrage, FCR, Redispatch, Inertia) — kein Single-Point-of-Failure", impact: "Mittel" },
       { icon: "gear",      title: "Technologie-Risiko",       desc: "Ausschließlich marktreife Komponenten (LFP-Batterien, monokristalline PV, Industrie-WP)",          impact: "Niedrig" },
       { icon: "document",  title: "Regulatorisches Risiko",   desc: "EEG, BEHG, GEIG — alle aktuellen Anforderungen erfüllt, EU-Taxonomie-konform",                    impact: "Niedrig" },
       { icon: "bolt",      title: "Netzanschluss-Risiko",     desc: "Bestehender 110-kV-Anschluss — kein Netzausbau nötig, Vorabstimmung mit Netzbetreiber empfohlen",  impact: "Mittel" },
