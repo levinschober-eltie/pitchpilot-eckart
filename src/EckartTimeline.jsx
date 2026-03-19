@@ -966,7 +966,7 @@ export default function EckartTimeline() {
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "1.35rem",
                       fontWeight: 700, color: C.goldLight, marginTop: "0.15rem",
-                    }}>43–70 Mio €</div>
+                    }}>{phase.investTotal || "43–70 Mio €"}</div>
                   </div>
                   <div style={{ textAlign: "center" }}>
                     <div style={{
@@ -975,7 +975,7 @@ export default function EckartTimeline() {
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "1.35rem",
                       fontWeight: 700, color: C.gold, marginTop: "0.15rem",
-                    }}>35–48 Mio € <span style={{ fontSize: "0.85rem", color: C.midGray, fontWeight: 400 }}>· sep. Finanzierung</span></div>
+                    }}>{(phase.investment?.[1]?.range) || "35–48 Mio €"} <span style={{ fontSize: "0.85rem", color: C.midGray, fontWeight: 400 }}>· sep. Finanzierung</span></div>
                   </div>
                   <div style={{ textAlign: "right" }}>
                     <div style={{
@@ -984,7 +984,7 @@ export default function EckartTimeline() {
                     <div style={{
                       fontFamily: "Calibri, sans-serif", fontSize: "1.35rem",
                       fontWeight: 700, color: C.greenLight, marginTop: "0.15rem",
-                    }}>95 %</div>
+                    }}>{phase.kpis?.[0]?.value || "50–65 %"}</div>
                   </div>
                 </div>
               </div>

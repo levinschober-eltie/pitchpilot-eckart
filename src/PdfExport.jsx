@@ -311,8 +311,8 @@ function coverPage(phases, calc, cfgActive, config) {
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5mm;">
             <div><div style="font-family:Calibri,sans-serif;font-size:6pt;color:#999;letter-spacing:1px;font-weight:600;">GESAMTINVESTITION</div><div style="font-family:Georgia,serif;font-size:14pt;font-weight:bold;color:${N};">${cfgActive ? fmtM(calc.investGesamt) : "43–70 Mio €"}</div></div>
             <div><div style="font-family:Calibri,sans-serif;font-size:6pt;color:#999;letter-spacing:1px;font-weight:600;">JÄHRL. EINSPARUNG</div><div style="font-family:Georgia,serif;font-size:14pt;font-weight:bold;color:${GR};">${cfgActive ? fmtM(calc.einsparungStandort) + "/a" : "1,4–2,5 Mio €"}</div></div>
-            <div><div style="font-family:Calibri,sans-serif;font-size:6pt;color:#999;letter-spacing:1px;font-weight:600;">CO₂-REDUKTION</div><div style="font-family:Georgia,serif;font-size:14pt;font-weight:bold;color:${GR};">${cfgActive ? "~" + fmt(calc.co2Gesamt) + " t/a" : "~4.800 t/a"}</div></div>
-            <div><div style="font-family:Calibri,sans-serif;font-size:6pt;color:#999;letter-spacing:1px;font-weight:600;">AUTARKIE-ZIEL</div><div style="font-family:Georgia,serif;font-size:14pt;font-weight:bold;color:${G};">${cfgActive ? calc.autarkie + " %" : "~95 %"}</div></div>
+            <div><div style="font-family:Calibri,sans-serif;font-size:6pt;color:#999;letter-spacing:1px;font-weight:600;">CO₂-REDUKTION</div><div style="font-family:Georgia,serif;font-size:14pt;font-weight:bold;color:${GR};">${cfgActive ? "~" + fmt(calc.co2Gesamt) + " t/a" : "~3.800 t/a"}</div></div>
+            <div><div style="font-family:Calibri,sans-serif;font-size:6pt;color:#999;letter-spacing:1px;font-weight:600;">AUTARKIE-ZIEL</div><div style="font-family:Georgia,serif;font-size:14pt;font-weight:bold;color:${G};">${cfgActive ? calc.autarkie + " %" : "~53 %"}</div></div>
           </div>
         </div>
 
@@ -354,11 +354,11 @@ function overviewPage(phases, calc, cfgActive) {
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-bottom:5mm;">
       <div class="hero" style="border-color:${GR};">
         <div style="font-size:6.5pt;letter-spacing:2.5px;color:${GR};font-weight:bold;margin-bottom:2mm;">CO₂-EINSPARUNG PRO JAHR</div>
-        <div class="hero-val green">${cfgActive ? "~" + fmt(calc.co2Gesamt) + " t" : "~4.800 t"}</div>
+        <div class="hero-val green">${cfgActive ? "~" + fmt(calc.co2Gesamt) + " t" : "~3.800 t"}</div>
         <div class="info-text" style="margin:2mm 0 3mm;">CO₂ weniger pro Jahr${cfgActive ? " · " + fmtM(calc.co2Kosten) + "/a vermiedene CO₂-Kosten" : ""}</div>
-        <table style="font-size:8pt;"><tr><td>Strom (PV statt Netz)</td><td class="num bold green">${cfgActive ? "–" + fmt(calc.co2Strom) + " t" : "–2.100 t"}</td></tr>
-        <tr><td>Wärme (WP statt Gas)</td><td class="num bold green">${cfgActive ? "–" + fmt(calc.co2Waerme) + " t" : "–2.400 t"}</td></tr>
-        <tr><td>Mobilität (E statt Diesel)</td><td class="num bold green">${cfgActive ? "–" + fmt(calc.co2PKW + calc.co2LKW) + " t" : "–300 t"}</td></tr></table>
+        <table style="font-size:8pt;"><tr><td>Strom (PV statt Netz)</td><td class="num bold green">${cfgActive ? "–" + fmt(calc.co2Strom) + " t" : "–1.600 t"}</td></tr>
+        <tr><td>Wärme (WP statt Gas)</td><td class="num bold green">${cfgActive ? "–" + fmt(calc.co2Waerme) + " t" : "–1.700 t"}</td></tr>
+        <tr><td>Mobilität (E statt Diesel)</td><td class="num bold green">${cfgActive ? "–" + fmt(calc.co2PKW + calc.co2LKW) + " t" : "–470 t"}</td></tr></table>
       </div>
       <div class="hero" style="border-color:${G};">
         <div style="font-size:6.5pt;letter-spacing:2.5px;color:${G};font-weight:bold;margin-bottom:2mm;">JÄHRLICHER GESAMTERTRAG</div>
@@ -423,7 +423,7 @@ function roadmapPage(phases, calc, cfgActive) {
           <td class="num green">${item.roi}</td>
           <td class="num gold">${item.score} %</td>
         </tr>`).join("")}
-        <tr class="total-row"><td colspan="3">Gesamtinvestition</td><td class="num">${cfgActive ? fmtM(calc.investGesamt) : fin.investTotal}</td><td class="num green">${cfgActive ? fmtM(calc.einsparungStandort) + "/a + BESS" : "1,4–2,5 Mio €/a + BESS"}</td><td class="num gold">${cfgActive ? calc.autarkie + " %" : "95 %"}</td></tr>
+        <tr class="total-row"><td colspan="3">Gesamtinvestition</td><td class="num">${cfgActive ? fmtM(calc.investGesamt) : fin.investTotal}</td><td class="num green">${cfgActive ? fmtM(calc.einsparungStandort) + "/a + BESS" : "1,4–2,5 Mio €/a + BESS"}</td><td class="num gold">${cfgActive ? calc.autarkie + " %" : "53 %"}</td></tr>
       </tbody>
     </table>
     <div style="margin-top:5mm;display:grid;grid-template-columns:1fr 1fr 1fr;gap:3mm;">
