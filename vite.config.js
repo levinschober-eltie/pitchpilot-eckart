@@ -27,6 +27,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,ico}'],
+        cleanupOutdatedCaches: true,
         runtimeCaching: [
           {
             urlPattern: /\.js$/,

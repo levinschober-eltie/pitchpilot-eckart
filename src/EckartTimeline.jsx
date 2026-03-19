@@ -780,7 +780,7 @@ export default function EckartTimeline() {
       {/* Timeline Slider */}
       <div style={{ padding: "1rem 2rem 0.5rem", position: "relative", zIndex: 2 }}>
         {/* Phase dots row */}
-        <div style={{
+        <div role="tablist" aria-label="Phasen-Navigation" style={{
           display: "flex", justifyContent: "space-between", alignItems: "flex-end",
           marginBottom: "0.5rem", padding: "0 0.5rem",
         }}>
@@ -788,6 +788,9 @@ export default function EckartTimeline() {
             <button
               key={i}
               className="phase-btn"
+              role="tab"
+              aria-selected={i === active}
+              aria-controls="main-content"
               onClick={() => startTransition(() => setActive(i))}
               style={{
                 background: "none", border: "none", cursor: "pointer",
@@ -893,7 +896,7 @@ export default function EckartTimeline() {
       </div>
 
       {/* Main Content Area */}
-      <main id="main-content" ref={contentRef} style={{
+      <main id="main-content" role="tabpanel" ref={contentRef} style={{
         padding: "1rem 2rem 2rem",
         position: "relative", zIndex: 2,
         ...anim("fadeSlideIn 0.5s ease forwards"),
