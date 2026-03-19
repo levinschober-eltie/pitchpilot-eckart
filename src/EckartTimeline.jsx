@@ -829,7 +829,7 @@ export default function EckartTimeline() {
       </div>
 
       {/* Main Content Area */}
-      <div ref={contentRef} style={{
+      <main ref={contentRef} style={{
         padding: "1rem 2rem 2rem",
         position: "relative", zIndex: 2,
         ...anim("fadeSlideIn 0.5s ease forwards"),
@@ -1992,7 +1992,7 @@ export default function EckartTimeline() {
             ))}
           </div>
         </div>
-      </div>
+      </main>
 
       {/* Footer */}
       <footer style={{

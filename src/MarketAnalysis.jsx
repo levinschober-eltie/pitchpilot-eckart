@@ -517,7 +517,7 @@ function DailyProfileChart({ pvHourly, priceHourly, loadHourly, title, season })
       <div style={{ fontFamily: F, fontSize: "0.85rem", fontWeight: 700, color: C.gold, marginBottom: "0.4rem" }}>
         {title}{season && <span style={{ color: "#999", fontWeight: 400 }}> — {season}</span>}
       </div>
-      <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
+      <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", height: "auto", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
         {/* Y-axis labels (kW) */}
         {[0, 0.25, 0.5, 0.75, 1].map(f => {
           const y = pad.t + plotH * (1 - f);
@@ -582,7 +582,7 @@ function MonthlyChart({ data, title }) {
   return (
     <div style={{ marginBottom: "1.5rem" }}>
       <div style={{ fontFamily: F, fontSize: "0.85rem", fontWeight: 700, color: C.gold, marginBottom: "0.4rem" }}>{title}</div>
-      <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
+      <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", height: "auto", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
         {[0, 0.25, 0.5, 0.75, 1].map(f => {
           const y = pad.t + plotH * (1 - f);
           return <g key={f}>
@@ -661,7 +661,7 @@ function BESSChart({ bess, prices, selectedDay }) {
       <div style={{ fontFamily: F, fontSize: "0.85rem", fontWeight: 700, color: C.gold, marginBottom: "0.4rem" }}>
         BESS Speicherzustand — Tag {selectedDay + 1}
       </div>
-      <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
+      <svg viewBox={`0 0 ${chartW} ${chartH}`} style={{ width: "100%", height: "auto", maxWidth: 620, background: "rgba(27,42,74,0.3)", borderRadius: 8 }}>
         {/* SoC area */}
         <path fill="rgba(45,106,79,0.3)" stroke={C.green} strokeWidth={2}
           d={`M${pad.l},${pad.t + plotH} ` +
@@ -940,6 +940,14 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
         .ma-btn-action:active {
           transform: translateY(0);
         }
+        @media (max-width: 640px) {
+          .ma-layout {
+            grid-template-columns: 1fr !important;
+          }
+          .ma-layout > div {
+            min-width: 0 !important;
+          }
+        }
       `}</style>
       {/* Header */}
       <div style={{
@@ -980,7 +988,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
             sub={`${(effectiveBess / 1000).toFixed(0)} MWh Kapazität`} />
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "min(300px, 85vw) 1fr", gap: "1.5rem", alignItems: "start" }}>
+        <div className="ma-layout" style={{ display: "grid", gridTemplateColumns: "min(300px, 85vw) 1fr", gap: "1.5rem", alignItems: "start" }}>
           {/* ─── LEFT: Configuration ─── */}
           <div style={{
             background: "rgba(27,42,74,0.4)", borderRadius: 12,

@@ -29,12 +29,14 @@ export const defaultConfig = {
 
 /* ── Formatting ── */
 export function fmtEuro(n) {
+  if (!isFinite(n)) return "0 €";
   if (Math.abs(n) >= 1e6) return `${(n / 1e6).toFixed(1).replace(".", ",")} Mio €`;
   if (Math.abs(n) >= 1e3) return `${Math.round(n / 1e3)} T€`;
   return `${Math.round(n).toLocaleString("de-DE")} €`;
 }
 
 export function fmtVal(v, dec = 0) {
+  if (typeof v === "number" && !isFinite(v)) return "0";
   return typeof v === "number"
     ? v.toLocaleString("de-DE", { minimumFractionDigits: dec, maximumFractionDigits: dec })
     : v;
@@ -56,10 +58,10 @@ export function calculateAll(cfg) {
   const pvErzeugung = totalPV * 950; // MWh/a (specific yield Bavaria)
 
   /* ── Self-consumption ── */
-  const baseRatio = pvErzeugung > 0 ? Math.min(0.55, (stromverbrauch / pvErzeugung) * 0.55) : 0;
+  const baseRatio = pvErzeugung > 0 ? Math.max(0, Math.min(0.55, (stromverbrauch / pvErzeugung) * 0.55)) : 0;
   const bessBoost = standortBESS > 0 && pvErzeugung > 0
-    ? Math.min(0.25, (standortBESS / pvErzeugung) * 3) : 0;
-  const eigenverbrauchsquote = Math.min(0.93, baseRatio + bessBoost);
+    ? Math.max(0, Math.min(0.25, (standortBESS / pvErzeugung) * 3)) : 0;
+  const eigenverbrauchsquote = Math.max(0, Math.min(0.93, baseRatio + bessBoost));
   const eigenverbrauch = pvErzeugung * eigenverbrauchsquote;
   const einspeisung = pvErzeugung - eigenverbrauch;
   const restbezug = Math.max(0, stromverbrauch - eigenverbrauch);
@@ -70,12 +72,12 @@ export function calculateAll(cfg) {
 
   /* ── Peak Shaving ── */
   const peakShavingRate = standortBESS > 0 && stromverbrauch > 0
-    ? Math.min(0.15, (standortBESS / stromverbrauch) * 8) : 0;
+    ? Math.max(0, Math.min(0.15, (standortBESS / stromverbrauch) * 8)) : 0;
   const peakShavingSavings = stromverbrauch * strompreis * 10 * peakShavingRate * 0.12;
 
   /* ── Wärme ── */
   const wpErzeugung = wpLeistung * 2200; // MWh therm /a
-  const gasErsatzRate = gasverbrauch > 0 ? Math.min(0.85, wpErzeugung / gasverbrauch) : 0;
+  const gasErsatzRate = gasverbrauch > 0 ? Math.max(0, Math.min(0.85, wpErzeugung / gasverbrauch)) : 0;
   const gasEinsparung = gasverbrauch * gasErsatzRate * gaspreis * 10;
 
   /* ── Mobilität PKW ── */
@@ -128,11 +130,13 @@ export function calculateAll(cfg) {
   /* ── Zusammenfassung ── */
   const einsparungStandort = stromEinsparung + einspeiseErloese + peakShavingSavings + gasEinsparung + mobilitaetEinsparung;
   const amortisationStandort = einsparungStandort > 0 ? investStandort / einsparungStandort : 99;
-  const bessRendite = investPhase6 > 0 ? (bessErloes / investPhase6) * 100 : 0;
+  const bessRenditeRaw = investPhase6 > 0 ? (bessErloes / investPhase6) * 100 : 0;
+  const bessRendite = isFinite(bessRenditeRaw) ? bessRenditeRaw : 0;
   const gesamtertrag = einsparungStandort + bessErloes;
-  const autarkie = stromverbrauch > 0
-    ? Math.min(95, Math.round((eigenverbrauch / stromverbrauch) * 60 + gasErsatzRate * 30 + 5))
+  const autarkieRaw = stromverbrauch > 0
+    ? Math.min(95, Math.round(Math.max(0, Math.min(1, eigenverbrauch / stromverbrauch)) * 60 + gasErsatzRate * 30 + 5))
     : 0;
+  const autarkie = isFinite(autarkieRaw) ? autarkieRaw : 0;
 
   /* ── Finanzierung / Kredit ── */
   const ekBetrag = investGesamt * (ekAnteil / 100);
@@ -140,17 +144,20 @@ export function calculateAll(cfg) {
   const zinsRate = kreditZins / 100;
   const tilgungsJahre = Math.max(1, kreditLaufzeit - tilgungsfrei);
   const zinsTilgungsfrei = kreditBetrag * zinsRate; // annual interest during grace period
-  const annuitaet = tilgungsJahre > 0 && zinsRate > 0
+  const annuitaetRaw = tilgungsJahre > 0 && zinsRate > 0
     ? kreditBetrag * (zinsRate * Math.pow(1 + zinsRate, tilgungsJahre)) / (Math.pow(1 + zinsRate, tilgungsJahre) - 1)
-    : kreditBetrag / tilgungsJahre;
+    : tilgungsJahre > 0 ? kreditBetrag / tilgungsJahre : 0;
+  const annuitaet = isFinite(annuitaetRaw) ? annuitaetRaw : 0;
   // Total debt service over life
   const totalSchuldendienst = zinsTilgungsfrei * tilgungsfrei + annuitaet * tilgungsJahre;
   const totalZinskosten = totalSchuldendienst - kreditBetrag;
   // Leveraged equity return (annual cashflow after debt service / equity)
   const cfNachSchuldendienst = gesamtertrag - annuitaet;
-  const ekRendite = ekBetrag > 0 ? (cfNachSchuldendienst / ekBetrag) * 100 : 0;
+  const ekRenditeRaw = ekBetrag > 0 ? (cfNachSchuldendienst / ekBetrag) * 100 : 0;
+  const ekRendite = isFinite(ekRenditeRaw) ? ekRenditeRaw : 0;
   // DSCR (Debt Service Coverage Ratio)
-  const dscr = annuitaet > 0 ? gesamtertrag / annuitaet : 99;
+  const dscrRaw = annuitaet > 0 ? gesamtertrag / annuitaet : 99;
+  const dscr = isFinite(dscrRaw) ? dscrRaw : 99;
 
   return {
     totalPV, pvErzeugung: Math.round(pvErzeugung),

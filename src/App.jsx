@@ -40,7 +40,7 @@ function IntroScreen({ onEnter }) {
       }} />
 
       {/* Top bar */}
-      <div style={{
+      <header style={{
         padding: "2rem 2.5rem",
         display: "flex", justifyContent: "space-between", alignItems: "center",
         position: "relative", zIndex: 2,
@@ -48,21 +48,21 @@ function IntroScreen({ onEnter }) {
         transition: "all 0.8s ease 0.2s",
       }}>
         <span style={{
-          fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+          fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
           letterSpacing: "3px", textTransform: "uppercase",
           color: C.midGray, fontWeight: 700,
           padding: "0.3rem 0.7rem", borderRadius: "3px",
           border: `1px solid ${C.midGray}40`,
         }}>Vertraulich</span>
         <span style={{
-          fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+          fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
           letterSpacing: "4px", textTransform: "uppercase",
           color: C.gold, fontWeight: 700,
         }}>Elite PV</span>
-      </div>
+      </header>
 
       {/* Center content */}
-      <div style={{
+      <main style={{
         flex: 1, display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center",
         padding: "2rem", textAlign: "center",
@@ -70,7 +70,7 @@ function IntroScreen({ onEnter }) {
       }}>
         {/* "Erstellt für" label */}
         <div style={{
-          fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
+          fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
           letterSpacing: "5px", textTransform: "uppercase",
           color: C.midGray, fontWeight: 700,
           marginBottom: "0.8rem",
@@ -145,7 +145,7 @@ function IntroScreen({ onEnter }) {
             }}>
               <span style={{
                 color: C.gold, fontWeight: 700, fontFamily: "Georgia, serif",
-                fontSize: "0.65rem",
+                fontSize: "0.7rem",
               }}>{p.num}</span>
               <span style={{ color: "rgba(255,255,255,0.6)" }}>{p.label}</span>
             </div>
@@ -179,13 +179,13 @@ function IntroScreen({ onEnter }) {
           Konzept entdecken
           <Icon name="arrowRight" size={18} style={{ transition: "transform 0.3s" }} />
         </button>
-      </div>
+      </main>
 
       {/* Bottom bar */}
-      <div style={{
+      <footer style={{
         padding: "1.5rem 2.5rem",
         display: "flex", justifyContent: "space-between", alignItems: "center",
-        fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
         color: C.midGray, flexWrap: "wrap", gap: "0.5rem",
         position: "relative", zIndex: 2,
         opacity: visible ? 1 : 0,
@@ -193,7 +193,7 @@ function IntroScreen({ onEnter }) {
       }}>
         <span>März 2026 · Güntersthal 4, 91235 Hartenstein</span>
         <span style={{ fontStyle: "italic" }}>Energiewirtschaftliche Konzeptbegleitung</span>
-      </div>
+      </footer>
     </div>
   );
 }

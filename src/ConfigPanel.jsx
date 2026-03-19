@@ -113,6 +113,10 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
       setConfig(prev => ({ ...prev, lastgangFile: "Datei zu groß (max. 50 MB)" }));
       return;
     }
+    if (!file.name.toLowerCase().endsWith('.csv')) {
+      setConfig(prev => ({ ...prev, lastgangFile: "Nur CSV-Dateien erlaubt" }));
+      return;
+    }
     const reader = new FileReader();
     reader.onload = (e) => {
       const parsed = parseLastgangCSV(e.target.result);
@@ -163,7 +167,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
           }}>
             <div>
               <div style={{
-                fontFamily: "Calibri, sans-serif", fontSize: "0.6rem",
+                fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                 letterSpacing: "3px", color: C.gold, fontWeight: 700,
               }}>INTERAKTIVER KALKULATOR</div>
               <div id="cp-title" style={{
@@ -196,7 +200,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
                 background: "rgba(255,255,255,0.04)", borderRadius: "6px", padding: "0.35rem 0.5rem",
               }}>
                 <div style={{
-                  fontFamily: "Calibri, sans-serif", fontSize: "0.55rem",
+                  fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                   letterSpacing: "1px", color: C.midGray, textTransform: "uppercase",
                 }}>{r.label}</div>
                 <div style={{
@@ -333,8 +337,8 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
                       </div>
 
                       <div style={{
-                        fontFamily: "Calibri, sans-serif", fontSize: "0.62rem",
-                        color: "rgba(255,255,255,0.3)", fontStyle: "italic",
+                        fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
+                        color: "rgba(255,255,255,0.45)", fontStyle: "italic",
                       }}>Alle Daten bleiben lokal in Ihrem Browser — kein Upload an Server</div>
                     </div>
                   )}
