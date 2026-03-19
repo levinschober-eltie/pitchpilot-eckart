@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
+import { Icon } from "./Icons";
 
 /* ═══════════════════════════════════════════════════════════════════════
    SECTION 1 — CONSTANTS
@@ -785,7 +786,7 @@ function PVArrayRow({ arr, idx, onChange, onRemove }) {
         <button onClick={onRemove} style={{
           background: "rgba(255,100,100,0.15)", border: "1px solid rgba(255,100,100,0.3)",
           color: "#ff8888", borderRadius: 4, padding: "0.1rem 0.5rem", fontSize: "0.7rem", cursor: "pointer",
-        }}>✕</button>
+        }}><Icon name="close" size={14} /></button>
       </div>
       <div style={{ marginBottom: "0.4rem" }}>
         <label style={{ fontFamily: F, fontSize: "0.72rem", color: "rgba(255,255,255,0.55)" }}>Ausrichtung</label>
@@ -944,7 +945,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
           background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)",
           color: "#ccc", borderRadius: "8px", width: 36, height: 36, fontSize: "1rem", fontFamily: F,
           cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-        }}>✕</button>
+        }}><Icon name="close" size={14} /></button>
       </div>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "1rem 1.2rem 3rem" }}>
@@ -975,7 +976,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
             background: "rgba(27,42,74,0.4)", borderRadius: 12,
             border: "1px solid rgba(255,255,255,0.06)", padding: "1rem",
           }}>
-            <Section title="☀️ PV-Anlagen">
+            <Section title={<><Icon name="sun" size={14} color={C.goldLight} /> PV-Anlagen</>}>
               {arrays.map((arr, i) => (
                 <PVArrayRow key={i} arr={arr} idx={i}
                   onChange={a => updateArray(i, a)}
@@ -994,14 +995,14 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                 border: "1px solid rgba(45,106,79,0.3)", color: C.greenLight,
                 borderRadius: 6, padding: "0.4rem", fontFamily: F, fontSize: "0.75rem", cursor: "pointer", marginTop: "0.5rem",
               }}>
-                {loadingSolar ? "Lade Einstrahlungsdaten…" : liveSolar ? `✓ ${liveSolar.source} geladen` : "🌤 Echte Einstrahlungsdaten laden"}
+                {loadingSolar ? "Lade Einstrahlungsdaten…" : liveSolar ? <><Icon name="check" size={12} color={C.greenLight} style={{ marginRight: 4 }} />{liveSolar.source} geladen</> : <><Icon name="cloudSun" size={13} style={{ marginRight: 4 }} /> Echte Einstrahlungsdaten laden</>}
               </button>
               <div style={{ fontFamily: F, fontSize: "0.65rem", color: "#777", marginTop: "0.2rem", textAlign: "center" }}>
                 Open-Meteo API (Reanalyse-Daten, kostenlos)
               </div>
             </Section>
 
-            <Section title="⚡ Stromeinkauf" defaultOpen={true}>
+            <Section title={<><Icon name="bolt" size={14} color={C.goldLight} /> Stromeinkauf</>} defaultOpen={true}>
               <Slider label="Aktueller Festpreis" value={fixedPrice} min={8} max={40} step={0.5} unit="ct/kWh"
                 onChange={setFixedPrice} />
               <Slider label="Jahresverbrauch" value={effectiveLoad} min={1000} max={50000} step={500} unit="MWh"
@@ -1012,7 +1013,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                   border: "1px solid rgba(212,168,67,0.3)", color: C.goldLight,
                   borderRadius: 6, padding: "0.4rem", fontFamily: F, fontSize: "0.75rem", cursor: "pointer",
                 }}>
-                  {loadingPrices ? "Lade Börsenpreise…" : livePrice ? "✓ Live-Preise geladen" : "📡 Live-Börsenpreise laden"}
+                  {loadingPrices ? "Lade Börsenpreise…" : livePrice ? <><Icon name="check" size={12} color={C.greenLight} style={{ marginRight: 4 }} /> Live-Preise geladen</> : <><Icon name="satellite" size={13} style={{ marginRight: 4 }} /> Live-Börsenpreise laden</>}
                 </button>
                 <div style={{ fontFamily: F, fontSize: "0.65rem", color: "#777", marginTop: "0.2rem", textAlign: "center" }}>
                   energy-charts.info (Fraunhofer ISE)
@@ -1020,7 +1021,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
               </div>
             </Section>
 
-            <Section title="🔋 Batteriespeicher" defaultOpen={true}>
+            <Section title={<><Icon name="battery" size={14} color={C.greenLight} /> Batteriespeicher</>} defaultOpen={true}>
               <Slider label="Kapazität" value={effectiveBess} min={0} max={50000} step={500} unit="kWh"
                 onChange={v => !configActive && setBessCapacity(v)} />
               <Slider label="Lade-/Entladerate" value={bessRate} min={500} max={20000} step={500} unit="kW"
@@ -1029,7 +1030,7 @@ export default function MarketAnalysis({ config, configActive, onClose }) {
                 onChange={v => setBessEff(v / 100)} />
             </Section>
 
-            <Section title="🌍 CO₂-Zertifikate" defaultOpen={true}>
+            <Section title={<><Icon name="globe" size={14} color={C.greenLight} /> CO₂-Zertifikate</>} defaultOpen={true}>
               <Slider label="EU-ETS Preis" value={co2CertPrice} min={20} max={150} step={5} unit="€/t CO₂"
                 onChange={setCo2CertPrice} />
               <div style={{ fontFamily: F, fontSize: "0.72rem", color: "#888", marginTop: "0.2rem" }}>

@@ -19,6 +19,33 @@ const fmtM = (n) => {
 const fmtPct = (n) => (n).toFixed(1).replace(".", ",") + " %";
 const today = new Date().toLocaleDateString("de-DE", { month: "long", year: "numeric" });
 
+/* ── Inline SVG icon strings for HTML templates ── */
+const iconSvg = (name, size = 16, color = N) => {
+  const p = {
+    search: `<circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/>`,
+    sun: `<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>`,
+    battery: `<rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 11v2" stroke-width="2" stroke-linecap="round"/><rect x="5" y="10" width="6" height="4" rx="0.5" fill="${color}" stroke="none"/>`,
+    fire: `<path d="M12 2c.5 3.5-1.5 6-1.5 6 1.5.5 3-1 3.5-2.5C15.5 9 16 12 14 14c3-1 4.5-3.5 4.5-6.5 0-2-1-4.5-3-5.5 0 2-1.5 3-3 3C12 3.5 12 2 12 2ZM10 16c-.5 1.5.5 3 2 3s2.5-1.5 2-3c-.5-1-1-1.5-2-2-1 .5-1.5 1-2 2Z"/>`,
+    plug: `<path d="M12 22v-4M7 12V8M17 12V8"/><rect x="5" y="12" width="14" height="4" rx="2"/><path d="M7 8V5M17 8V5" stroke-linecap="round"/>`,
+    bolt: `<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/>`,
+    factory: `<path d="M2 20V8l5 4V8l5 4V8l5 4V4h5v16H2Z"/>`,
+    satellite: `<path d="M4 15 1 18M7 12 4 15"/><circle cx="5.5" cy="16.5" r="1.5" fill="${color}" stroke="none"/><path d="M4 15c0 0 1-6 7-6s6 7 6 7"/><path d="M1 18c0 0 1.5-10 11-10s10 10 10 10"/>`,
+    chart: `<rect x="3" y="12" width="4" height="8" rx="1"/><rect x="10" y="6" width="4" height="14" rx="1"/><rect x="17" y="2" width="4" height="18" rx="1"/>`,
+    microscope: `<path d="M6 18h12M14 4l-4 8M10 12a5 5 0 0 0 5 5"/><circle cx="14" cy="4" r="2"/><path d="M3 18h18" stroke-width="2"/>`,
+    chartDown: `<path d="M3 3v18h18"/><path d="m7 10 4 4 3-3 6 6"/><path d="M17 17h3v-3"/>`,
+    money: `<circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.5-1.5-2-2-3.5-2H10c-1.5 0-2.5 1-2.5 2.25S8.5 12 10 12h3c1.5 0 2.5 1 2.5 2.25S14 16.5 12.5 16.5H10c-1.5 0-3-.5-3.5-2"/><path d="M12 6v1.5M12 16.5V18"/>`,
+    leaf: `<path d="M12 22c-4-3-8-7.5-8-13C4 5.5 7.5 2 12 2s8 3.5 8 7c0 5.5-4 10-8 13Z"/><path d="M12 22V10M8 14c2-2 4-2 4-2s2 0 4 2"/>`,
+    bank: `<path d="M3 21h18M12 3 2 9h20L12 3Z"/><path d="M5 9v9M9 9v9M15 9v9M19 9v9" stroke-linecap="round"/>`,
+    document: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/>`,
+    globe: `<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10A15 15 0 0 1 12 2Z"/>`,
+    chartUp: `<path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 6-6"/><path d="M17 7h3v3"/>`,
+    check: `<path d="M20 6 9 17l-5-5" stroke-width="2"/>`,
+  };
+  const d = p[name];
+  if (!d) return name;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;">${d}</svg>`;
+};
+
 /* ── Export Sections ── */
 const SECTIONS = [
   { key: "cover", label: "Deckblatt", group: "p", def: true, locked: true },
@@ -270,7 +297,7 @@ function coverPage(phases, calc, cfgActive, config) {
       <div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3.5mm;margin-bottom:7mm;">
           ${phases.slice(0, 6).map((p) => `<div style="border:1px solid #e0e0dc;border-radius:3mm;padding:3.5mm 4.5mm;border-top:2.5px solid ${N};background:linear-gradient(180deg,#fafafa,#f5f5f2);">
-            <div style="font-size:13pt;margin-bottom:0.5mm;">${p.icon}</div>
+            <div style="margin-bottom:0.5mm;">${iconSvg(p.icon, 18, N)}</div>
             <div style="font-family:Calibri,sans-serif;font-size:6.5pt;letter-spacing:1.5px;color:${G};font-weight:700;">PHASE ${p.num}</div>
             <div style="font-family:Calibri,sans-serif;font-size:9pt;font-weight:bold;color:${N};">${p.title}</div>
             <div style="font-family:Calibri,sans-serif;font-size:7pt;color:#999;margin-top:0.5mm;">${p.investTotal}</div>
@@ -344,7 +371,7 @@ function overviewPage(phases, calc, cfgActive) {
     </div>
     <h3>Sechs Hebel · Ein integriertes Energiesystem</h3>
     <table><thead><tr><th style="width:30px;"></th><th>Hebel</th><th>Wirkung</th></tr></thead><tbody>
-      ${fin.levers.map(l => `<tr><td style="font-size:12pt;text-align:center;">${l.icon}</td><td class="bold">${l.title}</td><td>${l.desc}</td></tr>`).join("")}
+      ${fin.levers.map(l => `<tr><td style="text-align:center;">${iconSvg(l.icon, 16, N)}</td><td class="bold">${l.title}</td><td>${l.desc}</td></tr>`).join("")}
     </tbody></table>
     ${cfgActive ? `<div class="accent-box" style="border-left-color:${G};background:linear-gradient(135deg,#f8f8f4,#f5f5f0);margin-top:4mm;">
       <div style="font-size:6.5pt;letter-spacing:2px;color:${G};font-weight:bold;margin-bottom:2mm;">IHRE BERECHNUNG</div>
@@ -362,7 +389,7 @@ function phasesPage(phases) {
     <h2>Phasenübersicht</h2>
     ${phases.slice(0, 6).map((p) => `<div class="phase-card">
       <div style="display:flex;justify-content:space-between;align-items:baseline;">
-        <div class="phase-title">${p.icon} Phase ${p.num} — ${p.title}</div>
+        <div class="phase-title">${iconSvg(p.icon, 14, N)} Phase ${p.num} — ${p.title}</div>
         <div style="font-size:7.5pt;color:#999;font-weight:600;">${p.months}</div>
       </div>
       <div class="phase-quote">„${p.headline}"</div>
@@ -619,10 +646,10 @@ function regulatorikPage(phases) {
       <thead><tr><th style="width:30px;"></th><th>Anforderung</th><th style="width:45%;">Beschreibung</th><th>Status</th></tr></thead>
       <tbody>
         ${fin.regulatorik.map(r => `<tr>
-          <td style="font-size:11pt;text-align:center;">${r.icon}</td>
+          <td style="text-align:center;">${iconSvg(r.icon, 15, N)}</td>
           <td class="bold">${r.title}</td>
           <td style="font-size:8pt;color:#666;">${r.desc}</td>
-          <td><span style="background:${GR};color:white;padding:1mm 2.5mm;border-radius:1.5mm;font-size:6.5pt;font-weight:bold;white-space:nowrap;letter-spacing:0.3px;">✓ ${r.status}</span></td>
+          <td><span style="background:${GR};color:white;padding:1mm 2.5mm;border-radius:1.5mm;font-size:6.5pt;font-weight:bold;white-space:nowrap;letter-spacing:0.3px;">${iconSvg("check", 10, "white")} ${r.status}</span></td>
         </tr>`).join("")}
       </tbody>
     </table>
@@ -631,7 +658,7 @@ function regulatorikPage(phases) {
       <thead><tr><th style="width:30px;"></th><th>Risiko</th><th style="width:45%;">Beschreibung</th><th>Wirkung</th></tr></thead>
       <tbody>
         ${fin.riskManagement.map(r => `<tr>
-          <td style="font-size:11pt;text-align:center;">${r.icon}</td>
+          <td style="text-align:center;">${iconSvg(r.icon, 15, N)}</td>
           <td class="bold">${r.title}</td>
           <td style="font-size:8pt;color:#666;">${r.desc}</td>
           <td class="bold gold" style="white-space:nowrap;">${r.impact}</td>
@@ -673,7 +700,7 @@ function risikoPage(phases) {
     <h2>Risikomanagement — Strategische Absicherung</h2>
     ${fin.riskManagement.map(r => `<div style="margin-bottom:4mm;padding:4mm 5mm;border:1px solid #e5e5e0;border-radius:2.5mm;border-left:3px solid ${N};background:linear-gradient(135deg,#fafafa,#f8f8f6);">
       <div style="display:flex;align-items:center;gap:3mm;margin-bottom:2mm;">
-        <span style="font-size:15pt;">${r.icon}</span>
+        <span>${iconSvg(r.icon, 20, N)}</span>
         <div><div class="bold" style="font-size:10pt;color:${N};">${r.title}</div></div>
         <div style="margin-left:auto;background:linear-gradient(135deg,${G},${G}dd);color:white;padding:1.5mm 4mm;border-radius:2mm;font-size:7.5pt;font-weight:bold;letter-spacing:0.3px;">${r.impact}</div>
       </div>

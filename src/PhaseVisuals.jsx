@@ -3,6 +3,7 @@
  * viewBox 0 0 400 320 · All animations use SVG animate/animateTransform
  * Colors: Navy #1B2A4A · Gold #D4A843 · Green #2D6A4F · WarmOrange #E8785A
  */
+import { SvgIcon } from "./Icons";
 
 const C = {
   navy: "#1B2A4A", navyLight: "#253757", navyMid: "#1E3050",
@@ -558,8 +559,7 @@ function SubStation({ x, y }) {
       <line x1={x+2} y1={y} x2={x+2} y2={y-3} stroke="rgba(255,220,80,0.15)" strokeWidth="0.5" />
       <line x1={x+4} y1={y} x2={x+4} y2={y-3} stroke="rgba(255,220,80,0.15)" strokeWidth="0.5" />
       <line x1={x+6} y1={y} x2={x+6} y2={y-3} stroke="rgba(255,220,80,0.15)" strokeWidth="0.5" />
-      <text x={x+4} y={y+4.5} textAnchor="middle" fill="rgba(255,220,80,0.2)"
-        fontSize="3" fontFamily="Calibri, sans-serif">⚡</text>
+      <SvgIcon name="bolt" x={x+4} y={y+2.5} size={3} color="rgba(255,220,80,0.2)" />
     </g>
   );
 }
@@ -816,7 +816,7 @@ function Badge({ x, y, text, sub, icon, color = C.gold, align = "left", lineFrom
         fill={C.navy} opacity="0.94" stroke={color} strokeWidth="0.5" />
       <rect x={bx + 2} y={y - 10} width={w - 4} height="1.5" rx="0.5"
         fill={color} opacity="0.15" />
-      {icon && <text x={bx + 6} y={y - 0.5} fontSize="7">{icon}</text>}
+      {icon && <SvgIcon name={icon} x={bx + 6} y={y - 3} size={7} color={color} />}
       <text x={bx + (icon ? 14 : 5)} y={y - 0.5} fill={color}
         fontSize="5.8" fontFamily="Calibri, sans-serif" fontWeight="700" letterSpacing="0.3">{text}</text>
       {sub && <text x={bx + (icon ? 14 : 5)} y={y + 7.5} fill={C.midGray}
@@ -832,7 +832,7 @@ function PhaseBadge({ x, y, num, icon, label, color = C.gold }) {
       <rect x={x} y={y} width="58" height="17" rx="8.5" fill={C.navy} stroke={color} strokeWidth="0.9" opacity="0.96" />
       <text x={x + 10} y={y + 12} fill={color}
         fontSize="7.5" fontFamily="Georgia, serif" fontWeight="700">{num}</text>
-      <text x={x + 19} y={y + 12} fontSize="6.5">{icon}</text>
+      <SvgIcon name={icon} x={x + 22} y={y + 8.5} size={7} color={color} />
       <text x={x + 28} y={y + 12} fill={color}
         fontSize="4.8" fontFamily="Calibri, sans-serif" fontWeight="700" letterSpacing="0.6">{label}</text>
     </g>
@@ -1130,7 +1130,7 @@ function AnalyseVisual() {
             stroke={C.goldLight} strokeWidth="0.3" opacity="0.35" />
         ))}
       </g>
-      <Badge x={57} y={164} text="2 MWp" sub="Freifläche (Bestand)" icon="☀️" lineFrom={[57,172]} />
+      <Badge x={57} y={164} text="2 MWp" sub="Freifläche (Bestand)" icon="sun" lineFrom={[57,172]} />
 
       {/* Clipboard with animated checkmarks */}
       <g opacity="0.55">
@@ -1141,11 +1141,11 @@ function AnalyseVisual() {
         {["Dachstatik","Leitungen","Lastprofil","Netzanschl.","Thermogr."].map((item,i) => (
           <g key={i}>
             <text x="342" y={272+i*6} fill={C.midGray} fontSize="3" fontFamily="Calibri, sans-serif">{item}</text>
-            <text x="338" y={272+i*6} fill={C.greenLight} fontSize="4" fontFamily="Calibri, sans-serif" opacity="0">
-              ✓
+            <g opacity="0">
+              <path d={`M${336},${269+i*6} l1.5,1.5 l3,-3`} fill="none" stroke={C.greenLight} strokeWidth="0.7" strokeLinecap="round" />
               <animate attributeName="opacity" values="0;0;0;1;1" dur="6s" repeatCount="indefinite"
                 begin={`${i*0.8}s`} keyTimes="0;0.3;0.5;0.6;1" />
-            </text>
+            </g>
           </g>
         ))}
       </g>
@@ -1187,7 +1187,7 @@ function AnalyseVisual() {
           fontSize="2.8" fontFamily="Calibri, sans-serif">DATEN-UPLOAD</text>
       </InfoPanel>
 
-      <PhaseBadge x={12} y={8} num="I" icon="🔍" label="ANALYSE" />
+      <PhaseBadge x={12} y={8} num="I" icon="search" label="ANALYSE" />
       <Atmosphere />
     </>
   );
@@ -1386,12 +1386,12 @@ function PVVisual() {
       {/* New PV breakdown */}
       <InfoPanel x={12} y={110} w={78} h={50} title="NEUE PV-ANLAGEN" color={C.gold}>
         {[
-          ["☀️","Dach-PV","2,5–5,0 MWp","Cluster A–E"],
-          ["🏢","Fassade","0,5–1,0 MWp","Süd + West"],
-          ["🅿️","Carports","1,5–3,0 MWp","Parkplätze"],
+          ["sun","Dach-PV","2,5–5,0 MWp","Cluster A–E"],
+          ["building","Fassade","0,5–1,0 MWp","Süd + West"],
+          ["parking","Carports","1,5–3,0 MWp","Parkplätze"],
         ].map(([icon,label,power,detail],i) => (
           <g key={i}>
-            <text x="20" y={134+i*13} fontSize="5">{icon}</text>
+            <SvgIcon name={icon} x={20} y={131+i*13} size={6} color={C.goldLight} />
             <text x="30" y={133+i*13} fill={C.goldLight}
               fontSize="4.5" fontFamily="Calibri, sans-serif" fontWeight="700">{label}</text>
             <text x="30" y={139+i*13} fill={C.goldLight}
@@ -1427,7 +1427,7 @@ function PVVisual() {
           fontSize="2.5" fontFamily="Calibri, sans-serif">kWh LIVE ▶</text>
       </InfoPanel>
 
-      <PhaseBadge x={12} y={8} num="II" icon="☀️" label="PV" />
+      <PhaseBadge x={12} y={8} num="II" icon="sun" label="PV" />
       <Atmosphere warm />
     </>
   );
@@ -1513,8 +1513,7 @@ function SpeicherVisual() {
               stroke={C.greenLight} strokeWidth="0.8" opacity="0.4" />
             <line x1={153.5+i*30} y1="233" x2={154.5+i*30} y2="233"
               stroke={C.goldLight} strokeWidth="0.5" opacity="0.35" />
-            <text x={154+i*30} y="241.5" textAnchor="middle" fill={C.greenLight}
-              fontSize="3" fontFamily="Calibri, sans-serif" opacity="0.32">⚡</text>
+            <SvgIcon name="bolt" x={154+i*30} y={239.5} size={3} color={C.greenLight} />
           </g>
         ))}
         {/* Ground grounding rods */}
@@ -1643,7 +1642,7 @@ function SpeicherVisual() {
           fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">10–15 % Einsparung/a</text>
       </InfoPanel>
 
-      <PhaseBadge x={12} y={8} num="III" icon="🔋" label="SPEICHER" color={C.green} />
+      <PhaseBadge x={12} y={8} num="III" icon="battery" label="SPEICHER" color={C.green} />
       <Atmosphere />
     </>
   );
@@ -1871,10 +1870,10 @@ function WaermeVisual() {
 
       {/* Seasonal indicator */}
       <g opacity="0.35">
-        <text x="308" y="127" fill={C.coolBlue} fontSize="8">❄</text>
+        <SvgIcon name="bolt" x={312} y={123} size={7} color={C.coolBlue} />
         <text x="318" y="127" fill={C.midGray} fontSize="4.5"
           fontFamily="Calibri, sans-serif">–12°C</text>
-        <text x="308" y="137" fill={C.warmOrange} fontSize="8">☀</text>
+        <SvgIcon name="sun" x={312} y={133} size={7} color={C.warmOrange} />
         <text x="318" y="137" fill={C.midGray} fontSize="4.5"
           fontFamily="Calibri, sans-serif">+32°C</text>
       </g>
@@ -1901,7 +1900,7 @@ function WaermeVisual() {
           fontFamily="Calibri, sans-serif">CO₂/a</text>
       </InfoPanel>
 
-      <PhaseBadge x={12} y={8} num="IV" icon="🔥" label="WÄRME" color={C.warmOrange} />
+      <PhaseBadge x={12} y={8} num="IV" icon="fire" label="WÄRME" color={C.warmOrange} />
       <Atmosphere />
     </>
   );
@@ -2130,15 +2129,16 @@ function LadeVisual() {
         <Truck x={192} y={290} />
       </g>
 
-      <Badge x={40} y={260} text="60+ AC" sub="Wallboxen" icon="🔌" color={C.greenLight} />
-      <Badge x={340} y={265} text="150–400 kW" sub="CCS Depot-Laden" icon="⚡" color={C.greenLight} align="right" />
+      <Badge x={40} y={260} text="60+ AC" sub="Wallboxen" icon="plug" color={C.greenLight} />
+      <Badge x={340} y={265} text="150–400 kW" sub="CCS Depot-Laden" icon="bolt" color={C.greenLight} align="right" />
 
       <InfoPanel x={320} y={152} w={68} h={28} title="GEIG-KONFORM" color={C.greenLight}>
         <text x="354" y="172" textAnchor="middle" fill={C.midGray}
-          fontSize="4.5" fontFamily="Calibri, sans-serif">Ladepflicht ab 2026 ✓</text>
+          fontSize="4.5" fontFamily="Calibri, sans-serif">Ladepflicht ab 2026</text>
+        <SvgIcon name="check" x={381} y={169} size={4} color={C.greenLight} />
       </InfoPanel>
 
-      <PhaseBadge x={12} y={8} num="V" icon="🔌" label="LADEN" color={C.greenLight} />
+      <PhaseBadge x={12} y={8} num="V" icon="plug" label="LADEN" color={C.greenLight} />
       <Atmosphere />
     </>
   );
@@ -2436,7 +2436,7 @@ function BESSVisual() {
           fontSize="3" fontFamily="Calibri, sans-serif">REVENUE ▶ +€ 5,2M – 8,7M p.a.</text>
       </g>
 
-      <PhaseBadge x={12} y={8} num="VI" icon="⚡" label="BESS" color={C.greenLight} />
+      <PhaseBadge x={12} y={8} num="VI" icon="bolt" label="BESS" color={C.greenLight} />
       <Atmosphere />
     </>
   );
@@ -2782,16 +2782,16 @@ function GesamtVisual() {
       {/* System KPI labels */}
       <g>
         {[
-          [325,138,"☀️","6,5–11 MWp",C.gold],
-          [325,154,"🔋","6,5–11 MWh",C.greenLight],
-          [325,170,"🔥","5–10 MW WP",C.warmOrange],
-          [325,186,"🔌","70+ Lader",C.greenLight],
-          [325,202,"📈","1,4–2,5 Mio €/a",C.goldLight],
+          [325,138,"sun","6,5–11 MWp",C.gold],
+          [325,154,"battery","6,5–11 MWh",C.greenLight],
+          [325,170,"fire","5–10 MW WP",C.warmOrange],
+          [325,186,"plug","70+ Lader",C.greenLight],
+          [325,202,"chartUp","1,4–2,5 Mio €/a",C.goldLight],
         ].map(([x,y,icon,text,col],i) => (
           <g key={i}>
             <rect x={x} y={y-6} width={text.length*4.8+16} height="13" rx="6.5"
               fill={C.navy} stroke={col} strokeWidth="0.4" opacity="0.93" />
-            <text x={x+5} y={y+2} fontSize="6">{icon}</text>
+            <SvgIcon name={icon} x={x+8} y={y} size={7} color={col} />
             <text x={x+14} y={y+1.5} fill={col}
               fontSize="5" fontFamily="Calibri, sans-serif" fontWeight="700">{text}</text>
           </g>
@@ -2802,8 +2802,7 @@ function GesamtVisual() {
       <g>
         <rect x="325" y="210" width="64" height="16" rx="4" fill={C.navy} opacity="0.87"
           stroke={C.greenLight} strokeWidth="0.4" />
-        <text x="332" y="220" fill={C.greenLight}
-          fontSize="4" fontFamily="Calibri, sans-serif" fontWeight="700">🌿</text>
+        <SvgIcon name="leaf" x={333} y={217} size={5} color={C.greenLight} />
         <text x="340" y="221" fill={C.greenLight}
           fontSize="5.5" fontFamily="Calibri, sans-serif" fontWeight="700">–4.800 t</text>
         <text x="376" y="221" fill={C.midGray}
@@ -2819,7 +2818,7 @@ function GesamtVisual() {
       <g opacity="0.55" filter="url(#softGlow)">
         <circle cx="346" cy="255" r="16" fill={C.navy} stroke={C.gold} strokeWidth="0.8" />
         <circle cx="346" cy="255" r="13" fill="none" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
-        <text x="346" y="250" textAnchor="middle" fill={C.gold} fontSize="7">🏆</text>
+        <SvgIcon name="trophy" x={346} y={248} size={8} color={C.gold} />
         <text x="346" y="258.5" textAnchor="middle" fill={C.goldLight}
           fontSize="3.5" fontFamily="Calibri, sans-serif" fontWeight="700">CERTIFIED</text>
         <text x="346" y="263.5" textAnchor="middle" fill={C.midGray}
@@ -2854,7 +2853,7 @@ function GesamtVisual() {
         <line x1="100" y1="308" x2="310" y2="308" stroke={C.gold} strokeWidth="0.8" opacity="0.1">
           <animate attributeName="x2" values="100;310" dur="3s" fill="freeze" />
         </line>
-        {[["I","☀️"],["II","☀️"],["III","🔋"],["IV","🔥"],["V","🔌"],["VI","⚡"]].map(([num],i) => (
+        {[["I","sun"],["II","sun"],["III","battery"],["IV","fire"],["V","plug"],["VI","bolt"]].map(([num],i) => (
           <g key={i}>
             <circle cx={118+i*36} cy="308" r="5" fill={C.gold} opacity={0.12+i*0.04}
               stroke={C.goldLight} strokeWidth="0.3" />
@@ -2864,11 +2863,10 @@ function GesamtVisual() {
         ))}
         <circle cx="330" cy="308" r="6" fill={C.gold} opacity="0.17"
           stroke={C.goldLight} strokeWidth="0.5" />
-        <text x="330" y="310.5" textAnchor="middle" fill={C.goldLight}
-          fontSize="5" fontFamily="Georgia, serif" fontWeight="700">✓</text>
+        <SvgIcon name="check" x={330} y={308} size={6} color={C.goldLight} />
       </g>
 
-      <PhaseBadge x={12} y={8} num="✦" icon="🏆" label="GESAMT" color={C.gold} />
+      <PhaseBadge x={12} y={8} num="✦" icon="trophy" label="GESAMT" color={C.gold} />
       <Atmosphere warm />
     </>
   );

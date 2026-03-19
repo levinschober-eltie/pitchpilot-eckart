@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from "react";
+import { Icon } from "./Icons";
 
 const anim = (v) => ({ animation: v, WebkitAnimation: v });
 
@@ -237,7 +238,7 @@ export function getPhaseCalcItems(phaseIdx, calc, config) {
 export function getDynamicHeroCards(calc) {
   return [
     {
-      icon: "🌿", accent: "#2D6A4F",
+      icon: "leaf", accent: "#2D6A4F",
       label: "CO₂-EINSPARUNG PRO JAHR",
       value: `~${fmtVal(calc.co2Gesamt)} t`,
       sub: `CO₂/Jahr weniger · ${fmtEuro(calc.co2Kosten)}/a vermiedene CO₂-Kosten`,
@@ -249,7 +250,7 @@ export function getDynamicHeroCards(calc) {
       ],
     },
     {
-      icon: "💰", accent: "#D4A843",
+      icon: "money", accent: "#D4A843",
       label: "JÄHRLICHER GESAMTERTRAG",
       value: fmtEuro(calc.gesamtertrag),
       sub: "Einsparung + Erlöse pro Jahr",
@@ -264,7 +265,7 @@ export function getDynamicHeroCards(calc) {
 /* ── Slider Group Definitions ── */
 const GROUPS = [
   {
-    key: "standort", title: "STANDORT & VERBRAUCH", icon: "🏭",
+    key: "standort", title: "STANDORT & VERBRAUCH", icon: "factory",
     sliders: [
       { key: "stromverbrauch", label: "Jahresstromverbrauch", unit: "MWh/a", min: 2000, max: 60000, step: 500 },
       { key: "gasverbrauch", label: "Jahresgasverbrauch", unit: "MWh/a", min: 0, max: 40000, step: 500 },
@@ -274,7 +275,7 @@ const GROUPS = [
     hasUploads: true,
   },
   {
-    key: "pv", title: "PV-AUSBAU", icon: "☀️",
+    key: "pv", title: "PV-AUSBAU", icon: "sun",
     sliders: [
       { key: "pvDach", label: "PV Dach", unit: "MWp", min: 0, max: 6, step: 0.1, dec: 1 },
       { key: "pvFassade", label: "PV Fassade", unit: "MWp", min: 0, max: 2, step: 0.1, dec: 1 },
@@ -283,21 +284,21 @@ const GROUPS = [
     note: "Bestand Freifläche: 2,0 MWp (bereits installiert)",
   },
   {
-    key: "speicher", title: "SPEICHER", icon: "🔋",
+    key: "speicher", title: "SPEICHER", icon: "battery",
     sliders: [
       { key: "standortBESS", label: "Standort-BESS (Grünstrom)", unit: "MWh", min: 0, max: 20, step: 0.5, dec: 1 },
       { key: "graustromBESS", label: "Graustrom-BESS (Utility)", unit: "MWh", min: 0, max: 400, step: 10 },
     ],
   },
   {
-    key: "waerme", title: "WÄRMEKONZEPT", icon: "🔥",
+    key: "waerme", title: "WÄRMEKONZEPT", icon: "fire",
     sliders: [
       { key: "wpLeistung", label: "Wärmepumpen-Leistung", unit: "MW", min: 0, max: 15, step: 0.5, dec: 1 },
       { key: "pufferspeicher", label: "Pufferspeicher", unit: "m³", min: 0, max: 800, step: 50 },
     ],
   },
   {
-    key: "mobilitaet", title: "MOBILITÄT", icon: "🚗",
+    key: "mobilitaet", title: "MOBILITÄT", icon: "car",
     sliders: [
       { key: "anzahlPKW", label: "E-PKW Ladepunkte", unit: "Stk", min: 0, max: 200, step: 5 },
       { key: "anzahlLKW", label: "E-LKW Ladepunkte", unit: "Stk", min: 0, max: 30, step: 1 },
@@ -307,7 +308,7 @@ const GROUPS = [
     ],
   },
   {
-    key: "finanzierung", title: "FINANZIERUNG", icon: "🏦",
+    key: "finanzierung", title: "FINANZIERUNG", icon: "bank",
     sliders: [
       { key: "ekAnteil", label: "Eigenkapitalanteil", unit: "%", min: 10, max: 100, step: 5 },
       { key: "kreditZins", label: "Kreditzins", unit: "% p.a.", min: 2.0, max: 8.0, step: 0.1, dec: 1 },
@@ -428,7 +429,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
               borderRadius: "6px", width: "32px", height: "32px",
               display: "flex", alignItems: "center", justifyContent: "center",
               cursor: "pointer", color: C.midGray, fontSize: "1rem",
-            }}>✕</button>
+            }}><Icon name="close" size={14} /></button>
           </div>
 
           {/* Key results */}
@@ -474,7 +475,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
                   borderBottom: "1px solid rgba(255,255,255,0.06)",
                 }}
               >
-                <span style={{ fontSize: "0.85rem" }}>{group.icon}</span>
+                <Icon name={group.icon} size={14} color={C.gold} />
                 <span style={{
                   fontFamily: "Calibri, sans-serif", fontSize: "0.65rem",
                   letterSpacing: "2px", color: C.gold, fontWeight: 700,
@@ -545,8 +546,8 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
                           color: config.lastgangFile ? C.greenLight : C.midGray,
                         }}>
                           {config.lastgangFile
-                            ? `✓ ${config.lastgangFile}${config.lastgangData ? ` → ${fmtVal(config.lastgangData.annualMWh)} MWh/a` : ""}`
-                            : "📊 Lastgang-CSV hochladen (15-Min-Intervall)"}
+                            ? <><Icon name="check" size={12} color={C.greenLight} style={{ marginRight: 4 }} />{config.lastgangFile}{config.lastgangData ? ` → ${fmtVal(config.lastgangData.annualMWh)} MWh/a` : ""}</>
+                            : <><Icon name="chart" size={12} style={{ marginRight: 4 }} /> Lastgang-CSV hochladen (15-Min-Intervall)</>}
                         </div>
                       </div>
 
@@ -569,8 +570,8 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
                           color: config.stromrechnungFile ? C.greenLight : C.midGray,
                         }}>
                           {config.stromrechnungFile
-                            ? `✓ ${config.stromrechnungFile}`
-                            : "📄 Stromrechnung hochladen (PDF/Bild)"}
+                            ? <><Icon name="check" size={12} color={C.greenLight} style={{ marginRight: 4 }} />{config.stromrechnungFile}</>
+                            : <><Icon name="document" size={12} style={{ marginRight: 4 }} /> Stromrechnung hochladen (PDF/Bild)</>}
                         </div>
                       </div>
 
@@ -600,7 +601,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
                 boxShadow: `0 4px 15px ${C.green}40`,
                 transition: "all 0.3s",
               }}
-            >✓ Kalkulation speichern</button>
+            ><><Icon name="check" size={14} style={{ marginRight: 4 }} /> Kalkulation speichern</></button>
           )}
 
           {/* Reset */}
@@ -614,7 +615,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
               fontFamily: "Calibri, sans-serif", fontSize: "0.78rem",
               color: C.midGray, cursor: "pointer",
             }}
-          >↺ Auf Standardwerte zurücksetzen</button>
+          ><><Icon name="reset" size={13} style={{ marginRight: 4 }} /> Auf Standardwerte zurücksetzen</></button>
         </div>
 
         {/* Slider styles */}

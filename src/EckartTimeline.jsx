@@ -3,6 +3,7 @@ import PhaseVisual from "./PhaseVisuals";
 import ConfigPanel, { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./ConfigPanel";
 import ExportModal from "./PdfExport";
 import MarketAnalysis from "./MarketAnalysis";
+import { Icon } from "./Icons";
 
 const C = {
   navy: "#1B2A4A",
@@ -59,12 +60,12 @@ const phases = [
     roiValue: "~2.000 MWh/a bereits erzeugt",
     independenceScore: 15,
     independenceLabel: "Bestand + Datenbasis",
-    icon: "🔍",
+    icon: "search",
     highlights: [
-      { icon: "📡", title: "Drohnen- & Laservermessung", text: "Gesamtes Gelände vollständig digital erfasst — Gebäude, Freiflächen, Verschattung" },
-      { icon: "📊", title: "12-Monats-Lastprofil", text: "Reale Verbrauchsdaten in 15-Min-Auflösung als Grundlage für jede Dimensionierung" },
-      { icon: "🔬", title: "Thermografie & Abwärme", text: "IR-Aufnahmen aller Hallen — Wärmeverluste und nutzbare Abwärmequellen identifiziert" },
-      { icon: "⚡", title: "Hochspannungs-Netzanalyse", text: "Einspeise- und Bezugskapazität bewertet — Grundlage für das BESS-Ertragsmodell" },
+      { icon: "satellite", title: "Drohnen- & Laservermessung", text: "Gesamtes Gelände vollständig digital erfasst — Gebäude, Freiflächen, Verschattung" },
+      { icon: "chart", title: "12-Monats-Lastprofil", text: "Reale Verbrauchsdaten in 15-Min-Auflösung als Grundlage für jede Dimensionierung" },
+      { icon: "microscope", title: "Thermografie & Abwärme", text: "IR-Aufnahmen aller Hallen — Wärmeverluste und nutzbare Abwärmequellen identifiziert" },
+      { icon: "bolt", title: "Hochspannungs-Netzanalyse", text: "Einspeise- und Bezugskapazität bewertet — Grundlage für das BESS-Ertragsmodell" },
     ],
   },
   {
@@ -104,12 +105,12 @@ const phases = [
     roiValue: ">60 % Eigenverbrauch",
     independenceScore: 45,
     independenceLabel: "Erweitertes Erzeugungsportfolio",
-    icon: "🏗️",
+    icon: "sun",
     highlights: [
-      { icon: "🏭", title: "Dach-PV auf allen Hallen", text: "Alle priorisierten Cluster saniert und mit PV bestückt — das größte Potenzial am Standort" },
-      { icon: "🏢", title: "Fassaden-PV Süd/West", text: "Vertikale Module erzeugen auch bei flachem Sonnenstand — ideal für den Winter" },
-      { icon: "🅿️", title: "Carport-Kraftwerke", text: "Alle Stellplätze mit Solar-Carports — Stromerzeugung und Laden kombiniert" },
-      { icon: "📈", title: "Jahreszeitlich optimal", text: "Dach + Fassade + Carport ergänzen den Freiflächen-Bestand für ganzjährig hohe Erträge" },
+      { icon: "factory", title: "Dach-PV auf allen Hallen", text: "Alle priorisierten Cluster saniert und mit PV bestückt — das größte Potenzial am Standort" },
+      { icon: "factory", title: "Fassaden-PV Süd/West", text: "Vertikale Module erzeugen auch bei flachem Sonnenstand — ideal für den Winter" },
+      { icon: "plug", title: "Carport-Kraftwerke", text: "Alle Stellplätze mit Solar-Carports — Stromerzeugung und Laden kombiniert" },
+      { icon: "chart", title: "Jahreszeitlich optimal", text: "Dach + Fassade + Carport ergänzen den Freiflächen-Bestand für ganzjährig hohe Erträge" },
     ],
   },
   {
@@ -146,12 +147,12 @@ const phases = [
     roiValue: "10–15 % Leistungspreis-Senkung",
     independenceScore: 65,
     independenceLabel: "Steuerbarkeit erreicht",
-    icon: "⚡",
+    icon: "bolt",
     highlights: [
-      { icon: "🔋", title: "1:1 PV-Speicher", text: "Exakt auf die Erzeugungsleistung dimensioniert — maximale Ausnutzung jeder kWh" },
-      { icon: "🧠", title: "Intelligentes EMS", text: "Prognosebasierte Steuerung: PV-Ertrag, Lastprofile und Wetter in Echtzeit" },
-      { icon: "📉", title: "Peak Shaving", text: "Lastspitzen automatisch gekappt — sofortige Reduktion der Leistungspreise" },
-      { icon: "💰", title: "Spotmarkt-Trading", text: "Günstig laden bei 2 ct/kWh, teuer zurückspeisen — automatisiert durch EMS" },
+      { icon: "battery", title: "1:1 PV-Speicher", text: "Exakt auf die Erzeugungsleistung dimensioniert — maximale Ausnutzung jeder kWh" },
+      { icon: "bolt", title: "Intelligentes EMS", text: "Prognosebasierte Steuerung: PV-Ertrag, Lastprofile und Wetter in Echtzeit" },
+      { icon: "chartDown", title: "Peak Shaving", text: "Lastspitzen automatisch gekappt — sofortige Reduktion der Leistungspreise" },
+      { icon: "money", title: "Spotmarkt-Trading", text: "Günstig laden bei 2 ct/kWh, teuer zurückspeisen — automatisiert durch EMS" },
     ],
   },
   {
@@ -192,12 +193,12 @@ const phases = [
     roiValue: "65–80 % weniger Gaskosten",
     independenceScore: 80,
     independenceLabel: "Thermisch unabhängig",
-    icon: "🔥",
+    icon: "fire",
     highlights: [
-      { icon: "♨️", title: "Hochtemperatur bis 90 °C", text: "WP-Kaskade für industrielle Prozesswärme — direkt aus Produktionsabwärme gespeist" },
-      { icon: "🔄", title: "Abwärme-Kaskade", text: "Produktionsabwärme wird zur Wärmequelle — kein Joule verlässt den Kreislauf" },
-      { icon: "🏗️", title: "Zentrales Wärmenetz", text: "Alle Produktionshallen verbunden — gleichmäßige Wärmeversorgung über den gesamten Standort" },
-      { icon: "🌿", title: "Gaskessel nur noch Reserve", text: "Fossile Verbrennung auf Spitzenlast reduziert — CO₂-Bilanz drastisch verbessert" },
+      { icon: "fire", title: "Hochtemperatur bis 90 °C", text: "WP-Kaskade für industrielle Prozesswärme — direkt aus Produktionsabwärme gespeist" },
+      { icon: "bolt", title: "Abwärme-Kaskade", text: "Produktionsabwärme wird zur Wärmequelle — kein Joule verlässt den Kreislauf" },
+      { icon: "factory", title: "Zentrales Wärmenetz", text: "Alle Produktionshallen verbunden — gleichmäßige Wärmeversorgung über den gesamten Standort" },
+      { icon: "leaf", title: "Gaskessel nur noch Reserve", text: "Fossile Verbrennung auf Spitzenlast reduziert — CO₂-Bilanz drastisch verbessert" },
     ],
   },
   {
@@ -239,12 +240,12 @@ const phases = [
     roiValue: "110–180 T€/a Einsparung",
     independenceScore: 78,
     independenceLabel: "Mobilität elektrifiziert",
-    icon: "🔌",
+    icon: "plug",
     highlights: [
-      { icon: "🔌", title: "Laden während der Arbeit", text: "Mitarbeiter laden direkt vom eigenen PV-Strom — günstiger als jede Tankstelle" },
-      { icon: "⚡", title: "DC-Fleet Schnelllader", text: "Firmenflotte in 30 Min. geladen — Schnellladung direkt aus dem Betriebsspeicher" },
-      { icon: "🚛", title: "HPC-LKW-Depot", text: "E-LKW laden direkt am Depot — die gesamte Logistik wird elektrisch" },
-      { icon: "📋", title: "GEIG-konform ab 2026", text: "Gesetzliche Ladepflicht für Unternehmen proaktiv erfüllt — keine Nachrüstung nötig" },
+      { icon: "plug", title: "Laden während der Arbeit", text: "Mitarbeiter laden direkt vom eigenen PV-Strom — günstiger als jede Tankstelle" },
+      { icon: "bolt", title: "DC-Fleet Schnelllader", text: "Firmenflotte in 30 Min. geladen — Schnellladung direkt aus dem Betriebsspeicher" },
+      { icon: "factory", title: "HPC-LKW-Depot", text: "E-LKW laden direkt am Depot — die gesamte Logistik wird elektrisch" },
+      { icon: "document", title: "GEIG-konform ab 2026", text: "Gesetzliche Ladepflicht für Unternehmen proaktiv erfüllt — keine Nachrüstung nötig" },
     ],
   },
   {
@@ -280,12 +281,12 @@ const phases = [
     roiValue: "15–25 % p.a.",
     independenceScore: 90,
     independenceLabel: "Eigenständiges Ertragsmodell",
-    icon: "🏭",
+    icon: "factory",
     highlights: [
-      { icon: "🏦", title: "Separates Investment", text: "Eigenständige Projektfinanzierung (Non-Recourse) — vollständig vom Standort-Invest getrennt" },
-      { icon: "📊", title: "Drei Erlösströme", text: "Arbitrage + Regelenergie + Redispatch — maximale Diversifikation der Einnahmen" },
-      { icon: "⚡", title: "Größte Anlage der Region", text: "Großspeicher direkt am Hochspannungsnetz — einzigartige Standortvoraussetzung" },
-      { icon: "💹", title: "Cashflow ab Tag 1", text: "Positive Rendite vom ersten Betriebstag — Amortisation in 4–6 Jahren realistisch" },
+      { icon: "bank", title: "Separates Investment", text: "Eigenständige Projektfinanzierung (Non-Recourse) — vollständig vom Standort-Invest getrennt" },
+      { icon: "chart", title: "Drei Erlösströme", text: "Arbitrage + Regelenergie + Redispatch — maximale Diversifikation der Einnahmen" },
+      { icon: "bolt", title: "Größte Anlage der Region", text: "Großspeicher direkt am Hochspannungsnetz — einzigartige Standortvoraussetzung" },
+      { icon: "money", title: "Cashflow ab Tag 1", text: "Positive Rendite vom ersten Betriebstag — Amortisation in 4–6 Jahren realistisch" },
     ],
   },
   {
@@ -298,17 +299,17 @@ const phases = [
     description: "Sechs Phasen. Ein integriertes System. Strom, Wärme, Mobilität und Speicher – jede Dimension der Energieversorgung ist durchdacht und wirtschaftlich unterlegt. Der Standort Hartenstein wird nicht nur effizienter – er wird strategisch unangreifbar. Von der Analyse über 11 MWp Eigenerzeugung, intelligente Speicher und ein standortweites Wärmenetz bis zum eigenständigen 100-MW-Ertragsmodell: Jede Investition baut auf der vorherigen auf, jede Phase erhöht die Unabhängigkeit. Das Ergebnis ist ein Industriestandort, der seine Energiekosten um über 50 % senkt, CO₂-Emissionen massiv reduziert und gleichzeitig einen neuen Geschäftsbereich erschließt.",
     isFinal: true,
     levers: [
-      { icon: "⚡", title: "Reduktion externer Strombezug", desc: "~800–1.400 T€/a Einsparung durch Eigenerzeugung" },
-      { icon: "📉", title: "Lastspitzenreduktion", desc: "10–15 % Peak Shaving → 100–200 T€/a Leistungspreis-Senkung" },
-      { icon: "🔥", title: "Gaskosten-Reduktion", desc: "65–80 % weniger → 300–600 T€/a Einsparung" },
-      { icon: "🔌", title: "Kraftstoff-Elektrifizierung", desc: "~65 % weniger Mobilitätskosten → 110–180 T€/a" },
-      { icon: "🎯", title: "Aktive Steuerbarkeit", desc: "Echtzeit-EMS optimiert Erzeugung, Speicher und Verbrauch" },
-      { icon: "🏭", title: "BESS-Ertragsmodell", desc: "15–25 % p.a. auf 35–48 Mio € → eigenständiger Cashflow" },
+      { icon: "bolt", title: "Reduktion externer Strombezug", desc: "~800–1.400 T€/a Einsparung durch Eigenerzeugung" },
+      { icon: "chartDown", title: "Lastspitzenreduktion", desc: "10–15 % Peak Shaving → 100–200 T€/a Leistungspreis-Senkung" },
+      { icon: "fire", title: "Gaskosten-Reduktion", desc: "65–80 % weniger → 300–600 T€/a Einsparung" },
+      { icon: "plug", title: "Kraftstoff-Elektrifizierung", desc: "~65 % weniger Mobilitätskosten → 110–180 T€/a" },
+      { icon: "search", title: "Aktive Steuerbarkeit", desc: "Echtzeit-EMS optimiert Erzeugung, Speicher und Verbrauch" },
+      { icon: "factory", title: "BESS-Ertragsmodell", desc: "15–25 % p.a. auf 35–48 Mio € → eigenständiger Cashflow" },
     ],
     /* ── Two hero numbers for Vollausbau at-a-glance ── */
     heroCards: [
       {
-        icon: "🌿", accent: "#2D6A4F",
+        icon: "leaf", accent: "#2D6A4F",
         label: "CO₂-EINSPARUNG PRO JAHR",
         value: "~4.800 t",
         sub: "CO₂/Jahr weniger · 264–312 T€/a vermiedene CO₂-Kosten",
@@ -320,7 +321,7 @@ const phases = [
         ],
       },
       {
-        icon: "💰", accent: "#D4A843",
+        icon: "money", accent: "#D4A843",
         label: "JÄHRLICHER GESAMTERTRAG",
         value: "6,4–14,5 Mio €",
         sub: "Einsparung + Erlöse pro Jahr",
@@ -331,18 +332,18 @@ const phases = [
       },
     ],
     regulatorik: [
-      { icon: "📋", title: "CSRD-Berichtspflicht", desc: "Ab 2025 verpflichtend für große Unternehmen — Scope 1–3 Emissionen müssen offengelegt und reduziert werden", status: "Erfüllt durch Phasen I–VI" },
-      { icon: "🏛️", title: "EU-Taxonomie", desc: "Investitionen gelten als nachhaltig — verbessert ESG-Rating und Zugang zu Green Finance", status: "Taxonomie-konform" },
-      { icon: "💨", title: "CO₂-Bepreisung", desc: "Nationaler CO₂-Preis steigt von 55 €/t (2025) auf 65 €/t (2026) — jedes Jahr Nicht-Handeln wird teurer", status: "264–312 T€/a vermieden" },
-      { icon: "⚡", title: "EnEfG (Energieeffizienzgesetz)", desc: "Unternehmen > 7,5 GWh/a müssen Energiemanagementsystem und Effizienzmaßnahmen nachweisen", status: "Vollständig abgedeckt" },
-      { icon: "🌍", title: "CBAM (CO₂-Grenzausgleich)", desc: "Ab 2026 CO₂-Zölle auf Importe — ECKART als Exporteur profitiert von niedrigem CO₂-Fußabdruck", status: "Wettbewerbsvorteil" },
-      { icon: "🔌", title: "GEIG (Ladepflicht)", desc: "Ab 2026 Ladepflicht für Nichtwohngebäude > 20 Stellplätze — durch Phase V vollständig erfüllt", status: "Seit Phase V erfüllt" },
+      { icon: "document", title: "CSRD-Berichtspflicht", desc: "Ab 2025 verpflichtend für große Unternehmen — Scope 1–3 Emissionen müssen offengelegt und reduziert werden", status: "Erfüllt durch Phasen I–VI" },
+      { icon: "bank", title: "EU-Taxonomie", desc: "Investitionen gelten als nachhaltig — verbessert ESG-Rating und Zugang zu Green Finance", status: "Taxonomie-konform" },
+      { icon: "leaf", title: "CO₂-Bepreisung", desc: "Nationaler CO₂-Preis steigt von 55 €/t (2025) auf 65 €/t (2026) — jedes Jahr Nicht-Handeln wird teurer", status: "264–312 T€/a vermieden" },
+      { icon: "bolt", title: "EnEfG (Energieeffizienzgesetz)", desc: "Unternehmen > 7,5 GWh/a müssen Energiemanagementsystem und Effizienzmaßnahmen nachweisen", status: "Vollständig abgedeckt" },
+      { icon: "leaf", title: "CBAM (CO₂-Grenzausgleich)", desc: "Ab 2026 CO₂-Zölle auf Importe — ECKART als Exporteur profitiert von niedrigem CO₂-Fußabdruck", status: "Wettbewerbsvorteil" },
+      { icon: "plug", title: "GEIG (Ladepflicht)", desc: "Ab 2026 Ladepflicht für Nichtwohngebäude > 20 Stellplätze — durch Phase V vollständig erfüllt", status: "Seit Phase V erfüllt" },
     ],
     riskManagement: [
-      { icon: "📊", title: "Energiepreisvolatilität", desc: "95 % Autarkie eliminiert Abhängigkeit von Strom- und Gaspreisschwankungen", impact: "Kalkulierbare Kosten" },
-      { icon: "🛡️", title: "Versorgungssicherheit", desc: "Eigenerzeugung + Speicher = Inselfähigkeit bei Netzstörungen — Produktion läuft weiter", impact: "Kein Produktionsausfall" },
-      { icon: "🌐", title: "Geopolitische Unabhängigkeit", desc: "Keine Abhängigkeit von fossilen Importen — Standort ist energiepolitisch resilient", impact: "Strategische Absicherung" },
-      { icon: "📈", title: "Regulatorisches Risiko", desc: "Steigende CO₂-Preise, verschärfte Berichtspflichten — proaktives Handeln statt Nachrüsten", impact: "Zukunftssicherheit" },
+      { icon: "chart", title: "Energiepreisvolatilität", desc: "95 % Autarkie eliminiert Abhängigkeit von Strom- und Gaspreisschwankungen", impact: "Kalkulierbare Kosten" },
+      { icon: "bolt", title: "Versorgungssicherheit", desc: "Eigenerzeugung + Speicher = Inselfähigkeit bei Netzstörungen — Produktion läuft weiter", impact: "Kein Produktionsausfall" },
+      { icon: "leaf", title: "Geopolitische Unabhängigkeit", desc: "Keine Abhängigkeit von fossilen Importen — Standort ist energiepolitisch resilient", impact: "Strategische Absicherung" },
+      { icon: "chart", title: "Regulatorisches Risiko", desc: "Steigende CO₂-Preise, verschärfte Berichtspflichten — proaktives Handeln statt Nachrüsten", impact: "Zukunftssicherheit" },
     ],
     economicSummary: {
       title: "Gesamtwirtschaftliche Betrachtung",
@@ -371,11 +372,11 @@ const phases = [
       { label: "BESS Utility", value: "100 MW / 200 MWh", sub: "Eigenständiger Werttreiber" },
     ],
     pillars: [
-      { label: "Eigenerzeugung", phase: "II", icon: "☀️" },
-      { label: "Steuerbarkeit", phase: "III", icon: "⚡" },
-      { label: "Wärmeautarkie", phase: "IV", icon: "🔥" },
-      { label: "E-Mobilität", phase: "V", icon: "🔌" },
-      { label: "Ertragsmodell", phase: "VI", icon: "🏭" },
+      { label: "Eigenerzeugung", phase: "II", icon: "sun" },
+      { label: "Steuerbarkeit", phase: "III", icon: "bolt" },
+      { label: "Wärmeautarkie", phase: "IV", icon: "fire" },
+      { label: "E-Mobilität", phase: "V", icon: "plug" },
+      { label: "Ertragsmodell", phase: "VI", icon: "factory" },
     ],
     investmentSummary: [
       { phase: "—", label: "Bestand Freiflächen-PV", range: "~2 MWp (bereits realisiert)", roi: "~2.000 MWh/a", maxMio: 0, score: 10 },
@@ -403,12 +404,12 @@ const phases = [
     roiValue: "1,4–2,5 Mio €/a Einsparung + BESS-Erträge",
     independenceScore: 95,
     independenceLabel: "Strategischer Standortvorteil",
-    icon: "🏆",
+    icon: "sun",
     highlights: [
-      { icon: "🎯", title: "95 % Autarkie", text: "Strom, Wärme und Mobilität nahezu vollständig aus eigener Erzeugung" },
-      { icon: "💰", title: "1,4–2,5 Mio €/a", text: "Jährliche Einsparung über alle Energiedimensionen — ab Jahr 1" },
-      { icon: "⏱️", title: "Amortisation 6–9 J.", text: "Standort-Invest (Phasen I–V) amortisiert sich innerhalb eines Jahrzehnts" },
-      { icon: "🏭", title: "Eigenständiger Cashflow", text: "Graustrom-BESS als separates Ertragsmodell mit 15–25 % p.a." },
+      { icon: "search", title: "95 % Autarkie", text: "Strom, Wärme und Mobilität nahezu vollständig aus eigener Erzeugung" },
+      { icon: "money", title: "1,4–2,5 Mio €/a", text: "Jährliche Einsparung über alle Energiedimensionen — ab Jahr 1" },
+      { icon: "bolt", title: "Amortisation 6–9 J.", text: "Standort-Invest (Phasen I–V) amortisiert sich innerhalb eines Jahrzehnts" },
+      { icon: "factory", title: "Eigenständiger Cashflow", text: "Graustrom-BESS als separates Ertragsmodell mit 15–25 % p.a." },
     ],
   },
 ];
@@ -661,7 +662,7 @@ export default function EckartTimeline() {
               cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
               transition: "all 0.3s", marginTop: "0.6rem", whiteSpace: "nowrap",
             }}
-          >{configSaved ? "✓" : "⚙"} Kalkulator</button>
+          ><Icon name={configSaved ? "check" : "gear"} size={12} /> Kalkulator</button>
           {configSaved && (
             <button
               onClick={() => { setSavedConfig(null); setConfig(defaultConfig); setConfigOpen(false); }}
@@ -674,7 +675,7 @@ export default function EckartTimeline() {
                 cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
                 transition: "all 0.3s", marginTop: "0.6rem", whiteSpace: "nowrap",
               }}
-            >↺ Zurücksetzen</button>
+            ><Icon name="reset" size={12} /> Zurücksetzen</button>
           )}
           <button
             onClick={() => setExportOpen(true)}
@@ -685,7 +686,7 @@ export default function EckartTimeline() {
               cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
               transition: "all 0.3s", whiteSpace: "nowrap",
             }}
-          >📄 PDF Export</button>
+          ><Icon name="document" size={14} /> PDF Export</button>
           <button
             onClick={() => setMarketOpen(true)}
             style={{
@@ -695,7 +696,7 @@ export default function EckartTimeline() {
               cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
               transition: "all 0.3s", whiteSpace: "nowrap",
             }}
-          >📊 Marktanalyse</button>
+          ><Icon name="chart" size={14} /> Marktanalyse</button>
         </div>
       </header>
 
@@ -718,12 +719,11 @@ export default function EckartTimeline() {
                 opacity: i <= active ? 1 : 0.4,
               }}
             >
-              <span style={{
-                fontSize: i === active ? "1.6rem" : "1rem",
+              <Icon name={p.icon} size={i === active ? 24 : 16} style={{
                 transition: "all 0.3s ease",
                 filter: i === active ? "none" : "grayscale(0.5)",
                 WebkitFilter: i === active ? "none" : "grayscale(0.5)",
-              }}>{p.icon}</span>
+              }} />
               <span style={{
                 fontFamily: "Calibri, sans-serif",
                 fontSize: "0.75rem", letterSpacing: "1.5px",
@@ -829,7 +829,7 @@ export default function EckartTimeline() {
             fontSize: "1.5rem", flexShrink: 0,
             boxShadow: phase.isFinal ? `0 0 24px ${C.gold}30` : "none",
           }}>
-            {phase.icon}
+            <Icon name={phase.icon} size={24} />
           </div>
           <div style={{ flex: 1 }}>
             <div style={{
@@ -933,7 +933,7 @@ export default function EckartTimeline() {
                       display: "flex", alignItems: "center", gap: "0.3rem",
                       marginBottom: "0.15rem",
                     }}>
-                      <span style={{ fontSize: "0.9rem" }}>{h.icon}</span>
+                      <Icon name={h.icon} size={14} color="currentColor" />
                       <span style={{
                         fontFamily: "Calibri, sans-serif",
                         fontSize: "0.8rem", fontWeight: 700,
@@ -1061,7 +1061,7 @@ export default function EckartTimeline() {
                       display: "flex", alignItems: "center", gap: "0.5rem",
                       marginBottom: "0.5rem",
                     }}>
-                      <span style={{ fontSize: "1.3rem" }}>{card.icon}</span>
+                      <Icon name={card.icon} size={20} />
                       <span style={{
                         fontFamily: "Calibri, sans-serif", fontSize: "0.7rem",
                         letterSpacing: "2px", textTransform: "uppercase",
@@ -1125,7 +1125,7 @@ export default function EckartTimeline() {
                   color: C.gold, fontWeight: 700, marginBottom: "0.6rem",
                   display: "flex", alignItems: "center", gap: "0.4rem",
                 }}>
-                  <span style={{ fontSize: "0.8rem" }}>⚙</span>
+                  <Icon name="gear" size={13} color={C.gold} />
                   IHRE GESAMTBERECHNUNG
                 </div>
                 <div style={{
@@ -1454,11 +1454,11 @@ export default function EckartTimeline() {
                     ...anim(`fadeSlideIn 0.4s ease ${0.3 + i * 0.06}s both`),
                   }}>
                     <span style={{
-                      fontSize: "1.1rem", flexShrink: 0, marginTop: "0.05rem",
+                      flexShrink: 0, marginTop: "0.05rem",
                       width: "28px", height: "28px", borderRadius: "6px",
                       background: `rgba(255,255,255,0.04)`,
                       display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>{l.icon}</span>
+                    }}><Icon name={l.icon} size={16} /></span>
                     <div>
                       <div style={{
                         fontFamily: "Calibri, sans-serif", fontSize: "0.95rem",
@@ -1503,7 +1503,7 @@ export default function EckartTimeline() {
                         display: "flex", alignItems: "center", gap: "0.4rem",
                         marginBottom: "0.25rem",
                       }}>
-                        <span style={{ fontSize: "0.9rem" }}>{r.icon}</span>
+                        <Icon name={r.icon} size={14} color="currentColor" />
                         <span style={{
                           fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
                           fontWeight: 700, color: C.white,
@@ -1521,7 +1521,7 @@ export default function EckartTimeline() {
                         borderRadius: "4px", padding: "0.2rem 0.5rem",
                         fontFamily: "Calibri, sans-serif", fontSize: "0.72rem",
                         fontWeight: 700, color: C.greenLight,
-                      }}>✓ {r.status}</div>
+                      }}><Icon name="check" size={11} color="currentColor" style={{ marginRight: "0.2rem" }} />{r.status}</div>
                     </div>
                   ))}
                 </div>
@@ -1550,11 +1550,11 @@ export default function EckartTimeline() {
                       display: "flex", alignItems: "flex-start", gap: "0.6rem",
                     }}>
                       <span style={{
-                        fontSize: "1.1rem", flexShrink: 0, marginTop: "0.05rem",
+                        flexShrink: 0, marginTop: "0.05rem",
                         width: "32px", height: "32px", borderRadius: "8px",
                         background: `rgba(45,106,79,0.15)`,
                         display: "flex", alignItems: "center", justifyContent: "center",
-                      }}>{r.icon}</span>
+                      }}><Icon name={r.icon} size={16} /></span>
                       <div>
                         <div style={{
                           fontFamily: "Calibri, sans-serif", fontSize: "0.85rem",
@@ -1595,7 +1595,7 @@ export default function EckartTimeline() {
                       borderRadius: "10px", padding: "0.55rem 0.85rem",
                       display: "flex", alignItems: "center", gap: "0.4rem",
                     }}>
-                      <span style={{ fontSize: "0.9rem" }}>{p.icon}</span>
+                      <Icon name={p.icon} size={14} />
                       <div>
                         <div style={{
                           fontFamily: "Calibri, sans-serif", fontSize: "0.9rem",
@@ -1737,9 +1737,7 @@ export default function EckartTimeline() {
                       borderBottom: i < phase.results.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
                       ...anim(`fadeSlideIn 0.4s ease ${i * 0.06}s both`),
                     }}>
-                      <span style={{
-                        color: C.green, fontSize: "0.95rem", marginTop: "0.05rem", flexShrink: 0,
-                      }}>✓</span>
+                      <Icon name="check" size={14} color={C.green} style={{ marginTop: "0.05rem" }} />
                       <span style={{
                         fontFamily: "Calibri, sans-serif",
                         fontSize: "0.95rem", color: "rgba(255,255,255,0.8)",
@@ -1911,7 +1909,7 @@ export default function EckartTimeline() {
                     color: C.gold, fontWeight: 700, marginBottom: "0.45rem",
                     display: "flex", alignItems: "center", gap: "0.35rem",
                   }}>
-                    <span style={{ fontSize: "0.7rem" }}>⚙</span>
+                    <Icon name="gear" size={11} color={C.gold} />
                     IHRE BERECHNUNG
                   </div>
                   <div style={{
@@ -1970,7 +1968,7 @@ export default function EckartTimeline() {
                 color: i <= active ? C.greenLight : C.midGray,
                 transition: "all 0.4s ease",
               }}>
-                <span style={{ fontSize: "0.6rem" }}>{i <= active ? "✓" : "○"}</span>
+                <Icon name={i <= active ? "check" : "circle"} size={10} />
                 <span>{["Nach I", "Nach II", "Nach III", "Nach IV", "Nach V", "Gesamt"][i]}: {c}</span>
               </div>
             ))}
@@ -1994,7 +1992,7 @@ export default function EckartTimeline() {
             padding: "0.15rem 0.4rem", borderRadius: "3px",
             border: "1px solid rgba(255,255,255,0.1)",
             fontSize: "0.5rem", color: "rgba(255,255,255,0.3)",
-          }}>← → Phasen wechseln</span>
+          }}><Icon name="arrowLeft" size={8} style={{ opacity: 0.5 }} /> <Icon name="arrowRight" size={8} style={{ opacity: 0.5 }} /> Phasen wechseln</span>
           <span style={{ fontStyle: "italic" }}>Energiewirtschaftliche Konzeptbegleitung: Elite PV</span>
         </span>
       </footer>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import EckartTimeline from "./EckartTimeline";
+import { Icon } from "./Icons";
 
 const anim = (v) => ({ animation: v, WebkitAnimation: v });
 
@@ -188,7 +189,7 @@ function IntroScreen({ onEnter }) {
           }}
         >
           Konzept entdecken
-          <span style={{ fontSize: "1.1rem", transition: "transform 0.3s" }}>→</span>
+          <Icon name="arrowRight" size={18} style={{ transition: "transform 0.3s" }} />
         </button>
       </div>
 
