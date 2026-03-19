@@ -32,6 +32,11 @@ export const defaultConfig = {
   lastgangFile: null,
   lastgangData: null,
   stromrechnungFile: null,
+  // Finanzierung
+  ekAnteil: 30,          // % Eigenkapital
+  kreditZins: 4.5,       // % p.a.
+  kreditLaufzeit: 15,    // Jahre
+  tilgungsfrei: 2,       // Jahre tilgungsfrei
 };
 
 /* ── Formatting ── */
@@ -55,6 +60,7 @@ export function calculateAll(cfg) {
     standortBESS, graustromBESS,
     wpLeistung, pufferspeicher,
     anzahlPKW, anzahlLKW, kmPKW, kmLKW,
+    ekAnteil, kreditZins, kreditLaufzeit, tilgungsfrei,
   } = cfg;
 
   /* ── PV ── */
@@ -131,6 +137,24 @@ export function calculateAll(cfg) {
     ? Math.min(95, Math.round((eigenverbrauch / stromverbrauch) * 60 + gasErsatzRate * 30 + 5))
     : 0;
 
+  /* ── Finanzierung / Kredit ── */
+  const ekBetrag = investGesamt * (ekAnteil / 100);
+  const kreditBetrag = investGesamt - ekBetrag;
+  const zinsRate = kreditZins / 100;
+  const tilgungsJahre = Math.max(1, kreditLaufzeit - tilgungsfrei);
+  const zinsTilgungsfrei = kreditBetrag * zinsRate; // annual interest during grace period
+  const annuitaet = tilgungsJahre > 0 && zinsRate > 0
+    ? kreditBetrag * (zinsRate * Math.pow(1 + zinsRate, tilgungsJahre)) / (Math.pow(1 + zinsRate, tilgungsJahre) - 1)
+    : kreditBetrag / tilgungsJahre;
+  // Total debt service over life
+  const totalSchuldendienst = zinsTilgungsfrei * tilgungsfrei + annuitaet * tilgungsJahre;
+  const totalZinskosten = totalSchuldendienst - kreditBetrag;
+  // Leveraged equity return (annual cashflow after debt service / equity)
+  const cfNachSchuldendienst = gesamtertrag - annuitaet;
+  const ekRendite = ekBetrag > 0 ? (cfNachSchuldendienst / ekBetrag) * 100 : 0;
+  // DSCR (Debt Service Coverage Ratio)
+  const dscr = annuitaet > 0 ? gesamtertrag / annuitaet : 99;
+
   return {
     totalPV, pvErzeugung: Math.round(pvErzeugung),
     eigenverbrauchsquote: Math.round(eigenverbrauchsquote * 100),
@@ -156,6 +180,16 @@ export function calculateAll(cfg) {
     amortisationStandort: Math.round(amortisationStandort * 10) / 10,
     gesamtertrag: Math.round(gesamtertrag),
     autarkie,
+    // Finanzierung
+    ekBetrag: Math.round(ekBetrag),
+    kreditBetrag: Math.round(kreditBetrag),
+    zinsTilgungsfrei: Math.round(zinsTilgungsfrei),
+    annuitaet: Math.round(annuitaet),
+    totalZinskosten: Math.round(totalZinskosten),
+    cfNachSchuldendienst: Math.round(cfNachSchuldendienst),
+    ekRendite: Math.round(ekRendite * 10) / 10,
+    dscr: Math.round(dscr * 100) / 100,
+    tilgungsJahre,
   };
 }
 
@@ -270,6 +304,15 @@ const GROUPS = [
       { key: "kmPKW", label: "Ø Fahrleistung PKW", unit: "km/a", min: 5000, max: 40000, step: 1000 },
       { key: "kmLKW", label: "Ø Fahrleistung LKW", unit: "km/a", min: 10000, max: 120000, step: 5000 },
       { key: "dieselpreis", label: "Dieselpreis", unit: "€/l", min: 1.0, max: 2.5, step: 0.05, dec: 2 },
+    ],
+  },
+  {
+    key: "finanzierung", title: "FINANZIERUNG", icon: "🏦",
+    sliders: [
+      { key: "ekAnteil", label: "Eigenkapitalanteil", unit: "%", min: 10, max: 100, step: 5 },
+      { key: "kreditZins", label: "Kreditzins", unit: "% p.a.", min: 2.0, max: 8.0, step: 0.1, dec: 1 },
+      { key: "kreditLaufzeit", label: "Kreditlaufzeit", unit: "Jahre", min: 5, max: 25, step: 1 },
+      { key: "tilgungsfrei", label: "Tilgungsfreie Jahre", unit: "Jahre", min: 0, max: 5, step: 1 },
     ],
   },
 ];
@@ -389,13 +432,16 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave }
           </div>
 
           {/* Key results */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.35rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.35rem" }}>
             {[
               { label: "Einsparung/a", value: `${fmtEuro(calc.einsparungStandort)}/a`, color: C.greenLight },
               { label: "CO₂-Reduktion", value: `${fmtVal(calc.co2Gesamt)} t/a`, color: C.greenLight },
               { label: "Amortisation", value: `${fmtVal(calc.amortisationStandort, 1)} J.`, color: C.goldLight },
               { label: "BESS-Rendite", value: `${fmtVal(calc.bessRendite, 1)} %`, color: C.goldLight },
               { label: "Gesamtinvest", value: fmtEuro(calc.investGesamt), color: C.white },
+              { label: "Kredit", value: fmtEuro(calc.kreditBetrag), color: C.midGray },
+              { label: "EK-Rendite", value: `${fmtVal(calc.ekRendite, 1)} %`, color: C.goldLight },
+              { label: "Annuität", value: `${fmtEuro(calc.annuitaet)}/a`, color: C.midGray },
               { label: "Autarkie", value: `${calc.autarkie} %`, color: C.goldLight },
             ].map((r, i) => (
               <div key={i} style={{
