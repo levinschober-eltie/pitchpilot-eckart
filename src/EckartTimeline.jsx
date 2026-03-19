@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, lazy, Suspense, memo, startTransition } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback, lazy, Suspense, memo, startTransition } from "react";
 import { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./calcEngine";
 import { Icon } from "./Icons";
 import { C, anim } from "./colors";
@@ -613,13 +613,13 @@ export default function EckartTimeline() {
 
   const phase = phases[active];
 
-  const handleSliderInteraction = (clientX) => {
+  const handleSliderInteraction = useCallback((clientX) => {
     if (!sliderRef.current) return;
     const rect = sliderRef.current.getBoundingClientRect();
     const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
     const idx = Math.round(pct * (phases.length - 1));
     startTransition(() => setActive(idx));
-  };
+  }, []);
 
   useEffect(() => {
     const onMove = (e) => {
@@ -641,7 +641,7 @@ export default function EckartTimeline() {
       window.removeEventListener("touchmove", onMove);
       window.removeEventListener("touchend", onUp);
     };
-  }, [isDragging]);
+  }, [isDragging, handleSliderInteraction]);
 
   const sliderPct = (active / (phases.length - 1)) * 100;
 
