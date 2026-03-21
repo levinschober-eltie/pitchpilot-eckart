@@ -216,7 +216,7 @@ export const projectionFactors = {
 /* ── Intro-Screen Texte ── */
 export const intro = {
   subtitle: "Phasenkonzept zur ganzheitlichen Energietransformation",
-  description: `Aufbauend auf den bereits realisierten 2 MWp Freiflächen-PV zeigt dieses interaktive Dokument die strategische Roadmap zur vollständigen Energietransformation Ihres Standorts in Hartenstein – in sechs aufeinander aufbauenden Phasen von Strom über Wärme und Mobilität bis zum eigenständigen Ertragsmodell.`,
+  description: `Aufbauend auf den bereits realisierten 2 MWp Freiflächen-PV und der Wasserkraft (7,5 GWh/a) zeigt dieses interaktive Dokument die strategische Roadmap zur vollständigen Energietransformation Ihres Standorts in Hartenstein – in sechs aufeinander aufbauenden Phasen von Strom über Wärme und Mobilität bis zum eigenständigen Ertragsmodell.`,
   cta: "Konzept entdecken",
   footerRight: company.consultant.label,
   phasePills: [
