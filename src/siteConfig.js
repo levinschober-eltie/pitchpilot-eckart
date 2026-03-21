@@ -238,9 +238,9 @@ export const phases = [
     months: "Monat 1–3",
     colorKey: "gold",
     headline: "Ohne belastbare Daten keine belastbaren Entscheidungen",
-    description: "Energieintensive Aluminiumverarbeitung, 800+ Mitarbeiter und bereits Freiflächen-PV in Betrieb. Die Analyse bewertet das Gesamtpotenzial: Gebäude, Prozesswärme, Lastprofile und den Hochspannungs-Netzanschluss. Erfüllt gleichzeitig die Pflicht zum Energieaudit nach DIN EN 16247 (EDL-G).",
+    description: "Energieintensive Aluminiumverarbeitung, 800+ Mitarbeiter, bereits Freiflächen-PV und Wasserkraft (7,5 GWh/a) in Betrieb. Die Analyse bewertet das Gesamtpotenzial: Gebäude, Prozesswärme, Lastprofile und den Hochspannungs-Netzanschluss. Erfüllt gleichzeitig die Pflicht zum Energieaudit nach DIN EN 16247 (EDL-G).",
     results: [
-      "Bestandsaufnahme: Freiflächen-PV dokumentiert und bewertet",
+      "Bestandsaufnahme: Freiflächen-PV + Wasserkraft (7,5 GWh/a) dokumentiert",
       "Drohnen- & Laservermessung aller Hallen und Flächen",
       "Dachgutachten mit Sanierungsplan (Cluster A–E)",
       "12-Monats-Lastprofil als Dimensionierungsgrundlage",
