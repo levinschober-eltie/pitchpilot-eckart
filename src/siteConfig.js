@@ -457,7 +457,7 @@ export const phases = [
     months: "Monat 24–36",
     colorKey: "greenLight",
     headline: "Der Standort wird zum eigenständigen Ertragsmodell",
-    description: "Ein 100 MW / 200 MWh Großspeicher nutzt den bestehenden 110-kV-Netzanschluss. Vier Erlösströme: Arbitrage (EPEX-Spread), FCR/aFRR (Regelenergie), Redispatch (Netzstabilität) und ab 2026 Trägheitsmarkt (Inertia Services) — zusammen 15–25 % Rendite p.a.",
+    description: "Ein 100 MW / 200 MWh Großspeicher nutzt den bestehenden 110-kV-Netzanschluss. Vier Erlösströme: Arbitrage (EPEX-Spread), FCR/aFRR (Regelenergie), Redispatch (Netzstabilität) und ab 2026 Trägheitsmarkt (Inertia Services) — zusammen 15–25 % Rendite p.a. Die MiSpeL-Verordnung (ab 02/2026) ermöglicht erstmals Mischbetrieb: Netz- und PV-Strom im selben Speicher bei Erhalt der EEG-Vergütung.",
     results: [
       "Graustrom-BESS (100 MW / 200 MWh) in Betrieb",
       "Vier Erlösströme aktiv: Arbitrage + FCR + Redispatch + Inertia",
