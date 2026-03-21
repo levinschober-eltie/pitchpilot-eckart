@@ -584,7 +584,7 @@ export const phases = [
     ],
 
     riskManagement: [
-      { icon: "chartDown", title: "Strompreis-Volatilität",   desc: "Eigenverbrauchsquote >80 % reduziert Marktpreisabhängigkeit — Restrisiko durch Speicher gehedgt",  impact: "Niedrig" },
+      { icon: "chartDown", title: "Strompreis-Volatilität",   desc: "Industriestrompreis 2026–2028 (5 ct/kWh für 50 % des Verbrauchs) senkt kurzfristig Bezugskosten — PV-Eigenverbrauch bleibt langfristig günstiger und unabhängig von Subventionen", impact: "Niedrig" },
       { icon: "battery",   title: "BESS-Marktrisiko",         desc: "Vier diversifizierte Erlösströme (Arbitrage, FCR, Redispatch, Inertia) — kein Single-Point-of-Failure", impact: "Mittel" },
       { icon: "gear",      title: "Technologie-Risiko",       desc: "Ausschließlich marktreife Komponenten (LFP-Batterien, monokristalline PV, Industrie-WP)",          impact: "Niedrig" },
       { icon: "document",  title: "Regulatorisches Risiko",   desc: "EEG, BEHG, GEIG — alle aktuellen Anforderungen erfüllt, EU-Taxonomie-konform",                    impact: "Niedrig" },
