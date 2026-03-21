@@ -386,6 +386,9 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, 
         setConfig(prev => ({ ...prev, lastgangFile: file.name + " (Format nicht erkannt)" }));
       }
     };
+    reader.onerror = () => {
+      setConfig(prev => ({ ...prev, lastgangFile: "Fehler beim Lesen der Datei" }));
+    };
     reader.readAsText(file);
   }, [setConfig]);
 
