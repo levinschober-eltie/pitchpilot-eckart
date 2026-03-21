@@ -148,6 +148,7 @@ export const phaseKPIs = {
     streams: [
       { title: "Arbitrage", sub: "2–5 ct → Peak-Spread" },
       { title: "FCR / aFRR", sub: "< 1s Regelenergie" },
+      { title: "Inertia", sub: "Grid-Forming ab 01/2026" },
       { title: "Redispatch", sub: "Netzstabilität §13.2" },
     ],
   },
