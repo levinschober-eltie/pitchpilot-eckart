@@ -890,7 +890,7 @@ export default function EckartTimeline() {
               }}>INVESTITIONS-ROADMAP · RENDITE PRO BAUSTEIN</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
                 {phase.investmentSummary.map((item, i) => {
-                  const maxVal = Math.max(...phase.investmentSummary.map(s => s.maxMio));
+                  const maxVal = Math.max(...phase.investmentSummary.map(s => s.maxMio), 1);
                   const barPct = Math.max((item.maxMio / maxVal) * 100, 3);
                   return (
                     <div key={i} style={{

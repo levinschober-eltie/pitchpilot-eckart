@@ -3,6 +3,8 @@ import { C, anim } from "./colors";
 import useFocusTrap from "./useFocusTrap";
 import { company, site, project, phases as phaseData, projectionFactors as PF, investmentCosts as IC } from "./siteConfig";
 
+const esc = (s) => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
 /* ── Colors (from shared palette) ── */
 const N = C.navy;
 const G = C.gold;
@@ -293,7 +295,7 @@ function coverPage(phases, calc, cfgActive, config) {
       <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,${G},${G}80,transparent);"></div>
       <div style="font-family:Calibri,sans-serif;font-size:7.5pt;letter-spacing:4px;color:${G};font-weight:bold;margin-bottom:3mm;">${company.name.toUpperCase()}</div>
       <div style="width:40mm;height:0.7mm;background:linear-gradient(90deg,${G},transparent);margin-bottom:8mm;"></div>
-      <div style="font-family:Georgia,serif;font-size:28pt;font-weight:bold;line-height:1.15;margin-bottom:4mm;">${project.title.replace("\n", "<br>")}</div>
+      <div style="font-family:Georgia,serif;font-size:28pt;font-weight:bold;line-height:1.15;margin-bottom:4mm;">${esc(project.title).replace("\n", "<br>")}</div>
       <div style="font-family:Calibri,sans-serif;font-size:10pt;color:rgba(255,255,255,0.65);letter-spacing:0.5px;">${site.area} Industriestandort · ${phaseData.length} Phasen · ${project.tagline}</div>
     </div>
     <div style="flex:1;padding:10mm 20mm;display:flex;flex-direction:column;justify-content:space-between;">
