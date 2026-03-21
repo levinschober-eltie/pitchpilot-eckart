@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback, lazy, Suspense, memo
 import { defaultConfig, calculateAll, fmtEuro, getPhaseCalcItems, getDynamicHeroCards } from "./calcEngine";
 import { Icon } from "./Icons";
 import { C, anim } from "./colors";
-import { phases as phaseData, company, project } from "./siteConfig";
+import { phases as phaseData, company } from "./siteConfig";
 
 /* ── Lazy import with retry (handles stale chunks after redeployment) ── */
 function lazyRetry(importFn) {
