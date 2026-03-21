@@ -112,7 +112,7 @@ const BILL_FIELDS = [
   { key: "grundpreis", label: "Grundpreis", unit: "€/Mon", step: 1, group: "leistung" },
 ];
 
-function BillAnalysis({ file, currentConfig, onApply }) {
+function BillAnalysis({ currentConfig, onApply }) {
   const [phase, setPhase] = useState("idle"); // idle | analyzing | results | applied
   const [progress, setProgress] = useState(0);
   const [statusText, setStatusText] = useState("");
