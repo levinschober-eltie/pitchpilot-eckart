@@ -327,7 +327,8 @@ export default function EckartTimeline() {
                   width: i === active ? "20px" : "8px",
                   height: "8px",
                   borderRadius: "4px",
-                  border: "none", padding: 0,
+                  border: "none", padding: "18px 10px",
+                  backgroundClip: "content-box",
                   background: i <= active
                     ? `linear-gradient(90deg, ${C.gold}, ${C.green})`
                     : "rgba(255,255,255,0.12)",
@@ -344,7 +345,7 @@ export default function EckartTimeline() {
               ...S.pillBtn,
               background: configSaved ? `${C.green}25` : analysisOpen ? `${C.gold}20` : "rgba(255,255,255,0.06)",
               border: `1px solid ${configSaved ? C.green + "60" : analysisOpen ? C.gold + "50" : "rgba(255,255,255,0.12)"}`,
-              padding: "0.3rem 0.7rem",
+              padding: "0.3rem 0.7rem", minHeight: 44,
               color: configSaved ? C.green : analysisOpen ? C.gold : C.midGray,
               marginTop: "0.6rem",
             }}
@@ -355,7 +356,7 @@ export default function EckartTimeline() {
               style={{
                 ...S.pillBtn,
                 background: "rgba(255,100,100,0.1)", border: "1px solid rgba(255,100,100,0.3)",
-                padding: "0.3rem 0.7rem",
+                padding: "0.3rem 0.7rem", minHeight: 44,
                 color: "#ff8888",
                 marginTop: "0.6rem",
               }}
@@ -365,7 +366,7 @@ export default function EckartTimeline() {
             onClick={() => setExportOpen(true)}
             style={{
               background: "rgba(212,168,67,0.15)", border: "1px solid rgba(212,168,67,0.4)",
-              color: C.goldLight, borderRadius: "2rem", padding: "0.35rem 1rem",
+              color: C.goldLight, borderRadius: "2rem", padding: "0.35rem 1rem", minHeight: 44,
               fontSize: "0.82rem", fontWeight: 600, letterSpacing: "0.03em",
               cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem",
               transition: "all 0.3s", whiteSpace: "nowrap",
