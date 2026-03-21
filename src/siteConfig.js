@@ -389,7 +389,7 @@ export const phases = [
       { label: "Wärmenetz + Dämmung", range: "800 T€–1,5 Mio €" },
     ],
     funding: [
-      { label: "BEG (Bundesförderung Effiziente Gebäude)", value: "bis 40 % Zuschuss" },
+      { label: "BEG NWG (Heizungstausch Gewerbe)", value: "30 % + 20 % Tauschbonus" },
       { label: "KfW 261 (Klimafreundl. Nichtwohngebäude)", value: "Tilgungszuschuss" },
     ],
     investTotal: "4,3–8,0 Mio €",
