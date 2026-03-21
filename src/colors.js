@@ -9,7 +9,7 @@ export const C = {
   goldDim: "#B8923A",
   warmWhite: "#F5F5F0",
   lightGray: "#EAEAE5",
-  midGray: "#B0B0A6",
+  midGray: "#C8C8BE",
   darkText: "#2B2B2B",
   white: "#FFFFFF",
   // PhaseVisuals extras

@@ -532,7 +532,7 @@ export default function EckartTimeline() {
             }}>{phase.isFinal ? "Gesamtergebnis" : `Phase ${phase.num}`} · {phase.subtitle}</div>
             <h2 style={{
               fontSize: "clamp(1.5rem, 3.5vw, 2.2rem)",
-              fontWeight: 700, margin: 0, lineHeight: 1.15,
+              fontWeight: 700, margin: 0, lineHeight: 1.15, minWidth: 0, wordBreak: "break-word",
               background: phase.isFinal ? `linear-gradient(135deg, ${C.white}, ${C.goldLight})` : "none",
               backgroundClip: phase.isFinal ? "text" : "unset",
               WebkitBackgroundClip: phase.isFinal ? "text" : "unset",

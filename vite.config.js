@@ -34,7 +34,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'js-chunks',
-              expiration: { maxEntries: 30, maxAgeSeconds: 7 * 24 * 60 * 60 },
+              expiration: { maxEntries: 30, maxAgeSeconds: 24 * 60 * 60 },
             },
           },
           {
