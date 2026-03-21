@@ -414,7 +414,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, 
               }}>
                 <Icon name={group.icon} size={14} color={C.gold} />
                 <span style={{ fontFamily: "Calibri, sans-serif", fontSize: "0.65rem", letterSpacing: "2px", color: C.gold, fontWeight: 700, flex: 1, textAlign: "left" }}>{group.title}</span>
-                <span style={{ color: C.midGray, fontSize: "0.75rem", transform: openGroups[group.key] ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>▾</span>
+                <span style={{ color: C.midGray, fontSize: "0.75rem", transform: openGroups[group.key] ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>▾</span>
               </button>
               </legend>
               {openGroups[group.key] && (
@@ -585,7 +585,7 @@ export default function ConfigPanel({ config, setConfig, calc, onClose, onSave, 
                 }}>{group.title}</span>
                 <span style={{
                   color: C.midGray, fontSize: "0.75rem",
-                  transform: openGroups[group.key] ? "rotate(180deg)" : "none",
+                  transform: openGroups[group.key] ? "rotate(180deg)" : "rotate(0deg)",
                   transition: "transform 0.2s",
                 }}>▾</span>
               </button>
