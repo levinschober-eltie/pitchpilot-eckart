@@ -2,6 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+const base = isGitHubPages ? '/pitchpilot-eckart/' : '/';
+
 export default defineConfig({
   plugins: [
     react(),
@@ -11,8 +14,8 @@ export default defineConfig({
         name: 'Eckart Werke - Energietransformation',
         short_name: 'Eckart Energie',
         description: 'Phasenkonzept zur ganzheitlichen Energietransformation',
-        start_url: '/pitchpilot-eckart/',
-        scope: '/pitchpilot-eckart/',
+        start_url: base,
+        scope: base,
         display: 'standalone',
         background_color: '#1B2A4A',
         theme_color: '#1B2A4A',
@@ -59,7 +62,7 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/pitchpilot-eckart/',
+  base,
   build: {
     sourcemap: 'hidden',
     target: ['es2020', 'chrome80', 'firefox80', 'safari14', 'edge80'],
