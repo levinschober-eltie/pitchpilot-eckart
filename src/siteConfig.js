@@ -259,7 +259,7 @@ export const phases = [
     ],
     funding: [
       { label: "BAFA Energieberatung", value: "bis 80 % Zuschuss" },
-      { label: "KfW 295 (Energieeffizienz)", value: "Tilgungszuschuss" },
+      { label: "KfW 295 Modul 4 (Energieeffizienz)", value: "bis 15 % Tilgungszuschuss" },
       { label: "Industriestrompreis 2026", value: "50 % Reinvestitionspflicht → Dekarbonisierung" },
     ],
     investTotal: "50–80 T€",
@@ -390,7 +390,7 @@ export const phases = [
     ],
     funding: [
       { label: "BEG NWG (Heizungstausch Gewerbe)", value: "30 % + 20 % Tauschbonus" },
-      { label: "KfW 261 (Klimafreundl. Nichtwohngebäude)", value: "Tilgungszuschuss" },
+      { label: "KfW 295 Modul 2 (Prozesswärme EE)", value: "bis 40 % Tilgungszuschuss" },
     ],
     investTotal: "4,3–8,0 Mio €",
     roi: "Gaskosten-Reduktion + CO₂-Vermeidung",
