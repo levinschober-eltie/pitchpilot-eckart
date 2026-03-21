@@ -581,7 +581,7 @@ export const phases = [
       { icon: "globe",    title: "EU-Taxonomie",             desc: "Alle Investitionen taxonomie-konform — Zugang zu Green Finance gesichert",             status: "Konform" },
       { icon: "document", title: "GEIG-Pflicht 2026",        desc: "Ladeinfrastruktur-Pflicht für Nicht-Wohngebäude vollständig erfüllt",                 status: "Erfüllt" },
       { icon: "bolt",     title: "§14a EnWG (Steuerbare Verbraucher)", desc: "Wärmepumpen und Ladeinfrastruktur netzdienlich steuerbar",                  status: "Ready" },
-      { icon: "factory",  title: "ALTANA Konzernstandards",  desc: "Klimaneutralitätsziel des Konzerns am Standort Hartenstein adressiert",                status: "Aligned" },
+      { icon: "factory",  title: "ALTANA Net-Zero 2050",     desc: "Konzern seit 2025 CO₂-neutral (Offsets), 100 % EE-Strom seit 2020, SBTi-validiert — Standort-Investitionen unterstützen 90 %-Reduktionsziel 2040", status: "Aligned" },
       { icon: "bank",     title: "CO₂-Bepreisung (BEHG)",    desc: "Steigende CO₂-Kosten durch Elektrifizierung weitgehend eliminiert",                   status: "Abgesichert" },
     ],
 
