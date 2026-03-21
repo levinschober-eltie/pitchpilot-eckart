@@ -9,7 +9,7 @@ import { C } from "./colors";
 import { company, site, phaseKPIs as KPI, buildings } from "./siteConfig";
 
 /* ── Shared SVG Defs ──────────────────────────────────────────── */
-function SharedDefs({ warm = false, cool = false }) {
+const SharedDefs = memo(function SharedDefs({ warm = false, cool = false }) {
   return (
     <defs>
       <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
@@ -124,7 +124,7 @@ function SharedDefs({ warm = false, cool = false }) {
       </filter>
     </defs>
   );
-}
+});
 
 /* ── Stars with cross-flare on bright ones ───────────────────── */
 function Stars({ count = 32, cool = false }) {

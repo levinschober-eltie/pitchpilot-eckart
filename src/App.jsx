@@ -92,10 +92,11 @@ function IntroScreen({ onEnter }) {
 
         {/* Gold accent line */}
         <div style={{
-          width: visible ? "80px" : "0px", height: "2px",
+          width: "80px", height: "2px",
           background: `linear-gradient(90deg, transparent, ${C.gold}, transparent)`,
           margin: "1.2rem 0",
-          transition: "width 0.8s ease 1s",
+          transform: visible ? "scaleX(1)" : "scaleX(0)",
+          transition: "transform 0.8s ease 1s",
         }} />
 
         {/* Subtitle */}
