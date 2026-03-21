@@ -830,11 +830,18 @@ export default function ExportModal({ phases, config, calc, configActive, onClos
 
   const doExport = () => {
     const html = generatePdf(phases, config, calc, sel, configActive);
-    const win = window.open("", "_blank");
-    if (!win) { alert("Bitte Pop-ups erlauben für den PDF-Export."); return; }
-    win.document.write(html);
-    win.document.close();
-    setTimeout(() => win.print(), 600);
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const iframe = document.createElement("iframe");
+    iframe.style.cssText = "position:fixed;left:-9999px;width:0;height:0;border:0";
+    document.body.appendChild(iframe);
+    iframe.src = url;
+    iframe.onload = () => {
+      setTimeout(() => {
+        iframe.contentWindow.print();
+        setTimeout(() => { document.body.removeChild(iframe); URL.revokeObjectURL(url); }, 1000);
+      }, 400);
+    };
     onClose();
   };
 

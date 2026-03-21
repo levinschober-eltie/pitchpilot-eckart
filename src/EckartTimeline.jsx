@@ -1830,7 +1830,9 @@ export default function EckartTimeline() {
                   embedded
                 />
               </div>
+            </Suspense>
 
+            <Suspense fallback={null}>
               {/* Right main area: Marktanalyse */}
               <div style={{ flex: 1, overflow: "hidden" }}>
                 <MarketAnalysis

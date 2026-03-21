@@ -259,6 +259,7 @@ export const phases = [
     funding: [
       { label: "BAFA Energieberatung", value: "bis 80 % Zuschuss" },
       { label: "KfW 295 (Energieeffizienz)", value: "Tilgungszuschuss" },
+      { label: "Industriestrompreis 2026", value: "50 % Reinvestitionspflicht → Dekarbonisierung" },
     ],
     investTotal: "50–80 T€",
     roi: "Entscheidungsgrundlage für alle Folgeinvestitionen",
